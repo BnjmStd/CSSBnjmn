@@ -20,6 +20,15 @@ body {
     animation: moveStarts var(--duration) linear infinite;
 }
 
+.hero { 
+    position: relative;
+
+}
+
+h1 {
+    color: #fff;
+}
+
 @keyframes moveStarts {
     from { transform: translateY(0); }
     to { transform: translateY(-100vh); }
