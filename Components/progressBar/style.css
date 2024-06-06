@@ -6,9 +6,25 @@ body {
     margin: 0;
 }
 
+#progress {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: red;
+    height: 1em;
+    border-radius: 10px;
+    animation: progress-grow auto linear;
+    animation-timeline: scroll(root block);
+}
+
 section {
     display: grid;
     place-items: center;
     align-content: center;
     min-height: 100vh;
+}
+
+@keyframes progress-grow {
+    from { width: 0; }
+    to { width: 100%; }
 }
