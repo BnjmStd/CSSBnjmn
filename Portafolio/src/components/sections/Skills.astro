@@ -1,0 +1,83 @@
+---
+import Section from "../Section.astro";
+import { skills } from "@cv";
+
+/* icon */
+import Html from '@/icons/html.astro'
+import Css from '@/icons/css.astro'
+import React from '@/icons/react.astro'
+import Javascript from "@/icons/javascript.astro"
+import Node from "@/icons/node.astro"
+
+const SkillsIcons: Record<string, any> = {
+    Html,
+    Css,
+    React,
+    Javascript,
+    Node
+}
+---
+
+<Section title="Skills">
+    <ul>
+        {
+            skills.map(({ name, icon }) => {
+                const Icon = SkillsIcons[icon];
+                return (
+                    <li>
+                        <span class="icon">
+                            {
+                                Icon && <Icon/>
+                            }
+                        </span>
+                        <span class="name-skill">
+                            { name }
+                        </span> 
+                    </li>
+                )
+            })
+        }
+    </ul>
+</Section>
+
+<style>
+    
+    .icon {
+        display: none;
+    }
+    
+    ul {
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(100px, 1fr)
+        );
+        gap: 0.5rem;
+        list-style: none;
+    }
+
+    li {
+        text-align: center;
+        border-radius: 6px;
+        background: #eee;
+        color: black ;
+        font-size: 0.8rem;
+        font-weight: 500;
+        padding: 0.2rem 0.6rem;
+        transition: top 0.2s ease-in-out;
+    }
+
+    li:hover {
+        transform: scale(1.1);
+        background: rgba(105, 107, 105, 0.7);
+        color: #eee;
+
+        & .icon {
+            display: block;
+        }
+
+        & .name-skill {
+            display: none;
+        }
+    }
+</style>

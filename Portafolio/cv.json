@@ -1,0 +1,221 @@
+{
+    "basics": {
+        "name": "Benjamín Astudillo",
+        "label": "Software Developer and Systems Administrator ♥️",
+        "image": "./src/img/crypng.png",
+        "email": "benja_e_e@hotmai.com",
+        "phone": "+569 40953953",
+        "url": "-",
+        "summary": " 💻  Bioinformatics Civil Engineer specializing in Software Development and Systems Administration",
+        "location": {
+            "address": "",
+            "postalCode": "01234",
+            "city": "Talca",
+            "countryCode": "ES",
+            "region": "Chile"
+        },
+        "profiles": [
+            {
+                "network": "Git",
+                "username": "BnjmStd",
+                "url": "https://github.com/BnjmStd"
+            }
+        ]
+    },
+    "work": [
+        {
+            "name": "MathBio-Lab",
+            "position": "Practicante",
+            "url": "-",
+            "startDate": "2024-01-02",
+            "endDate": "2024-02-03",
+            "summary": "Desarrollar un prototipo para la aplicación Data4Life como Full Stack dev",
+            "highlights": [
+                ""
+            ]
+        },
+        {
+            "name": "MathBio-Lab",
+            "position": "Tesista",
+            "url": "-",
+            "startDate": "2024-05-01",
+            "endDate": null,
+            "summary": "Desarrollar un flujo de trabajo bioinformático para el análisis de bacterias en Nextflow",
+            "highlights": [
+                ""
+            ]
+        },
+        {
+            "name": "Felipe Jara",
+            "position": "Practicante",
+            "url": "-",
+            "startDate": "2023-01-01",
+            "endDate": "2023-03-01",
+            "summary": "Desarrollar aplicaciones Low Code",
+            "highlights": [
+                ""
+            ]
+        }
+    ],
+    "volunteer": [
+        {
+            "organization": "",
+            "position": "",
+            "url": "",
+            "startDate": "",
+            "endDate": "",
+            "summary": "",
+            "highlights": [
+                ""
+            ]
+        }
+    ],
+    "education": [
+        {
+            "institution": "Universidad de Talca, Chile",
+            "url": "utalca.cl",
+            "area": "Ingeniero Civil en Bioinformática",
+            "studyType": "",
+            "startDate": "2018-01-01",
+            "endDate": "2024-01-01",
+            "score": "",
+            "courses": [
+                ""
+            ]
+        }
+    ],
+    "awards": [
+        {
+            "title": "",
+            "date": "",
+            "awarder": "",
+            "summary": ""
+        }
+    ],
+    "certificates": [
+        {
+            "name": "",
+            "date": "",
+            "issuer": "",
+            "url": ""
+        }
+    ],
+    "publications": [
+        {
+            "name": "",
+            "publisher": "",
+            "releaseDate": "",
+            "url": "",
+            "summary": ""
+        }
+    ],
+    "skills": [
+        {
+            "name": "HTML",
+            "level": "Master",
+            "keywords": [
+                "Desarrollo Web",
+                "Frontend"
+            ],
+            "icon": "Html" 
+        },
+        {
+            "name": "CSS",
+            "level": "Master",
+            "keywords": [
+                "Desarrollo Web",
+                "Frontend",
+                "Diseño Responsive"
+            ],
+            "icon": "Css" 
+        },
+        {
+            "name": "JavaScript",
+            "level": "Master",
+            "keywords": [
+                "Desarrollo Web",
+                "Frontend",
+                "Backend",
+                "Fullstack"
+            ],
+            "icon": "Javascript" 
+        },
+        {
+            "name": "Git",
+            "level": "Avanzado",
+            "keywords": [
+                "Control de Versiones",
+                "Colaboración",
+                "Código Fuente"
+            ],
+            "icon": "Git" 
+        },
+        {
+            "name": "NextFlow",
+            "level": "Medio",
+            "keywords": [
+                "Control de Versiones",
+                "Colaboración"
+            ],
+            "icon": "Nextflow" 
+        },
+        {
+            "name": "React",
+            "level": "Medio",
+            "keywords": [
+                "Desarrollo Web",
+                "Frontend"
+            ],
+            "icon": "React" 
+        }
+    ],
+    "languages": [
+        {
+            "language": "Spanish",
+            "fluency": "Native speaker"
+        },
+        {
+            "language": "English",
+            "fluency": "B3"
+        }
+    ],
+    "references": [
+        {
+            "name": "midudev",
+            "reference": "Reference …"
+        }
+    ],
+    "projects": [
+        {
+            "name": "mars.codes",
+            "isActive": true,
+            "description": "Historia interactiva con retos de programación para viajar a Marte",
+            "highlights": [
+                "Elige tu propia aventura",
+                "En desarrollo"
+            ],
+            "url": "https://mars.codes"
+        },
+        {
+            "name": "AdventJS",
+            "isActive": true,
+            "description": "Retos de programación en JavaScript para cada día de diciembre hasta Navidad",
+            "highlights": [
+                "+1 millón de visitas",
+                "Multidioma",
+                "JavaScript & TypeScript"
+            ],
+            "url": "https://adventjs.dev"
+        },
+        {
+            "name": "Codember",
+            "isActive": true,
+            "description": "Juego interactivo de programación con retos y secretos",
+            "highlights": [
+                "+2000 usuarios activos",
+                "Retos para cualquier lenguaje"
+            ],
+            "url": "https://codember.dev"
+        }
+    ]
+}

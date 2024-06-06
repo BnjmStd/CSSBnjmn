@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+import Hero from '@/components/sections/Hero.astro';
+import About from '@/components/sections/About.astro';
+import Educations from '@/components/sections/Educations.astro';
+import Experience from '@/components/sections/Experience.astro';
+import Skills from '@/components/sections/Skills.astro'; 
+import Projects from '@/components/sections/Projects.astro';
+import KeyboardManager from '@/components/KeyboardManager.astro';
+---
+
+<Layout 
+	title="BnjmnMinimalistPort">
+	<main>
+		<Hero />
+		<About />
+		<Experience /> 
+		<Educations />
+		<Projects />
+		<Skills />
+	</main>
+	<KeyboardManager />
+</Layout>
+
+<style>
+	main {
+		padding: 1rem 4rem;
+		margin: auto;
+	}
+</style>
