@@ -1,0 +1,34 @@
+sin necesidad de estado
+
+
+
+keyframes animation-name {
+    from * desde el principio el segundo 0 el 0% el estado inicial
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(100px);
+    }
+}
+
+se debe indicar la duracion con 
+
+animation-name: move;
+animation-duration: 3s;
+animation-delay: 1s;
+animation-timing-function: ease;
+animation-iteration-count: infinite;
+animation-direction: reverse; ** aveces tiene sentido
+                    alternate
+                    alternate-reverse
+
+animation-play-state: paused;
+
+animation-fill-mode: none; * porDefecto
+                    forwards; se queda al final de la animación
+                    both * ambos
+
+
+atajo: animation: move 2s ease *delay *infinite * direccion * fill mode

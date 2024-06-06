@@ -1,0 +1,66 @@
+Desbordamiento:
+
+overflow: hidden
+        auto
+
+text-overflow ellipsis (...)
+            clip
+
+
+
+position: static; (default)
+    position: absolute; (coordenadas en el documentos)
+    top: 0 (0 pixeles)
+    left: 0
+    right: 0
+
+
+position relative es un punto relativo para que cualquiera de nuestrs
+hijos pueda tomarlo como referencia 
+
+inset es una propiedad corta para todas las direcciones 0 y margin 0
+
+
+fixed es relativa a la pantalla no al documento
+
+
+position: sticky es pegado al contenedor al que esta.
+
+apilamiento uno encima del otro
+
+z-index
+
+*************** Flex-box
+
+Otra propiedad que puedes aplicar a elementos individuales es align-self. Esta propiedad acepta los mismos valores de align-items y sus valores son usados para un elemento específico
+
+Las dos propiedades flex-direction y flex-wrap son usadas a menudo en conjunto con la propiedad abreviada flex-flow, la cual fue creada para combinarlas. Esta propiedad abreviada, acepta un valor de cada una separada por un espacio.
+
+Por ejemplo, puedes usar flex-flow para establecer filas y envolverlas.
+
+Trata de usar flex-flow para volver a realizar el nivel anterior.
+
+
+flex => filas o columnas
+
+
+grid => cuadricula
+
+defect:
+
+flex-row: 0; /* Los elementos no crecen */
+flex-shrink: 1 /* los elementos pueden reducir su tamaño a un tamaño m´s que que su 
+flex-basis*/
+flex-basis: auto; 
+
+flex: auto;
+
+flex: 1 pueden crecer, reducir, flex basis 0 tamaño base 0
+
+
+el eje principal es el flex direction: row, row-revers- colunn column-reverse
+
+
+justify content es el eje principal
+
+align-self unico, excepcion

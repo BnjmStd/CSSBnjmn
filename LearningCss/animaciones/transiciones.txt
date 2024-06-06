@@ -1,0 +1,41 @@
+transición, el como cambia de estado a estado
+
+** scale: 2; aumenta visualmente el tamaño no en code-
+
+
+transition-duration: 2s; .5s; 500ms;
+
+varios estados: hover, focus, focus .., active, change class 
+cuando se desactiva un elemento hay varias
+
+
+importante: transition-property: background, scale;
+
+
+transition-timing-function:
+
+    ease-in: parte lento termina rapido
+    ease-out: rapido, temrina lento
+    ease-in-out: lento rapido lento
+    ease: parecio al in-out pero es más rapido al inicio
+
+    steps(*pasos);
+
+    cubic-bezier(x1 y1, x2 y2)
+
+transition-delay: 0; * por defecto, que nos indica en que momento partira la transición
+
+first-child
+nth-child(*hijo)
+
+
+forma corta:
+transition:  *propiedad *duracion *functanimacion *delay
+
+
+accesibilidad:
+@media (prefers-reduced-motion: reduce) {
+    .pulser {
+        transition:none;
+    }
+}

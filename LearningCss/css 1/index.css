@@ -1,0 +1,55 @@
+
+
+h1 {
+    /* rgba legacy*/
+    color: rgb(0 0 0 /50%); /* Moderno */
+    /* color: hsl() */
+
+}
+
+/*
+initial
+
+unset setear herencia
+
+revert
+
+inherit forzar herencia
+*/
+
+
+/*pseudo clases situación especial
+:hover -> puntero encima del elemento
+
+outline: 3px solid red;
+
+
+:active -> cuando se le hace click
+
+
+focus -> input escribiendo
+
+:first-child -> primer hijo
+
+:last-child -> ultimo hijo
+
+*/
+
+/*  operador
+
+> primeros hijos hijo directo
+
+~ hermano siguiente
+
++ el después
+
+*/
+
+/*unidades, VH VIEW PORT*/
+
+/*
+
+RESET CSS Y NORMALIZE
+BOX-SIZING: BORDER-BOX ANCHO Y ALTO 
+*/
+

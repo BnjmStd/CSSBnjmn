@@ -1,0 +1,23 @@
+position: fixed;
+
+
+animation: name auto
+animation-timeline: scroll(root block);
+
+
+keyframe name {
+    from { width 0% }
+    to { width 100%}
+}
+
+
+
+// other
+
+
+animation enhance-header *nombre linear both;
+animation-timeline: scroll(root block);
+animation-range: 0 200px;
+
+animation-timeline: view();
+animation-range: entry 20% cover 30%;
