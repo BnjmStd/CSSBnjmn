@@ -4,7 +4,7 @@
     display: grid;
     grid-template-areas: "input";
 
-    &.input {
+    & .input {
         grid-area: input;
         font: inherit;
         border-radius: 10px;
@@ -18,7 +18,7 @@
         }
     }
 
-    &.label_name {
+    & .label_name {
         grid-area: input;
         z-index: 1;
         width: max-content;
