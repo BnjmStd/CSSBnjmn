@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <button class="btn-open">Abrir Modal</button>
+    <dialog class="dialog">
+        <img  class="dialog_img" src="https://res.cloudinary.com/demo/image/upload/v1689803100/ai/hiker.jpg" alt="">
+        <h2 class="dialog_title">Soy un element dinamic</h2>
+        <button class="btn-close">X</button>
+    </dialog>
+    <script type="module">
+
+        const modal = document.querySelector(".dialog")
+        const btnOpen = document.querySelector(".btn-open")
+        const btnClose =  document.querySelector(".btn-close")
+    
+        btnOpen.addEventListener("click", () => {
+            modal.showModal()
+        })
+
+        btnClose.addEventListener("click", () => {
+            modal.close()
+        })
+
+    </script>
+</body>
+</html>
