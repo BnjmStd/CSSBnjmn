@@ -1,0 +1,15 @@
+label:has(:focus:invalid) {
+    color: tomato;
+}
+
+label:has(:focus:valid) {
+    color: green;
+}
+
+label:has(:focus-visible:invalid) input {
+    outline-color: red;
+}
+
+label:has(:focus-visible:valid) input {
+    outline-color: green;
+}
