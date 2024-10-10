@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <h1>Hola me llamo benjamin y no quiero ir al colegio aaaaaaa</h1>
+
+
+
+
+
+    <dialog id="myDialog">
+        <p>contenido</p>
+        <form method="dialog">
+
+            <button>ok</button>
+
+        </form>
+    </dialog>
+    <button id="button">abrir modal</button>
+
+
+    <script>
+
+        const dialog = document.getElementById('myDialog');
+        const button = document.getElementById('button');
+
+        button.addEventListener('click', () => {
+            dialog.showModal();
+        });
+
+    </script>
+
+
+    <!-- para view transition -->
+
+    <style>
+        /*
+        
+        @view-transition {
+            navigation: auto;
+        }
+
+        */
+    </style>
+
+    <!-- index.html -->
+    <main id="home">
+        
+        <img src="alana.webp" style="view-transition-name: alana-photo;">
+
+    </main>
+
+    <!-- detail.html -->
+     <article>
+        <img src="alana.webp" alt="" style="view-transition-name: alana-photo;">
+     </article>
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+/* balancear texto */
+
+h1 {
+    text-wrap: balance;
+}
+
+/*  media query */
+
+@media (width >= 300) {}
+@media (width < 1000px) {}
+@media (640px <= width < 700px) {}
+
+
+/* animación scroll */
+
+@keyframes reveal {
+
+    from {
+        opacity: 0;
+        translate: 0 100px;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+    
+}
+
+img {
+    animation: reveal both;
+    animation-timeline: view();
+    animation-range: entry 20% cover 30%;
+}
+
+
+/* scroll header */
+
+header {
+    backdrop-filter: blur(5px);
+    position: sticky;
+    top: 0;
+    animation: adjust-header linear both;
+    animation-timeline: scroll();
+    animation-range: 0 200px
+}
+
+@keyframes adjust-header {
+    to {
+        background: rgba(0.0.0. 0.3);
+        font-size: 12px;
+        height: 24px;
+    }
+}
+
+
+/* abrir modal animation translate*/
+
+dialog {
+    transition: scale 0.3s ease
+                display 0.3s allow-discrete;
+    scale: 0;
+
+    &[open] {
+        scale: 1;
+
+
+        @starting-style {
+            scale: 0;
+        }
+    }
+}
