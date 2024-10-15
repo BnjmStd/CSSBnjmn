@@ -1,0 +1,55 @@
+1. ::first-letter: Aplica estilos a la primera letra del elemento.
+
+    p::first-letter {
+        font-size: 2em;
+        color: red;
+    }
+
+2. ::first-line: Aplica estilos a la primera línea de un elemento de bloque.
+
+    p::first-line {
+        font-weight: bold;
+    }
+
+3. ::selection: Aplica estilos al texto seleccionado por el usuario.
+
+    ::selection {
+        background-color: yellow;
+        color: black;
+    }
+
+4.::placeholder: Aplica estilos al texto de un placeholder dentro de un <input> o <textarea>
+
+    input::placeholder {
+        color: gray;
+    }
+
+5. ::marker: Estiliza el marcador de listas (bullet points, números, etc.).
+
+    li::marker {
+        color: blue;
+    }
+6. ::backdrop: Estiliza el fondo detrás de un modal o diálogo en pantalla completa.
+
+    ::backdrop {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+7. ::file-selector-button: Estiliza el botón dentro de un campo de subida de archivos       (<input type="file">).
+
+    input[type="file"]::file-selector-button {
+        background-color: blue;
+        color: white;
+    }
+
+8. ::cue: Se usa en los archivos de texto en pistas de medios (como subtítulos) para aplicar estilos.
+    ::cue {
+        color: white;
+        background-color: black;
+    }
+
+9. ::grammar-error: Se aplica para mostrar errores gramaticales en elementos que tienen contenido editable. No está ampliamente soportado, pero tiene un uso potencial en editores de texto en línea.
+    p::grammar-error {
+        text-decoration: underline red wavy;
+    }
+10. 
