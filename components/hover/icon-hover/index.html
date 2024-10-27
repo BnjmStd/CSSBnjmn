@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @property --fill {
+            syntax: '<percentage>';
+            inherits: true;
+            initial-value: 0%;
+        }
+
+        .social-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        a {
+            position: relative;
+            padding: 0.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 4rem;
+            aspect-ratio: 1;
+            font-size: 1.5rem;
+            color: black;
+            background-color: #09f;
+            border-radius: 50%;
+            transition: color .5s ease-in-out;
+
+            &::after {
+                position: absolute;
+                z-index: -1;
+                content: '';
+                inset: -3px;
+                border-radius: inherit;
+                background: conic-gradient(greenyellow var(--fill),
+                        transparent var(--fill));
+                transition: --fill .6s ease-in-out;
+            }
+
+            &:hover {
+                color: greenyellow;
+                --fill: 100%
+            }
+        }
+
+        svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="social-container">
+        <!-- Icono de YouTube -->
+        <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M19.615 3.184C21.089 3.497 22.25 4.645 22.556 6.125 23.126 8.875 23.126 12 22.556 14.75 22.25 16.23 21.089 17.378 19.615 17.691 17.26 18.25 12 18.25 12 18.25S6.74 18.25 4.385 17.691C2.911 17.378 1.75 16.23 1.444 14.75.874 12 .874 8.875 1.444 6.125 1.75 4.645 2.911 3.497 4.385 3.184 6.74 2.625 12 2.625 12 2.625s5.26 0 7.615.559zM10 9.75v4.5l4.25-2.25L10 9.75z" />
+            </svg>
+        </a>
+
+        <!-- Icono de Facebook -->
+        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
+            <svg viewBox="0 0 24 24">
+                <path d="M9 8H7v4h2v12h5V12h3.642l.358-4H14V6.5a1 1 0 0 1 1-1h3V1h-3c-2.76 0-5 2.24-5 5v2z" />
+            </svg>
+        </a>
+
+        <!-- Icono de Instagram -->
+        <a href="https://www.instagram.com" target="_blank" aria-label="Instagram">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.337 3.608 1.311.975.975 1.25 2.243 1.312 3.608.058 1.266.07 1.646.07 4.848s-.012 3.583-.07 4.848c-.062 1.366-.337 2.634-1.312 3.609-.975.974-2.243 1.25-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.849-.07c-1.365-.062-2.633-.337-3.608-1.311-.975-.975-1.25-2.243-1.312-3.609C2.175 15.746 2.163 15.366 2.163 12s.012-3.584.07-4.849c.062-1.365.337-2.633 1.312-3.608C4.52 2.512 5.788 2.237 7.153 2.175 8.418 2.117 8.798 2.163 12 2.163M12 0C8.741 0 8.332.012 7.052.07 5.772.13 4.655.424 3.675 1.404 2.695 2.384 2.4 3.5 2.34 4.78.883 8.327.883 15.67 2.34 19.218c.06 1.28.355 2.396 1.335 3.376.98.98 2.097 1.275 3.376 1.335 1.28.058 1.689.07 4.948.07s3.668-.012 4.948-.07c1.28-.06 2.396-.355 3.376-1.335.98-.98 1.275-2.097 1.335-3.376.058-1.28.07-1.689.07-4.948s-.012-3.668-.07-4.948c-.06-1.28-.355-2.396-1.335-3.376-.98-.98-2.097-1.275-3.376-1.335C15.668.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 0 0-6.162 6.162A6.162 6.162 0 0 0 12 18.162 6.162 6.162 0 0 0 18.162 12 6.162 6.162 0 0 0 12 5.838zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 1 0-2.88 1.44 1.44 0 0 1 0 2.88z" />
+            </svg>
+        </a>
+    </div>
+</body>
+
+</html>

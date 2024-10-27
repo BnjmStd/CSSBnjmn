@@ -1,0 +1,16 @@
+.item {
+    height: 300px;
+    margin: 2px;
+    width: 200px;
+    background: #000;
+}
+
+.carousel {
+    display: flex;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 24px;
+}
+
+.carousel .item {
+    scroll-snap-align: start;
+}
