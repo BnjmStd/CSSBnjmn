@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        :root {
+            interpolate-size: allow-keywords; 
+        }
+
+        details {
+            background-color: hsl(0 0% 5%);
+            border: 1px solid hsl(0 0% 12%);
+            padding: .5rem 1rem;
+            border-radius: 0.25rem;
+
+            
+
+            overflow: hidden;
+        }
+        
+        details * {
+            margin: 0;
+        }
+
+        details::details-content {
+            color: hsl(0, 0%, 78%);
+            font-size: 1.125rem;
+            transition: block-size 1s;
+            block-size: 0;
+        }
+
+        details[open]::details-content {
+            block-size: auto;
+        }
+
+        details > p {
+            padding-block: 1rem;
+            color: white;
+        }
+
+        summary {
+            color: hsl(0, 0%, 98%);
+
+            line-height: 1.3;
+            margin-inline-start: 1rem;
+
+            list-style-position: outside;
+
+        }
+
+        summary::marker {
+            font-size: 0.75rem;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="questions-and-answers">
+
+        <details>
+            <summary> Can i way details animals</summary>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut earum quas rem, praesentium reiciendis quo nobis velit vitae obcaecati quibusdam. Odit debitis accusantium provident velit explicabo dolores tenetur a nobis?</p>
+        </details>
+
+        <details>
+            <summary>how is it posible?</summary>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nostrum ullam deleniti a veritatis sed dignissimos, ipsa id aut, doloribus, tempora sit et culpa. Fugit nobis reiciendis dolores illum quos?</p>
+        </details>
+
+    </div>
+</body>
+</html>
