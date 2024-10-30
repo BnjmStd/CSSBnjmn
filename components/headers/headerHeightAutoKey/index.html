@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+            interpolate-size: allow-keywords;
+
+            --example-color: hsl(224, 85%, 19%);
+        }
+
+        html {
+            font-family: system-ui;
+        }
+
+        body {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        header {
+            background: var(--example-color);
+            color: white;
+            padding: 1rem;
+
+            position: relative;
+        }
+
+        nav {
+            position: absolute;
+            background: hsl(from var(--example-color) h s 10%);
+            top: 100%;
+            left: 0;
+
+            height: 0;
+            overflow: clip;
+            visibility: hidden;
+
+            transition: height 2s ease, visibility 2s;
+        }
+
+        button[aria-expanded="true"]+nav {
+            height: auto;
+            visibility: visible;
+        }
+
+        nav {
+            ul {
+                list-style: "";
+                margin: 0;
+                padding: 3rem;
+
+                display: grid;
+                gap: 1rem;
+            }
+
+            a {
+                color: white;
+                text-decoration: none;
+
+                &:hover,
+                &:focus-visible {
+                    color: hsl(from var(--example-color) h calc(s * 1.5) calc(l + 60));
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <span class="">LOGO</span>
+
+        <button aria-controls="primary-navigation" aria-expanded="false">Menu</button>
+
+        <nav id="primary-navigation">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+
+    <script>
+        const navToggle = document.querySelector(
+            '[aria-controls="primary-navigation"]'
+        );
+
+        navToggle.addEventListener("click", () => {
+            const navOpened = navToggle.getAttribute("aria-expanded");
+
+            if (navOpened === "false") {
+                navToggle.setAttribute("aria-expanded", true);
+            } else {
+                navToggle.setAttribute("aria-expanded", false);
+            }
+        });
+    </script>
+</body>
+
+</html>
