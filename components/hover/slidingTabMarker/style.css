@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #101010;
+  background-color: #edf4ff;
+  border-block-start: 10px solid #f1d23a;
+  padding: 3rem 1rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-block-end: 0.5em;
+}
+
+p:not(:last-child) {
+  margin-block-end: 1em;
+}
+
+.widget {
+  width: 80vw;
+  max-width: 600px;
+  padding: 1rem;
+  margin: 2rem auto;
+  border-radius: 1rem;
+  background-color: #fff;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.025);
+} 
+
+.tabs {
+  --tab-count: 3;
+  --active: 0;
+  display: flex;
+  isolation: isolate;
+  height: 3.5rem;
+  border-block-end: 1px solid #e0ebec;
+  position: relative;
+}
+
+.tabs  input {
+  display: none;
+}
+
+.tabs label {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #053b03;
+  cursor: pointer;
+  transition: color .5s ease-in-out;
+}
+
+.tabs input:checked + label {
+  color: #d41212;
+}
+
+.tabs::after {
+  z-index: -1;
+  pointer-events: none;
+  position: absolute;
+  content: "";
+  inset: 0 0 -1px;
+  width: calc((100% / var(--tab-count)) - 2px);
+  border: 1px solid #e0ebec;;
+  border-radius: .5rem .5rem 0 0;
+  background-image: linear-gradient(#edf4ff, #fff); 
+
+  translate: calc(var(--active) * 100%);
+
+  /*
+  
+    1st = 0 * 100% = 0
+    2nd = 1 * 100% = 100%
+    3rd = 2 * 100% = 200%
+  
+  */
+
+  transition: translate .5s ease-in-out;
+}
+
+.tabs:has(:checked:nth-of-type(1)) {
+  --active: 0;
+}
+
+.tabs:has(:checked:nth-of-type(2)) {
+  --active: 1;
+}
+
+.tabs:has(:checked:nth-of-type(3)) {
+  --active: 2;
+}
+
+.tab-content {
+  padding: 1rem;
+}
+
+
+[class^="tab-content-"] {
+  display: none;
+}
+
+.widget:has(:checked:nth-of-type(1)) .tab-content-1 {
+  display: block;
+}
+
+.widget:has(:checked:nth-of-type(2)) .tab-content-2 {
+  display: block;
+}
+
+.widget:has(:checked:nth-of-type(3)) .tab-content-3 {
+  display: block;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #3a3a3a;
+  background-color: #ecedef;
+  padding: 100px 50px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.search-bar {
+  --size: 70px;
+  --padding: 8px;
+  --expanded-width: 600px;
+
+  display: flex;
+  justify-content: flex-end;
+  background-color: #fff;
+  box-shadow: 0 10px 10px 0 #d6d9e2;
+  border-radius: 100px;
+  outline: 1px solid transparent;
+  overflow: hidden;
+
+  padding: var(--padding);
+  margin-inline: auto;
+  width: var(--size);
+  height: var(--size);
+  max-width: 100%;
+  transition: width 0.5s, outline 0.5s;
+}
+
+.search-bar:focus-within {
+  width: var(--expanded-width);
+  outline: 1px solid #2e2e2e;
+}
+
+.search-input {
+  font-size: 18px;
+  color: #3a3a3a;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  margin-inline: 1rem;
+  flex: auto;
+
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.search-bar:focus-within .search-input {
+  opacity: 1;
+}
+
+.search-submit {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #fff;
+  background-color: #3a3a3a;
+  border-radius: 50%;
+  border: none;
+  width: calc(var(--size) - var(--padding) - var(--padding));
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+    <h1>Expanding search bar</h1>
+
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="search here">
+        <button class="search-submit">
+            <svg width="12" height="12" viewBox="0 0 24 24"><path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path></svg>
+        </button>
+    </div>
+
+</body>
+</html>

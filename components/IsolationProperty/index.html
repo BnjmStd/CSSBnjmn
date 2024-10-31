@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .circles {
+            position: relative;
+            margin-inline: auto;
+            width: 230px;
+
+            isolation: isolate;
+        }
+
+        .circle {
+            position: absolute;
+            top: 0;
+            width: 150px;
+            aspect-ratio: 1;
+            border-radius: 100%;
+
+            mix-blend-mode: difference;
+
+        }
+
+        .circle:nth-child(1) {
+            left: 0;
+            background-color: red;
+        }
+
+        .circle:nth-child(2) {
+            right: 0;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="circles">
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+    
+</body>
+</html>

@@ -14,7 +14,7 @@ body {
     grid-template-areas: 
         'sidebar header'
         'sidebar main'
-        'footer footer';
+        'sidebar footer';
 
     transition: grid-template-columns .3s ease;
 }
@@ -36,8 +36,11 @@ body.sb-expand {
 }
 
 .dashboard-sidebar {
-    position: relative;
+    position: sticky;
+    align-self: start;
     grid-area: sidebar;
+    top: 0px;
+    height: 100vh;
     color: #fff;
     background-color: #1d1d29;
 

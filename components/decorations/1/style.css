@@ -1,0 +1,87 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: #101010;
+    background-color: #edf4ff;
+    border-block-start: 10px solid #b7f9e9;
+    padding: 3rem 5rem 1rem;
+}
+
+p {
+    margin-block: 1.25rem;
+}
+
+main {
+    max-width: 500px;
+    margin-inline: auto;
+}
+
+header {
+    max-width: 70%;
+    margin-block-end: 1rem;
+}
+
+h1 {
+    font-size: 4rem;
+    line-height: 0.75;
+    font-weight: 800;
+
+    display: inline;
+    padding: 0 0.0625em;
+    background-image: linear-gradient(to right, #ffef7e, #b7f9e9);
+    background-size: 100% 30%;
+    background-repeat: no-repeat;
+    background-position: 0 90%;
+
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+h2 {
+    font-size: 2rem;
+    line-height: 1.9;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    display: inline;
+    padding: 0.25em 0.5em;
+    border: 1px solid;
+    border: 1px dotted;
+    /* background-color: #ffef7e; */
+    background-image: linear-gradient(to right, #ffef7e, #b7f9e9);
+
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+p:not(.animate) span {
+    padding: 0.125em 0.25em;
+    border: 1px dotted;
+    border-radius: 0.25em;
+    background: linear-gradient(to right, #ffef7e, #b7f9e9);
+
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+p.animate span {
+    padding: 0.125em 0;
+    background: linear-gradient(to right, #ffef7e, #b7f9e9);
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    transition: background 750ms ease-in-out;
+
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+.animate:hover span {
+    background-size: 100% 100%;
+}
