@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #333;
+    background-color: #fff;
+}
+
+h1 {
+    font-size: 1.75rem;
+    margin-block-end: 0.25em;
+}
+
+h2 {
+    font-size: 1.25rem;
+    margin-block-end: 1em;
+}
+
+p {
+    margin-block-end: 1.5em;
+}
+
+.announcement-bar {
+    padding: 0.75rem 3rem;
+    font-size: 0.9375rem;
+    text-align: center;
+    color: #fff;
+    background-color: #081a28;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: wrap;
+    gap: 1rem 2rem;
+    padding: 1.25rem 3rem;
+    background-color: #fff;
+    box-shadow: 0 1px 1px 0 #eee;
+    position: sticky;
+    top: 0;
+}
+
+.site-header-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+
+}
+
+.site-header-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(
+        0.5rem, 2.5vw, 3rem
+    );
+}
+
+.site-header-nav a {
+    font-weight: 500;
+    color: #081a28;
+    text-decoration: none;
+    transition: color .3s ease;
+}
+
+.site-header-nav a:hover, 
+.site-header-nav a:focus-visible {
+    color: #09f;
+}
+
+.site-header-nav a:focus-visible {
+    outline: 1px solid purple;
+    outline-offset: 4px;
+}
+
+.hero {
+    aspect-ratio: 16/5;
+}
+
+.hero img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+}
+
+.content {
+    padding-block: 2rem;
+}
+
+.site-footer {
+    block-size: 10rem;
+    background: repeating-linear-gradient(
+        45deg, 
+        transparent, 
+        transparent 15px, 
+        #b8d4e3 15px, 
+        #b8d4e3 16px
+    );
+}
+
+.banner {
+    font-size: 1.5rem;
+    line-height: 1.25;
+    text-align: center;
+    color: #081a28;
+    background-image: linear-gradient(
+        to right, 
+        #b8d4e3,
+        #a6cde2,
+    );
+    background-size: cover;
+    padding: 2.5rem;
+    margin-block-end: 2rem;
+}
+
+.icon {
+    display: block;
+    font-size: 3rem;
+}
