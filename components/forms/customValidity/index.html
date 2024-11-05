@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form action="">
+        <label for="">
+            Nombre <input id="name-input" type="text" required minlength="5">
+        </label>
+        <button>Enviar</button>
+    </form>
+    
+
+    <script>
+        const name = document.querySelector("#name-input")
+
+        const form =  document.querySelector("form")
+
+        name.addEventListener("input", () => {
+            let validation = ""
+
+
+
+            if (name.validity.valueMissing) {
+                validation = "Este campo es required"
+            }
+
+            else if (name.validity.tooShort) {
+                validation = "nombre corto"
+            }
+
+            name.setCustomValidity(validation)
+
+        })
+
+
+        form.addEventListener("submit", (event) => {
+            if (!name.checkValidity()) event.preventDefault()
+        })
+    </script>
+
+</body>
+</html>
