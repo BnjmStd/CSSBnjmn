@@ -127,3 +127,42 @@ function MyComponent() {
 }
 
 :::
+
+
+# @supports 
+
+la regla @supports se utiliza para aplicar estilos condicionalmente, basándose en si el navegador soporta una propiedad o valor CSS específico. Esto es útil cuando deseas aplicar ciertos estilos solo si el navegador del usuario tiene soporte para ellos.
+
+:::
+
+
+/* Aplica estos estilos solo si el navegador soporta display: grid */
+@supports (display: grid) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Alternativa para navegadores sin soporte para display: grid */
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+
+:::
+
+En este caso, @supports (display: grid) verifica si el navegador soporta display: grid. Si es así, aplica esos estilos dentro del bloque @supports. Si no, el navegador utilizará los estilos flex definidos fuera del bloque @supports.
+
+
+:::
+
+@supports (display: grid) and (gap: 1rem) {
+    .container {
+        display: grid;
+        gap: 1rem;
+    }
+}
+
+:::
