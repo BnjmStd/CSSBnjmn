@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        body {
+            background-color: aqua;
+        }
+    </style>
+</head>
+
+<body>
+
+    <tiktok-video videoid="yourVideoId" thumbnailurl="https://www.tiktok.com/@elizabetta124/video/7413901474528283909?is_from_webapp=1&sender_device=pc" data-title="yourTitle"></tiktok-video>
+
+
+    <script>
+        class TiktokVideo extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+            }
+
+            connectedCallback() {
+                this.videoId = this.getAttribute("videoid");
+                const thumbnailUrl = this.getAttribute("thumbnailurl");
+                const title = this.getAttribute("data-title");
+
+                // Estilos
+                const style = document.createElement("style");
+                style.textContent = `
+      :host {
+        display: block;
+        background-image: url(${thumbnailUrl});
+        background-size: 100%;
+        background-position: center;
+        transition: background-size 0.3s;
+        cursor: pointer;
+        width: 320px;
+        height: 570px;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+      }
+      :host(:hover) {
+        background-size: 105%;
+      }
+      .play-button {
+        position: absolute;
+        bottom: 24px;
+        right: 24px;
+        padding: 16px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.3s;
+      }
+      .play-button:hover {
+        transform: scale(1.1);
+      }
+      .play-icon {
+        color: #1e90ff; /* color primaria */
+      }
+    `;
+
+                // Estructura del DOM
+                const playButton = document.createElement("div");
+                playButton.classList.add("play-button");
+                playButton.id = `Id${this.videoId}`;
+                playButton.title = title;
+                playButton.setAttribute("role", "button");
+                playButton.setAttribute("aria-label", "Reproducir video");
+
+                // Agregar icono play (simulado aquí, ya que el ícono no se puede importar directamente)
+                const playIcon = document.createElement("span");
+                playIcon.classList.add("play-icon");
+                playIcon.textContent = "▶"; // Placeholder para el icono
+                playButton.appendChild(playIcon);
+
+                this.shadowRoot.append(style, playButton);
+
+                // Eventos
+                this.addEventListener("click", this.activateVideo.bind(this));
+                this.addEventListener("keydown", this.handleKeyPress.bind(this));
+            }
+
+            activateVideo() {
+                this.style.backgroundImage = "unset";
+                this.shadowRoot.querySelector(`#Id${this.videoId}`)?.remove();
+
+                const iframeEl = this.createIframe();
+                this.shadowRoot.appendChild(iframeEl);
+                iframeEl.focus();
+
+                this.unMutePlayerByDefault();
+            }
+
+            handleKeyPress(event) {
+                if (event.code === "Enter" || event.code === "Space") {
+                    this.activateVideo();
+                }
+            }
+
+            createIframe() {
+                const iframeEl = document.createElement("iframe");
+                iframeEl.width = "320";
+                iframeEl.height = "570";
+                iframeEl.classList.add("rounded-2xl");
+                iframeEl.title = this.getAttribute("data-title");
+                iframeEl.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; transparency";
+                iframeEl.allowFullscreen = true;
+                iframeEl.src = `https://www.tiktok.com/player/v1/${this.videoId}?autoplay=1`;
+
+                return iframeEl;
+            }
+
+            unMutePlayerByDefault() {
+                const messageHandler = (event) => {
+                    if (event.origin === "https://www.tiktok.com" && event.data.type === "onPlayerReady") {
+                        this.shadowRoot.querySelector("iframe").contentWindow.postMessage(
+                            { type: "unMute", "x-tiktok-player": true },
+                            "*"
+                        );
+                        window.removeEventListener("message", messageHandler);
+                    }
+                };
+                window.addEventListener("message", messageHandler);
+            }
+        }
+
+        // Definir el elemento personalizado
+        customElements.define("tiktok-video", TiktokVideo);
+
+    </script>
+</body>
+
+</html>

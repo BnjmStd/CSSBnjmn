@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Caveat&family=Inter:wght@400&display=swap");
+
+        :root {
+            --bg-color-1: hsl(60deg 23% 95%);
+            --bg-color-2: hsl(238deg 60% 96%);
+            --text-color: hsl(222deg 29% 24%);
+            --shadow-color: 60deg 8% 68%;
+            --shadow: 0.2px 0.5px 0.5px hsl(var(--shadow-color) / 0.41),
+                0.4px 1px 1px -1.3px hsl(var(--shadow-color) / 0.33),
+                1.3px 3.1px 3px -2.7px hsl(var(--shadow-color) / 0.26),
+                3.5px 8.3px 8.1px -4px hsl(var(--shadow-color) / 0.18);
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            font-size: clamp(1.125rem, 2vw, 1.25rem);
+            color: var(--text-color);
+            background-image: linear-gradient(to bottom,
+                    var(--bg-color-1),
+                    var(--bg-color-2));
+            overflow-x: hidden;
+        }
+
+        article {
+            --photo-margin: clamp(1rem, 6vw, 2rem);
+            inline-size: min(65ch, 100% - 4rem);
+            margin-inline: auto;
+            margin-block-end: 30vh;
+        }
+
+        header {
+            position: relative;
+            display: grid;
+            place-items: center;
+            height: calc(100vh - 15rem);
+        }
+
+        h1 {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.2em;
+            margin-inline-start: -2rem;
+            font-size: clamp(1.5rem, 10vw, 6rem);
+            font-family: "Caveat", cursive;
+            line-height: 1;
+            rotate: -3deg;
+            background: linear-gradient(176deg, #4f67e3 0%, #ca4fc2 45%, #edba5d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 span {
+            font-size: 0.6em;
+        }
+
+        p {
+            margin-block: 2.5rem;
+            letter-spacing: -0.025em;
+            line-height: 1.75em;
+        }
+
+        figure {
+            position: relative;
+            display: grid;
+            grid-template-areas:
+                "photo"
+                "caption";
+            gap: 0.5rem;
+            margin-inline: auto;
+            border: 1rem solid white;
+            width: min(250px, 100%);
+            background-color: white;
+            box-shadow: var(--shadow);
+            rotate: var(--rotate, -3deg);
+            border-radius: 0.125rem;
+        }
+
+        figure:nth-of-type(even) {
+            direction: rtl;
+            --float: right;
+            --rotate: 2deg;
+            --offset: 0.5rem;
+        }
+
+        figure div {
+            overflow: hidden;
+            aspect-ratio: 1;
+            background-color: black;
+            border-radius: inherit;
+        }
+
+        img {
+            position: relative;
+            width: 100%;
+            object-fit: cover;
+            vertical-align: bottom;
+        }
+
+        figcaption {
+            display: grid;
+            place-content: start end;
+            height: 3.5rem;
+            font-family: "Caveat", cursive;
+            line-height: 1;
+        }
+
+        .shuffle-photos {
+            display: grid;
+            grid-template-areas: "container";
+            place-items: center;
+            margin-inline: auto;
+        }
+
+        .shuffle-photos>* {
+            grid-area: container;
+        }
+
+        .shuffle-photos figure {
+            --float: none;
+            margin: unset;
+        }
+
+        .shuffle-photos> :first-child {
+            z-index: 1;
+        }
+
+        @media (min-width: 600px) {
+            figure {
+                clear: both;
+                float: var(--float, left);
+                margin-inline: 0 var(--photo-margin);
+                margin-block-end: var(--photo-margin);
+                translate: var(--offset, -0.5rem) 0;
+            }
+
+            .shuffle-photos {
+                float: right;
+                max-width: 300px;
+                margin-inline: var(--photo-margin) 0;
+                margin-block-end: var(--photo-margin);
+            }
+        }
+
+        /* --------------------------------
+✨ Scroll-driven animations
+--------------------------------- */
+        figure {
+            view-timeline-name: --photo;
+        }
+
+        header {
+            animation: auto linear title both;
+            animation-timeline: view();
+            animation-range: exit 10% cover 80%;
+        }
+
+        .develop-photo {
+            animation: auto linear develop both;
+            animation-timeline: --photo;
+            animation-range: entry 30% cover 40%;
+        }
+
+        .shuffle-photos> :first-child {
+            animation: auto linear shuffle-top both;
+            animation-timeline: view();
+            animation-range: entry 110% cover 60%;
+        }
+
+        .shuffle-photos> :last-child {
+            animation: auto linear shuffle-bottom both;
+            animation-timeline: view();
+            animation-range: entry 110% cover 60%;
+        }
+
+        @keyframes title {
+            to {
+                opacity: 0;
+                translate: 0 10%;
+            }
+        }
+
+        @keyframes develop {
+            from {
+                filter: blur(30px);
+                scale: 1.1;
+                opacity: 0;
+            }
+
+            to {
+                filter: blur(0);
+                scale: 1;
+                opacity: 1;
+            }
+        }
+
+        @keyframes shuffle-top {
+            50% {
+                translate: 100% -20%;
+                rotate: 20deg;
+            }
+
+            to {
+                rotate: 5deg;
+            }
+        }
+
+        @keyframes shuffle-bottom {
+            50% {
+                translate: -15% 35%;
+                rotate: -15deg;
+                z-index: 0;
+            }
+
+            51% {
+                z-index: 1;
+            }
+
+            to {
+                rotate: -5deg;
+                z-index: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <article>
+        <header>
+            <h1>Summer <span>at the</span> Beach</h1>
+        </header>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, aliquam error! Nisi repellat corrupti
+            totam dolores facere magni incidunt ad explicabo, ut unde eos quaerat neque perferendis beatae eaque animi!
+        </p>
+
+        <figure>
+            <div>
+                <img class="develop-photo"
+                    src="https://images.unsplash.com/photo-1501426026826-31c667bdf23d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTA5OTE2ODF8&ixlib=rb-4.0.3&q=80&w=400"
+                    alt="A pink flamingo floater toy floating on ocean water. "
+                    title="Photo by Vicko Mozara for Unsplash">
+            </div>
+            <figcaption>The infamous inflatable flamingo!</figcaption>
+        </figure>
+
+        <p>Odit accusantium labore obcaecati magni quibusdam. Ipsa aspernatur voluptatem soluta, illo facilis sequi
+            maxime doloremque, eius numquam dolore laboriosam. Deleniti porro reiciendis nisi ipsum perferendis maiores
+            consequuntur nemo repellat cumque.</p>
+
+        <p>Porro autem quod asperiores? Voluptatem officia aliquam, aspernatur voluptas culpa dignissimos enim tempore
+            ullam incidunt voluptatibus itaque nostrum sed laudantium possimus, nulla id qui illo? Dolores minus quos
+            aspernatur voluptatibus.</p>
+
+        <figure>
+            <div>
+                <img class="develop-photo"
+                    src="https://images.unsplash.com/photo-1614094723471-ed6e2cf28cad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTA5OTIwMDl8&ixlib=rb-4.0.3&q=80&w=400"
+                    alt="A person surfing in dark blue water. In the background, there is a brown stony cliff. "
+                    title="Photo by Harrison Fitts for Unsplash">
+            </div>
+            <figcaption>Kev rippin' it @ Crystal Cliffs</figcaption>
+        </figure>
+
+        <p>Totam minus culpa incidunt ea commodi cupiditate expedita possimus vero tempora optio voluptas voluptate
+            placeat quae iure suscipit, exercitationem porro asperiores saepe amet, recusandae sapiente! Quaerat optio
+            quasi quia exercitationem.</p>
+
+        <p>Minima, repellat obcaecati. Voluptas iure atque, id aliquam nulla libero, accusamus incidunt cum corporis aut
+            ullam nam neque suscipit laudantium animi tempore! Dicta, labore! Dolorum dolores ut quia aspernatur. Animi.
+        </p>
+
+        <figure>
+            <div>
+                <img class="develop-photo"
+                    src="https://images.unsplash.com/photo-1596326270763-87f26e0f9225?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTA5OTIxNzJ8&ixlib=rb-4.0.3&q=80&w=400"
+                    alt="A large group of people gathered around a beach bonfire at dusk. "
+                    title="Photo by Emily Hoehenrieder for Unsplash.">
+            </div>
+            <figcaption>Beach bonfire crew</figcaption>
+        </figure>
+
+        <p>Molestiae cumque mollitia inventore? Dicta cumque commodi rerum aperiam at odit quae, aliquid ullam? Labore,
+            soluta magnam! A provident expedita nemo enim reiciendis, ut perferendis unde tenetur hic pariatur
+            laudantium.</p>
+
+        <p>Reiciendis ad similique consectetur voluptatem delectus quam temporibus provident. Adipisci ex facere ad
+            aliquam, quod eos, optio ratione quas mollitia sunt necessitatibus natus dolores hic incidunt, corporis nemo
+            nulla inventore.</p>
+
+        <p>Pariatur quae, corporis alias ipsa, magni debitis architecto dolore consequatur voluptas, quo ab commodi
+            asperiores nihil facilis. Aliquam expedita quisquam aliquid illum, dolores amet, voluptas beatae
+            voluptatibus aspernatur esse vero.</p>
+        <p>Deleniti aliquam dicta illo tempore ullam voluptatibus non unde cumque natus, laudantium numquam perspiciatis
+            eaque modi ex ab expedita, rerum a, quam provident eius. A consectetur laboriosam deserunt odio fuga.</p>
+
+        <div class="shuffle-photos">
+            <figure>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1625723347040-0fdf78cb3c1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTA5OTI0NDB8&ixlib=rb-4.0.3&q=80&w=400"
+                        alt="People sitting on the beach at night with an astonishing view of the milky way. "
+                        title="Photo by Izuddin Helmi Adnan for Unsplash. ">
+                </div>
+                <figcaption>Last night of the '23 Summerjam Carnival Fest</figcaption>
+            </figure>
+
+            <figure>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1594937113195-27f8b9046013?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTA5OTI2MTh8&ixlib=rb-4.0.3&q=80&w=400"
+                        alt="Airplane window view from behind the wing. The sun is setting, casting a golden glow over a field of fluffy white clouds."
+                        title="Photo by Jim Flores for Unsplash. ">
+                </div>
+                <figcaption>High above the island</figcaption>
+            </figure>
+        </div>
+
+        <p>Aperiam nobis ea totam minus, voluptate quaerat impedit nisi et iure nam ipsum eveniet quas nulla excepturi!
+            Illo accusamus accusantium sunt fugit, possimus quo molestias fuga illum fugiat quibusdam. Dolores?</p>
+
+        <p>Et laudantium in, atque pariatur qui minima obcaecati laborum nemo repudiandae nulla consequuntur! Amet
+            nesciunt aperiam similique at quae, fugit iure iste obcaecati animi dolorem est harum placeat laboriosam
+            unde!</p>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem ipsa facere saepe a ad adipisci deleniti
+            nesciunt, quisquam ea sequi laboriosam, ex perferendis temporibus ullam reprehenderit neque dignissimos
+            consequuntur sunt?</p>
+
+        <p>Laborum cum quibusdam dignissimos, iusto assumenda voluptate ab mollitia nisi quidem et saepe nemo deleniti
+            dolorem quisquam vero rerum, dolorum facilis maxime. Optio a, cupiditate dicta ad rerum dolor quos?</p>
+
+        <p>Ad facere quas optio deleniti recusandae omnis numquam impedit sequi molestiae, sint ab voluptas quos libero
+            totam quam inventore suscipit. Deleniti repellat possimus laboriosam eos suscipit consectetur modi ipsum
+            cupiditate!</p>
+    </article>
+
+
+</body>
+
+</html>
