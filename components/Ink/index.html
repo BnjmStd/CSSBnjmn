@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .banner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100dvh;
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background-image: url('./bg.jpg');
+                background-size: cover;
+                background-position: center;
+                z-index: -1;
+
+
+                mask-image: url('./ink_lv2.gif');
+                mask-size: cover;
+                mask-position: center;
+            }
+        }
+
+        .banner .content .title {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 6em;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="content">
+            <div class="title">
+                Bnjmn
+                <p>holis!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
