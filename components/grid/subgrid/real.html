@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content-boxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+            gap: 1rem;
+        }
+
+        .content-box {
+            padding: 2rem;
+
+            grid-row: span 4;
+
+            display: grid;
+            grid-template-rows: subgrid;
+
+        }
+
+        .content-box:nth-child(1) {
+            background-color: #f1f1f1;
+        }
+
+        
+        .content-box:nth-child(2) {
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <section class="content-boxes">
+        <div class="content-box">
+            <div class="content-box__icon">
+                <i class="bi bi-laptop"></i>
+            </div>
+
+            <h3 class="content-box__title">
+                web design &amp development
+            </h3>
+
+            <p class="content-box__desc">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Enim doloremque distinctio quaerat provident qui quod iure culpa. Modi, sapiente rerum eius dolorum explicabo laborum? Sapiente repellat ducimus rerum expedita facilis?
+            </p>
+
+            <p class="content-box__cta">
+                <a href="#" title=""> Learn more </a>
+            </p>
+
+        </div>
+
+        <div class="content-box">
+            <div class="content-box__icon">
+                <i class="bi bi-laptop"></i>
+            </div>
+
+            <h3 class="content-box__title">
+                web design &amp development
+            </h3>
+
+            <p class="content-box__desc">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Enim doloremque distinctio quaerat provident qui quod iure culpa. Modi, sapiente rerum eius dolorum explicabo laborum? Sapiente repellat ducimus rerum expedita facilis?
+            </p>
+
+            <p class="content-box__cta">
+                <a href="#" title=""> Learn more </a>
+            </p>
+
+        </div>
+
+        <div class="content-box">
+            <div class="content-box__icon">
+                <i class="bi bi-laptop"></i>
+            </div>
+
+            <h3 class="content-box__title">
+                web design &amp development
+            </h3>
+
+            <p class="content-box__desc">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Enim doloremque distinctio quaerat provident qui quod iure culpa. Modi, sapiente rerum eius dolorum explicabo laborum? Sapiente repellat ducimus rerum expedita facilis?
+            </p>
+
+            <p class="content-box__cta">
+                <a href="#" title=""> Learn more </a>
+            </p>
+
+        </div>
+
+        <div class="content-box">
+            <div class="content-box__icon">
+                <i class="bi bi-laptop"></i>
+            </div>
+
+            <h3 class="content-box__title">
+                web design &amp development
+            </h3>
+
+            <p class="content-box__desc">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Enim doloremque distinctio quaerat provident qui quod iure culpa. Modi, sapiente rerum eius dolorum explicabo laborum? Sapiente repellat ducimus rerum expedita facilis?
+            </p>
+
+            <p class="content-box__cta">
+                <a href="#" title=""> Learn more </a>
+            </p>
+
+        </div>
+
+        <div class="content-box">
+            <div class="content-box__icon">
+                <i class="bi bi-laptop"></i>
+            </div>
+
+            <h3 class="content-box__title">
+                web design &amp development
+            </h3>
+
+            <p class="content-box__desc">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Enim doloremque distinctio quaerat provident qui quod iure culpa. Modi, sapiente rerum eius dolorum explicabo laborum? Sapiente repellat ducimus rerum expedita facilis?
+            </p>
+
+            <p class="content-box__cta">
+                <a href="#" title=""> Learn more </a>
+            </p>
+
+        </div>
+    </section>
+</body>
+</html>
