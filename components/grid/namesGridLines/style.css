@@ -44,7 +44,7 @@ p {
     background-color: #fff;
     box-shadow: 0 1px 1px 0 #eee;
     position: sticky;
-    top: 0;
+    top: 0; 
 }
 
 .site-header-logo {
