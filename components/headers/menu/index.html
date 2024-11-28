@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .nav {
+            background-color: #000;
+        }
+
+        .nav__container {
+            background-color: red;
+            width: min(90%, 1200px);
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            height: 80px;
+
+            --menu-icon: url("./open.svg");
+            --menu-show: translateY(-100%);
+            
+        }
+
+        .nav__container:has(.nav__input:checked) {
+            --menu-icon: url("./close.svg");
+            --menu-show: translateY(0);
+        }
+
+        .nav__list {
+
+            transform: var(--menu-show);
+
+            margin: 0;
+            
+            list-style: none;
+
+            position: fixed;
+            inset: 0;
+            background-color: blue;
+            display: grid;
+
+            align-content: center;
+            justify-content: center;
+
+            padding: 1.5rem 5%;
+
+            transition: transform 0.3s;
+        }
+
+
+        .nav__figure, .nav__toggle {
+            z-index: 10;
+        }
+
+        .nav__input {
+            display: none;
+        }
+
+        .nav__toggle {
+            width: 30px;
+            height: 30px;
+            background-image: var(--menu-icon);
+            background-size: cover;
+            cursor: pointer;
+
+            transition: background-image 0.3s;
+        }
+
+        .nav_input {
+            width: 40px;
+            height: 40px;
+        }
+
+        .nav__link {
+            color: #fff;
+            text-decoration: none;
+
+
+        }
+
+        @media (width < 764px) {
+            .nav__container {
+                --menu-show: translateY(0)
+            }
+
+            .nav__toggle {
+                display: none;
+            }
+
+            .nav__list {
+                position: static;
+                grid-auto-flow: column;
+                place-content: center;
+                padding: 0;
+
+                transition: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav__container">
+
+            <figure class="nav__figure">
+                <img src="./logo.svg" alt="" class="nav__logo">
+            </figure>
+
+            <label for="menu-input" class="nav__toggle">
+                <input type="checkbox" id="menu-input" class="nav__input">
+            </label>
+
+            <ul class="nav__list">
+
+                <li class="nav__item">
+
+
+                    <a href="#" class="nav__link">Home</a>
+
+                </li>
+
+                <li class="nav__item">
+
+
+                    <a href="#" class="nav__link">Home</a>
+
+                </li>
+
+                <li class="nav__item">
+
+
+                    <a href="#" class="nav__link">Home</a>
+
+                </li>
+
+
+            </ul>
+
+        </div>
+    </nav>
+</body>
+</html>
