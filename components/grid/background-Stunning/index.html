@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: grid;
+            place-content: center;
+            height: 100vh;
+            background-color: #f1f1f1;
+        }
+
+
+        body:has(#switch-light:checked) {
+            color: #070707;
+            background:
+
+                repeating-linear-gradient(#efefef,
+                    #efefef 1px,
+                    transparent 1px,
+                    transparent 40px),
+
+                repeating-linear-gradient(to right, #efefef, #efefef 1px, transparent 1px, transparent 40px);
+
+
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* switch */
+        .switcher {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>
+        CSS Background Stunning
+    </h1>
+
+    <div class="switcher">
+
+        <input type="radio" id="switch-light" name="switch" value="Light" checked>
+        <label for="switch-light">Light</label>
+
+        <input type="radio" id="switch-dark" name="switch" value="Dark">
+        <label for="switch-dark">Dark</label>
+
+    </div>
+</body>
+
+</html>

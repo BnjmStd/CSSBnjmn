@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #111;
+            background-color: #f0f1f3;
+            padding: 3rem;
+            transition: background-color 0.5s ease;
+        }
+
+        h1 {
+            position: relative;
+            display: inline-block;
+            font-size: 1.5rem;
+            line-height: 1.5;
+            padding: 0.15em 1rem;
+            margin-bottom: 2rem;
+        }
+
+        h1::after {
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            content: "";
+            width: 0;
+            background-color: #ffdc83;
+            transition: width 0.5s ease;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+            gap: 1rem;
+        }
+
+        .card {
+            padding: 0.625rem;
+            aspect-ratio: 1;
+            font-size: 1.5rem;
+            background-color: #fff;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card:hover {
+            background-color: #ffc942;
+            scale: 1.15;
+        }
+
+        /* Parent Selector */
+        body:has(.cards:hover) {
+            background-color: #dfeeff;
+        }
+
+        body:has(.cards:hover) h1::after {
+            width: 100%;
+        }
+
+        /* Adjacent Sibling selector */
+        .card:hover+.card {
+            /* background-color: #ffdc83; */
+        }
+
+        /* General Sibling selector */
+        .card:hover~.card {
+            /* background-color: #ffdc83; */
+        }
+
+        /* All but me selector */
+        .cards:has(.card:hover) .card:not(:hover) {
+            /* opacity: 0.5;
+  filter: sepia(100%); */
+        }
+
+        /* Next and Previous siblings */
+        .card:hover+.card,
+        .card:has(+ .card:hover) {
+            scale: 1.1;
+            background-color: #ffdc83;
+        }
+
+        .card:hover+.card+.card,
+        .card:has(+ .card + .card:hover) {
+            scale: 1.075;
+            background-color: #ffdc83;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>:has() Pseudo-Class Selector</h1>
+
+    <div class="cards">
+        <div class="card">
+            <i class="fa-brands fa-apple"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-microsoft"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-shopify"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-atlassian"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-wordpress"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-bootstrap"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-dropbox"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-behance"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-paypal"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-cc-visa"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-slack"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-skype"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-youtube"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-tiktok"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-hashnode"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-readme"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-discourse"></i>
+        </div>
+        <div class="card">
+            <i class="fa-brands fa-slideshare"></i>
+        </div>
+    </div>
+</body>
+
+</html>
