@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    max-inline-size: 100%;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #070707;
+    padding: 3rem 3rem 0;
+}
+
+h1 {
+    font-size: 1.75rem;
+    line-height: 1.5;
+    text-align: center;
+    margin-block-end: 1em;
+}
+
+.collage {
+    max-width: 800px;
+    margin-inline: auto;
+    display: grid;
+    gap: .5rem;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(8, 1fr);
+
+
+    grid-template-areas: 
+    ".. two two   two three four .. .."
+    "one two two two five five six .."
+    ".. two two two five five seven eight"
+    "nine ten eleven eleven twelve .. .. .."
+    ".. .. eleven eleven .. .. .. .."
+    
+    ;
+
+    & > div {
+        overflow: hidden;
+        border-radius: .5rem;
+    }
+
+    & img {
+        width: 100%;
+        aspect-ratio: 1;
+        display: block;
+        object-fit: cover;
+        transition: all .5s ease-in-out;
+
+        &:hover {
+            scale: 1.15;
+            rotate: 3deg;
+        }
+    }
+
+    & :nth-child(1) {
+        grid-area: one;
+    }
+
+    & :nth-child(2) {
+        grid-area: two;
+    }
+    & :nth-child(3) {
+        grid-area: three;
+    }
+    & :nth-child(4) {
+        grid-area: four;
+        background-color: aqua;
+        border-bottom-right-radius: 100%
+    }
+    & :nth-child(5) {
+        grid-area: five;
+    }
+    & :nth-child(6) {
+        grid-area: six;
+        background-color: yellow;
+        border-top-right-radius: 100%;
+    }
+    & :nth-child(7) {
+        grid-area: seven;
+    }
+    & :nth-child(8) {
+        grid-area: eight;
+        background-color: red;
+        border-radius: 100%;
+    }
+    & :nth-child(9) {
+        grid-area: nine;
+        border-top-left-radius: 100% ;
+    }
+}
