@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="./main.js" defer></script>
+
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+
+      main {
+        padding: min(5em, 7%);
+      }
+
+      main p {
+        margin-top: 0.35em;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+      }
+
+      nav li {
+        display: flex;
+      }
+
+      nav li.home-li {
+        margin-right: auto;
+      }
+
+      nav {
+        width: 100%;
+      }
+
+      nav a {
+        display: flex;
+        text-decoration: none;
+        color: black;
+        padding: 1em 2em;
+        transition: background-color 0.15s ease;
+      }
+
+      nav a:hover {
+        background-color: red;
+      }
+
+      nav a.active-link {
+        border-bottom: 2px solid red;
+      }
+
+      nav a.accent-link {
+        background-color: rebeccapurple;
+      }
+
+      button {
+        cursor: pointer;
+        padding: 0.2rem;
+        border-radius: 0.3rem;
+        border: 2px solid transparent;
+
+        outline: 2px solid transparent;
+
+        transition: border-color 0.3s ease;
+
+        &:hover {
+          border: dashed red;
+        }
+
+        &:focus {
+          outline: 2px dashed green;
+        }
+
+        & svg {
+          fill: rgb(0, 0, 0);
+        }
+      }
+
+      #open-sidebar-button {
+        display: none;
+      }
+
+      #close-sidebar-button {
+        display: none;
+      }
+
+      #overlay {
+        background: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        inset: 0;
+        z-index: 9;
+        display: none;
+      }
+
+      @media screen and (max-width: 700px) {
+        #open-sidebar-button {
+          display: block;
+        }
+
+        #close-sidebar-button {
+          display: block;
+        }
+        nav {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          height: 100vh;
+          width: min(15em, 100%);
+          z-index: 10;
+          transition: right 0.3s ease;
+          background: white;
+
+          &.show {
+            right: 0;
+          }
+        }
+
+        nav.show ~ #overlay {
+          display: block;
+        }
+
+        nav ul {
+          width: 100%;
+          flex-direction: column;
+
+          & .home-li {
+            margin-right: unset;
+          }
+
+          & li {
+            width: 100%;
+
+            & a {
+              width: 100%;
+              padding-left: 2.5em;
+
+              &.active-link {
+                border-bottom: none;
+              }
+            }
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button id="open-sidebar-button" onclick="openSidebar()" aria-label="open sidebar" aria-expanded="false" aria-controls="navbar">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+      >
+        <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
+      </svg>
+    </button>
+
+    <nav id="navbar">
+      <ul>
+        <li>
+          <button id="close-sidebar-button" onclick="closeSidebar()" aria-label="close sidebar">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"
+              ></path>
+            </svg>
+          </button>
+        </li>
+        <li class="home-li">
+          <a class="active-link" href="#" aria-current="page">Home</a>
+        </li>
+        <li>
+          <a href="#">Home</a>
+        </li>
+        <li>
+          <a href="#">Home</a>
+        </li>
+        <li>
+          <a class="accent-link" href="#">Home</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+  </body>
+</html>

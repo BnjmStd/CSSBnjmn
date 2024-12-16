@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        color-scheme: dark;
+      }
+
+      .logos {
+        overflow: hidden;
+        padding: 60px 0;
+        background: purple;
+
+        position: relative;
+
+        &::after,
+        &::before {
+          position: absolute;
+          width: 250px;
+          height: 100%;
+          top: 0;
+          z-index: 2;
+          content: "";
+        }
+
+        &::before {
+          left: 0;
+          background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0),
+            white,
+            red
+          );
+        }
+
+        &:after {
+          right: 0;
+          background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0),
+            white,
+            red
+          );
+        }
+
+        &:hover {
+          .logo-slide {
+            animation-play-state: paused;
+          }
+        }
+      }
+
+      .logo-slide {
+        display: inline-block;
+        animation: 5s slide infinite linear;
+        white-space: nowrap;
+
+        & img {
+          margin: 0 40px;
+          height: 50px;
+        }
+      }
+
+      @keyframes slide {
+        from {
+          transform: translateX(0);
+        }
+
+        to {
+          transform: translateX(-100%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logos">
+      <div class="logo-slide">
+        <img src="./instam.svg" alt="" />
+        <img src="./instam.svg" alt="" />
+        <img src="./instam.svg" alt="" />
+        <img src="./instam.svg" alt="" />
+        <img src="./instam.svg" alt="" />
+      </div>
+    </div>
+
+    <script>
+      let copy = document.querySelector(".logo-slide").cloneNode(true);
+
+      document.querySelector(".logos").appendChild(copy);
+    </script>
+  </body>
+</html>
