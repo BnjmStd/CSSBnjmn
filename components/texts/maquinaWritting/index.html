@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .typing {
+        background-color: red;
+        display: block; 
+        text-wrap: nowrap;
+        overflow: hidden; 
+        width: 0; 
+        animation: typing 2s steps(20) infinite alternate-reverse;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 28ch;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <span class="typing">Hola señoritos ¿cómo están?</span>
+    <span>hola</span>
+  </body>
+</html>
