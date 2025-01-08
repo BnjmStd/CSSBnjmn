@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+
+            .video {
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                color: white;
+
+                video {
+                    width: 100%;
+                    height: 100%;
+                    aspect-ratio: 9/16;
+                }
+            }
+
+            .info {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 90%;
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .actions {
+                position: absolute;
+                font-size: 0.7rem;
+                font-weight: 300;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+                padding: 1rem;
+
+                & > div {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.2rem;
+                    align-items: center;
+
+                    & i {
+                        font-size: 1.3rem;
+                    }
+                }
+
+                .profile {
+
+                }
+            }
+        }
+    </style>
+
+</head>
+<body>
+    
+    <div class="container">
+        <div class="video">
+            <video src="" autoplay muted></video>
+            <div class="info">
+                <p class="username">
+                    Bnjmn
+                </p>
+                <p class="description">
+                    mejoras aqui que me aburro mucho
+                </p>
+                <p class="song">
+                    <span>
+
+                    </span>
+                </p>
+            </div>
+
+            <div class="actions">
+                <div class="profile">
+                    <img src="" alt="aqui">
+                </div>
+            </div>
+        </div>
+
+        <div class="limit"></div>
+    </div>
+
+
+    <script>
+
+        let positionToAdd = 3
+        const numberOfVideosToAdd = 2
+        const numberOfVideos = 8
+        const $limit = document.querySelector(".limit")
+        const $templateOfVideo = document.querySelector('#template')
+
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        
+                    }
+                })
+            }
+        )
+
+
+    </script>
+
+</body>
+</html>

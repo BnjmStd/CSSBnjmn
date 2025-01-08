@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #000;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+
+        & img {
+          width: 100%;
+          height: auto;
+          border-radius: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Lazy Loading</h2>
+
+    <div class="container">
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=36"
+          alt=""
+        />
+      </div>
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=37"
+          alt=""
+        />
+      </div>
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=29"
+          alt=""
+        />
+      </div>
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=18"
+          alt=""
+        />
+      </div>
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=12"
+          alt=""
+        />
+      </div>
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=31"
+          alt=""
+        />
+      </div>
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=55"
+          alt=""
+        />
+      </div>
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=41"
+          alt=""
+        />
+      </div>
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=14"
+          alt=""
+        />
+      </div>
+      <div class="hidden">
+        <img
+          width="100px"
+          height="100px"
+          class="avatar"
+          data-src="https://i.pravatar.cc/200?img=21"
+          alt=""
+        />
+      </div>
+    </div>
+
+    <script>
+      const $images = document.querySelectorAll("[data-src]");
+
+      const options = {
+        rootMargin: "200px",
+      };
+
+      const callback = (entries, self) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.src = entry.target.getAttribute("data-src");
+
+            self.unobserve(entry.target);
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(callback, options);
+
+      $images.forEach((image) => {
+        observer.observe(image);
+      });
+    </script>
+  </body>
+</html>

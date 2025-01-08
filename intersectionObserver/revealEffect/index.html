@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #333;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+
+        & img {
+          width: 100%;
+          height: 100%;
+          border-radius: 0.5rem;
+        }
+      }
+
+      .full {
+        grid-column: 1/-1;
+      }
+
+      .hidden {
+        & img {
+          opacity: 0;
+          transform: translateY(30%);
+          transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+      }
+
+      .reveal {
+        & img {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Reveal effect</h2>
+
+    <div class="container">
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=36" alt="" />
+      </div>
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=37" alt="" />
+      </div>
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=29" alt="" />
+      </div>
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=18" alt="" />
+      </div>
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=12" alt="" />
+      </div>
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=31" alt="" />
+      </div>
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=55" alt="" />
+      </div>
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=41" alt="" />
+      </div>
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=14" alt="" />
+      </div>
+      <div class="hidden">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=21" alt="" />
+      </div>
+    </div>
+
+    <script>
+      const $images = document.querySelectorAll(".hidden");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal");
+            }
+          });
+        },
+        {
+          rootMargin: "10px",
+        }
+      );
+
+      $images.forEach((image) => {
+        observer.observe(image);
+      });
+
+      document.onvisibilitychange = () => {
+        if (document.visibilityState === "hidden") {
+          // Desconectar el observador si la página está en segundo plano
+          observer.disconnect();
+        } else {
+          // Volver a observar las imágenes al regresar
+          $images.forEach((image) => {
+            observer.observe(image);
+          });
+        }
+      };    
+    </script>
+  </body>
+</html>
+
+<!--
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const sections = document.querySelectorAll("section")
+    const navItems = document.querySelectorAll("header nav a")
+
+    const callback = (entries: any[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navItems.forEach((item) => {
+            if (item.getAttribute("aria-label") == entry.target.id) {
+              item.classList.add("text-blue-500")
+            } else {
+              item.classList.remove("text-blue-500")
+            }
+          })
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(callback, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.3,
+    })
+
+    sections.forEach((section) => {
+      observer.observe(section)
+    })
+
+    // Cleanup function
+    document.onvisibilitychange = () => {
+      if (document.visibilityState === "hidden") {
+        observer.disconnect()
+      } else {
+        sections.forEach((section) => {
+          observer.observe(section)
+        })
+      }
+    }
+  })
+</script>
+
+<style>
+  nav {
+    animation: nav-shadown 1s linear both;
+    animation-timeline: scroll();
+    animation-range: 0 100px;
+  }
+
+  nav {
+    @apply dark:bg-gray-800/90 bg-white/50;
+  }
+
+  @keyframes nav-shadown {
+    0% {
+      @apply dark:bg-gray-800/0 bg-white/0;
+    }
+    to {
+      @apply shadow-lg ring-1 backdrop-blur ring-white/10;
+    }
+  }
+</style>
+
+
+-->
