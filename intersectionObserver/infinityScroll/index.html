@@ -1,131 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+
+        .video {
+          width: 100%;
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          color: white;
+
+          video {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 9/16;
+          }
         }
 
-        .container {
+        .info {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 90%;
+          padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .actions {
+          position: absolute;
+          font-size: 0.7rem;
+          font-weight: 300;
+          right: 0;
+          bottom: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.5rem;
+          padding: 1rem;
+
+          & > div {
             display: flex;
             flex-direction: column;
+            gap: 0.2rem;
+            align-items: center;
 
-            .video {
-                width: 100%;
-                height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: relative;
-                color: white;
+            & i {
+              font-size: 1.3rem;
+            }
+          }
 
-                video {
+          .profile {
+            --var-profile-size: 2rem;
+            --var-follow-size: 1.2rem;
+
+            width: var(--var-profile-size);
+            height: var(--var-profile-size);
+            position: relative;
+            outline: 3px solid white;
+            outline-offset: -1px;
+            border-radius: 100%;
+
+                img {
+                    border-radius: var(--var-profile-size);
                     width: 100%;
                     height: 100%;
-                    aspect-ratio: 9/16;
                 }
-            }
 
-            .info {
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 90%;
-                padding: 1rem;
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .actions {
-                position: absolute;
-                font-size: 0.7rem;
-                font-weight: 300;
-                right: 0;
-                bottom: 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 1.5rem;
-                padding: 1rem;
-
-                & > div {
+                &::after {
+                    content: "+";
+                    width: var(--var-follow-size);
+                    height: var(--var-follow-size);
                     display: flex;
-                    flex-direction: column;
-                    gap: 0.2rem;
+                    justify-content: center;
                     align-items: center;
-
-                    & i {
-                        font-size: 1.3rem;
-                    }
-                }
-
-                .profile {
+                    border-radius: var(--var-follow-size);
+                    position: absolute;
+                    background-color: red;
+                    top: calc(var(--var-profile-size) - var(--var-follow-size) / 2);
+                    font-size: 1rem;
 
                 }
-            }
+          }
         }
+
+        .limit {
+            width: 100%;
+            height: 100vh;
+            background-color: red;
+        }
+      }
     </style>
-
-</head>
-<body>
-    
+  </head>
+  <body>
     <div class="container">
-        <div class="video">
-            <video src="" autoplay muted></video>
-            <div class="info">
-                <p class="username">
-                    Bnjmn
-                </p>
-                <p class="description">
-                    mejoras aqui que me aburro mucho
-                </p>
-                <p class="song">
-                    <span>
 
-                    </span>
-                </p>
-            </div>
-
-            <div class="actions">
-                <div class="profile">
-                    <img src="" alt="aqui">
-                </div>
-            </div>
-        </div>
-
-        <div class="limit"></div>
     </div>
 
+        
+        <template id="template">
+            <div class="video">
+                <video src="" autoplay muted></video>
+                <div class="info">
+                  <p class="username">Bnjmn</p>
+                  <p class="description">mejoras aqui que me aburro mucho</p>
+                  <p class="song">
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="m20.43 5.76-8-3.56a1 1 0 0 0-.82 0l-8 3.56a1 1 0 0 0-.59.9c0 2.37.44 10.8 8.51 15.11a1 1 0 0 0 1 0c8-4.3 8.58-12.71 8.57-15.1a1 1 0 0 0-.67-.91zm-4.43 7h-3v3h-2v-3H8v-2h3v-3h2v3h3z"
+                        ></path>
+                      </svg>
+                    </span>
+                  </p>
+                </div>
+        
+                <div class="actions">
+                  <div class="profile">
+                    <img src="" alt="aqui" />
+                  </div>
+        
+                  <div class="like">
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="m20.43 5.76-8-3.56a1 1 0 0 0-.82 0l-8 3.56a1 1 0 0 0-.59.9c0 2.37.44 10.8 8.51 15.11a1 1 0 0 0 1 0c8-4.3 8.58-12.71 8.57-15.1a1 1 0 0 0-.67-.91zm-4.43 7h-3v3h-2v-3H8v-2h3v-3h2v3h3z"
+                        ></path>
+                      </svg>
+                    </span>
+                  </div>
+        
+                  <div class="comments">
+                    <span>
+                        <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="m20.43 5.76-8-3.56a1 1 0 0 0-.82 0l-8 3.56a1 1 0 0 0-.59.9c0 2.37.44 10.8 8.51 15.11a1 1 0 0 0 1 0c8-4.3 8.58-12.71 8.57-15.1a1 1 0 0 0-.67-.91zm-4.43 7h-3v3h-2v-3H8v-2h3v-3h2v3h3z"
+                              ></path>
+                            </svg>
+                    </span>
+        
+                  </div>
+        
+                  <div class="save">
+                    <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="m20.43 5.76-8-3.56a1 1 0 0 0-.82 0l-8 3.56a1 1 0 0 0-.59.9c0 2.37.44 10.8 8.51 15.11a1 1 0 0 0 1 0c8-4.3 8.58-12.71 8.57-15.1a1 1 0 0 0-.67-.91zm-4.43 7h-3v3h-2v-3H8v-2h3v-3h2v3h3z"
+                          ></path>
+                        </svg>
+                  </div>
+        
+                  <div class="share">
+                    <span>
+                        <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="m20.43 5.76-8-3.56a1 1 0 0 0-.82 0l-8 3.56a1 1 0 0 0-.59.9c0 2.37.44 10.8 8.51 15.11a1 1 0 0 0 1 0c8-4.3 8.58-12.71 8.57-15.1a1 1 0 0 0-.67-.91zm-4.43 7h-3v3h-2v-3H8v-2h3v-3h2v3h3z"
+                              ></path>
+                            </svg>
+                    </span>
+                  </div>
+        
+                  <div class="music">
+                    <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="m20.43 5.76-8-3.56a1 1 0 0 0-.82 0l-8 3.56a1 1 0 0 0-.59.9c0 2.37.44 10.8 8.51 15.11a1 1 0 0 0 1 0c8-4.3 8.58-12.71 8.57-15.1a1 1 0 0 0-.67-.91zm-4.43 7h-3v3h-2v-3H8v-2h3v-3h2v3h3z"
+                          ></path>
+                        </svg>
+        
+                    </span>
+                  </div>
+                </div>
+              </div>
+    </template>
+    
+    <div class="limit"></div>
 
     <script>
+      let positionToAdd = 3;
+      const numberOfVideosToAdd = 2;
+      const numberOfVideos = 8;
+      const $limit = document.querySelector(".limit");
+      const $templateOfVideo = document.querySelector("#template");
 
-        let positionToAdd = 3
-        const numberOfVideosToAdd = 2
-        const numberOfVideos = 8
-        const $limit = document.querySelector(".limit")
-        const $templateOfVideo = document.querySelector('#template')
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            for (let i = 0; i < numberOfVideosToAdd; i++) {
+                positionToAdd++
+                const $video = $templateOfVideo.textContent
+                    .cloneNode(true)
+                    .querySelector(".video")
 
+                const numberOfVideo = Math.floor(Math.random() + (numberOfVideos - 1))
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        
-                    }
-                })
+                $video
+                    .querySelector("video")
+                    .setAttribute("src", `src/${numberOfVideo}.mp4`)
+
+                $limit.parentNode.insertBefore($video, $limit)
             }
-        )
+          }
+        },
+    {
+        rootMargin: "50%"
+    });
+      });
 
 
+      observer.observe($limit)
     </script>
-
-</body>
+  </body>
 </html>
