@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+
+
+        body {
+            background-size: cover;
+        }
+
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100dvh;
+        }
+
+        .card-wrapper {
+            position: relative;
+        }
+
+        .card {
+            position: relative;
+        }
+
+
+        .svg-mask {
+            width: 80vw;
+            height: 80vh;
+            background-image: url("./image.png");
+            background-position: 0%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: scroll;
+
+            border-top-left-radius: 2.5rem;
+            border-top-right-radius: 2.5rem;
+            border-bottom-left-radius: 2.5rem;
+            position: relative;
+        }
+
+
+
+
+    </style>
+
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="card-wrapper">
+        <div class="card">
+          <div class="svg-mask"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
