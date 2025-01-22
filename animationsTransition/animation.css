@@ -1,0 +1,114 @@
+/*
+
+transform aplica transformaciones geométricas a un elemento
+
+
+translate(x,y): mueve un elemento horizontal y verticalmente
+scale(x,y): escala un elemento un por un factor específico en las direcciones horizontales y verticales si especifica solo un valor, escala en ambas direcciones
+rotate(deg): gira un elemento en el sentido de las agujas del reloj desde su posición actual
+skew(x,y)
+
+
+*/
+
+body {
+    display: grid;
+    height: 100dvh;
+}
+
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    
+
+    transition-property: transform;
+    transition-duration: 1s;
+    transition-timing-function: ease;
+    transition-delay: 0;
+
+
+    &:hover {
+        transform: translate(100px, 100px) rotate(45deg);
+    }
+}
+
+.box2 {
+    display: none;
+    height: 200px;
+    width: 200px;
+    background: yellow;
+    transform: translateX(70vw);
+    animation: moveRotate 2s ease infinite alternate-reverse;
+}
+
+
+@keyframes moveRotate {
+    to {
+        transform: translateX(-80vw) rotate(360deg) scale(5);
+    }
+}
+
+
+/* animation property 
+
+
+h1 {
+    animation-name: especifica el nombre del keyframe;
+    animation-duration: determina el tiempo que tarda una animación en completar;
+    animation-timing-function: define la curva de velocidad de la animación que controla como progresa la animación a través del  ;
+    animation-delay:  retraso del inicio de la animación;
+    animation-iteration-count: determina cuantas veces se repite una animación;
+    animation-direction: define si la animación se ejecutara normalmente o en reversa o alternada  ;
+    animation-fill-mode: ;
+    animation-play-state: reanudar o pausar ;
+}
+
+*/
+
+
+.loading {
+    height: 50px;
+    width: 50px;
+    border: 5px solid cyan;
+    border-radius: 3px;
+    box-shadow: 0 0 8px cyan, 0 0  8px cyan inset;
+    animation: loading 2s ease-in infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0);
+    }
+
+    33% {
+        transform: rotateX(180deg) rotateY(0) rotateZ(0deg);
+    }
+
+    66% {
+        transform: rotateX(180deg) rotateY(180deg) rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateX(180deg) rotateY(180deg) rotateZ(180deg);
+    }
+}
+
+
+.block {
+    animation: scrolling linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 50%;
+}
+
+@keyframes scrolling {
+    from {
+        opacity: 0;
+        scale: .5;
+    }
+    to {
+        opacity: 1;
+        scale: 1;
+    }
+}

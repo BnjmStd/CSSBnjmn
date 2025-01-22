@@ -1,11 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+
+    <style>
+      button {
+        display: grid;
+        grid-template-areas: "stack";
+        align-items: center;
+        justify-content: center;
+
+        background-color: #1d1d1d;
+        color: #ffffff;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 2rem;
+        font-size: 1rem;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+
+        &:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        .spinner {
+          visibility: hidden;
+          grid-area: stack;
+
+          & img {
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+        }
+
+        .text {
+          grid-area: stack;
+        }
+
+        &.loading {
+          .text {
+            grid-area: stack;
+            visibility: hidden;
+          }
+
+          .spinner {
+            opacity: 1;
+            visibility: visible;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="">
+      <span class="text"> Save Item </span>
+
+      <span aria-label="Saving Item" class="spinner">
+        <img src="./loader.svg" alt="" />
+      </span>
+    </button>
+
+    <script>
+      const $button = document.querySelector("button");
+
+      $button.addEventListener("click", () => {
+        $button.classList.toggle("loading");
+      });
+    </script>
+  </body>
 </html>
