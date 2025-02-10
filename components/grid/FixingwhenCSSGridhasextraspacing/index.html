@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .grid-layout {
+        outline: 3px solid chartreuse;
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        align-content: start;
+      }
+
+      .main-layout {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 1rem;
+      }
+
+      html {
+        color-scheme: dark;
+      }
+
+      body {
+        font-family: system-ui;
+        line-height: 1.6;
+      }
+
+      nav {
+        background: hsl(0 0% 50% / 0.2);
+        border-radius: 10px;
+        height: 75vh;
+      }
+
+      nav > ul {
+        list-style: none;
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      nav a {
+        color: white;
+
+        &:hover,
+        &:focus-visible {
+          color: dodgerblue;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="main-layout">
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Articles</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="grid-layout">
+        <section>
+          <h2>Our Mission</h2>
+          <p>
+            At our core, we believe in creating innovative solutions that
+            transform the way people interact with technology. Our dedicated
+            team works tirelessly to push the boundaries of what's possible,
+            always keeping our users' needs at the forefront of everything we
+            do.
+          </p>
+        </section>
+        <section>
+          <h2>Services</h2>
+          <p>
+            We offer a comprehensive suite of services designed to meet the
+            diverse needs of our clients. From custom software development to
+            cloud solutions, our expertise spans across multiple domains,
+            ensuring we can tackle any challenge that comes our way.
+          </p>
+        </section>
+        <section>
+          <h2>Our Team</h2>
+          <p>
+            Behind every successful project is our exceptional team of
+            passionate individuals. Each member brings unique skills and
+            perspectives, creating a dynamic environment where creativity and
+            innovation flourish. We believe in fostering collaboration and
+            continuous learning.
+          </p>
+        </section>
+        <section>
+          <h2>Contact Us</h2>
+          <p>
+            We're always excited to hear from potential clients and partners who
+            share our vision for innovation. Whether you have a specific project
+            in mind or just want to learn more about our services, our team is
+            ready to engage in meaningful discussions about how we can help.
+          </p>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
