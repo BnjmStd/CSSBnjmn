@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de Dialog</title>
+    <style>
+        dialog {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            float: right;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="document.getElementById('myDialog').showModal()">Abrir Dialog</button>
+
+    <dialog id="myDialog">
+        <button onclick="this.parentElement.close()">Cerrar</button>
+        <p>Este es un diálogo con un botón flotante a la derecha.</p>
+    </dialog>
+
+</body>
+</html>

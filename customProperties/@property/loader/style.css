@@ -1,0 +1,49 @@
+@property --escalar-elemento {
+    syntax: "<transform-function>";
+    inherits: true;
+    initial-value: scale(0.5);
+}
+
+@keyframes escalar {
+    0% {
+        --escalar-elemento: scale(.5);
+    }
+
+    100% {
+        --escalar-elemento: scale(1.5);
+    }
+}
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-parent {
+    display: grid;
+    gap: 3rem;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    animation: escalar 1s infinite;
+}
+
+.loader {
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    background-color: seagreen;
+
+}
+
+.loader-1 {
+    transform: var(--escalar-elemento);
+}

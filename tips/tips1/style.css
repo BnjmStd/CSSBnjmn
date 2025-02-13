@@ -1,0 +1,39 @@
+input {
+    caret-color: red;
+}
+
+input[type="radio"] {
+    accent-color: green;
+}
+
+p {
+    user-select: none;
+}
+
+/* enfasis texto */
+
+span {
+    text-emphasis: '💕';
+}
+
+/* efecto blur */
+
+.text {
+    backdrop-filter: blur(10px);
+}
+
+
+/*aprovechar el espacio con texto -*/ 
+
+.container {
+    width: 100px;
+    border: 1px solid black;
+
+    hyphens: auto;
+}
+
+/* renderizado de img */
+
+img {
+    image-rendering: pixelated;
+}

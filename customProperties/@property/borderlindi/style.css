@@ -1,0 +1,50 @@
+@property --angle {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0deg;
+}
+
+:root {
+    color-scheme: dark;
+}
+
+body {
+    display: grid;
+    place-content: center;
+    height: 100dvh;
+}
+
+.box {
+    width: 200px;
+    aspect-ratio: 1;
+    border-radius: 1rem;
+    background-color: aliceblue;
+
+
+
+    position: relative;
+    &::after, 
+    &::before {
+        content: '';
+        background-color: red;
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background-image: conic-gradient(from var(--angle), #ea2dd8, #001bf1, #ea2dd8);
+        animation: autorotate 2s linear infinite;
+        z-index: -1;
+    }
+
+    &::after {
+        filter: blur(60px);
+    }
+
+}
+
+@keyframes autorotate {
+    to {
+        --angle: 360deg;
+    }
+
+}
+
