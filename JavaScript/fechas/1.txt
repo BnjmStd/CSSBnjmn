@@ -1,0 +1,25 @@
+Ejercicio: Manipulación de Fechas en JavaScript
+Objetivo: Aprender a trabajar con el objeto Date en JavaScript, incluyendo la creación de fechas, extracción de partes de una fecha, y modificación de fechas.
+
+Parte 1: Creación y Extracción de Fechas
+Crea una nueva instancia de Date para representar tu cumpleaños (por ejemplo, const miCumpleaños = new Date(año, mes, día)).
+
+Extrae y muestra en consola:
+
+El día de la semana en que naciste (usa getDay()).
+El día del mes (usa getDate()).
+El mes (usa getMonth() y recuerda que los meses van de 0 a 11).
+El año (usa getFullYear()).
+Muestra la fecha completa en un formato legible (usa toDateString()).
+
+Parte 2: Modificación de Fechas
+Toma la fecha de tu cumpleaños y añádele 100 días (usa setDate() y getDate()).
+Muestra la nueva fecha en consola.
+Calcula y muestra en consola cuántos días faltan para tu próximo cumpleaños desde la fecha actual.
+Pista: Usa new Date() para obtener la fecha actual, y realiza operaciones aritméticas con fechas (getTime()).
+Parte 3: Fechas Especiales
+Crea una función esFinDeSemana(fecha) que reciba una fecha y devuelva true si cae en fin de semana (sábado o domingo), o false si no.
+Prueba la función con al menos tres fechas diferentes.
+Parte 4: Reto Adicional (Opcional)
+Escribe una función diasEntreFechas(fecha1, fecha2) que reciba dos objetos Date y devuelva el número de días completos entre ambas fechas.
+Prueba la función con fechas de eventos importantes (por ejemplo, días entre Año Nuevo y tu cumpleaños).

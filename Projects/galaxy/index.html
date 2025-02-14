@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: #000;
+      }
+
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="spaceCanvas"></canvas>
+
+    <script>
+      const canvas = document.getElementById("spaceCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const stars = [];
+      const numStars = 500;
+      let galaxy = createGalaxy();
+
+      // Creación de las estrellas
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5,
+          alpha: Math.random(),
+          speed: Math.random() * 0.5,
+        });
+      }
+
+      function createGalaxy() {
+        const galaxyParticles = [];
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const numParticles = 1000;
+        for (let i = 0; i < numParticles; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const distance = Math.pow(Math.random(), 2) * 300; // Distribución cuadrática para más densidad en el centro
+          galaxyParticles.push({
+            x: centerX + Math.cos(angle) * distance,
+            y: centerY + Math.sin(angle) * distance,
+            radius: Math.random() * 1.5,
+            alpha: Math.random() * 0.8 + 0.2,
+          });
+        }
+        return galaxyParticles;
+      }
+
+      function drawGalaxy() {
+        for (let particle of galaxy) {
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${particle.alpha})`;
+          ctx.fill();
+        }
+      }
+
+      function drawStars() {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+        for (let star of stars) {
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+          ctx.fill();
+        }
+      }
+
+      function updateStars() {
+        for (let star of stars) {
+          star.alpha += (Math.random() - 0.5) * 0.05;
+          star.alpha = Math.min(Math.max(star.alpha, 0), 1);
+          star.y += star.speed;
+          if (star.y > canvas.height) {
+            star.y = 0;
+          }
+        }
+      }
+
+      function drawNebula() {
+        const gradient = ctx.createRadialGradient(
+          canvas.width / 2,
+          canvas.height / 2,
+          50,
+          canvas.width / 2,
+          canvas.height / 2,
+          canvas.width / 1.5
+        );
+        gradient.addColorStop(0, "rgba(128, 0, 128, 0.5)");
+        gradient.addColorStop(1, "rgba(0, 0, 64, 0)");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawNebula();
+        drawGalaxy();
+        drawStars();
+        updateStars();
+        requestAnimationFrame(animate);
+      }
+      animate();
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        galaxy = createGalaxy();
+        drawStars();
+      });
+    </script>
+  </body>
+</html>

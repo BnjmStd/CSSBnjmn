@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .parallax-container {
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        perspective: 1px;
+        transform-style: preserve-3d;
+      }
+
+      .parallax-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      .bg {
+        transform: translateZ(-2px) scale(3);
+        background: linear-gradient(45deg, #4f46e5, #7c3aed);
+        z-index: -1;
+      }
+
+      .content {
+        transform: translateZ(-1px) scale(2);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+      }
+
+      .content h1 {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
+
+      .cards {
+        transform: translateZ(0);
+        min-height: 200vh;
+        display: flex;
+        flex-direction: column;
+        gap: 100vh;
+        padding: 100vh 2rem 2rem;
+      }
+
+      .card {
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
+
+      .card h2 {
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+      }
+
+      .card p {
+        color: #6b7280;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="parallax-container">
+      <div class="parallax-layer bg"></div>
+      <div class="parallax-layer content">
+        <h1>Parallax Scrolling</h1>
+        <p>Scroll down to see the effect</p>
+      </div>
+      <div class="parallax-layer cards">
+        <div class="card">
+          <h2>Layer 1</h2>
+          <p>Moves slower</p>
+        </div>
+        <div class="card">
+          <h2>Layer 2</h2>
+          <p>Moves faster</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
