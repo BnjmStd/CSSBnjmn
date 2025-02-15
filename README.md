@@ -1,7 +1,11 @@
 # Bienvenido a la guías. Usa los siguientes enlaces para navegar:
 - [CSS](./readme/css/css.md)
   - [Pseudoclases](./readme/css/pseudoclases.md)
+  - [BEM](./readme/css/bemApuntes.md)
 - [Git](./readme/git/git.md)
+  - [Info-user](./readme/git/definicionUsuarioApp.md)
+  - [Repositorio](./readme/git/repositorio.md)
+  - [Cuenta-trabajo](./readme/git/twoAccountHost.md)
+  - [Fork-](./readme/git/fork.md)
 - [Docker](./readme/docker/docker.md)
-- [CSS-BEM](./readme/bem/bemApuntes.md)
 - [Mermaid](./readme/mermaid/mermaidGuia.md)
