@@ -1,4 +1,4 @@
-no tener problemas con 
+no tener problemas con
 especificidad, cascada y eso
 
 B -> Block
@@ -7,7 +7,7 @@ M -> Modifier
 
 su principal caracteristica es su nomesclatura, y evitar problemas con heerencia especificidad y cascada
 es una metodologia para crear componentes reutilizables
-mantener codigo claro y manter la especificidad al minimo, a tener un codigo limpio 
+mantener codigo claro y manter la especificidad al minimo, a tener un codigo limpio
 
 # ¿que es un bloque?
 
@@ -17,7 +17,7 @@ un header un nav un form o un contenedor
 
 # ¿como nombramos bloques?
 
-se les nombra con la funcionalidad del bloque 
+se les nombra con la funcionalidad del bloque
 si es un navbar, se le asigna navbar y asi
 
 # ¿qué es un elemento?
@@ -28,7 +28,7 @@ Un elemento en BEM, depende directamente de un Bloque, por lo que este debe esta
 
 Los elementos se les nombra con el nombre del bloque contenedor, dos guiones bajos y la descripción del elemento.
 
-#  ¿qué es un modificador?
+# ¿qué es un modificador?
 
 un modificador en BEM puede ser un bloque o un elemento, estos indican una modificación a dicho elemento o bloque
 
@@ -38,31 +38,35 @@ a los modificadores se les nombra, con el nombre que tenian anteriormente (bloqu
 
 un modificador agrega una funcionalidad extra
 
-
-# curiosidades 
-
+# curiosidades
 
 ## ¿qué pasa si tengo un hijo dentro de un elemento?
 
 ```html
-
 <header class="block">
-    <section class="block__elem1">
-        <div class="block__elem2">
-
-        </div>
-    </section>
-    <div class="block__elem3">
-    </div>
+  <section class="block__elem1">
+    <div class="block__elem2"></div>
+  </section>
+  <div class="block__elem3"></div>
 </header>
-
 ```
-
 
 mix en bem
 
 ```html
-
 <div class="block1 block2"></div>
+```
 
+```html
+<header class="header">
+  <nav class="nav">
+    <div class="nav__logo">
+      <p class="nav__parap"></p>
+    </div>
+
+    <div class="nav__links">
+      <a href="" class="nav__link nav__link--color-red"></a>
+    </div>
+  </nav>
+</header>
 ```
