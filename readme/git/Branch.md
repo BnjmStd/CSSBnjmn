@@ -11,6 +11,12 @@ git branch *name # crear la rama
 git switch *name # cambiar rama
 ```
 
+### Eliminar ramas
+
+```bash
+git branch -d name
+```
+
 ### Unión de ramas
 
 1. Estar en la rama destino

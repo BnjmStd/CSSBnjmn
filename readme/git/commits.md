@@ -92,3 +92,157 @@ git branch -f main head~3
 
 >[!NOTE]
 > Mueve (force) la rama main 3 padres por detras de head
+
+# revirtiendo cambios
+
+```bash
+git reset # reescribe historia
+git revert # reescribe la historia dejando registro
+```
+
+# git cherry-pick
+
+>[!NOTE]
+> Quiero copiar una serie de commit sobre mi ubi actual checkout
+
+```bash
+git cherry-pick <commit> <commit> <commit>
+```
+
+>[!WARNING]
+>  cherry-pick trae un commit de cualquier parte del arbol sobre head (siempre que ese otro commit no sea un ancestro de head)
+
+# rebase interactivo
+
+```bash
+git commit -i --amend
+```
+
+
+# Git Tag
+
+```bash
+git tag v1 c1
+head ~1^2~1
+```
+
+# git describe
+
+git describe proporciona una referencia legible basada en el tag más cercano. Si tu commit tiene un tag, git describe devolverá ese tag. Si no, mostrará el tag más cercano seguido del número de commits desde ese tag y el hash corto del commit actual.
+
+```bash
+git describe <ref>
+```
+
+>[!WARNING]
+> Para usar git describe, es recomendable tener al menos un tag en el repositorio, ya que este comando se basa en ellos para generar una descripción del estado actual del repositorio.
+
+>[!IMPORTANT]
+> El formato de salida <tag>_<n°Commit>_g<hash>
+
+
+# Git pull
+
+El comando git pull se usa para actualizar la rama local con los últimos cambios de un repositorio remoto.
+
+>[!IMPORTANT]
+> Es un atajo para hacer `git fetch` seguido de un merge.
+
+- Funcionamiento
+
+```bash
+git pull origin main
+```
+
+Git realiza dos pasos:
+
+- git fetch origin main → Descarga los cambios más recientes de la rama main en el remoto origin.
+git merge origin/main → Fusiona esos cambios en tu rama actual.
+- Si hay cambios que no entran en conflicto con tu código, el merge se hace automáticamente. Si hay conflictos, Git te pedirá que los resuelvas antes de completar la fusión.
+
+## ejemplos de uso
+
+1. Traer cambios y fusionarlos automaticamente (default)
+
+```bash
+git pull origin main 
+```
+
+esto intentará hacer un merge automático si no hay conflictos
+
+2. Evitar el merge automatico y traer solo los cambios (equivalente a `git fetch`)
+
+```bash
+git pull --no-commit
+```
+
+esto deja los cambios descargados sin hacer el merge inmediato 
+
+3. Hacer un rebase en lugar de un merge
+
+```bash
+git pull --rebase origin main
+```
+
+esto hace que apliques tus cambios sobre los ultimos cambios remotos, evitando la creación de un commit merge 
+
+4. solo descargar los cambios sin aplicarlos (equivalente al `git fetch`)
+
+```bash
+git pull --ff-only
+```
+
+
+>[!IMPORTANT]
+> si quieres revisar los cambios antes de fusionarlos, lo mejor es hacer
+
+```bash
+git fetch
+git diff origin/main
+git merge origin/main
+```
+
+| COMANDO  | ¿QUE HACE? |
+|:------------- |:---------------:| 
+| `git fetch`       | Descarga cambios remotos sin aplicarlos           |
+| `git pull`         | Descarga cambia y los fusiona automaticamente en la rama actual          | 
+
+
+
+
+# trackear remoto
+
+En Git, trackear un remoto significa que una rama local está vinculada a una rama remota en un repositorio remoto. Esto permite que los comandos como ``git pull`` y ``git push`` sepan automáticamente de dónde obtener o a dónde enviar los cambios.
+
+1. Una forma
+
+```bash
+git chckout -b *foo
+
+git branch -u o/main foo
+
+```
+
+>[!IMPORTANT]
+>Si estas parado ahí deberias usar
+
+```bash
+git branch -u o/main
+```
+
+2. 2da forma
+
+Si quieres crear manualmente una rama local que siga (trackee) una rama remota, usa:
+
+```bash 
+git checkout --track origin/otra-rama
+```
+
+o su equivalente moderno
+
+```bash 
+git switch --track origin/otra-rama
+```
+
+>[!TIPS]
+> Esto crea una rama local llamada otra-rama y la vincula a origin/otra-rama.
