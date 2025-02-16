@@ -1,5 +1,12 @@
 # Fork
 
+>[!IMPORTANT]
+> ISSUES = PROBLEMAS
+
+
+>[!IMPORTANT]
+> PR = PULL REQUEST
+
 - Genero un fork
 
 - Clono repositorio

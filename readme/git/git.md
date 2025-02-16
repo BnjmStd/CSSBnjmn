@@ -37,3 +37,10 @@ Github permite
 
 > [!NOTE]
 > Git es el sistema de control de versiones que rastrea los cambios que hacemos en el código.
+
+
+## Ver que editor esta configurado en git
+
+```bash
+git config  --global core.editor
+```

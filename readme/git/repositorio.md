@@ -62,70 +62,6 @@ git commit
 
 - cada commit representa un conjunto de cambios
 
-```bash
-git commit -m
-```
-
-- m (message): un buen mensaje descriptivo
-
-## Para files que ya tienen seguimiento
-
-
-```bash
-git commit -am " "
-```
-
-### Editando un commit
-
-```bash
-git commit --amend
-```
-
->[!IMPORTANT]
-> También se puede modificar archivos
-
-```bash
-git add
-git commit -ammend
-```
-
-### Visualizar contenido de un commit
-
-```bash
-git show *hash 
-```
-
-otra alternativa es:
-
-
-```bash 
-git log -n 1
-```
-
->[!IMPORTANT]
-> HEAD representa el commit donde nos encontramos
-
-Por ejemplo si queremos mostrar el penultimo commit 
-
-```bash
-git show head~1
-```
-
-### Deshaciendo un commit 
-
-```bash
-git reset --soft HEAD~1
-```
-
->[!WARNING]
-> Verifica el commit donde te encuentras
-
-### Deshacer un commit sin editar el historial de combios
-
-```bash
-git revert head
-```
-
 ## Histórico de cambios
 
 ```bash
@@ -138,6 +74,8 @@ git log -n 2
 git log file
 
 git log --oneline
+
+git log --oneline --graph
 ```
 
 ## Retroceder cambios
@@ -148,6 +86,21 @@ git restore file
 
 ## Removiendo archivos del area de preparación
 
-```
+```bash
 git reset file
+```
+
+## Resolviendo conflictos de unión (merge conflict)
+
+```bash
+git revert head
+git add .
+git revert --continue
+```
+
+
+## Ver diferencias 
+
+```bash
+git diff
 ```
