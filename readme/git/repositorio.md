@@ -104,3 +104,25 @@ git revert --continue
 ```bash
 git diff
 ```
+
+## si quieres ver las diferencias entre una rama y otra usa
+
+Si quieres ver qué commits tiene vv que no están en main:
+
+```bash
+git log main..vv --oneline
+```
+
+Esto mostrará una lista de commits que están en vv pero no en main.
+
+Si quieres ver los commits que están en main pero no en vv:
+
+```bash
+git log vv..main --oneline
+```
+
+### ver las diferencias entre archivos
+
+```bash
+git diff main..vv
+```

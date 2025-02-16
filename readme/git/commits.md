@@ -246,3 +246,66 @@ git switch --track origin/otra-rama
 
 >[!TIPS]
 > Esto crea una rama local llamada otra-rama y la vincula a origin/otra-rama.
+
+
+## Ver qué ramas están trackeando un remoto
+
+Puedes ver qué ramas locales están siguiendo (trackeando) ramas remotas con:
+
+```bash
+git branch -vv
+```
+
+## configurar manualmente el tracking de una rama
+
+Si ya tienes una rama local pero no está conectada a una rama remota, puedes configurarla con:
+
+```bash
+git branch --set-upstream-to=origin/otra-rama
+```
+
+o en su versión corta:
+
+```bash
+git branch -u origin/otra-rama
+```
+
+Ahora, al hacer git pull o git push en otra-rama, Git sabrá de dónde traer o a dónde enviar los cambios.
+
+
+## eliminar el tracking de una rama
+
+```bash
+git branch --unset-upstream
+```
+
+>[!NOTE]
+>Trackear un remoto significa que una rama local está vinculada a una rama remota, lo que facilita la sincronización de cambios sin necesidad de especificar el remoto cada vez que hagas git pull o git push
+
+
+# Combinando commits usando squash
+
+- Es buena práctica hacer commitpequeños
+- si algo no funciona es más sencillo darle pa atrás
+- los equilibrios son importantes aveces muchos commit pequeños pueden hacer crecer enormemente el historico de cambios
+
+>[!NOTE]
+> SQUASHING
+
+## Pasos
+
+1. `git switch -c squash`
+2. `git log`
+3. combinar commits ` git rebase -i head~3`
+
+```txt
+pick commit 1
+squash commit 2
+squash commit 3
+```
+
+4. ahora necesitamos un mensaje commit
+
+5. `git switch master`
+
+6. `git merge squash`

@@ -1,4 +1,5 @@
 # Bienvenido a la guías. Usa los siguientes enlaces para navegar:
+
 - [CSS](./readme/css/css.md)
   - [Pseudoclases](./readme/css/pseudoclases.md)
     - [State-Pseudo-Classes](./readme/css/pseudoClases/deEstado.md)
@@ -20,5 +21,6 @@
   - [Branches](./readme/git/Branch.md)
   - [merging](./readme/git/merging.md)
   - [Fork-](./readme/git/fork.md)
+  - [Params](./readme/git/params.md)
 - [Docker](./readme/docker/docker.md)
 - [Mermaid](./readme/mermaid/mermaidGuia.md)
