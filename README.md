@@ -20,6 +20,9 @@
   - [colors](./readme/css/colores.md)
   - [Tips-responsive](./readme/css/tipsResponsive.md)
   - [tips-](./readme/css/tips.md)
+  - [flex]
+  - [grid]
+  - [animation](./readme/css/animationsTransition/animation.md)
 - [Git](./readme/git/git.md)
   - [Info-user](./readme/git/definicionUsuarioApp.md)
   - [Repositorio](./readme/git/repositorio.md)
