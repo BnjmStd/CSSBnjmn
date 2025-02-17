@@ -24,3 +24,5 @@
   - [Params](./readme/git/params.md)
 - [Docker](./readme/docker/docker.md)
 - [Mermaid](./readme/mermaid/mermaidGuia.md)
+- [Python](./readme/)
+- [Unix](./readme/unix/unix.md)
