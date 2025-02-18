@@ -309,3 +309,27 @@ squash commit 3
 5. `git switch master`
 
 6. `git merge squash`
+
+# Guardando los Cambios sin Hacer Commit: Git Stash 
+
+> [!WARNING]
+> es como esconder cambios, pero es local!
+
+**ejemplo**
+
+```bash
+git switch -c stash
+
+# haces tus cambios
+
+git stash save "escribiendo parrafo"
+
+
+# para ver el cambio de stash
+
+git stash list 
+
+# para colocarlos en el lugar de trabajo y borrar el stash (aplica y elimina)
+
+git stash pop
+```

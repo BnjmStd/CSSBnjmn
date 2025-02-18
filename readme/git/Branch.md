@@ -54,6 +54,41 @@ git commit
 # ok!
 ```
 
+## renombrar ramas
+
+```bash
+git branch -m <name>
+```
+
+**si quieres renombrar una rama distinta a la actual**
+
+```bash
+git branch -m old-name new-name
+```
+
+>[!WARNING]
+>  Importante si ya has subido la rama a remoto
+
+**Si la rama que renombraste ya estaba en GitHub/GitLab u otro remoto, el cambio no se reflejará automáticamente en el servidor. Debes hacer lo siguiente:**
+
+1. ELIMINAR EL NOMBRE VIEJO EN EL REMOTO
+
+```bash
+git push origin --delete old-name
+```
+
+2. SUBIR LA RAMA CON EL NUEVO NOMBRE
+```bash
+git push origin new-name
+```
+
+3. Actualizar el seguimiento de la rama
+
+```bash
+git branch --unset-upstream
+git branch --set-upstream-to=origin/new-name
+```
+
 ## Listar  ramas 
 
 ```bash
@@ -93,6 +128,12 @@ En resumen, estarás en un estado donde no estás "en" ninguna rama, sino en un 
 ```bash
 git remote --v
 git remote --verbose
+```
+
+### setup
+
+```bash
+git push --set-upstream origin main
 ```
 
 ## Git checkout
