@@ -501,10 +501,85 @@ content-visibility: revert-layer;
 content-visibility: unset;
 ```
 
->[!IMPORTANT]
-> ``auto`` es ideal para mejorar el rendimiento en páginas grandes, ya que evita renderizar elementos fuera de la pantalla hasta que sean visibles.
+> [!IMPORTANT] > `auto` es ideal para mejorar el rendimiento en páginas grandes, ya que evita renderizar elementos fuera de la pantalla hasta que sean visibles.
+
+- `visible` El contenido siempre se renderiza, incluso si no es visible en la pantalla. Cuando necesitas que el contenido esté siempre disponible para cálculos de diseño.
+
+- `auto` El navegador omite el renderizado del contenido hasta que es necesario (cuando entra en el viewport). Optimizar el rendimiento en páginas con mucho contenido.
+
+# custom list
+
+```css
+@counter-style start-list {
+  system: cyclic;
+  symbols: "🤣" "😁" "🥰";
+  suffix: " ";
+}
+
+ul {
+  list-style: start-list;
+}
+```
+
+```html
+<ul>
+  <li>Array</li>
+  <li>Array</li>
+  <li>Array</li>
+  <li>Array</li>
+  <li>Array</li>
+</ul>
+```
+
+# supports
+
+```css
+@supports (display: grid) {
+  .grid-container {
+    display: grid;
+    grid-templates-columns: repeat(3, 1fr);
+  }
+}
+
+@supports not (display: grid) {
+  .grid-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+```
+
+>[!WARNING]
+> CSS puro no tiene ``@else``, por lo que necesitas dos @supports.
+
+```html
+<div class="grid-container">
+  <div></div>
+
+  <div></div>
+
+  <div></div>
+</div>
+```
 
 
-- ``visible``	El contenido siempre se renderiza, incluso si no es visible en la pantalla.	Cuando necesitas que el contenido esté siempre disponible para cálculos de diseño.
+# CONTAINER
+ si tienes prblema con la proporcion de tus imagenes
 
-- ``auto``	El navegador omite el renderizado del contenido hasta que es necesario (cuando entra en el viewport).	Optimizar el rendimiento en páginas con mucho contenido.
+````css
+.container {
+  container-type: size;
+  container-name: resize-box;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+
+@container resize-box (aspect-ratio > 16/9){
+  .scene {
+    width: auto;
+    height: 100%;
+  }
+}
+```
