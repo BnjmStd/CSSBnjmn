@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      select,
+      ::picker(select) {
+        appearance: base-select;
+      }
+
+      select {
+        width: 100%;
+      }
+
+      selectedcontent,
+      option {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      option {
+        padding-block: 0.25rem;
+      }
+
+      .country_name {
+        color: #333;
+      }
+
+      .flag {
+        width: 30px;
+        height: 20px;
+      }
+
+      option::checkmark {
+        display: none;
+      }
+
+      option:checked {
+        background: hsl(200, 80% 80%);
+      }
+    </style>
+  </head>
+  <body>
+    <select>
+      <button>
+        <selectedContent></selectedContent>
+      </button>
+
+      <option>
+        <img src="./flag-alt-solid-24.png" class="flag" alt="" />
+        <div class="country-name">India</div>
+      </option>
+      <option>
+        <img src="./flag-alt-solid-24.png" class="flag" alt="" />
+        <div class="country-name">chile</div>
+      </option>
+      <option>
+        <img src="./flag-alt-solid-24.png" class="flag" alt="" />
+        <div class="country-name">argentina</div>
+      </option>
+    </select>
+  </body>
+</html>
