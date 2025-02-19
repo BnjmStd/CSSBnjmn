@@ -36,6 +36,18 @@ ls ~/.ssh
 
 `eval "$(ssh-agent -s)"`
 
+### Verifica si la clave fue agregada
+
+```bash
+ssh-add -l
+```
+
+### probar conexion
+
+```bash
+ssh -T git@github.com
+```
+
 ### Agrega tu SSh private key al ssh-agent
 
 `ssh-add ~/.ssh/nombre_clave`
