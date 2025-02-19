@@ -42,6 +42,13 @@ ls ~/.ssh
 ssh-add -l
 ```
 
+## colocar el agente cuando no inicia solo en bashrc
+
+```bash
+eval "$(ssh-agent -s)" > /dev/null
+ssh-add ~/.ssh/id_rsa > /dev/null 2>&1
+```
+
 ### probar conexion
 
 ```bash
