@@ -1,35 +1,60 @@
-* {
+@layer reset ,base;
+
+@layer reset {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+  }
 
-body {
+  body {
     font-family: Arial, Helvetica, sans-serif;
+  }
 }
 
-body {
+@layer base {
+  body {
     max-width: 800px;
     margin-inline: auto;
     padding: min(5%, 1.25rem);
     background-color: aliceblue;
-}
+  }
 
-h1, h2 {
+  h1,
+  h2 {
     color: #333;
     margin-bottom: 1rem;
-}
+  }
 
-section {
+  section {
     margin-bottom: 2rem;
     padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #d3d3d3;
-}
+  }
 
-div {
+  div {
     padding: 1rem;
     margin: 1rem 0;
     border-radius: 4px;
+  }
+}
+
+@layer theme {
+  .box {
+    background-color: #d3d3d3;
+    border: 2px solid #09f;
+    color: yellow;
+  }
+
+  /* capas anidads */
+
+  @layer theme.primary {
+    .nested-box {
+      background-color: #f0f0f0;
+      border: 2px solid #f00;
+      color: #f00;
+    }
+  }
 }
