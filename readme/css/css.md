@@ -58,3 +58,28 @@
 - `Selectores`: Elementos a los que aplicamos estilos.
 - `Propiedades`: Características como color, tamaño, margen, etc.
 - `Valores`: Especifican cómo se aplica la propiedad.
+
+# animaciones con js
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+**esto dibuja en 2d**
+
+tienes funcionalidades:
+
+- Usa shaders (GPU Pixeles)
+- (x, y, z)
+-  ILUMINACIÓN
+- sombras
+- materiales
+
+![alt text](image-4.png)
+
+## animacion con three js
+
+![alt text](image-5.png)
+![alt text](image-6.png)
+![alt text](image-7.png)
