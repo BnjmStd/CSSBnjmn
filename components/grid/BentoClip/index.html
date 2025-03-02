@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #535353;
+            height: 100vh;
+            display: grid;
+            place-content: center;
+        }
+
+        .card {
+            height: 200px;
+            aspect-ratio: 1/1;
+            background-color: rebeccapurple;
+            clip-path: path('M 10, 50 L 90,  Z');
+        }
+    </style>
+  </head>
+  <body>
+    <div class="card"></div>
+  </body>
+</html>

@@ -33,6 +33,15 @@ git add
 git commit -ammend
 ```
 
+El comando git add -p (abreviatura de git add --patch) te permite añadir cambios de forma interactiva, es decir, seleccionar qué partes específicas de un archivo quieres incluir en el próximo commit, en lugar de añadir todos los cambios del archivo completo.
+
+```bash
+git add -p
+```
+
+>[!NOTE]
+> Git te mostrará cada "hunk" (fragmento de código modificado) de tus archivos, uno por uno, y te preguntará qué quieres hacer con cada fragmento.
+
 ## Visualizar contenido de un commit
 
 ```bash
@@ -118,13 +127,24 @@ git cherry-pick <commit> <commit> <commit>
 git commit -i --amend
 ```
 
-
 # Git Tag
+
+commits especiales que se les llama etiquetas 
 
 ```bash
 git tag v1 c1
 head ~1^2~1
+git tag -a v1.0.0 -m "version estable del producto" # -a de anotado -m message
+
+git log --oneline
+
+git tag -d v1.0.0
+
+git tag
 ```
+
+se usa para guardar las versiones de un project
+
 
 # git describe
 
