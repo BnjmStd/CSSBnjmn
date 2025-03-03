@@ -104,3 +104,55 @@ nav:not(.show) {
 ```
 
 **📌 Ventaja: Elimina el menú de la navegación del usuario, mejorando la accesibilidad.**
+
+# media query
+
+```css
+@media screen {} /*for devices with screen like monitors, tablets, and phones */
+
+@media print {} /* for printers and print preview mode */
+
+@media all {} /* the default value that applies to all device */
+
+@media speech {} /* for screen readers that narrate for content of a page*/
+
+```
+
+
+## operators 
+
+```css
+@media screen and /*condition*/ and /*condition*/ {}
+@media screen, /*condition*/, /*condition*/ {}
+@media not screen and (orientation: landscape) {}
+```
+
+
+## valores clave para ``screen``
+
+```css
+@media (width: 0px) {}
+@media (height:0px) {}
+@media (min-height: 0px) {}
+@media (max-height: 0px) {}
+@media (min-width: 0px) {}
+@media (max-width: 0px) {}
+```
+
+## orientación
+
+```css
+@media (orientation: landscape) {
+    /*modo horizontal*/
+}
+
+@media (orientation: portrait) {
+    /*modo vertical*/
+}
+```
+
+## aspect ratios
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)

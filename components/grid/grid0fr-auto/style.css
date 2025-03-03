@@ -1,0 +1,27 @@
+aside {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background-color: violet;
+    height: 100dvh;
+}
+
+.accordion__wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease;
+  background-color: #d3e3fd;
+  width: 100%;
+}
+
+.accordion__content {
+  overflow: hidden;
+}
+
+.accordion__header {
+  cursor: pointer;
+}
+
+.accordion__wrapper--open {
+  grid-template-rows: 1fr;
+}
