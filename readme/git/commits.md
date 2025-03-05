@@ -353,3 +353,38 @@ git stash list
 
 git stash pop
 ```
+
+# git clone 
+
+```bash
+git clone --depth <N> <URL_DEL_REPO>
+```
+
+>[!IMPORTANT]
+> El comando git clone repo --depth permite clonar un repositorio con una profundidad limitada de historial. Su uso principal es reducir el tamaño de la clonación, lo que acelera el proceso al evitar descargar todo el historial del repositorio.
+
+## copiar la ultima rama 
+
+```bash
+git clone --depth 1 https://github.com/user/repo.git
+```
+
+## clonar los ultimos 10
+
+```bash
+git clone --depth 10 https://github.com/user/repo.git
+```
+
+## Clonar una rama específica con profundidad limitada:
+
+```bash
+git clone --depth 5 --branch mi-rama https://github.com/user/repo.git
+```
+
+**¿Cuándo usar --depth?**
+- ✅ Cuando solo necesitas la última versión del código y no el historial completo.
+- ✅ Para reducir el tiempo de clonación en repos grandes.
+- ✅ Para CI/CD, donde solo se necesita el código actual sin el historial.
+
+>[!TIPS]
+> si despues desear descargar el historial completo ``git fetch --unshallow``
