@@ -1,0 +1,11 @@
+
+
+numerica => alfanumerica .
+
+
+subdominio????
+
+
+
+
+
