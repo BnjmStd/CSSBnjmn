@@ -388,3 +388,12 @@ git clone --depth 5 --branch mi-rama https://github.com/user/repo.git
 
 >[!TIPS]
 > si despues desear descargar el historial completo ``git fetch --unshallow``
+
+# robar git jaja
+
+```bash
+git remote remove origin # borrar original
+git remote add origin https://github.com/tu-usuario/tu-repositorio.git # agregalo
+git remote -v
+```
+
