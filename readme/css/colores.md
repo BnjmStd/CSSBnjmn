@@ -29,3 +29,38 @@ h1 {
 }
 ```
 
+# color() - Espacios de color avanzados
+
+La función color() permite definir colores en espacios de color más amplios que el clásico sRGB. Esto es útil para pantallas de alta gama como las que usan display-p3 (colores más vivos y saturados).
+
+```css
+background: color(display-p3 1 0.5 0);
+```
+
+# color-mix() - Mezcla de colores en CSS
+
+```css
+background: color-mix(in srgb, red 50%, blue 50%);
+```
+
+# light-dark() - Modo claro/oscuro dinámico
+
+```css
+background: light-dark(white, black);
+```
+
+# fallback Usando var(--variable, valorPorDefecto)
+
+```css
+:root {
+  --primary-color: #ff5733; /* Naranja */
+}
+
+button {
+  background: var(--primary-color, blue);
+}
+
+button {
+  background: color-mix(in srgb, var(--primary-color, red) 80%, white 20%);
+}
+```
