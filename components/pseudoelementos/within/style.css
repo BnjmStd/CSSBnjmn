@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: poppins, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #222;
+    background-color: #fff;
+    border-top: 10px solid #fede3f;
+    padding: 40px 80px 0;
+}
+
+.page-width {
+    width: 100%;
+    max-width: 550px;
+    margin-inline: auto;
+}
+
+h1 {
+    font-size: 1.3125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+form {
+    font-size: 0.9375rem;
+    padding: 1rem 1.25rem;
+    margin: 1rem -1.25rem;
+}
+
+form>div {
+    padding-block: 0.4em;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+.form-control,
+.form-submit {
+    font-family: poppins, system-ui, sans-serif;
+    font-size: 0.875rem;
+    border: none;
+}
+
+.form-control {
+    width: 100%;
+    padding: 1em;
+    background-color: #f3f3f3;
+}
+
+form textarea {
+    min-height: 100px;
+}
+
+.form-submit {
+    padding: 1em 4em;
+    color: #fff;
+    background-color: #222;
+    cursor: pointer;
+}
+
+.form-submit:hover,
+.form-submit:focus {
+    color: #222;
+    background-color: #fede3f;
+}
+
+.form-control:focus,
+.form-submit:focus {
+    /* outline: none; */
+    /* border: 2px solid; */
+
+    /* outline: 1px solid #222; */
+    /* outline-offset: -6px; */
+    /* outline-offset: 4px; */
+}
+
+.form-control:focus-visible,
+.form-submit:focus-visible {
+    outline: 1px solid #222;
+    outline-offset: 4px;
+}
+
+form:focus-within {
+    /* outline: 1px solid #222; */
+    /* outline-offset: 4px; */
+
+    background-color: #f3f3f3;
+    /* background-color: #ff8b8b; */
+    /* background-color: rgb(182, 224, 182); */
+}
+
+form:focus-within .form-control {
+    background-color: #fff;
+}
+
+/* Fallback */
+@supports not selector(:focus-visible) {
+    .form-submit:focus {
+        outline: 1px solid #222;
+        outline-offset: 4px;
+    }
+}

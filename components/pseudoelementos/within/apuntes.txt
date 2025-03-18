@@ -1,0 +1,19 @@
+indicador de enfoque focus indicator 
+indicador visual para saber que elemento del dom, esta siendo focus
+
+agregar un borde no es la solución porque agrega un 1px más 
+
+.focus-within psudoclass targets an elements if the element itself or any of its descendants are 
+currently being focused 
+
+
+:focus-visible funciona de manera similar a la clase focus pero se activa solo cuando es
+más beneficioso para el usuario
+
+
+@supports not selector (:focus-visible) {
+    .form-control:focus {
+        outline: 1px solid #222;
+        outline-offset: 4px;
+    }
+}

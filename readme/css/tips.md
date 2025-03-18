@@ -583,3 +583,27 @@ ul {
   }
 }
 ```
+
+# retrasar la carga de imagenes
+
+```html
+
+<img src="" alt="" loading="lazy">
+
+```
+
++
+
+```css
+
+img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+```
+
+# clip-path
+
+mejor que con los psudoElementos
