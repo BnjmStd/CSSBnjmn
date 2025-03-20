@@ -165,3 +165,34 @@ git checkout -b newbranch
 git checkout -b *ramalocal origin/remote
 ```
 
+# generar una nueva rama en local y subirla al remoto
+
+>[!IMPORTANT]
+>ASEGURATE DE QUEE STAS EN LA NUEVA RAMA ANTES DE SUBIRLA
+
+** Ejemplo: Si tu nueva rama se llama feature-login, entonces ejecuta:**
+
+```bash
+git push -u origin feature-login
+
+git branch -r # verifica que la rama se subio
+```
+
+>[!IMPORTANT]
+>¿Qué hace el -u en git push -u? El -u (o --set-upstream) establece un "seguimiento" entre tu rama local y la rama remota. Después de esto, solo necesitarás hacer:
+
+# saber que rama apunto al remoto
+
+```bash
+git branch --show-current # rama local en que trabajas
+git branch -vv # ver todas las ramas locales y remotas
+git rev-parse --abbrev-ref --symbolic-full-name @{u} # MOSTRAR rama remota asociada
+git remote show origin # Si quieres confirmar la rama remota asociada, usa:
+git branch --set-upstream-to=origin/main main # si no hay remota, creala
+```
+
+**RESUMEN**
+- git branch --show-current → Muestra la rama actual.
+- git rev-parse --abbrev-ref --symbolic-full-name @{u} → Muestra la rama remota asociada.
+- git branch -vv → Muestra todas las ramas y sus ramas remotas asociadas.
+- git remote show origin → Muestra información del remoto.

@@ -397,3 +397,36 @@ git remote add origin https://github.com/tu-usuario/tu-repositorio.git # agregal
 git remote -v
 ```
 
+# moverse a un git especifico
+
+## moverse temporalmente a un commit (detached HEAD)
+
+```bash
+git checkout hash
+git switch --detach hash
+```
+
+>[!NOTE]
+> Esto deja tu repositorio en un estado donde no estás en ninguna rama, solo viendo el estado del código en ese commit.
+
+## Puedes crear otra rama desde ese commit 
+
+```bash
+git checkout -b nueva_rama hash
+git switch -c nueva_rama hash
+```
+
+## para volver al mono no detach 
+
+```bash
+git checkout -
+git switch -
+```
+
+## resetear el estado actual del commti 
+
+```bash
+git reset --hard <hash_del_commit> # Si quieres que tu proyecto regrese a un commit y descartar cambios posteriores (⚠️ esto puede ser destructivo):
+
+git reset --soft <hash_del_commit> # Si solo quieres volver al commit pero manteniendo tus archivos modificados:
+```
