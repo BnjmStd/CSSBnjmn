@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <style>
+            *, *::before, *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: #4e269e;
+            }
+
+            .container {
+                background-color: #fff;
+                width: 40%;
+                min-width: 500px;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+                padding: 20px 0;
+                padding-bottom: 50px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .timer-display {
+                position: relative;
+                background-color: red;
+                width: 92%;
+                left: 4%;
+                color: #8c52ff;
+                font-size: 30px;
+                padding: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                box-shadow: 0 0 20px rgba(65, 5, 145, 0.25);
+                border-radius: 5px;
+
+            }
+
+            .buttons {
+                width: 90%;
+                margin: 60px auto 0 auto;
+                display: flex;
+                justify-content: space-around;
+            
+                & button {
+                    width: 120px;
+                    height: 45px;
+                    background-color: #8c52ff;
+                    color: #333;
+                    border: none;
+                    font-family: sans-serif;
+                    font-size: 18px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    outline: none;
+
+                    &:hover {
+                        box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+                    }
+
+                    &:nth-child(2) {
+                        background-color: aquamarine;
+                    }
+
+                    &:nth-child(3) {
+                        background-color: yellow;
+                    }
+                }
+            }
+        </style>
+</head>
+<body>
+    <div class="container">
+        <div class="timer-display">
+            00: 00 : 00 : 000
+        </div>
+        <div class="buttons">
+            <button id="start-timer">Start</buttons>
+            <button id="pause-timer">Pause</buttons>
+            <button id="reset-timer">Reset</buttons>
+        </div>
+        <script src="./script.js"></script>
+    </div>
+</body>
+</html>
