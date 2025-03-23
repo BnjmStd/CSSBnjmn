@@ -1,0 +1,101 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  max-inline-size: 100%;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #2a2a2a;
+  padding: 3rem 5rem;
+  background: fixed linear-gradient(transparent, #fff 90%),
+    fixed
+      repeating-linear-gradient(
+        #efefef,
+        #efefef 1px,
+        transparent 1px,
+        transparent 40px
+      ),
+    fixed
+      repeating-linear-gradient(
+        to right,
+        #efefef,
+        #efefef 1px,
+        transparent 1px,
+        transparent 40px
+      )
+      white;
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 1.5;
+  font-weight: 600;
+  text-align: center;
+  margin-block-end: 2rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  border: 1px dashed;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline 0.5s ease-in-out;
+}
+
+.card:hover,
+.card:focus-within {
+  outline-color: currentColor;
+}
+
+.card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  padding-block: 0.5rem;
+  color: currentColor;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+  outline: none;
+}
+
+.card-media {
+  padding: 6px;
+}
+
+.card img {
+  inline-size: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+
+  /*
+    mask-image: url(abstract-paint.png);
+    mask-size: 100%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    */
+
+  mask: url("https://i.postimg.cc/KvvFtsqv/abstract-paint.png") center / 100%
+    no-repeat;
+  transition: mask-size 0.75s ease-in-out;
+  transition-delay: 0.25s;
+}
+
+.card:hover img,
+.card:focus-within img {
+  mask-size: 250%;
+  transition-delay: 0s;
+}
