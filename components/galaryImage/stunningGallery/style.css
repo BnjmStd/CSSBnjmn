@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+
+    &:hover > :not(:hover) {
+        opacity: 0.5;
+    }
+
+    & .card {
+        transition: all .5s ease;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.02);
+            filter: grayscale(0%);
+        }
+
+        & img {
+            width: 200px;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            height: auto;
+            border-radius: 10px;
+            --webkit-box-reflect: below 2.5px linear-gradient(transparent, transparent, rgba(3, 3, 3, 0.2));
+            border: 5px ridge #a5b1c2;
+        }
+    }
+}
