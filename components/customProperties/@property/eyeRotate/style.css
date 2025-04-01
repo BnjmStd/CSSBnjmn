@@ -1,0 +1,53 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-block-size: 100vh;
+    min-block-size: 100dvh;
+    display: grid;
+    height: 100%;
+    place-content: center;
+
+    & svg {
+        min-block-size: 100%;
+        max-width: 32px;
+    }
+}
+
+@property --rotation {
+    syntax: "<transform-function>";
+    inherits: true;
+    initial-value: translateX(0);
+}
+
+
+svg {
+    transform: scale(3);
+    animation: 4s animate-eye infinite alternate;
+}
+
+
+
+#ball {
+    transform: var(--rotation);
+}
+
+@keyframes animate-eye {
+    0% {
+        --rotation: translateX(0);
+    }
+    20% {
+        --rotation: translateX(0);
+    }
+
+    60% {
+        --rotation: translateX(25%);
+    }
+
+    100% {
+        --rotation: translateX(-25%);
+    }
+}

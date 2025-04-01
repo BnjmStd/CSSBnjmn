@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      img {
+        max-inline-size: 100%;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #2a2a2a;
+        padding-block: 2rem 0;
+        background: fixed linear-gradient(transparent, #fff 90%),
+          fixed
+            repeating-linear-gradient(
+              #efefef,
+              #efefef 1px,
+              transparent 1px,
+              transparent 40px
+            ),
+          fixed
+            repeating-linear-gradient(
+              to right,
+              #efefef,
+              #efefef 1px,
+              transparent 1px,
+              transparent 40px
+            )
+            white;
+      }
+
+      h1,
+      h2 {
+        line-height: 1.5;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      h2 {
+        font-size: 1.25rem;
+        margin-block-end: 2rem;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        margin-block-end: 4rem;
+        outline: 1px dashed;
+        outline-offset: 0.5rem;
+      }
+
+      .slide {
+        grid-area: 1 / 1;
+        block-size: 70vh;
+        font-size: 4rem;
+        text-align: center;
+        align-content: center;
+        padding: 2rem;
+      }
+
+      .slide:nth-child(1) {
+        background-color: cadetblue;
+      }
+
+      .slide:nth-child(2) {
+        background-color: coral;
+      }
+
+      .slide img {
+        inline-size: 100%;
+        block-size: inherit;
+        object-fit: cover;
+        display: block;
+      }
+
+      @property --position {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+      }
+
+      /* Effect 1 */
+      .wipe-effect-1 .slide:nth-child(2) {
+       
+        --size: 40%;
+
+        /* Color blending in the middle */
+        mask-image: linear-gradient(90deg, #000, #0000);
+
+        /* Hard shift at 40% */
+        mask-image: linear-gradient(90deg, #000 40%, #0000 40%);
+
+        /* Color blending on the left */
+        mask-image: linear-gradient(90deg, #000 0%, #0000 40%);
+
+        /* Only transparent pixels are visible */
+        mask-image: linear-gradient(90deg, #000 -40%, #0000 0%);
+
+        /* Only opaque pixels are visible */
+        mask-image: linear-gradient(90deg, #000 100%, #0000 140%);
+
+        /*
+    Initially:
+    #000 (0% - 40% = -40%)
+    #0000 0%
+
+    On hover:
+    #000 (140% - 40% = 100%)
+    #0000 140%
+  */
+        mask-image: linear-gradient(
+          90deg,
+          #000 calc(var(--position) - var(--size)),
+          #0000 calc(var(--position))
+        );
+
+        /*
+  mask-image: radial-gradient(
+    circle,
+    #000 calc(var(--position) - var(--size)),
+    #0000 calc(var(--position))
+  );
+
+  mask-image: conic-gradient(
+    #000 calc(var(--position) - var(--size)),
+    #0000 calc(var(--position))
+  );
+  */
+
+        transition: --position 1s ease-in-out;
+      }
+
+      /* Effect 2 */
+      .wipe-effect-2 .slide:nth-child(2) {
+        --size: 40%;
+        --step: 10%;
+
+        mask-image: linear-gradient(
+          90deg,
+          #000 10%,
+          rgb(0 0 0 / 75%) 0 20%,
+          rgb(0 0 0 / 50%) 0 30%,
+          rgb(0 0 0 / 25%) 0 40%,
+          #0000 40%
+        );
+
+        /*
+    #000 -40%
+    rgb(0 0 0 / 75%) 0 -30%
+    rgb(0 0 0 / 50%) 0 -20%
+    rgb(0 0 0 / 25%) 0 -10%
+    #0000 0 0%
+  */
+        mask-image: linear-gradient(
+          90deg,
+          #000 calc(var(--position) - var(--size)),
+          rgb(0 0 0 / 75%) 0
+            calc(var(--position) - var(--size) + (var(--step) * 1)),
+          rgb(0 0 0 / 50%) 0
+            calc(var(--position) - var(--size) + (var(--step) * 2)),
+          rgb(0 0 0 / 25%) 0
+            calc(var(--position) - var(--size) + (var(--step) * 3)),
+          #0000 0 calc(var(--position))
+        );
+
+        transition: --position 1s ease-in-out;
+      }
+
+      .slide:nth-child(2):hover {
+        --position: calc(100% + var(--size));
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSS Mask - Wipe Effects</h1>
+    <h2>Hover over images to see the effect</h2>
+
+    <section class="hero wipe-effect-1">
+      <div class="slide">
+        <!-- 1 -->
+        <img
+          src="https://images.unsplash.com/photo-1468774871041-fc64dd5522f3"
+          alt=""
+        />
+      </div>
+      <div class="slide">
+        <!-- 2 -->
+        <img
+          src="https://images.unsplash.com/photo-1494783367193-149034c05e8f"
+          alt=""
+        />
+      </div>
+    </section>
+
+    <section class="hero wipe-effect-2">
+      <div class="slide">
+        <img
+          src="https://images.unsplash.com/photo-1468774871041-fc64dd5522f3"
+          alt=""
+        />
+      </div>
+      <div class="slide">
+        <img
+          src="https://images.unsplash.com/photo-1494783367193-149034c05e8f"
+          alt=""
+        />
+      </div>
+    </section>
+  </body>
+</html>
