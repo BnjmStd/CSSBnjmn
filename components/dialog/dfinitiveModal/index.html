@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-block-size: 100vh;
+        min-block-size: 100dvh;
+
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        button {
+          background-color: royalblue;
+          color: white;
+          display: inline-block;
+          font: inherit;
+          padding: 1rem 2rem;
+          cursor: pointer;
+        }
+      }
+
+      .modal {
+        inset: 0;
+        margin: auto;
+        width: min(90%, 1000px);
+        padding: 3rem 1.5rem;
+        border-radius: 10px;
+
+        opacity: 0;
+        transform: translateY(50%);
+
+        transition: opacity 0.5s, transform 0.5s, display 0.5s, overlay 0.5s;
+        transition-behavior: allow-discrete;
+
+        /* display block => none eso anima*/
+
+        &::backdrop {
+          background-color: rgba(0, 0, 0, 0.4);
+          transform: translate(100%);
+          transition: transform 0.5s ease;
+        }
+
+        &[open] {
+          opacity: 1;
+          transform: translateY(0%);
+
+          &::backdrop {
+            transform: translate(0);
+          }
+        }
+      }
+
+      @starting-style {
+        .modal[open] {
+          opacity: 0;
+          transform: translateY(-50%);
+
+          &::backdrop {
+            transform: translate(100%);
+          }
+        }
+      }
+
+      .modal__container {
+        display: grid;
+        gap: 2rem;
+        align-content: center;
+        justify-items: center;
+
+        & img {
+          width: min(50%, 300px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="btn-modal" id="btn">Abrir Modal</button>
+
+    <dialog class="modal">
+      <div class="modal__container">
+        <img src="./illus.svg" class="modal__img" alt="" />
+        <h1>¡Soy un modal!</h1>
+        <form method="dialog">
+          <button class="btn">Cerrar Modal</button>
+        </form>
+      </div>
+    </dialog>
+
+    <script>
+      const openModal = document.querySelector("#btn");
+      const $modal = document.querySelector(".modal");
+
+      openModal.addEventListener("click", () => {
+        $modal.showModal();
+      });
+    </script>
+  </body>
+</html>
