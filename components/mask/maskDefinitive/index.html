@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      img {
+        display: block;
+        max-inline-size: 100%;
+      }
+
+      :root {
+        color-scheme: dark;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #2a2a2a;
+        padding: 2rem;
+
+        background: fixed linear-gradient(transparent, #fff 90%),
+          fixed
+            repeating-linear-gradient(
+              #efefef,
+              #efefef 1px,
+              transparent 1px,
+              transparent 40px
+            ),
+          fixed
+            repeating-linear-gradient(
+              to right,
+              #efefef,
+              #efefef 1px,
+              transparent 1px,
+              transparent 40px
+            )
+            white;
+      }
+
+      /*
+
+          controlará la posición del gradiente
+
+          */
+      @property --position {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+      }
+
+      section {
+        --size: 40%;
+        min-block-size: 100dvh;
+
+        &.heros {
+          display: grid;
+          grid-template-columns: 1fr;
+          margin-block-end: 4rem;
+          outline: 1px dashed;
+          outline-offset: 0.5rem;
+
+          & .zig-zag {
+            --s: 30px; /* control the size (height of the spike) */
+            --a: 90deg; /* control the angle */
+
+            mask: repeating-conic-gradient(
+                from calc(180deg - var(--a) / 2) at 50% var(--s),
+                #0000 0,
+                #000 1deg calc(var(--a) - 1deg),
+                #0000 var(--a) 180deg
+              )
+              50% calc(-1 * var(--s)) / calc(2 * var(--s) * tan(var(--a) / 2))
+              100%;
+
+            height: 250px;
+            background: linear-gradient(60deg, #c02942, #542437);
+            font: bold 40px system-ui, sans-serif;
+            color: #fff;
+            align-content: center;
+            text-align: center;
+          }
+
+          &.wipe-effect-2 .slide:nth-child(2) {
+            transition: --position 0.5s ease;
+            mask-image: radial-gradient(
+              circle,
+              #000 calc(var(--position) - var(--size)),
+              #0000 calc(var(--position))
+            );
+          }
+
+          &.wipe-effect-3 .slide:nth-child(2) {
+            transition: --position 0.5s ease;
+            mask-image: conic-gradient(
+              #000 calc(var(--position) - var(--size)),
+              #0000 calc(var(--position))
+            );
+          }
+
+          &.wipe-effect-6 .slide:nth-child(2) {
+            transition: --position 1s ease;
+            --size: 40%;
+            --step: 10%;
+
+            mask-image: conic-gradient(
+              #000 calc(var(--position) - var(--size)),
+              rgb(0 0 0 / 75%) 0
+                calc(var(--position) - var(--size) + (var(--step) * 1)),
+              rgb(0 0 0 / 50%) 0
+                calc(var(--position) - var(--size) + (var(--step) * 2)),
+              rgb(0 0 0 / 25%) 0
+                calc(var(--position) - var(--size) + (var(--step) * 3)),
+              #0000 0 calc(var(--position))
+            );
+          }
+
+          &.wipe-effect-5 .slide:nth-child(2) {
+            transition: --position 2s ease;
+            --size: 40%;
+            --step: 10%;
+
+            mask-image: radial-gradient(
+              circle,
+              #000 calc(var(--position) - var(--size)),
+              rgb(0 0 0 / 75%) 0
+                calc(var(--position) - var(--size) + (var(--step) * 1)),
+              rgb(0 0 0 / 50%) 0
+                calc(var(--position) - var(--size) + (var(--step) * 2)),
+              rgb(0 0 0 / 25%) 0
+                calc(var(--position) - var(--size) + (var(--step) * 3)),
+              #0000 0 calc(var(--position))
+            );
+          }
+
+          &.wipe-effect-4 .slide:nth-child(2) {
+            transition: --position 2s ease;
+            --size: 40%;
+            --step: 10%;
+
+            mask-image: linear-gradient(
+              90deg,
+              #000 10%,
+              rgb(0 0 0 / 75%) 0 20%,
+              rgb(0 0 0 / 50%) 0 30%,
+              rgb(0 0 0 / 25%) 0 40%,
+              #0000 40%
+            );
+
+            /*
+                    #000 -40%
+                    rgb(0 0 0 / 75%) 0 -30%
+                    rgb(0 0 0 / 50%) 0 -20%
+                    rgb(0 0 0 / 25%) 0 -10%
+                    #0000 0 0%
+                */
+
+            mask-image: linear-gradient(
+              90deg,
+              #000 calc(var(--position) - var(--size)),
+              rgb(0 0 0 / 75%) 0
+                calc(var(--position) - var(--size) + (var(--step) * 1)),
+              rgb(0 0 0 / 50%) 0
+                calc(var(--position) - var(--size) + (var(--step) * 2)),
+              rgb(0 0 0 / 25%) 0
+                calc(var(--position) - var(--size) + (var(--step) * 3)),
+              #0000 0 calc(var(--position))
+            );
+          }
+
+          &.wipe-effect-1 .slide:nth-child(2) {
+            /* color blending in the middle */
+            mask-image: linear-gradient(90deg, #000, #0000);
+
+            /* hard shift at 40% */
+            mask-image: linear-gradient(90deg, #000 40%, #0000 40%);
+
+            /* color blending on the left */
+            mask-image: linear-gradient(90deg, #000 0%, #0000 40%);
+
+            /* only transparent pixels are visible */
+            mask-image: linear-gradient(90deg, #000 -40%, #0000 0%);
+
+            /* only opaque pixels are visible */
+            mask-image: linear-gradient(90deg, #000 100%, #0000 140%);
+
+            /*
+
+                    initially:
+
+                    #000 (0% - 40% = -40%)
+                    #0000 0%
+
+
+                    on hover:
+
+                    #000(140% - 40% = 100%)
+
+                    #0000 140%
+
+                */
+
+            mask-image: linear-gradient(
+              90deg,
+              #000 calc(var(--position) - var(--size)),
+              #0000 calc(var(--position))
+            );
+
+            transition: --position 0.75s ease;
+          }
+
+          & .slide {
+            grid-area: 1 / 1;
+            block-size: 70vh;
+            font-size: 4rem;
+            text-align: center;
+            align-content: center;
+
+            &:nth-child(1) {
+              background-color: cadetblue;
+            }
+
+            &:nth-child(2) {
+              background-color: coral;
+
+              &:hover {
+                --position: calc(100% + var(--size));
+              }
+            }
+
+            & img {
+              inline-size: 100%;
+              block-size: inherit;
+              object-fit: cover;
+              display: block;
+            }
+          }
+        }
+
+        &.hero {
+          inline-size: 100%;
+
+          .hero-content {
+            max-inline-size: min(80ch, 95%);
+            padding-inline: 3rem;
+            margin-inline: auto;
+          }
+
+          h1 {
+            margin-block: -3.5rem 1rem;
+            font-size: clamp(1.5rem, 5vw + 1rem, 4rem);
+          }
+
+          & img {
+            width: 100%;
+            aspect-ratio: 16/6;
+            object-fit: cover;
+            /* mask-image: linear-gradient(black 60%, transparent); */
+            mask: linear-gradient(to bottom, #000 60%, transparent);
+          }
+        }
+
+        &.basic {
+          margin-block-end: 2rem;
+
+          h1 {
+            color: #ba71ff;
+          }
+
+          & main {
+            & > * {
+              inline-size: max(20rem, 40vw);
+              aspect-ratio: 1;
+              margin-inline: auto;
+              padding: 5px;
+              border: 1px solid rgba(0, 0, 0, 0.2);
+            }
+
+            & > *:first-child {
+              & .card {
+                position: relative;
+                inline-size: 100%;
+                block-size: 100%;
+                background: linear-gradient(
+                  to right,
+                  #90c3fd,
+                  #ba71ff,
+                  #ff71b8
+                );
+
+                mask-image: url(asd.png);
+
+                mask-position: 20px 30px;
+                mask-position: bottom right;
+                mask-position: bottom;
+                mask-position: center;
+
+                mask-size: 50%;
+                mask-size: 50% 25%;
+                mask-size: 50% auto;
+                mask-size: contain;
+                mask-size: cover;
+
+                mask-repeat: repeat-x;
+                mask-repeat: repeat-y;
+                mask-repeat: no-repeat;
+
+                mask: url(asd.png) center / contain no-repeat;
+
+                mask-size: 50%;
+                mask-repeat: no-repeat;
+                mask-position: center;
+                /* mask, tecnica para ocultar parte de un elemento sin borrarlas realmente
+                se utilizan dos elmenetos el elemento a ocultar y la maskio9
+
+            */
+              }
+            }
+
+            & > *:nth-child(2) {
+              margin-top: 1rem;
+
+              & .card {
+                position: relative;
+                inline-size: 100%;
+                block-size: 100%;
+                aspect-ratio: 1;
+                /* Masking with gradients */
+                mask: linear-gradient(#0000, #000);
+                mask: linear-gradient(transparent, #000);
+                mask: linear-gradient(rgb(0 0 0 / 10%), #000);
+
+                mask: linear-gradient(to top, #0000, #000);
+                mask: linear-gradient(90deg, #0000, #000);
+
+                mask: linear-gradient(
+                    #000 25%,
+                    #0000 25% 50%,
+                    #000 50% 75%,
+                    #0000 75% 100%
+                  )
+                  0 0 / 100% 12px;
+                /* mask-size: 100% 12px; */
+
+                mask: linear-gradient(
+                  45deg,
+                  #000 25%,
+                  #0000 25% 50%,
+                  #000 50% 75%,
+                  #0000 75% 100%
+                );
+                mask-size: 10%;
+
+                mask: radial-gradient(#0000, #000);
+                mask: radial-gradient(#0000 100px, #000 100px);
+                mask: radial-gradient(circle at bottom, #0000 50px, #000 50px);
+                mask-size: 25% 100%;
+
+                mask: radial-gradient(30px at 50% 30px, #0000 99%, #000) 50% -30px /
+                  45px 100%;
+
+                &::after {
+                  position: absolute;
+                  content: "";
+                  inset: 0;
+                  mix-blend-mode: color;
+                  background: linear-gradient(
+                    to right,
+                    #90c3fd,
+                    #ba71ff,
+                    #ff71b8
+                  );
+                }
+
+                & img {
+                  display: block;
+                  inline-size: 100%;
+                  aspect-ratio: 1;
+                  object-fit: cover;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      h1 {
+        font-size: 2rem;
+        line-height: 1.5;
+        text-align: center;
+        text-transform: uppercase;
+        margin-block-end: 1em;
+      }
+
+      p {
+        margin-block-end: 1.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="basic">
+      <h1>CSS MASK BASIC</h1>
+      <main>
+        <div class="card-outer">
+          <div class="card"></div>
+        </div>
+
+        <div class="card-outer">
+          <div class="card">
+            <img src="../../columns/columnsGenshin/assets/1.png" alt="" />
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <section class="hero">
+      <div>
+        <img
+          src="https://images.unsplash.com/photo-1505867104426-a08b9a21aae7"
+          alt=""
+        />
+      </div>
+      <div class="hero-content">
+        <h1>CSS Mask</h1>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
+          voluptas necessitatibus ipsam magni natus impedit explicabo aperiam
+          quis nulla, ipsum officiis perspiciatis perferendis quasi. Vitae
+          voluptatibus suscipit consequatur possimus rerum.
+        </p>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
+          voluptas necessitatibus ipsam magni natus impedit explicabo aperiam
+          quis nulla, ipsum officiis perspiciatis perferendis quasi. Vitae
+          voluptatibus suscipit consequatur possimus rerum.
+        </p>
+      </div>
+    </section>
+
+    <section class="heros wipe-effect-1">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+    </section>
+
+    <section class="heros wipe-effect-2">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+    </section>
+
+    <section class="heros wipe-effect-3">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+    </section>
+
+    <section class="heros wipe-effect-4">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+    </section>
+
+    <section class="heros wipe-effect-5">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+    </section>
+
+    <section class="heros wipe-effect-6">
+      <!-- 1 -->
+      <div class="slide">
+        <img
+          src="https://images.unsplash.com/photo-1468774871041-fc64dd5522f3"
+          alt=""
+        />
+      </div>
+      <div class="slide">
+        <!-- 2 -->
+        <img
+          src="https://images.unsplash.com/photo-1494783367193-149034c05e8f"
+          alt=""
+        />
+      </div>
+    </section>
+
+    <section class="heros">
+      <div class="zig-zag">Zig-Zag edges</div>
+    </section>
+  </body>
+</html>

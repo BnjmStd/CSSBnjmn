@@ -1,0 +1,77 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: system-ui, sans-serif; /* Usa fuentes nativas */
+  text-rendering: optimizeSpeed; /* Mejora el rendimiento del texto */
+  -webkit-font-smoothing: antialiased; /* Suaviza fuentes en WebKit */
+}
+
+/* 🔹 Mejora la tipografía */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance; /* Evita saltos de línea feos */
+  line-height: 1.2;
+}
+
+p {
+  text-wrap: pretty; /* Optimiza la distribución de palabras */
+  line-height: 1.5;
+}
+
+/* 🔹 Asegura que imágenes y videos no se desborden */
+img,
+picture,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 🔹 Evita el desplazamiento inesperado en formularios */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 🔹 Evita subrayados en enlaces sin `href` */
+a:not([href]) {
+  text-decoration: none;
+}
+
+/* 🔹 Mantiene la apariencia de los botones consistente */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+/* 🔹 Oculta el desplazamiento horizontal no deseado */
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth; /* Hace que el desplazamiento sea más fluido */
+}
+
+/* 🔹 Evita estilos heredados en listas */
+ul,
+ol {
+  list-style: none;
+}
+:root {
+  interpolate-size: allow-keywords;
+}
