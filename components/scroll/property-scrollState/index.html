@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .stuck-top {
+        container-type: scroll-state;
+        position: sticky;
+        top: 0px;
+
+        @supports (container-type: scroll-state) {
+          > nav {
+            @container scroll-state(stuck: top) {
+              background: Highlight;
+              color: HighlightText;
+            }
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stuck-top">
+      <nav>Nav</nav>
+    </div>
+  </body>
+</html>

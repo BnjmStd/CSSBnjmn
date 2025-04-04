@@ -1,0 +1,57 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 80px;
+  --clippy: polygon(0 0, 0 0, 0 100%, 0 100%);
+  &:has(.check-item:checked) {
+    --clippy: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+
+    .square {
+      transform: translateY(100%) scale(0.7);
+      border-radius: 50%;
+      background-color: red;
+    }
+  }
+
+  &::after {
+    content: "";
+    background-color: seagreen;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    clip-path: var(--clippy);
+    transition: clip-path 0.7s;
+  }
+}
+
+.label {
+  display: inline-block;
+
+  background-color: black;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.square {
+  margin-top: 60px;
+  background-color: black;
+  width: 200px;
+  height: 200px;
+  transition: 0.7s transform, border-radius 0.7s, background-color 0.7s;
+
+}
+
+.check-item {
+    display: none;
+    width: 30px;
+    height: 30px;
+}
