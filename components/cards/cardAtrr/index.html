@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style2.css">
+    <link rel="stylesheet" href="./grid.css">    
+</head>
+  <body>
+    <input type="checkbox" id="theme-toggle" hidden />
+    <label for="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <span class="icon sun">🌞</span>
+      <span class="icon moon">🌜</span>
+    </label>
+
+
+    <header class="demo-header">
+        <h1>Zero-JS Morphing Cards</h1>
+        <p>Powered by <code>:target</code>, <code>attr(id)</code>, and the View Transitions API — no JavaScript needed.</p>
+    </header>
+
+    <div class="card-grid">
+        <a href="#user-1" class="card" id="user-1">
+            <img src="https://i.pravatar.cc/100?u=1" alt="User 1">
+            <h2>User One</h2>
+        </a>
+        <a href="#user-2" class="card" id="user-2">
+            <img src="https://i.pravatar.cc/100?u=2" alt="User 2">
+            <h2>User Two</h2>
+        </a>
+        <a href="#user-3" class="card" id="user-3">
+            <img src="https://i.pravatar.cc/100?u=3" alt="User 3">
+            <h2>User Three</h2>
+        </a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,125 @@
+/* === CARD GRID === */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 700px;
+}
+
+/* === CARD STYLES === */
+.card {
+  view-transition-name: attr(id);
+  background: var(--card-bg);
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  padding: 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 0 transparent;
+  transform: scale(1);
+  cursor: pointer;
+}
+
+.card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+  transition: all 0.4s ease;
+}
+
+/* === ACTIVE CARD (targeted) === */
+:target.card {
+  background: var(--card-active);
+  border-color: var(--accent);
+  border-radius: 2rem;
+  transform: scale(1.08);
+  box-shadow: 0 0 20px var(--accent);
+}
+
+:target.card img {
+  border-radius: 1rem;
+  transform: scale(1.1);
+}
+
+/* === HOVER STATE === */
+.card:hover:not(:target) {
+  transform: scale(1.03);
+  background: var(--card-hover);
+  border-color: #444;
+  box-shadow: 0 0 10px var(--shadow);
+}
+
+/* === VIEW TRANSITIONS FOR CARD MORPH === */
+::view-transition-old(user-1),
+::view-transition-new(user-1),
+::view-transition-old(user-2),
+::view-transition-new(user-2),
+::view-transition-old(user-3),
+::view-transition-new(user-3) {
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+}
+
+::view-transition-old(user-1),
+::view-transition-old(user-2),
+::view-transition-old(user-3) {
+  animation-name: morph-out;
+}
+
+::view-transition-new(user-1),
+::view-transition-new(user-2),
+::view-transition-new(user-3) {
+  animation-name: morph-in;
+}
+
+@keyframes morph-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) rotateX(-5deg);
+    border-radius: 1rem;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.08) rotateX(0);
+    border-radius: 2rem;
+  }
+}
+
+@keyframes morph-out {
+  from {
+    opacity: 1;
+    transform: scale(1.08) rotateX(0);
+    border-radius: 2rem;
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.05) rotateX(5deg);
+    border-radius: 1rem;
+  }
+}
+
+/* === VIEW TRANSITION FOR THEME SWITCH === */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    view-transition-name: theme;
+  }
+
+  ::view-transition-old(theme),
+  ::view-transition-new(theme) {
+    animation: fade-theme 0.4s ease;
+  }
+
+  @keyframes fade-theme {
+    from {
+      opacity: 0.6;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

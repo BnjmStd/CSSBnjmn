@@ -1,0 +1,85 @@
+/* === THEME VARIABLES === */
+:root {
+  --accent: #7f5af0;
+  --bg: #ffffff;
+  --text: #111111;
+  --card-bg: #f2f2f5;
+  --card-hover: #e6e6f0;
+  --card-active: #ddddee;
+  --shadow: rgba(127, 90, 240, 0.2);
+}
+
+/* DARK THEME via :has() toggle */
+body:has(#theme-toggle:checked) {
+  --bg: #0d0d14;
+  --text: #ffffff;
+  --card-bg: #1a1a2e;
+  --card-hover: #222244;
+  --card-active: #28284d;
+  --shadow: rgba(127, 90, 240, 0.4);
+}
+
+/* === BASE === */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* === THEME TOGGLE BUTTON === */
+input[type="checkbox"]#theme-toggle {
+  display: none;
+}
+
+.theme-toggle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 2.2rem;
+  height: 2.2rem;
+  transition: transform 0.4s;
+  perspective: 600px;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  & .icon {
+    position: absolute;
+    transition: transform 0.6s, opacity 0.6s;
+    backface-visibility: hidden;
+  }
+}
+
+/* Default = sun visible */
+.theme-toggle .sun {
+	transform: rotateY(0deg);
+	opacity: 1;
+}
+
+.theme-toggle .moon {
+	transform: rotateY(180deg);
+    transform: rotate(360deg);
+	opacity: 0;
+}
+
+/* On toggle = moon visible */
+body:has(#theme-toggle:checked) .sun {
+	transform: rotateY(-180deg);
+    transform: rotate(360deg);
+	opacity: 0;
+}
+
+body:has(#theme-toggle:checked) .moon {
+	transform: rotateY(0deg);
+	opacity: 1;
+}

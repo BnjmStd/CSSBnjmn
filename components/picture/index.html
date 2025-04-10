@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      *::after,
+      *::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        color-scheme: dark;
+      }
+
+      img {
+        max-inline-size: 100%;
+      }
+
+      picture {
+        display: inline-block;
+
+        & img {
+          isolation: isolate;
+          background: url("https://placehold.jp/150x150.png");
+          position: relative;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: cover;
+
+          &::after {
+            inset: 0;
+            background: inherit;
+            position: absolute;
+            content: "";
+            filter: blur(25px) saturate(1.5);
+            block-size: 100%;
+            inline-size: 100%;
+            scale: 1.05;
+            z-index: -1;
+          }
+        }
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-block-size: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <picture>
+      <source
+        media="(min-width: 700px)"
+        srcset="https://placehold.jp/3d4070/ffffff/150x150.png"
+      />
+      <img src="https://placehold.jp/150x150.png" alt="" />
+    </picture>
+  </body>
+</html>
