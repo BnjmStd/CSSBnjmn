@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+
+      .btn {
+        display: block;
+        width: max-content;
+        padding: 20px 30px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+
+        background-color: slateblue;
+        color: white;
+        text-decoration: none;
+
+        &:last-of-type {
+          background-color: black;
+        }
+      }
+
+      figure {
+        max-block-size: 500px;
+        max-inline-size: 500px;
+        inline-size: 100%;
+        block-size: auto;
+
+        & img {
+          inline-size: 100%;
+          block-size: auto;
+          object-fit: contain;
+        }
+      }
+
+      [id="imagen"] {
+        display: block;
+        block-size: 300px;
+
+        opacity: 0;
+        transform: translateY(100%);
+
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      [id="imagen"]:target {
+        border-radius: 100px;
+        opacity: 1;
+        transform: translate(0);
+      }
+
+      body {
+        block-size: 100dvh;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#imagen" class="btn"> crear animation</a>
+
+    <a href="#" class="btn">quitar animación</a>
+
+    <figure>
+      <img id="imagen" src="../../columns/columnsGenshin/assets/1.png" alt="" />
+    </figure>
+  </body>
+</html>
