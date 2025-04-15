@@ -15,6 +15,9 @@
       img {
         display: block;
         max-inline-size: 100%;
+        inline-size: 100%;
+        block-size: inherit;
+        object-fit: cover;
       }
 
       :root {
@@ -53,6 +56,13 @@
 
           */
       @property --position {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+      }
+
+
+      @property --position-multi {
         syntax: "<percentage>";
         inherits: false;
         initial-value: 0%;
@@ -177,6 +187,93 @@
             );
           }
 
+          &.wipe-effect-7 .slide:nth-child(2) {
+            /* horizontal blinds */
+            mask-image: linear-gradient(#000 var(--position), #0000 0);
+
+            mask-size: 50px 50px;
+            mask-size: 15% 15%;
+
+
+            /*
+              vertical blinds
+            */
+
+            mask-image: linear-gradient(
+              90deg,
+              #000 var(--position),
+              #0000 0
+            );
+
+
+            /*
+            diagonal reveal
+            */
+
+            mask-image: linear-gradient(
+              to top right,
+              #000 var(--position),
+              #0000 0
+            );
+
+            mask-size: 100%;
+            mask-size: 25px 25px;
+
+            /*
+            
+            circular reveal
+
+            */
+
+            mask-image: radial-gradient(
+              circle,
+              #000 var(--position),
+              #0000 0 
+            );
+
+            mask-size: 100%;
+
+            mask-size: 25px 25px;
+
+
+            /* conical reveal */
+            mask-image: conic-gradient(
+              #000 var(--position),
+              #0000 0
+            );
+
+
+            /* multi-directional reveal */
+
+            mask-image: linear-gradient(
+              to top,
+              #000 var(--position-multi),
+              #0000 0
+            ),
+            linear-gradient(
+              to bottom,
+              #000 var(--position-multi),
+              #0000 0
+            ),
+            linear-gradient(
+              to left,
+              #000 var(--position-multi),
+              #0000 0
+            ),
+            linear-gradient(
+              to right,
+              #000 var(--position-multi),
+              #0000 0
+            )
+            ;
+
+            mask-size: 100%;
+            mask-size: 50px 50px;
+            mask-position: center;
+
+            transition: --position .7s ease, --position-multi .7s ease;
+          }
+
           &.wipe-effect-1 .slide:nth-child(2) {
             /* color blending in the middle */
             mask-image: linear-gradient(90deg, #000, #0000);
@@ -234,6 +331,7 @@
 
               &:hover {
                 --position: calc(100% + var(--size));
+                --position-multi: 51%;
               }
             }
 
@@ -485,6 +583,15 @@
           src="https://images.unsplash.com/photo-1494783367193-149034c05e8f"
           alt=""
         />
+      </div>
+    </section>
+
+    <section class="heros wipe-effect-7">
+      <div class="slide">
+        <img src="../../columns/columnsGenshin/assets/1.png" alt="" />
+      </div>
+      <div class="slide">
+        <img src="../../columns/columnsGenshin/assets/2.png" alt="" />
       </div>
     </section>
 
