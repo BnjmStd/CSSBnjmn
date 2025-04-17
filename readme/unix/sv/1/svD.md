@@ -101,7 +101,7 @@ curl ifconfig.me
 
 sudo ufw allow from 200.100.50.25 to any port 2022 proto tcp
 
-**Permitir acceso solo desde esa IP al puerto 2022**
+**Permitir acceso solo desde esa IP al puerto XXXX**
 
 # bloquear otras ip al mismo puerto 
 
@@ -166,4 +166,12 @@ developers:x:1001:user1,user2,user3
 grep "^nombre_grupo:" /etc/group
 sudo:x:27:usuario1,usuario2
 
+
+# crea todo junto 
+
+sudo useradd -m -s /bin/bash -G dev alice
+
+# permisos de ejecución
+
+chmod +x crear_usuario.sh
 
