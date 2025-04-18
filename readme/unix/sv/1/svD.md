@@ -175,3 +175,16 @@ sudo useradd -m -s /bin/bash -G dev alice
 
 chmod +x crear_usuario.sh
 
+# ver todos los host conocidos (ssh)
+
+cat ~/.ssh/known_hosts
+
+cat ~/.ssh/known_hosts | grep varandcode.com
+
+ssh-keygen -F '[varandcode.com]:22222' -f ~/.ssh/known_hosts
+
+
+## eliminar entrada antigua 
+
+ssh-keygen -f '/home/fermin/.ssh/known_hosts' -R '[varandcode.com]:22222'
+
