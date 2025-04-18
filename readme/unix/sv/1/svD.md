@@ -188,3 +188,13 @@ ssh-keygen -F '[varandcode.com]:22222' -f ~/.ssh/known_hosts
 
 ssh-keygen -f '/home/fermin/.ssh/known_hosts' -R '[varandcode.com]:22222'
 
+## client scp
+
+chmod +x copiar_vps.sh
+scp -P 22222 -r bdgenomas benja@45.236.128.220:/home/benja
+scp -P 22222 -r /var/www/service.varandcode benja@45.236.128.220:/var/www/
+scp -P 22222 -r /var/www/varandcode benja@45.236.128.220:/var/www/
+
+
+# evitar que el shell en el VPS de destino (45.236.128.220) genere esta salida para sesiones no interactivas
+
