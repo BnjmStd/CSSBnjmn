@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #141414;
+      }
+
+      .btn-container {
+        position: relative;
+        display: inline-block;
+        padding-block: 0.2rem;
+
+        & button {
+          position: relative;
+          padding: 18px 40px;
+          font-size: 18px;
+          border: none;
+          border-radius: 40px;
+          background: #333;
+          color: #fff;
+          cursor: pointer;
+          text-transform: uppercase;
+
+          letter-spacing: 0.1em;
+
+          transition: 0.5s ease;
+
+          z-index: 1;
+
+          &:hover {
+            background-color: red;
+            box-shadow: 0 0 50px #e50914;
+            letter-spacing: 0.2em;
+          }
+        }
+      }
+
+      .particle {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: red;
+        box-shadow: 0 0 20px #e50914, 0 0 50px #e50914;
+        pointer-events: none;
+        opacity: 0;
+        animation: animate 2s linear forwards;
+        z-index: 0;
+      }
+
+
+      @keyframes animate {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translate(var(--dx), var(--dy))  scale(0.5) ;
+            opacity: 0;
+        }
+      } 
+    </style>
+  </head>
+  <body>
+    <div class="btn-container">
+      <button class="glow">glow</button>
+    </div>
+
+    <script>
+      let $btnContainer = document.querySelector(".btn-container");
+
+      let $button = document.querySelector(".glow");
+      let interval;
+
+      let spawnDistance = 20;
+
+      function createParticle(){
+        const $particles = document.createElement("div");
+        $particles.classList.add("particle");
+
+        let btnWidth = $button.offsetWidth;
+
+        let btnHeight = $button.offsetHeight;
+
+        let angle = Math.random() * 2 * Math.PI;
+
+        let x = btnWidth / 2 + Math.cos(angle) * spawnDistance;
+
+        let y = btnHeight / 2 + Math.sin(angle) * spawnDistance;
+
+        let dx = Math.cos(angle) * 100;
+        let dy = Math.sin(angle) * 100;
+
+        $particles.style.left = `${x}px`;
+        $particles.style.top = `${y}px`;
+        $particles.style.setProperty("--dx", `${dx}px`);
+        $particles.style.setProperty("--dy", `${dy}px`);
+
+        $btnContainer.appendChild($particles);
+        setTimeout(() => {
+            $particles.remove()
+        }, 2000)
+      };
+
+
+      $button.addEventListener('mouseenter', () => {
+        interval = setInterval(createParticle, 80)
+      })
+
+      $button.addEventListener('mouseleave', () => {
+        clearInterval(interval)
+      })
+    </script>
+  </body>
+</html>

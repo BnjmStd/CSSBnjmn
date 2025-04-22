@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #000;
+  min-block-size: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clock {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 0 20px #0ff, inset 0 0 15px #0ff;
+  background-color: li;
+}
+
+.center {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #0ff;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  box-shadow: 0 0 10px #0ff;
+}
+
+.hand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom;
+  background-color: #0ff;
+  box-shadow: 0 0 5px #0ff;
+  border-radius: 3px;
+
+  &.hour {
+    background-color: #09f;
+    width: 4px;
+    height: 60px;
+    margin-left: -2px;
+  }
+
+  &.minute {
+    background-color: yellow;
+    width: 3px;
+    height: 80px;
+    margin-left: -1.5px;
+  }
+
+  &.second {
+    width: 2px;
+    height: 90px;
+    margin-left: -1px;
+    background-color: #f0f;
+    box-shadow: 0 0 5px #f0f;
+  }
+}
+
+.number {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 15px;
+    text-align: center;
+    color: #0ff;
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    text-shadow: 0 0 10px #0ff;
+    transform: rotate(var(--rotation));
+
+    & span {
+        display: inline-block;
+        transform: rotate(calc(-1*var(--rotation)));
+        position: absolute;
+        left: 50%;
+        top: 10px;
+        transform-origin: bottom;
+    }
+}
