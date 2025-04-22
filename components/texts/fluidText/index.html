@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      p {
+        font-size: clamp(1rem, round(down, 1rem + 3vw, 2px), 2.5rem);
+
+        /* 
+   1rem = 16px | 2.5rem = 40px
+   we go from 16px to 40px with a 2px step
+   16px,18px,20px,22px,24px,..,38px,40px
+  */
+      }
+      /* OR a more friendly syntax*/
+      p + p {
+        --fluid: clamp(1rem, 1rem + 3vw, 2.5rem); /* the original function */
+        font-size: round(down, var(--fluid), 2px);
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum fugit nam
+      voluptatem tenetur ?
+    </p>
+
+    <p>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum fugit nam
+      voluptatem tenetur ?
+    </p>
+  </body>
+</html>
