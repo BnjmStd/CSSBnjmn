@@ -260,3 +260,15 @@ debemos de tener listos los datos de nuestra cuenta de trabajo y vamos agregar l
 ```
 
 Guarda los cambios y listo 🦝. Ahora, cada vez que crees o clones un proyecto en el directorio trabajo, git será redirigido y usará los datos de gitconfig de tu trabajo.
+
+
+# agente git
+
+ssh-keygen -t rsa -b 4096 -C "benja_e_e@hotmail.com" -f ~/.ssh/fermin
+ps aux | grep ssh-agent
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/fermin
+
+## Verifica que los permisos del archivo de clave privada sean restrictivos (solo lectura para el usuario). Puedes hacerlo con:
+
+chmod 400 ~/.ssh/fermin

@@ -1,39 +1,44 @@
 #!/bin/bash
 
-# Variables
-DEST_USER="benja"
-DEST_IP="45.236.128.220"
-DEST_PORT="22222"
-DEST_PATH="/home/benja/"
-SOURCE_DIR="/home/benja/"
+DEST_DIR="/home/benjamin/"
+REMOTE_USER="benja"
+REMOTE_IP="45.236.128.220"
+REMOTE_PORT="22222"
+REMOTE_DIR="/home/benja/"
 FOLDERS=(
-  "bdgenomas"
-  "dockerPracticaKatalina"
-  "env"
-  "scrapGenomasPython"
-  "snap"
-  "Data4Life"
-  "download"
-  "opticMouse"
-  "silverBullet-Noteapp"
+    "bdgenomas"
+    "dockerPracticaKatalina"
+    "env"
+    "scrapGenomasPython"
+    "snap"
+    "Data4Life"
+    "download"
+    "opticMouse"
+    "silverBullet-Noteapp"
 )
 
-# Función para copiar una carpeta y capturar errores
-copiar_carpeta() {
-  local carpeta="$1"
-  echo "Intentando copiar la carpeta: $carpeta"
-  scp -P "$DEST_PORT" -r "$SOURCE_DIR/$carpeta" "$DEST_USER@$DEST_IP:$DEST_PATH"
-  if [ $? -eq 0 ]; then
-    echo "La carpeta '$carpeta' se copió exitosamente."
-  else
-    echo "Error al copiar la carpeta '$carpeta'."
-  fi
-  echo "-----------------------------------------"
+copiar_carpeta_rsync() {
+    local carpeta="$1"
+    echo "🚚 Copiando carpeta: $carpeta"
+
+    for intento in {1..3}; do
+        echo "🔁 Intento $intento de 3 para '$carpeta'..."
+        rsync -avz -e "ssh -p $REMOTE_PORT" "$REMOTE_USER@$REMOTE_IP:$REMOTE_DIR$carpeta" "$DEST_DIR"
+
+        if [ $? -eq 0 ]; then
+            echo "✅ Carpeta '$carpeta' copiada exitosamente."
+            break
+        else
+            echo "⚠️ Error al copiar '$carpeta'. Reintentando en 5 segundos..."
+            sleep 5
+        fi
+    done
+
+    echo "-----------------------------------------"
 }
 
-# Iterar sobre la lista de carpetas y llamar a la función de copia
 for carpeta in "${FOLDERS[@]}"; do
-  copiar_carpeta "$carpeta"
+    copiar_carpeta_rsync "$carpeta"
 done
 
-echo "Proceso de copia completado."
+echo "🏁 Proceso de copia completado."
