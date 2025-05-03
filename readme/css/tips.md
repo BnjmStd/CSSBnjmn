@@ -2,6 +2,49 @@
 
 Esta guía integra **HTML y CSS** con técnicas modernas como `caret-color`, `accent-color`, `backdrop-filter`, y más.
 
+
+# etiquetas raras
+
+```html
+
+<mark></mark> 
+
+<details>
+  <summary></summary>
+</details>
+
+
+<time></time>
+
+
+<div>
+
+  <label for="browser">
+    choose your browser
+  </label>
+
+  <input list="browsers" id="browser" name="browser" />
+
+
+  <datalist  id="browsers">
+    <option value="chrome">  
+  </datalist>
+
+
+  <label for="file">Upload files</label>
+  <progress id="file" value="70" max="100" >70%</progress>
+  <meter id="disk" value="0.6">60%</meter>
+
+
+  <abbr title="world health organization">WHO</abbr>
+
+</div>
+
+
+```
+
+
+
 ---
 
 ## 📝 Código Completo
