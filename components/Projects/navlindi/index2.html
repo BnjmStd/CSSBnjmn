@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+      }
+
+      .navbar {
+        position: relative;
+        width: fit-content;
+      }
+
+      .navbar ul {
+        display: flex;
+        list-style: none;
+        position: relative;
+      }
+
+      .navbar li {
+        padding: 1rem 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .navbar a {
+        text-decoration: none;
+        color: black;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hover-indicator {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        background: #cce5ff;
+        border-radius: 8px;
+        transition: left 0.3s ease, width 0.3s ease;
+        z-index: 0;
+        left: 0;
+        width: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Servicios</a></li>
+        <li><a href="#">Proyectos</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+      <div class="hover-indicator"></div>
+    </nav>
+
+    <script>
+      const nav = document.querySelector(".navbar");
+      const indicator = document.querySelector(".hover-indicator");
+      const items = document.querySelectorAll(".navbar li");
+
+      items.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+          const rect = item.getBoundingClientRect();
+          const navRect = nav.getBoundingClientRect();
+
+          indicator.style.left = `${rect.left - navRect.left}px`;
+          indicator.style.width = `${rect.width}px`;
+        });
+      });
+
+      nav.addEventListener("mouseleave", () => {
+        indicator.style.width = "0";
+      });
+    </script>
+  </body>
+</html>
