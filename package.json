@@ -1,0 +1,24 @@
+{
+  "name": "cssbnjmn",
+  "version": "1.0.0",
+  "description": "- [CSS](./readme/css/css.md)   - [Pseudoclases](./readme/css/pseudoclases.md)     - [State-Pseudo-Classes](./readme/css/pseudoClases/deEstado.md)     - [Structural-Pseudo-classes](./readme/css/pseudoClases/deEstructura.md)     - [Logical-Pseudo-classes](./readme/css/pseudoClases/logicas.md)     - [Form-Pseudo-classes](./readme/css/pseudoClases/form.md)     - [Link-Pseudo-classes](./readme/css/pseudoClases/enlaces.md)   - [Pseudo-Element](./readme/css/pseudoelement.md)     - [ContentPseudo-elements](./readme/css/pseudoElement/ContentPseudo-elements.md)     - [FormPseudo-elements](./readme/css/pseudoElement/FormPseudo-elements.md)     - [ScrollPseudo-elements](./readme/css/pseudoElement/ScrollPseudo-elements.md)     - [SelectionPseudo-elements](./readme/css/pseudoElement/SelectionPseudo-elements.md)     - [TextPseudo-elements](./readme/css/pseudoElement/TextPseudo-elements.md)   - [BEM](./readme/css/bemApuntes.md)   - [Layer&Scope](./readme/css/layerAndScope.md)   - [ARIA](./readme/css/ARIA.md)   - [operators](./readme/css/operadores/operadores.md)   - [Initial-behavior](./readme/css/comportamientoInicial.md)   - [colors](./readme/css/colores.md)   - [Tips-responsive](./readme/css/tipsResponsive.md)   - [tips-](./readme/css/tips.md)   - [flex]   - [grid]   - [animation](./readme/css/animationsTransition/animation.md)   - [withoutJs](./readme/css/withoutJs.md) - [Git](./readme/git/git.md)   - [Info-user](./readme/git/definicionUsuarioApp.md)   - [Repositorio](./readme/git/repositorio.md)   - [Cuenta-trabajo](./readme/git/twoAccountHost.md)   - [Branches](./readme/git/Branch.md)   - [merging](./readme/git/merging.md)   - [Fork-](./readme/git/fork.md)   - [Params](./readme/git/params.md)   - [Moduls](./readme/git/moduls.md)   - [commits](./readme/git/commits.md)   - [use](./readme/git/use.md) - [Docker](./readme/docker/docker.md) - [Mermaid](./readme/mermaid/mermaidGuia.md) - [Python](./readme/python/python.md)   - [Pyenv](./readme/python/pyenv.md)   - [Type_hint](./readme/python/type_hint.md) - [Unix](./readme/unix/unix.md) - [Rust](./readme/rust/install.md) - [Javascript](./readme/js/js.md)   - [anti-corruption-layer](./readme/js/Anti-Corruption-Layer.md)   - [JWT](./readme/js/jwt.md)",
+  "homepage": "https://github.com/BnjmStd/CSSBnjmn#readme",
+  "bugs": {
+    "url": "https://github.com/BnjmStd/CSSBnjmn/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BnjmStd/CSSBnjmn.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.5",
+    "tailwindcss": "^4.1.5"
+  }
+}
