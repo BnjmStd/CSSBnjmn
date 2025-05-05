@@ -4,64 +4,68 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
-    <div class="container">
-      <nav>
-        <p>Benja</p>
-        <p>Menu</p>
+  <body class="min-h-dvh">
+    <div class="relative h-screen w-full overflow-hidden bg-gradient-to-tl from-amber-400 via-slate-500 to-black">
+      <nav class="fixed top-0 left-0 w-full p-3 flex justify-between items-center">
+        <p class="text-sm font-semibold antialiased select-none">Benja</p>
+        <p class="text-sm font-semibold antialiased select-none">Menu</p>
       </nav>
 
-      <div class="site-info">
-        <p>E427</p>
+      <div class="absolute top-1/2 left-[1.5em] flex gap-1">
+        <p class="text-sm font-semibold antialiased select-none">E427</p>
 
-        <p>
-          <span> Responsive Minimap </span>
+        <p class="text-sm font-semibold antialiased select-none">
+          <span class="text-bold text-black/80"> Responsive Minimap </span>
         </p>
       </div>
 
-      <div class="img-preview">
-        <img src="../../columns/columnsGenshin/assets/4.png" alt="" />
+      <div class="bg-red absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-[75%] overflow-hidden ">
+        <img 
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-contain
+        "
+        src="../../columns/columnsGenshin/assets/4.png" alt="" />
       </div>
 
-      <div class="minimap">
-        <div class="indicator"></div>
+      <div id="minimap" class="absolute top-1/2 right-[8em] w-20">
+        <div  id="indicator" class="absolute top-0 left-0 w-full h-16 border-black z-10 "></div>
 
-        <div class="items">
-          <div class="item">
+        <div id="items" class="relative h-full w-full flex flex-col gap-0 will-change-transform">
+          <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
 
-          <div class="item">
+          <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
 
-          <div class="item">
+          <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
 
-          <div class="item">
+          <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
 
-          <div class="item">
+          <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
 
-          <div class="item">
+          <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
 
-          <div class="item">
+          <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
 
-          <div class="item">
+          <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
 
-          <div class="item">
+          <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
         </div>
@@ -69,12 +73,99 @@
     </div>
 
     <script>
-        const container = document.querySelector(".container")
-        const items = document.querySelector(".items");
-        const indicator = document.querySelector(".indicator")
-        const itemElements = document.querySelector(".item")
-        const previewImage = document.querySelector(".img-preview img")
-        const itemImages = document.querySelector(".item img")
+      const container = document.querySelector(".container");
+      const items = document.querySelector(".items");
+      const indicator = document.querySelector(".indicator");
+      const itemElements = document.querySelector(".item");
+      const previewImage = document.querySelector(".img-preview img");
+      const itemImages = document.querySelector(".item img");
+
+      let isHorizontal = window.innerWidth <= 900;
+
+      let dimensions = {
+        itemSize: 0,
+        containerSize: 0,
+        indicatorSize: 0,
+      };
+
+      let maxTranslate = 0;
+      let currentTranslate = 0;
+      let targetTranslate = 0;
+      let isClickMove = false;
+      let currentImageIndex = 0;
+
+      const activeItemOpacity = 0.3;
+
+      function lerp(start, end, factor) {
+        return start + (end - start) * factor;
+      }
+
+      function updateDimensions() {
+        isHorizontal = window.innerWidth <= 900;
+        if (isHorizontal) {
+          dimensions = {
+            itemSize: itemElements[0].getBoundingClientRect().width,
+            containerSize: items.scrollWidth,
+            indicatorSize: indicator.getBoundingClientRect().width,
+          };
+        } else {
+          dimensions = {
+            itemSize: itemElements[0].getBoundingClientRect.height,
+            containerSize: items.getBoundingClientRect().height,
+            indicatorSize: indicator.getBoundingClientRect().height,
+          };
+        }
+
+        return dimensions;
+      }
+
+      dimensions = updateDimensions();
+      maxTranslate = dimensions.containerSize - dimensions.indicatorSize;
+
+      function getItemIndicator() {
+        itemImages.forEach((img) => {
+          return (img.style.opacity = 1);
+        });
+
+        const indicatorStart = -currentTranslate
+        const indicatorEnd = indicatorStart + dimensions.indicatorSize
+
+        let maxOverlap = 0
+        let selectedIndex = 0
+
+        itemElements.forEach((item, index) => {
+          const itemStart = index + dimensions.itemSize
+          const itemEnd = itemStart + dimensions.itemSize
+        
+          const overlapStart = Math.max(indicatorStart, itemStart)
+          const overlapEnd = Math.min(indicatorEnd, itemEnd)
+          const overlap = Math.max(0, overlapEnd, overlapStart)
+
+
+          if (overlap > maxOverlap) {
+            maxOverlap = overlap
+            selectedIndex = index
+          }
+
+        });
+
+        itemImages[selectedIndex].style.opacity = activeItemOpacity
+
+        return selectedIndex
+      }
+
+
+      function updatePreviewImage(index) {
+        if (currentImageIndex !== index) {
+          currentImageIndex = index 
+
+          const targetItem = itemElements[index].querySelector("img")
+
+          const targetSrc = targetItem.getAttribute("src")
+
+          previewImage.setAttribute("src", targetSrc)
+        }
+      }
     </script>
   </body>
 </html>
