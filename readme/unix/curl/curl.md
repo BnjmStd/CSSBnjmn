@@ -58,10 +58,10 @@ curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh
 
 ¿cómo subir archivos?
 asume un form > input["type=["file"]"]
+
 ```bash
 curl -F "archivo=@imagen.png" https://api.de.imagenes.com/upload
 ```
-
 
 ```bash
 curl -X POST https://example.com/formulario \
@@ -77,7 +77,6 @@ curl -I https://downweb.com
 curl -LI https://downweb.cloud
 ```
 
-
 Ejemplo con token en el cuerpo (menos común para GET, pero posible):
 
 ```bash
@@ -88,7 +87,7 @@ curl -G --data "token=<tu_token>" https://api.example.com/recursos_protegidos
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer <tu_token>" -d '{"nombre": "nuevo", "valor": 123}' https://api.example.com/recursos_protegidos
 ```
 
-# put 
+# put
 
 ```bash
 curl -X PUT -H "Content-Type: application/json" -d '{"valor_actualizado": 456}' https://api.example.com/recursos/123
@@ -114,4 +113,12 @@ curl -X DELETE -H "Authorization: Bearer <tu_token>" https://api.example.com/rec
 
 ```bash
 curl -X DELETE -H "Content-Type: application/x-www-form-urlencoded" -d "token=<tu_token>" https://api.example.com/recursos_protegidos/123
+```
+
+# go
+
+```bash
+curl -LO https://go.dev/dl/go1.24.3.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.24.3.linux-amd64.tar.gz
+
 ```
