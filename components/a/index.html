@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      @layer reset {
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+      }
+      @layer base {
+        body {
+          font-size: 1.23rem;
+          padding-inline: 2rem;
+          font-family: sans-serif;
+          background-color: black;
+          color: white;
+          display: grid;
+          place-content: center;
+          min-block-size: 100vh;
+          line-height: 1.5;
+        }
+      }
+
+      @layer styling-links {
+        a {
+          color: yellow;
+          text-decoration-thickness: 12px;
+          text-decoration-color: red;
+          text-decoration-style: wavy;
+          text-decoration-skip-ink: skip;
+          text-underline-offset: 10px;
+          text-decoration: underline;
+          text-decoration-line: line-through;
+           text-decoration-line: overline underline;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#">
+      when it comes to styling links, you have morje control than you might
+      think
+    </a>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      /* idea from https://piccalil.li/blog/reality-check-1-building-out-a-furniture-site-from-dribbble/ */
+      .split {
+        display: grid;
+
+        @media (width > 720px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .adaptable-image {
+        container-type: inline-size;
+      }
+
+      .adaptable-image > img {
+        /*     @container (width > 70vw) {
+      max-height: 30vh;
+      width: 100%;
+      object-fit: cover;
+    } */
+      }
+
+      @layer general-styling {
+        html {
+          font-family: system-ui;
+          line-height: 1.6;
+        }
+
+        body {
+          margin: 0;
+          font-size: 1.25rem;
+        }
+
+        a {
+          color: inherit;
+        }
+
+        ul[class] {
+          list-style: "";
+          margin: 0;
+          padding: 0;
+        }
+
+        img {
+          max-width: 100%;
+          display: block;
+        }
+
+        section {
+          margin: 3rem;
+        }
+
+        .more-content article {
+          padding: 1rem;
+          background: #dedede;
+          border: 1px solid #cbcbcb;
+          border-radius: 1rem;
+
+          img {
+            border-radius: 0.5rem;
+          }
+        }
+
+        .article-preview {
+          padding: 1.5rem;
+          background: hsl(215, 100%, 92%);
+        }
+      }
+
+      @layer more-content-demo {
+        .flex-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+
+          & > * {
+            flex-basis: 250px;
+            flex-grow: 1;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="split">
+      <div class="adaptable-image">
+        <img
+          src="https://images.unsplash.com/photo-1556922404-e13d9ff95de8?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjcyMDY3MTZ8&ixlib=rb-4.0.3&q=85&w=1200"
+          alt=""
+        />
+      </div>
+      <article class="article-preview">
+        <h2>Smart layouts</h2>
+        <p>
+          Leveraging container queries, and units other than pixels, makes it a
+          lot easier to lean into intrinsic designs.
+        </p>
+        <a href="#">Learn more about smart layouts</a>
+      </article>
+    </div>
+
+    <!-- <section class="more-content">
+  <h2>More content!</h2> 
+  <ul class="flex-group"> 
+    <li> 
+      <article> 
+        <div class="adaptable-image"> 
+           <img src='https://images.unsplash.com/photo-1724870069803-ee8d7119d608?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjcyMDc3MzV8&ixlib=rb-4.0.3&q=80&w=1200' alt=''>
+        </div> 
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel obcaecati magnam quo? Quidem, aliquam ducimus sint nobis officiis harum. Perspiciatis?</p>
+        <a href=""></a> 
+      </article> 
+    </li> 
+    <li>
+      <article>
+        <div class="adaptable-image">
+          <img src='https://images.unsplash.com/photo-1724870069803-ee8d7119d608?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjcyMDc3MzV8&ixlib=rb-4.0.3&q=80&w=1200' alt=''>
+        </div>
+        <p>Iusto doloribus alias expedita eaque a eum aspernatur quidem, voluptatem officia, debitis explicabo asperiores? Repellat beatae magnam commodi blanditiis ullam.</p>
+        <a href=""></a>
+      </article>
+    </li>
+    <li>
+      <article>
+        <div class="adaptable-image">
+          <img src='https://images.unsplash.com/photo-1724870069803-ee8d7119d608?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjcyMDc3MzV8&ixlib=rb-4.0.3&q=80&w=1200' alt=''>
+        </div>
+
+        <p>Repellendus velit rem hic, culpa at voluptates soluta dignissimos recusandae voluptas dicta architecto sequi in officia, accusantium quos fuga. Assumenda!</p>
+      </article>
+    </li>
+  </ul>
+</section> -->
+  </body>
+</html>

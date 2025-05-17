@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  max-inline-size: 100%;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #2b3d4e;
+  background-color: #d4e4f4;
+  /* background-color: indianred; */
+  padding: 3rem;
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 1.5;
+  font-weight: 600;
+  text-align: center;
+  margin-block-end: 2rem;
+}
+
+.postage-stamps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  justify-content: center;
+}
+
+.postage-stamp {
+  position: relative;
+  inline-size: 100%;
+  aspect-ratio: 1.4;
+  padding: 1.5rem;
+  /*   background-color: #fff; */
+
+  /* 
+  background:
+    radial-gradient(circle 6px, #0000 98%, #fff),
+    linear-gradient(#fff 0 0);
+
+  background-position: -9px -9px, center;
+  background-size: 18px 18px, calc(100% - 18px) calc(100% - 18px);
+  background-repeat: round, no-repeat;
+  */
+
+  /* background:
+    radial-gradient(circle 6px, #0000 98%, #fff) -9px -9px / 18px 18px round,
+    linear-gradient(#fff 0 0) center / calc(100% - 18px) calc(100% - 18px) no-repeat; */
+
+  --radius: 6px;
+  background: radial-gradient(circle var(--radius), #0000 98%, #fff)
+      calc(var(--radius) * -1.5) calc(var(--radius) * -1.5) /
+      calc(var(--radius) * 3) calc(var(--radius) * 3) round,
+    linear-gradient(#fff 0 0) center / calc(100% - calc(var(--radius) * 3))
+      calc(100% - calc(var(--radius) * 3)) no-repeat;
+}
+
+/* 
+.postage-stamp::after {
+  position: absolute;
+  content: '';
+  inset: 9px;
+  z-index: -1;
+  background-color: #fff;
+}
+*/
+
+.postage-stamp img {
+  inline-size: 100%;
+  aspect-ratio: 1.4;
+  object-fit: cover;
+  display: block;
+  outline: 1px dashed #fff;
+  outline-offset: -1rem;
+}

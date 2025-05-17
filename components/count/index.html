@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      @layer count {
+        body {
+          counter-reset: section;
+        }
+
+        section {
+          counter-increment: section;
+          position: relative;
+          min-height: 100vh;
+
+          &::after {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+
+            font-size: 10rem;
+
+            content: "section :" counter(section);
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section></section>
+    <section></section>
+    <section></section>
+    <section></section>
+  </body>
+</html>
