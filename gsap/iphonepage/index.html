@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      *,
+      ::after,
+      ::before {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      img,
+      video,
+      svg {
+        display: block;
+        max-inline-size: 100%;
+      }
+
+      select,
+      input,
+      textarea,
+      button {
+        font: inherit;
+      }
+
+      body {
+        background: #222;
+      }
+
+      .box,
+      .sm {
+        inline-size: 100px;
+        block-size: 100px;
+        border-radius: 12px;
+        background: #09f;
+      }
+
+      .sm {
+        background: #0f9;
+      }
+
+      img {
+        aspect-ratio: 1 / 1;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      :root {
+        color-scheme: dark;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+
+    <div class="sm"></div>
+    <div class="sm"></div>
+    <div class="sm"></div>
+    <div class="sm"></div>
+    <div class="sm"></div>
+
+    <h1>aprender a usar easing</h1>
+    <p>
+      cada animación se llama tween, y cada tween tiene una propiedad llamada
+      easing, que es la que le da la sensación de movimiento a la animación. Por
+      ejemplo, si quieres que una animación se sienta más suave, puedes usar un
+      easing como "power1.inOut". Si quieres que una animación se sienta más
+      rápida al principio y más lenta al final, puedes
+    </p>
+
+    <p>
+      en un timeline puedes encadenar varias animaciones, y cada una de ellas
+      puede tener su propio easing. Por ejemplo, si quieres que una animación se
+      sienta más suave al principio y más rápida al final, puedes usar un easing
+      como "power1.inOut" para la primera animación y "power2.out" para la
+      segunda animación. Esto te permite crear animaciones más complejas y
+      realistas. además tienen parametros de posición, como ">" para que la
+      animación empiece justo cuando empieza el elemento anterior a el.
+      <br />
+    </p>
+
+    <footer>
+      <button id="play">Reproducir</button>
+      <button id="pause">Pausar</button>
+      <button id="resume">resume</button>
+      <button id="reverse">Revertir</button>
+      <button id="turbo">Turbo</button>
+      <button id="restart">Reiniciar</button>
+    </footer>
+
+    <small id="log"> </small>
+
+    <div class="grid">
+      <img src="../../components/columns/columnsGenshin/assets/10.png" alt="" />
+      <img src="../../components/columns/columnsGenshin/assets/10.png" alt="" />
+      <img src="../../components/columns/columnsGenshin/assets/10.png" alt="" />
+      <img src="../../components/columns/columnsGenshin/assets/10.png" alt="" />
+      <img src="../../components/columns/columnsGenshin/assets/10.png" alt="" />
+      <img src="../../components/columns/columnsGenshin/assets/10.png" alt="" />
+
+      <img src="../../components/columns/columnsGenshin/assets/10.png" alt="" />
+      <img src="../../components/columns/columnsGenshin/assets/10.png" alt="" />
+      <img src="../../components/columns/columnsGenshin/assets/10.png" alt="" />
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        gsap.to(".box", {
+          duration: 2,
+          x: 300,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
+          onComplete: () => {
+            console.log("Animation completed!");
+          },
+          onStart: () => {
+            console.log("Animation started!");
+          },
+        });
+
+        gsap.to(".sm", {
+          duration: 1,
+          x: 100,
+          ease: "power1.inOut",
+          rotate: 360,
+          scale: 0.5,
+          stagger: {
+            each: 0.2,
+            repeat: -1,
+            yoyo: true,
+            amount: 0.5,
+            from: "start",
+            grid: "auto",
+            ease: "power1.inOut",
+          },
+        });
+
+        gsap.to(".grid img", {
+          duration: 1,
+          scale: 0.9,
+          scaleY: 1.2,
+          ease: "power1.inOut",
+          stagger: {
+            repeat: -1,
+            yoyo: true,
+            amount: 0.5,
+            from: "start",
+            grid: "auto",
+            from: "center",
+          },
+        });
+
+        const tl = gsap.timeline();
+
+        tl.to(".box", {
+          duration: 1,
+          x: 300,
+          ease: "power1.inOut",
+        })
+          .to(".box", {
+            duration: 1,
+            y: 200,
+            ease: "power1.inOut",
+          })
+          .to(
+            ".box",
+            {
+              duration: 1,
+              rotation: 360,
+              ease: "power1.inOut",
+            },
+            "+=1"
+          ) // Start this tween 1 second after the previous one ends
+          .to(".box", {
+            duration: 1,
+            scale: 0.5,
+            ease: "power1.inOut",
+          });
+
+        window.play.onclick = () => {
+          tl.play();
+          document.getElementById("log").textContent = "Playing animation";
+        };
+
+        window.pause.onclick = () => {
+          tl.pause();
+          document.getElementById("log").textContent = "Animation paused";
+        };
+
+        window.resume.onclick = () => {
+          tl.resume();
+          document.getElementById("log").textContent = "Resuming animation";
+        };
+
+        window.reverse.onclick = () => {
+          tl.reverse();
+          document.getElementById("log").textContent = "Reversing animation";
+        };
+
+        window.restart.onclick = () => {
+          tl.restart();
+          document.getElementById("log").textContent = "Restarting animation";
+        };
+
+        window.turbo.onclick = () => {
+          tl.timeScale(2);
+          document.getElementById("log").textContent = "Turbo mode activated";
+        };
+      });
+    </script>
+  </body>
+</html>

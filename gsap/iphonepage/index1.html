@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      ::after,
+      ::before {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      img,
+      video,
+      svg {
+        display: block;
+        max-inline-size: 100%;
+      }
+
+      select,
+      input,
+      textarea,
+      button {
+        font: inherit;
+      }
+
+      body {
+        background: #222;
+        block-size: 5000px;
+      }
+
+      .box,
+      .sm {
+        inline-size: 100px;
+        block-size: 100px;
+        border-radius: 12px;
+        background: #09f;
+      }
+
+      .sm {
+        background: #0f9;
+      }
+
+      img {
+        aspect-ratio: 1 / 1;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      :root {
+        color-scheme: dark;
+      }
+
+      h1 {
+        text-align: center;
+        text-wrap: balance;
+        font-size: 2rem;
+        font-family: sans-serif;
+
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        inline-size: 100%;
+      }
+
+      canvas {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        aspect-ratio: 1068 / 600;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title">
+      El codigo es maravilloso, pero no es necesario que lo veas.
+    </h1>
+
+    <canvas id="hero"> </canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+
+    <script>
+      gsap.registerPlugin(SplitText);
+      gsap.registerPlugin(ScrollTrigger);
+
+      // const split = new SplitText("h1", { type: "lines, words, chars" });
+
+      // gsap.from(split.words, {
+      //   duration: 1,
+      //   autoAlpha: 0,
+      //   y: 10,
+      //   ease: "back.out(1.7)",
+      //   filter: "blur(5px)",
+      //   stagger: 0.1,
+      // });
+
+      const canvas = document.getElementById("hero");
+      const ctx = canvas.getContext("2d");
+
+      // 1068 x 600
+      canvas.width = 1068;
+      canvas.height = 600;
+
+      const TOTAL_FRAMES = 65;
+
+      const createURL = (frame) => {
+        const id = String(frame).padStart(4, "0");
+
+        return `https://www.apple.com/105/media/us/airpods-pro/2022/d2deeb8e-83eb-48ea-9721-f567cf0fffa8/anim/hero/medium/${id}.png `;
+      };
+
+      const images = Array.from(
+        {
+          length: TOTAL_FRAMES,
+        },
+        (_, i) => {
+          const img = new Image();
+          img.src = createURL(i);
+
+          console.log(img.src);
+          return img;
+        }
+      );
+
+
+
+      const airpods = {
+        frame: 0
+      }
+
+
+      gsap.to(airpods, {
+        frame: TOTAL_FRAMES - 1,
+        ease: "none",
+        snap: "frame",
+        scrollTrigger: {
+          scrub: 0.5,
+        },
+        onUpdate: render,
+      });
+
+      gsap.to(".title", {
+        scale: 1.5,
+        autoAlpha: 0,
+        scrollTrigger: {
+          start: "center center",
+          scrub: 0.5,
+        },
+      });
+
+      images[0].onload = () => render()
+
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(images[airpods.frame], 0, 0);
+      }
+    </script>
+  </body>
+</html>
