@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Typing Animation</title>
+
+  <style>
+    *, ::after, ::before {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      padding: 20px;
+    }
+
+    .layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    h1.main_title {
+      font-size: 2em;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #333;
+      animation: typing var(--typing-duration, 2s) steps(var(--letters, 10)) infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: calc(var(--letters) * 1ch); }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <main class="layout_main">
+      <h1 class="main_title">
+        ¡Bienvenido al curso!
+      </h1>
+
+      <article class="main_card">
+        <div class="card_container-img">
+          <!-- <img src="../../components/columns/columnsGenshin/assets/1.png" alt="" class="card_img"> -->
+        </div>
+        <p class="card_price">
+          9.99
+        </p>
+        <a href="#">Comprar</a>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const $h1 = document.querySelector('.main_title');
+    const text = $h1.textContent.trim();
+    const letters = text.length;
+
+    // Set CSS variables
+    $h1.style.setProperty('--letters', letters);
+    $h1.style.setProperty('--typing-duration', `${letters * 0.2}s`);
+  </script>
+</body>
+</html>
