@@ -115,8 +115,8 @@
     justify-content: center;
     align-items: center;
 
-& button {
-      background: url('./tinder-icons.webp') no-repeat;
+    & button {
+      background: url("./tinder-icons.webp") no-repeat;
       background-position: 0px 0px;
       background-size: 175px;
       height: 32px;
@@ -124,7 +124,7 @@
       border-radius: 50%;
       border: 0;
       cursor: pointer;
-      transition: scale .3s ease;
+      transition: scale 0.3s ease;
 
       &:hover {
         scale: 1.4;
@@ -195,3 +195,24 @@
     }
   }
 </style>
+
+<script>
+  let isAnimating = false;
+  let pullDeltaX = 0; // distance moved by the user
+
+  function startDrag(event) {
+    if (isAnimating) return;
+
+    const actualCard = event.target.closest("article");
+
+    const startX = event.pageX ?? event.touches[0].pageX;
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onEnd);
+    document.addEventListener("touchmove", onMove, { passive: true });
+    document.addEventListener("touchend", onEnd, { passive: true });
+  }
+
+  document.addEventListener("mousedown", startDrag);
+  document.addEventListener("touchstart", startDrag, { passive: true });
+</script>
