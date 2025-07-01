@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      :root {
+        --color-1: #0f1016;
+        --text-color: #f0f0f0;
+        --accent-color: #006aff;
+      }
+      svg {
+        block-size: 24px;
+        inline-size: 24px;
+        fill: var(--text-color);
+      }
+
+      #sidebar-active {
+        display: none;
+      }
+
+      .open-sidebar-button,
+      .close-sidebar-button {
+        display: none;
+        padding: 0 20px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 12pt;
+        font-family: "Courier New", Courier, monospace;
+      }
+
+      nav {
+        height: 60px;
+        background-color: var(--color-1);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .links-container {
+        block-size: 100%;
+        inline-size: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      nav a {
+        block-size: 100%;
+        padding: 0 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: var(--text-color);
+      }
+
+      nav a:hover {
+        background-color: var(--accent-color);
+      }
+
+      nav .home-link {
+        margin-right: auto;
+      }
+
+      @media (max-width: 768px) {
+        .links-container {
+          flex-direction: column;
+          align-items: flex-start;
+          position: fixed;
+          top: 0;
+          right: -100%;
+          z-index: 10;
+          width: 100px;
+          background-color: var(--color-1);
+          box-shadow: -5px 0 5px rgba(0, 0, 0, 0.25);
+
+          transition: 0.1s ease-in-out;
+        }
+
+        nav a {
+          block-size: auto;
+          inline-size: 100%;
+          padding: 20px 30px;
+          justify-content: flex-start;
+        }
+
+        .open-sidebar-button,
+        .close-sidebar-button {
+          display: 20px;
+          display: block;
+        }
+
+        #sidebar-active:checked ~ .links-container {
+          right: 0;
+        }
+
+        #overlay {
+          opacity: 0;
+
+          transition: 0.1s ease-in-out;
+        }
+
+        #sidebar-active:checked ~ #overlay {
+          opacity: 1;
+          background: rgba(0, 0, 0, 0.5);
+          height: 100%;
+          width: 100%;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 5;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <input type="checkbox" id="sidebar-active" class="hidden" />
+      <label for="sidebar-active" class="open-sidebar-button">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path>
+        </svg>
+      </label>
+
+      <label id="overlay" for="sidebar-active"></label>
+      <div class="links-container" class="close-sidebar-button">
+        <label for="sidebar-active">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"
+            ></path>
+          </svg>
+        </label>
+
+        <a class="home-link" href="#">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/collaborations">Collaborations</a>
+        <a href="/team">Team</a>
+      </div>
+    </nav>
+  </body>
+</html>
