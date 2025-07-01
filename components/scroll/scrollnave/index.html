@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        color-scheme: dark;
+      }
+
+      .layer {
+        position: fixed;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #222;
+
+        & .plane {
+          position: absolute;
+          left: -55vh;
+          block-size: 100vh;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          inline-size: 80px;
+          block-size: 200px;
+        }
+      }
+
+      body {
+        min-block-size: 100vh;
+        overflow-inline: hidden;
+      }
+
+      .text {
+        block-size: 50vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: red;
+
+        & h2 {
+          color: #fff;
+          font-size: 3em;
+          font-weight: 200;
+          text-transform: uppercase;
+          letter-spacing: 0.25em;
+          line-height: 2.5em;
+        }
+      }
+
+      .text h2 span {
+        font-size: 4em;
+        font-weight: 900;
+        letter-spacing: 0em;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wIAAgMBApGJb+UAAAAASUVORK5CYII=");
+        background-size: cover;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      section {
+        block-size: 200vh;
+        background: url(snow1.webp) no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+
+        &:last-child {
+          block-size: 100vh;
+          background: url(plane.png) no-repeat;
+          background-size: cover;
+          background-attachment: fixed;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layer">
+      <img src="./plane.png" alt="" class="plane" />
+    </div>
+    <section></section>
+    <div class="text">
+      <h2>
+        welcome to <br />
+        <span>Thailand</span>
+      </h2>
+    </div>
+    <section class="sec2"></section>
+  </body>
+
+  <script>
+    let layer = document.querySelector(".layer");
+    let plane = document.querySelector(".plane");
+
+    window.addEventListener("scroll", () => {
+      let value = window.scrollY;
+      layer.style.left = `${value * 2}px`;
+    });
+  </script>
+</html>
