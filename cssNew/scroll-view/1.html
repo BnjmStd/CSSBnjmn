@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      @layer support, lessons;
+
+      @import "https://unpkg.com/open-props/easings.min.css" layer(support);
+
+      /* 
+  HTML Structure, 3 elements
+
+  .scroll--root 
+    > .scroll--viewport 
+      > .scroll--content
+        > YOUR_CONTENT
+*/
+
+      @layer lessons.essentials {
+        .scroll--root {
+          --_space: 1lh;
+
+          /* very basic light/dark theme */
+          --_theme: light-dark(hsl(none none 75%), hsl(none none 25%));
+
+          border-radius: 10px;
+          border: 1px solid var(--_theme);
+        }
+
+        .scroll--viewport {
+          /* be explicit about the axis */
+          overflow: hidden auto;
+
+          /* nearly always specify overscroll behavior */
+          overscroll-behavior-y: contain;
+
+          /* enable if ok with user's preference */
+          @media (prefers-reduced-motion: no-preference) {
+            scroll-behavior: smooth;
+          }
+        }
+      }
+
+      @layer lessons.colorize {
+        /*
+    - an always showing scrollbar
+    - inset from top and right but content is fullbleed
+    - light/dark colors powered by props n functions
+    - mouse hover / keyboard focus feedback
+    - all browsers get an upgrade
+  */
+
+        /*
+    - webkit scrollbars for more customization (Chromium, Safari)
+    - scrollbar-color (Firefox, exclusively not Chromium even tho it has support)
+    - most mobile browser scrollbars completely ignore all this
+  */
+
+        /* benefit of a root element here, 
+     some inline-end scroller spacing,
+     block spacing will be in the thumb styles
+  */
+        .scroll--root {
+          padding-inline-end: var(--_space);
+        }
+
+        .scroll--viewport {
+          /* we'll be showing our own scroller focus states */
+          &:is(:focus-visible, :focus-within) {
+            outline-offset: -2px;
+            outline: none;
+          }
+
+          /* feel free to make it bigger */
+          &::-webkit-scrollbar {
+            width: 10px;
+          }
+
+          /* we want to showoff our integrated and 
+       spaced appropriately track 
+    */
+          &::-webkit-scrollbar-track {
+            /* create an 80% opacity variant of the theme color */
+            background: color-mix(in srgb, var(--_theme), #0000 80%);
+
+            /* maximum roundness */
+            border-radius: 1e3px;
+
+            /* so we can push away from the edge/border */
+            background-clip: padding-box;
+
+            /* space! */
+            margin-block: 1lh;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            /* create a 25% opacity variant of the theme color */
+            background: color-mix(in srgb, var(--_theme), #0000 25%);
+
+            /* maximum roundness */
+            border-radius: 1e3px;
+          }
+
+          /* add a border for when forced colors is active */
+          /* or have matching background and border colors always */
+          @media (forced-colors: active) {
+            &::-webkit-scrollbar-thumb {
+              border: 2px solid currentcolor;
+            }
+          }
+
+          /* highlight thumb to indicate focus is inside */
+          &:is(:focus-visible, :focus-within)::-webkit-scrollbar-thumb {
+            background: var(--_theme);
+          }
+
+          /* if user can hover, we can make it respond to hover */
+          @media (hover) {
+            /* default now to 50% faded out */
+            &::-webkit-scrollbar {
+              opacity: 0.5;
+            }
+
+            /* hover full opacity */
+            &::-webkit-scrollbar:hover {
+              opacity: 1;
+            }
+
+            /* thumb feedback when hovering scroll area */
+            &:hover::-webkit-scrollbar-thumb {
+              background: color-mix(in srgb, var(--_theme), #0000 10%);
+            }
+
+            /* make the thumb color solid on thumb hover */
+            &::-webkit-scrollbar-thumb:hover {
+              background: var(--_theme);
+            }
+          }
+
+          /* styles for Firefox */
+          /* this can't be @supports (scrollbar-color: white black) */
+          /* or not (scrollbar-color: white black) */
+          /* or @supports not (::-webkit-scrollbar) */
+          /* chromium is eager to switch to scrollbar-* and 
+       will drop all webkit-scrollbar
+       styles if there's any scent of the standard ones
+    */
+          /* we can still provide a very nice experience for keyboard, mouse */
+          @supports (-moz-appearance: none) {
+            scrollbar-width: thin;
+            scrollbar-color: var(--_theme) #0000;
+            transition: scrollbar-color 0.3s ease;
+
+            &:is(:focus-visible, :focus-within) {
+              scrollbar-color: LinkText #0000;
+            }
+
+            @media (hover) {
+              scrollbar-color: light-dark(#eee, #333) #0000;
+
+              &:hover {
+                scrollbar-color: var(--_theme) #0000;
+              }
+            }
+          }
+        }
+      }
+
+      @layer lessons.containerization {
+        /*
+    - scrollers are often fixed / extrinsically sized
+    - children may want to use @container
+    - scroll-state snapped, stuck, or overflowing can be queried
+  */
+
+        .scroll--viewport {
+          container: --scrollport / size scroll-state;
+        }
+      }
+
+      @layer lessons.anchorization {
+        /*
+    - easily affix elements inside or outside
+    - potentially easily to manage than sticky
+    - this demo anchors CSS scroll buttons
+  */
+
+        .scroll--root {
+          anchor-name: --⚓︎scroll--root;
+        }
+
+        .scroll--viewport {
+          anchor-name: --⚓︎scroll--viewport;
+        }
+      }
+
+      @layer lessons.scroll-buttons {
+        /*
+    - provide a scroll hint (button presence, button :disabled)
+    - provide scroll feedback
+    - addional affordance (maybe scrollbars are normally too small, arrows nudge too little)
+    - anchored inside when full, outside when there's room
+  */
+
+        .scroll--viewport {
+          /* dont necessarily need to check support but… */
+          @supports selector(::scroll-button(*)) {
+            @media (width > 720px) {
+              /* for all scroll buttons on this scroller */
+              &::scroll-button(*) {
+                position: fixed;
+                appearance: none;
+                background: none;
+                -webkit-tap-highlight-color: transparent;
+                border: 1px solid var(--_theme);
+                border-radius: 50%;
+                aspect-ratio: 1;
+                inline-size: 36px;
+
+                transition: opacity 0.5s var(--ease-3),
+                  scale 0.8s var(--ease-spring-5),
+                  background-color 0.2s var(--ease-3);
+              }
+
+              /* hover feedback */
+              &::scroll-button(*):not(:disabled):is(:hover, :focus-visible) {
+                background: color-mix(in srgb, var(--_theme), #0000 90%);
+              }
+
+              /* mouse down, scale down feedback */
+              &::scroll-button(*):not(:disabled):active {
+                scale: 80%;
+              }
+
+              /* ghost it */
+              &::scroll-button(*):disabled {
+                opacity: 25%;
+              }
+
+              &::scroll-button(up) {
+                /* symbol / accessible button label */
+                content: "▲" / "Scroll up";
+
+                /* anchor to root */
+                position-anchor: --⚓︎scroll--root;
+                position-area: inline-end span-block-end;
+
+                /* be an anchor! the other button will use it */
+                anchor-name: --⚓︎scroll--buttonup;
+
+                /* spacing from scroll--root */
+                margin-inline-start: var(--_space);
+                margin-block-start: var(--_space);
+              }
+
+              &::scroll-button(down) {
+                content: "▼" / "Scroll down";
+
+                /* anchor to the up button */
+                position-anchor: --⚓︎scroll--buttonup;
+                position-area: block-end;
+
+                /* spacing from the up scroll button */
+                margin-block-start: calc(var(--_space) / 2);
+              }
+            }
+          }
+        }
+      }
+
+      .scroll--root {
+        > .scroll--viewport {
+          aspect-ratio: 16/9;
+
+          > .scroll--content {
+            display: grid;
+            gap: calc(var(--_space) * 2);
+            padding: var(--_space);
+          }
+        }
+      }
+
+      @layer support {
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+
+        html {
+          block-size: 100%;
+          color-scheme: dark light;
+        }
+
+        body {
+          min-block-size: 100%;
+          padding-block: 15vw;
+          font-family: system-ui, sans-serif;
+
+          display: grid;
+          place-content: center;
+          grid-template-columns: min(55ch, calc(100vw - 150px));
+
+          @media (width <= 720px) {
+            grid-template-columns: 96vw;
+          }
+        }
+
+        p {
+          text-box: cap alphabetic;
+          text-wrap: pretty;
+          line-height: 1.5;
+          font-weight: 300;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="https://codepen.io/argyleink/pen/pvJvqjY">link codepen</a>
+
+    <section class="scroll--root">
+      <div class="scroll--viewport">
+        <div class="scroll--content">
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis
+            culpa repudiandae mollitia praesentium molestiae cupiditate, et
+            labore porro minima placeat cumque debitis sit quidem, dignissimos
+            rerum, quo ex eos laboriosam. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Ut facilis perspiciatis possimus. Accusantium
+            obcaecati repudiandae sunt, possimus maxime alias repellendus
+            repellat, vel distinctio veritatis asperiores? Laboriosam enim
+            architecto molestiae autem?
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis
+            culpa repudiandae mollitia praesentium molestiae cupiditate, et
+            labore porro minima placeat cumque debitis sit quidem, dignissimos
+            rerum, quo ex eos laboriosam. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Ut facilis perspiciatis possimus. Accusantium
+            obcaecati repudiandae sunt, possimus maxime alias repellendus
+            repellat, vel distinctio veritatis asperiores? Laboriosam enim
+            architecto molestiae autem?
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis
+            culpa repudiandae mollitia praesentium molestiae cupiditate, et
+            labore porro minima placeat cumque debitis sit quidem, dignissimos
+            rerum, quo ex eos laboriosam. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Ut facilis perspiciatis possimus. Accusantium
+            obcaecati repudiandae sunt, possimus maxime alias repellendus
+            repellat, vel distinctio veritatis asperiores? Laboriosam enim
+            architecto molestiae autem?
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis
+            culpa repudiandae mollitia praesentium molestiae cupiditate, et
+            labore porro minima placeat cumque debitis sit quidem, dignissimos
+            rerum, quo ex eos laboriosam. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Ut facilis perspiciatis possimus. Accusantium
+            obcaecati repudiandae sunt, possimus maxime alias repellendus
+            repellat, vel distinctio veritatis asperiores? Laboriosam enim
+            architecto molestiae autem?
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis
+            culpa repudiandae mollitia praesentium molestiae cupiditate, et
+            labore porro minima placeat cumque debitis sit quidem, dignissimos
+            rerum, quo ex eos laboriosam. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Ut facilis perspiciatis possimus. Accusantium
+            obcaecati repudiandae sunt, possimus maxime alias repellendus
+            repellat, vel distinctio veritatis asperiores? Laboriosam enim
+            architecto molestiae autem?
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis
+            culpa repudiandae mollitia praesentium molestiae cupiditate, et
+            labore porro minima placeat cumque debitis sit quidem, dignissimos
+            rerum, quo ex eos laboriosam. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Ut facilis perspiciatis possimus. Accusantium
+            obcaecati repudiandae sunt, possimus maxime alias repellendus
+            repellat, vel distinctio veritatis asperiores? Laboriosam enim
+            architecto molestiae autem?
+          </p>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

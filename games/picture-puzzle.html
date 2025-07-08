@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PUZZLE</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #4d5762;
+      }
+
+      .drag {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        inline-size: 400px;
+        outline: 1px solid rgba(0, 0, 0, 0.4);
+        gap: 1rem;
+        cursor: grab;
+      }
+
+      .drag .dragBox {
+        position: relative;
+        inline-size: 100px;
+        block-size: 100px;
+        background-color: #fff;
+      }
+
+      .images {
+        position: relative;
+        inline-size: 100%;
+        height: 100%;
+        block-size: 100px;
+        background: var(--img) no-repeat center center;
+        background-size: cover;
+      }
+
+      .reset {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 0.5rem 1rem;
+        background-color: #ff6347;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        inline-size: 400px;
+        outline: 1px solid rgba(0, 0, 0, 0.4);
+        margin-inline: 1rem;
+      }
+
+      .dropBox {
+        position: relative;
+        inline-size: 100px;
+        block-size: 100px;
+        border: 2px dashed #838181;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="drag" id="drag">
+      <div class="dragBox">
+        <div
+          class="images"
+          id="block1"
+          style="--img: url('./picture-puzzle/1.png')"
+        ></div>
+      </div>
+      <div class="dragBox">
+        <div
+          class="images"
+          id="block2"
+          style="--img: url('./picture-puzzle/2.png')"
+        ></div>
+      </div>
+      <div class="dragBox">
+        <div
+          class="images"
+          id="block3"
+          style="--img: url('./picture-puzzle/3.png')"
+        ></div>
+      </div>
+      <div class="dragBox">
+        <div
+          class="images"
+          id="block4"
+          style="--img: url('./picture-puzzle/4.png')"
+        ></div>
+      </div>
+      <div class="dragBox">
+        <div
+          class="images"
+          id="block5"
+          style="--img: url('./picture-puzzle/5.png')"
+        ></div>
+      </div>
+      <div class="dragBox">
+        <div
+          class="images"
+          id="block6"
+          style="--img: url('./picture-puzzle/6.png')"
+        ></div>
+      </div>
+      <div class="dragBox">
+        <div
+          class="images"
+          id="block7"
+          style="--img: url('./picture-puzzle/7.png')"
+        ></div>
+      </div>
+      <div class="dragBox">
+        <div
+          class="images"
+          id="block8"
+          style="--img: url('./picture-puzzle/8.png')"
+        ></div>
+      </div>
+      <div class="dragBox">
+        <div
+          class="images"
+          id="block9"
+          style="--img: url('./picture-puzzle/9.png')"
+        ></div>
+      </div>
+    </div>
+
+    <div class="board">
+      <div class="dropBox"></div>
+      <div class="dropBox"></div>
+      <div class="dropBox"></div>
+      <div class="dropBox"></div>
+      <div class="dropBox"></div>
+      <div class="dropBox"></div>
+      <div class="dropBox"></div>
+      <div class="dropBox"></div>
+      <div class="dropBox"></div>
+    </div>
+
+    <button class="reset">Reset Puzzle</button>
+  </body>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const $buttonsReset = document.querySelectorAll(".reset");
+
+      $buttonsReset.forEach(($button) => {
+        $button.addEventListener("click", () => {
+          onload();
+        });
+      });
+
+      const onload = () => {
+        const $parent = document.getElementById("drag");
+        const $blocks = document.querySelectorAll(".dragBox");
+        const $frag = document.createDocumentFragment();
+
+        if ($blocks.length === 0) {
+          return;
+        }
+
+        if ($parent.children.length === 0) {
+          return;
+        }
+
+        while ($parent.children.length) {
+          $frag.appendChild(
+            $parent.children[
+              Math.floor(Math.random() * $parent.children.length)
+            ]
+          );
+        }
+
+        $parent.appendChild($frag);
+      };
+
+      /* drag */
+
+      const $dropBoxes = document.querySelectorAll(".dropBox");
+      const $images = document.querySelectorAll(".dragBox");
+
+      if ($images.length === 0) {
+        return;
+      }
+
+      $images.forEach(($image) => {
+        $image.setAttribute("draggable", "true");
+      });
+
+      const allowDrop = (ev) => {
+        ev.preventDefault();
+      };
+
+      const drag = (ev) => {
+        const img = ev.target.querySelector(".images");
+        if (!img) return;
+
+        const id = img.id;
+        console.log("dragstart", id);
+
+        ev.dataTransfer.setData("text/plain", id);
+        ev.target.classList.add("dragging");
+      };
+
+      const drop = (ev) => {
+        ev.preventDefault();
+
+        const data = ev.dataTransfer.getData("text/plain");
+        const draggedElement = document.getElementById(data);
+
+        console.log("drop on:", ev.target.className);
+
+        const dropTarget = ev.target.classList.contains("dropBox")
+          ? ev.target
+          : ev.target.closest(".dropBox");
+
+        if (dropTarget && !dropTarget.querySelector(".images")) {
+          dropTarget.appendChild(draggedElement);
+        }
+      };
+
+      $images.forEach(($image) => {
+        $image.addEventListener("dragstart", drag);
+        $image.addEventListener("dragend", (ev) => {
+          ev.target.classList.remove("dragging");
+        });
+      });
+
+      $dropBoxes.forEach(($dropBox) => {
+        $dropBox.addEventListener("dragover", allowDrop);
+        $dropBox.addEventListener("drop", drop);
+      });
+    });
+  </script>
+</html>
