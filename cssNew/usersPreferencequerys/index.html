@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Markdown Render</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <textarea id="markdown" style="width:100%;height:100px;">
+
+
+# 🧾 Resumen de Directivas `@` en CSS
+
+| **Directiva**           | **Propósito**                                      | **Valores comunes / Uso**                                 |
+|-------------------------|----------------------------------------------------|------------------------------------------------------------|
+| `@import`               | Importa hojas de estilo externas                   | `@import url("estilo.css");`                               |
+| `@media`                | Estilos condicionales (responsive)                | `@media (min-width: 600px) { ... }`                        |
+| `@supports`             | Verifica soporte de una propiedad o característica | `@supports (display: grid) { ... }`                        |
+| `@layer`                | Define capas de estilo                             | `@layer base;`, `@layer components { ... }`                |
+| `@scope`                | Limita el alcance de los estilos                  | `@scope (.card) { ... }`, `@scope (.a) to (.b) { ... }`    |
+| `@container`            | Estilos según el tamaño del contenedor             | `@container (min-width: 400px) { ... }`                    |
+| `@keyframes`            | Define animaciones                                 | `@keyframes fadeIn { 0% { opacity: 0 } 100% { opacity: 1 } }` |
+| `@font-face`            | Declara fuentes personalizadas                     | `@font-face { font-family: "X"; src: url(...); }`          |
+| `@property`             | Propiedades personalizadas animables               | `@property --mi-var { syntax: "<color>"; inherits: true; }`|
+| `@import + @layer`      | Importación con capas                              | `@import url("x.css") layer(base);`                        |
+| `@page`                 | Estilos para impresión                             | `@page { margin: 1cm; }`                                   |
+| `@namespace`            | Espacio de nombres para XML/SVG                   | `@namespace svg url("http://www.w3.org/2000/svg");`        |
+| `@charset`              | Codificación del archivo CSS (va al inicio)        | `@charset "UTF-8";`                                        |
+| `@counter-style`        | Estilos de lista personalizados                    | `@counter-style example { system: cyclic; ... }`           |
+
+---
+
+## 📌 Notas rápidas
+
+- `@layer` y `@scope` → Aislamiento y organización de estilos.
+- `@supports` y `@media` → CSS adaptativo.
+- `@container` → Clave para estilos basados en componentes (container queries).
+- `@property` → Permite variables CSS animables.
+
+
+
+
+
+  </textarea>
+
+  <div id="rendered"></div>
+
+  <script>
+    const mdInput = document.getElementById('markdown');
+    const rendered = document.getElementById('rendered');
+
+    mdInput.addEventListener('input', () => {
+      rendered.innerHTML = marked.parse(mdInput.value);
+    });
+
+    mdInput.dispatchEvent(new Event('input'));
+  </script>
+</body>
+</html>

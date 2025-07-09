@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      pre code {
+        background-color: #f4f4f4;
+        padding: 10px;
+        display: block;
+        border-radius: 5px;
+        font-family: Consolas, monospace;
+        color: #333;
+      }
+
+      pre code {
+        white-space: pre-wrap;
+      }
+
+      :root {
+        color-scheme: dark;
+      }
+
+      body {
+        font-family: "Courier New", Courier, monospace;
+        margin-inline: auto;
+        max-inline-size: 800px;
+      }
+
+      p {
+        line-height: 1.6;
+        text-wrap: balance;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Scoped Styles: the @scope rule</h1>
+    <p>
+      Con @scope, puedes limitar el alcance de tus selectores. Para ello,
+      establece la raíz de alcance, que determina el límite superior del
+      subárbol al que deseas segmentar. Con un conjunto de raíz de alcance, las
+      reglas de estilo contenidas, denominadas reglas de estilo con alcance,
+      solo pueden seleccionar de ese subárbol limitado del DOM. Por ejemplo,
+      para segmentar solo los elementos <img /> en el componente .card,
+      estableces .card como la raíz de alcance de la regla de anidación @scope.
+    </p>
+
+    <pre><code>
+@scope (.card) {
+    img {
+        border-color: green;
+    }
+}
+</code></pre>
+
+    <p>
+      La regla de estilo con alcance img { … } solo puede seleccionar de manera
+      eficaz elementos <img /> que estén dentro del alcance del elemento .card
+      coincidente. Para evitar que se seleccionen los elementos <img /> dentro
+      del área de contenido de la tarjeta (.card__content), puedes hacer que el
+      selector img sea más específico. Otra forma de hacerlo es usar el hecho de
+      que la regla de at @scope también acepta un límite de alcance que
+      determina el límite inferior.
+    </p>
+
+    <pre><code>@scope (.card) to (.card__content) {
+    img {
+        border-color: green;
+    }
+}</code></pre>
+
+    <h2>El selector :scope</h2>
+    <p>
+      De forma predeterminada, todas las reglas de estilo centradas son
+      relativas a la raíz del alcance. También es posible segmentar el elemento
+      raíz de alcance. Para ello, usa el selector :scope.
+    </p>
+
+    <pre>
+        <code>
+            @scope (.card) {
+    :scope {
+        /* Selects the matched .card itself */
+    }
+    img {
+       /* Selects img elements that are a child of .card */
+    }
+}
+        </code>
+    </pre>
+
+    <p>
+      Los selectores dentro de las reglas de diseño centradas se anteponen
+      implícitamente a :scope. Si lo deseas, puedes ser explícito al respecto y
+      anteponer :scope. Como alternativa, puedes anteponer el selector & desde
+      la anielación de CSS.
+    </p>
+
+    <pre>
+        <code>
+            @scope (.card) {
+    img {
+       /* Selects img elements that are a child of .card */
+    }
+    :scope img {
+        /* Also selects img elements that are a child of .card */
+    }
+    & img {
+        /* Also selects img elements that are a child of .card */
+    }
+}
+        </code>
+    </pre>
+
+    <p>
+      Un límite de alcance puede usar la pseudoclase :scope para requerir una
+      relación específica con la raíz de alcance:
+    </p>
+
+    <pre>
+        <code>
+            /* .content is only a limit when it is a direct child of the :scope */
+@scope (.media-object) to (:scope > .content) { ... }
+        </code>
+    </pre>
+
+    <p>
+      Un límite de alcance también puede hacer referencia a elementos fuera de
+      su raíz de alcance mediante :scope. Por ejemplo:
+    </p>
+
+    <pre>
+        <code>
+/* .content is only a limit when the :scope is inside .sidebar */
+@scope (.media-object) to (.sidebar :scope .content) { ... }
+        </code>
+    </pre>
+
+    <p>
+      Ten en cuenta que las reglas de estilo con alcance no pueden escapar del
+      subárbol. Las selecciones como :scope + p no son válidas porque intentan
+      seleccionar elementos que no están dentro del alcance.
+    </p>
+
+    <h2>@scope y especificidad</h2>
+
+    <p>
+      Los selectores que usas en el preludio para @scope no afectan la
+      especificidad de los selectores contenidos. En el siguiente ejemplo, la
+      especificidad del selector img sigue siendo (0,0,1).
+    </p>
+
+    <pre>
+        <code>
+            @scope (#sidebar) {
+    img { /* Specificity = (0,0,1) */
+        …
+    }
+}
+        </code>
+    </pre>
+
+    <p>
+      La especificidad de :scope es la de una pseudoclase normal, es decir,
+      (0,1,0).
+    </p>
+
+    <pre>
+        <code>
+            @scope (#sidebar) {
+    :scope img { /* Specificity = (0,1,0) + (0,0,1) = (0,1,1) */
+        …
+    }
+}
+        </code>
+    </pre>
+  </body>
+
+  <script>
+    document.querySelectorAll("pre code").forEach((block) => {
+      const lines = block.textContent.split("\n");
+      const indent = lines.reduce((minIndent, line) => {
+        if (!line.trim()) return minIndent;
+        const match = line.match(/^(\s+)/);
+        if (!match) return 0;
+        return Math.min(minIndent, match[1].length);
+      }, Infinity);
+
+      block.textContent = lines.map((line) => line.slice(indent)).join("\n");
+    });
+  </script>
+</html>
