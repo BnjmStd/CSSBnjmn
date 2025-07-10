@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #575454;
+      }
+
+      div.zigzag {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+
+        gap: 30px;
+      }
+
+      .zigzag div {
+        position: relative;
+        inline-size: 100px;
+        block-size: 100px;
+        display: block;
+        background-color: rgb(14, 13, 13);
+        transform: rotate(315deg);
+
+
+        overflow: hidden;
+      }
+
+      .zigzag div::before {
+        content: "";
+        position: absolute;
+        block-size: 2px;
+        inline-size: 100%;
+
+
+        transform: translateX(-100%);
+
+        background: linear-gradient(90deg, transparent, #09f);
+
+        animation: animateBefore 2s infinite;
+
+
+        animation-delay: calc(var(--i) * 1s);
+      }
+
+
+      @keyframes animateBefore {
+        0% {
+          transform: translateX(-100%);
+        }
+        25%, 100% {
+          transform: translateX(100%);
+        }
+      }
+
+
+
+      .zigzag div::after {
+        content: "";
+        position: absolute;
+        inline-size: 2px;
+        block-size: 100%;
+
+        right: 0;
+
+
+        transform: translateY(-100%);
+
+        background: linear-gradient(180deg, transparent, #09f);
+
+        animation: animateAfter 2s infinite;
+
+        animation-delay: calc(var(--i) * 1s);
+      }
+
+
+      @keyframes animateAfter {
+        0% {
+          transform: translateY(-100%);
+        }
+        25%, 100% {
+          transform: translateY(100%);
+        }
+      }
+
+
+
+      .zigzag div span {
+        position: absolute;
+        inset: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 2rem;
+      }
+
+      .zigzag div span b {
+      }
+    </style>
+  </head>
+  <body>
+    <div class="zigzag">
+      <div style="--i: 0">
+        <span>
+          <b> C </b>
+        </span>
+      </div>
+      <div style="--i: 1">
+        <span>
+          <b> O </b>
+        </span>
+      </div>
+      <div style="--i: 2">
+        <span>
+          <b> D </b>
+        </span>
+      </div>
+      <div style="--i: 3">
+        <span>
+          <b> 💓 </b>
+        </span>
+      </div>
+    </div>
+  </body>
+</html>

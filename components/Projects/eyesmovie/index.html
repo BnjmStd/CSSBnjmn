@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #8e8e8e;
+      }
+
+      .face {
+        width: 300px;
+        height: 300px;
+        background-color: #f0c27b;
+        border-radius: 50%;
+        position: relative;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+        display: grid;
+        place-items: center;
+      }
+
+      .face::before {
+        content: "";
+        position: absolute;
+        top: 180px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 60px;
+        background-color: #5c5c5c;
+
+        border-bottom-left-radius: 70px;
+        border-bottom-right-radius: 70px;
+      }
+
+      .eyes {
+        position: relative;
+        top: -40px;
+        display: flex;
+      }
+
+      .eye {
+        position: relative;
+        background-color: rgb(215, 215, 215);
+        inline-size: 80px;
+        block-size: 80px;
+
+        display: block;
+        margin: 0 15px;
+        border-radius: 50%;
+      }
+
+      .eye::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) translate(var(--dx, 0), var(--dy, 0));
+        width: 30px;
+        height: 30px;
+        background-color: #000;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="face">
+      <div class="eyes">
+        <div class="eye"></div>
+        <div class="eye"></div>
+      </div>
+    </div>
+
+    <script>
+      document.querySelector("body").addEventListener("mousemove", eyeBall);
+
+      function eyeBall(e) {
+        const eyes = document.querySelectorAll(".eye");
+        eyes.forEach((eye) => {
+          const rect = eye.getBoundingClientRect();
+          const eyeX = rect.left + rect.width / 2;
+          const eyeY = rect.top + rect.height / 2;
+
+          const dx = e.clientX - eyeX;
+          const dy = e.clientY - eyeY;
+
+          const distance = Math.min(Math.hypot(dx, dy), 20);
+          const angle = Math.atan2(dy, dx);
+
+          const x = Math.cos(angle) * distance;
+          const y = Math.sin(angle) * distance;
+
+          eye.style.setProperty("--dx", `${x}px`);
+          eye.style.setProperty("--dy", `${y}px`);
+        });
+      }
+    </script>
+  </body>
+</html>

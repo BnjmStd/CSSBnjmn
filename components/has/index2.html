@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      :has(+ .parent-element) {
+        background-color: lightblue;
+      }
+
+      :has(+ .parent-element > .pink) {
+        background-color: lightgreen;
+      }
+
+      :has(+ * > .pink) {
+        background-color: lightcoral;
+      }
+
+      :has(> .pink) {
+        background-color: lightyellow;
+      }
+
+      :has(> .pink) > *:not(.pink) {
+        background-color: lightgray;
+      }
+
+      :has(:nth-child(2)) {
+        background-color: rgb(137, 158, 248);
+      }
+
+      .parent-element > :nth-child(2 of .green) {
+         outline: 5px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>has, selector relational selector</h1>
+
+    <div class="parent-element">
+      <p>Parent Element</p>
+      <div class="child-element pink">Child Element</div>
+      <div class="child-element green">Child Element</div>
+      <div class="child-element green">Child Element</div>
+    </div>
+  </body>
+</html>
