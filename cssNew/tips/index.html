@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      *,
+      *::after,
+      *::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: rgba(0, 153, 255, 0.215);
+        color: #333;
+      }
+
+      .section {
+        min-height: 100px;
+        padding: 1rem;
+      }
+
+      /* section 1 */
+
+      .card-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        height: 300px;
+        inline-size: auto;
+        padding: 1rem;
+        gap: 1rem;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-container > * {
+        flex: 1;
+      }
+
+      .card {
+        background-color: #fdfdfd;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+
+      .card-image {
+        height: 100px;
+        background-color: lightblue;
+        border-radius: 4px;
+      }
+
+      .card-title {
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+      .card-description {
+        font-size: 0.9rem;
+        color: #444;
+      }
+
+      /**/
+
+      .section {
+        min-height: 100px;
+        padding: 1rem;
+      }
+
+      .pink {
+        background: pink;
+      }
+
+      .blue {
+        background: lightblue;
+      }
+
+      .coral {
+        background: coral;
+      }
+
+      .yellow {
+        background: yellow;
+      }
+
+      .parent {
+        display: grid;
+        grid-template: auto 1fr auto / auto 1fr auto;
+      }
+
+      footer {
+        background: lightgray;
+        min-block-size: 80px;
+      }
+
+      .parent header {
+        grid-column: 1 / 4;
+      }
+
+      .parent .left-side {
+        grid-column: 1 / 2;
+      }
+
+      .parent main {
+        grid-column: 2 / 3;
+      }
+
+      .parent .right-side {
+        grid-column: 3 / 4;
+      }
+
+      .parent footer {
+        grid-column: 1 / 4;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="">
+      <h1>Justificar flexbox</h1>
+      <div class="card-container">
+        <div class="card">
+          <div class="card-image"></div>
+          <div class="card-title">Carta Uno</div>
+          <div class="card-description">
+            Esta es la descripción de la primera carta.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-image"></div>
+          <div class="card-title">Carta Dos</div>
+          <div class="card-description">
+            Segunda carta con un texto algo más largo para probar el
+            comportamiento.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-image"></div>
+          <div class="card-title">Carta Tres</div>
+          <div class="card-description">Descripción de la tercera carta.</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h1>classic holy grail layout</h1>
+
+      <div class="parent">
+        <header class="pink section"></header>
+        <div class="left-side blue section"></div>
+        <main class="section coral"></main>
+
+        <div class="right-side yellow section"></div>
+        <footer></footer>
+      </div>
+    </section>
+  </body>
+</html>
