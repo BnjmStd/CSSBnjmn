@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      :root {
+        --primary: #007bff;
+        --secondary: #6c757d;
+        --track-height: 12px;
+        --thumb-size: 25px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-block-size: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #d6e4f2;
+      }
+
+      .slider-container {
+        inline-size: 80%;
+        max-inline-size: 600px;
+        position: relative;
+        margin-inline: auto;
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        background: transparent;
+        position: relative;
+        z-index: 2;
+      }
+
+      input[type="range"]::-webkit-slider-runnable-track {
+        height: var(--track-height);
+        background: linear-gradient(
+          to right,
+          var(--primary) 0%,
+          var(--primary) 50%,
+          var(--secondary) 50%,
+          var(--secondary) 100%
+        );
+        border-radius: 10px;
+        cursor: pointer;
+        inline-size: 100%;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: var(--thumb-size);
+        height: var(--thumb-size);
+        border-radius: 50%;
+        background: var(--primary);
+        cursor: pointer;
+        position: relative;
+        z-index: 3;
+        margin-top: calc((var(--track-height) - var(--thumb-size)) / 2);
+      }
+
+      input[type="range"]::-moz-range-track {
+        height: var(--thumb-size);
+        width: var(--thumb-size);
+        background-color: var(--primary);
+        border: 2px solid white;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      /*progress fill*/
+
+      .slider-container::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: var(--progress, 50%);
+        height: var(--track-height);
+        background-color: var(--secondary);
+        border-radius: 10px;
+        transform: translateY(-50%);
+      }
+
+      /*hover and focus effect*/
+      input[type="range"]:hover::-webkit-slider-thumb,
+      input[type="range"]:focus::-webkit-slider-thumb {
+        background: var(--secondary);
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+      }
+
+      input[type="range"]:hover::-moz-range-thumb,
+      input[type="range"]:focus::-moz-range-thumb {
+        background: var(--secondary);
+        transform: scale(1.2);
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+      }
+
+      /*value display*/
+
+      .slider-value {
+        position: absolute;
+        top: -30px;
+        left: var(--progress, 50%);
+        transform: translateX(-50%);
+        background-color: var(--primary);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.9em;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      input[type="range"]:hover + .slider-value,
+      input[type="range"]:focus + .slider-value {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slider-container">
+      <input type="range" min="0" max="100" value="50" class="slider" />
+      <div class="slider-value" id="slider--value"></div>
+    </div>
+
+    <script>
+      const slider = document.querySelector(".slider");
+      const sliderValue = document.getElementById("slider--value");
+      const sliderContainer = document.querySelector(".slider-container");
+
+      function updateSliderValue() {
+        const value = slider.value;
+        sliderValue.textContent = value;
+        sliderContainer.style.setProperty("--progress", `${value}%`);
+        sliderValue.style.setProperty("--progress", `${value}%`);
+      }
+
+      slider.addEventListener("input", updateSliderValue);
+      updateSliderValue();
+    </script>
+  </body>
+</html>

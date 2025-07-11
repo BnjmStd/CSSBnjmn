@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      :root {
+        --primary: #6366f1;
+        --secondary: #4f46e5;
+        --accent: #b94e10;
+        --dark: #1e293b;
+        --light: #dae2e6;
+      }
+
+      /* Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", system-ui;
+        line-height: 1.7;
+        color: var(--dark);
+        background: var(--light);
+        overflow-x: hidden;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 100px 20px;
+      }
+
+      .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        animation: fadeSlideDown 3s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+
+      .hero-subtitle {
+        font-size: 1.5rem;
+        max-width: 600px;
+        line-height: 1.4;
+        color: #dbeafe;
+        animation: fadeSlideDown 3s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 10% cover 50%;
+      }
+
+      @keyframes fadeSlideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-100px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Scroll Progress */
+      .scroll-indicator {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 8px;
+        background: var(--accent);
+        z-index: 1000;
+        animation: progress linear;
+        animation-timeline: scroll(root block);
+      }
+
+      @keyframes progress {
+        from {
+          width: 0%;
+        }
+
+        to {
+          width: 100%;
+        }
+      }
+
+      /* Navigation */
+      .nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 1.5rem 6%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        z-index: 999;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transform: translateY(-100%);
+        animation: headerSlide 1.5s ease forwards;
+        animation-timeline: view();
+        animation-range: exit 0% exit 100%;
+      }
+
+      @keyframes headerSlide {
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      .logo {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: var(--primary);
+      }
+
+      /* Sections */
+      .demo-section {
+        min-height: 100vh;
+        padding: 120px 6%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        background: var(--light);
+      }
+
+      .animation-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .animation-subtitle {
+        color: var(--secondary);
+        font-weight: 600;
+        margin-bottom: 3rem;
+        text-align: center;
+      }
+
+      /* Animation Effects */
+      .fade-in-box,
+      .slide-in-left,
+      .scale-up-box,
+      .rotate-in-box,
+      .zoom-text,
+      .blur-image,
+      .flip-card,
+      .reveal-section,
+      .rotate-logo {
+        width: 300px;
+        height: 300px;
+        border-radius: 16px;
+        opacity: 0;
+      }
+
+      .fade-in-box {
+        background: var(--primary);
+        animation: fadeIn 3s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      .slide-in-left {
+        background: var(--accent);
+        animation: slideFromLeft 3s ease-out forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+
+      @keyframes slideFromLeft {
+        from {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .scale-up-box {
+        background: var(--secondary);
+        animation: scaleUp 3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+
+      @keyframes scaleUp {
+        from {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .rotate-in-box {
+        background: var(--dark);
+        animation: rotateIn 3s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+
+      @keyframes rotateIn {
+        from {
+          transform: rotate(-180deg) scale(0);
+          opacity: 0;
+        }
+
+        to {
+          transform: rotate(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Staggered Animation */
+      .staggered-parent {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .staggered-box {
+        width: 150px;
+        height: 150px;
+        background: var(--primary);
+        border-radius: 8px;
+        opacity: 0;
+        animation: staggeredEntry 2s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+
+      .staggered-box:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+
+      .staggered-box:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+
+      @keyframes staggeredEntry {
+        from {
+          transform: translateY(100px);
+          opacity: 0;
+        }
+
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .zoom-text {
+        font-size: 3rem;
+        background: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        animation: zoomOut 3s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+
+      @keyframes zoomOut {
+        from {
+          transform: scale(2);
+          opacity: 0;
+        }
+
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .blur-image {
+        background: url("https://placehold.co/600x400") no-repeat center/cover;
+        filter: blur(20px);
+        animation: blurIn 3s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 40%;
+      }
+
+      @keyframes blurIn {
+        from {
+          filter: blur(20px);
+          opacity: 0;
+        }
+
+        to {
+          filter: blur(0);
+          opacity: 1;
+        }
+      }
+
+      .flip-card {
+        background: var(--accent);
+        animation: flipCard 3s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+
+      @keyframes flipCard {
+        from {
+          transform: rotateY(180deg);
+          opacity: 0;
+        }
+
+        to {
+          transform: rotateY(0);
+          opacity: 1;
+        }
+      }
+
+      .reveal-section {
+        background: var(--secondary);
+        animation: revealUp 3s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 10% cover 60%;
+      }
+
+      @keyframes revealUp {
+        from {
+          transform: translateY(100px);
+          opacity: 0;
+        }
+
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .rotate-logo {
+        background: var(--dark);
+        animation: rotateScale 3s ease forwards;
+        animation-timeline: view();
+        animation-range: entry 0% cover 50%;
+      }
+
+      @keyframes rotateScale {
+        from {
+          transform: rotate(0deg) scale(0.5);
+          opacity: 0;
+        }
+
+        to {
+          transform: rotate(360deg) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .animation-title {
+          font-size: 2rem;
+        }
+
+        .staggered-parent {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <section
+      class="hero"
+      style="background: linear-gradient(135deg, #4f46e5, #b94e10)"
+    >
+      <h1 class="hero-title">CSS-Only Scroll Trigger Animations</h1>
+    </section>
+
+    <section class="hero">
+      <h1 class="hero-title">Animated Heading</h1>
+      <p class="hero-subtitle">
+        Experience stunning animations without writing a single line of
+        JavaScript.
+      </p>
+    </section>
+
+    <div class="scroll-indicator"></div>
+
+    <nav class="nav">
+      <div class="logo">Header</div>
+    </nav>
+
+    <!-- Sections Start -->
+    <section class="demo-section">
+      <h2 class="animation-title">Fade-In Box</h2>
+      <p class="animation-subtitle">Entry 0% - Cover 50%</p>
+      <div class="fade-in-box"></div>
+    </section>
+
+    <section class="demo-section" style="background: #f8fafc">
+      <h2 class="animation-title">Slide-In Left Box</h2>
+      <p class="animation-subtitle">Entry 0% - Cover 50%</p>
+      <div class="slide-in-left"></div>
+    </section>
+
+    <section class="demo-section">
+      <h2 class="animation-title">Scale-Up Box</h2>
+      <p class="animation-subtitle">Entry 0% - Cover 50%</p>
+      <div class="scale-up-box"></div>
+    </section>
+
+    <section class="demo-section" style="background: #f8fafc">
+      <h2 class="animation-title">Rotate-In Box</h2>
+      <p class="animation-subtitle">Entry 0% - Cover 50%</p>
+      <div class="rotate-in-box"></div>
+    </section>
+
+    <section class="demo-section">
+      <h2 class="animation-title">Staggered Animation</h2>
+      <p class="animation-subtitle">Sequential animation on scroll</p>
+      <div class="staggered-parent">
+        <div class="staggered-box"></div>
+        <div class="staggered-box"></div>
+        <div class="staggered-box"></div>
+      </div>
+    </section>
+
+    <section class="demo-section" style="background: #e9e9e9">
+      <h2 class="animation-title">Zoom-Out Text</h2>
+      <p class="animation-subtitle">Entry 0% - Cover 50%</p>
+      <div class="zoom-text"></div>
+    </section>
+
+    <section class="demo-section" style="background: #f8fafc">
+      <h2 class="animation-title">Blur-In Image</h2>
+      <p class="animation-subtitle">Entry 0% - Cover 40%</p>
+      <div class="blur-image"></div>
+    </section>
+
+    <section class="demo-section">
+      <h2 class="animation-title">Flip Card</h2>
+      <p class="animation-subtitle">Entry 0% - Cover 50%</p>
+      <div class="flip-card"></div>
+    </section>
+
+    <section class="demo-section" style="background: #f8fafc">
+      <h2 class="animation-title">Reveal Section</h2>
+      <p class="animation-subtitle">Entry 10% - Cover 60%</p>
+      <div class="reveal-section"></div>
+    </section>
+
+    <section class="demo-section">
+      <h2 class="animation-title">Rotate and Scale Logo</h2>
+      <p class="animation-subtitle">Entry 0% - Cover 50%</p>
+      <div class="rotate-logo"></div>
+    </section>
+
+    <section
+      class="demo-section"
+      style="background: #f8fafc; min-height: 150vh"
+    >
+      <h2 class="animation-title">Scroll Progress Indicator</h2>
+      <p class="animation-subtitle">Linked to root scroll timeline</p>
+      <div style="height: 100vh"></div>
+    </section>
+  </body>
+</html>
