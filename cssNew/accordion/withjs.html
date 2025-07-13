@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animated Accordion</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      padding: 2rem;
+    }
+
+    details {
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: white;
+      overflow: hidden;
+    }
+
+    summary {
+      padding: 1rem;
+      cursor: pointer;
+      background-color: #eee;
+      transition: background-color 0.3s;
+    }
+
+    summary:hover {
+      background-color: #ddd;
+    }
+
+    .content {
+      padding: 1rem;
+      height: 0;
+      overflow: hidden;
+      transition: height 0.3s ease;
+    }
+
+    details[open] .content {
+      /* height auto no es animable, pero lo manejaremos con JS */
+    }
+
+    img {
+      width: 100%;
+      max-width: 150px;
+      transition: transform 0.3s;
+    }
+
+    details[open] img {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="accordion">
+    <details>
+      <summary>Section 1</summary>
+      <div class="content">
+        <p>This is the content of section 1.</p>
+        <img src="https://via.placeholder.com/150" alt="Image 1" />
+      </div>
+    </details>
+    <details>
+      <summary>Section 2</summary>
+      <div class="content">
+        <p>This is the content of section 2.</p>
+        <img src="https://via.placeholder.com/150" alt="Image 2" />
+      </div>
+    </details>
+  </div>
+
+  <script>
+    const detailsElements = document.querySelectorAll("details");
+
+    detailsElements.forEach((details) => {
+      const content = details.querySelector(".content");
+
+      details.addEventListener("toggle", () => {
+        if (details.open) {
+          content.style.height = content.scrollHeight + "px";
+        } else {
+          content.style.height = content.scrollHeight + "px";
+          requestAnimationFrame(() => {
+            content.style.height = "0";
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

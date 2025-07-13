@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        /* allow discrete */
+      }
+
+      :root {
+        interpolate-size: allow-keywords;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+
+      /* remove default details style */
+
+      /* make the component an exclusive accordion
+
+      animate the details content */
+
+      /* transition the images */
+
+      .accordion {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        padding: 2rem;
+      }
+
+      .accordion-items {
+        background-color: yellow;
+      }
+
+      .accordion-items-images {
+        display: grid;
+        background-color: red;
+
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+
+        * > {
+          grid-column: 1/1;
+          grid-row: 1/1;
+        }
+      }
+
+      img {
+        max-inline-size: 100%;
+        max-block-size: 100%;
+        aspect-ratio: 16/9;
+        /* cover */
+        object-fit: contain;
+
+        opacity: 0;
+        scale: 1.1;
+
+        transition: scale 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      details summary {
+        display: flex;
+        gap: 1rem;
+      }
+
+      details summary::-webkit-details-marker {
+        display: none;
+      }
+
+      details::details-content {
+        background-color: #ff0000;
+        overflow: hidden;
+        border-radius: 4px;
+        background-color: red;
+        transition: height 0.3s ease-in-out, content-visibility 0.3s ease-in-out;
+        height: 0;
+        transition-behavior: allow-discrete;
+      }
+      details[open]::details-content {
+        height: auto;
+      }
+
+      .accordion:has(details:nth-child(1)[open]) img:nth-child(1) {
+        display: inline-block;
+        opacity: 1;
+        scale: 1;
+      }
+      .accordion:has(details:nth-child(2)[open]) img:nth-child(2) {
+        display: inline-block;
+        opacity: 1;
+        scale: 1;
+      }
+      .accordion:has(details:nth-child(3)[open]) img:nth-child(3) {
+        display: inline-block;
+        opacity: 1;
+        scale: 1;
+      }
+      .accordion:has(details:nth-child(4)[open]) img:nth-child(4) {
+        display: inline-block;
+        opacity: 1;
+        scale: 1;
+      }
+
+      .accordion:not(:has(details[open])) .default {
+        opacity: 1;
+        scale: 1;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="accordion">
+      <div class="accordion-items">
+        <details name="section1">
+          <summary>Section 1</summary>
+          <p>
+            This is the content of section 1. It can contain any HTML elements.
+          </p>
+        </details>
+        <details>
+          <summary>Section 1</summary>
+          <p>
+            This is the content of section 1. It can contain any HTML elements.
+          </p>
+        </details>
+        <details>
+          <summary>Section 1</summary>
+          <p>
+            This is the content of section 1. It can contain any HTML elements.
+          </p>
+        </details>
+        <details>
+          <summary>Section 1</summary>
+          <p>
+            This is the content of section 1. It can contain any HTML elements.
+          </p>
+        </details>
+      </div>
+
+      <div class="accordion-items-images">
+        <img
+          src="../../components/columns/columnsGenshin/assets/6.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/7.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/8.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/9.png"
+          alt=""
+        />
+      </div>
+    </div>
+
+    <script>
+      document.querySelectorAll(".accordion-items details").forEach((el) => {
+        el.addEventListener("toggle", () => {
+          if (el.open) {
+            document
+              .querySelectorAll(".accordion-items details")
+              .forEach((d) => {
+                if (d !== el) d.removeAttribute("open");
+              });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
