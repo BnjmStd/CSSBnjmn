@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      img {
+        max-inline-size: 100%;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #2a2a2a;
+        padding-block: 2rem;
+        background: fixed linear-gradient(transparent, #fff 90%),
+          fixed
+            repeating-linear-gradient(
+              #efefef,
+              #efefef 1px,
+              transparent 1px,
+              transparent 40px
+            ),
+          fixed
+            repeating-linear-gradient(
+              to right,
+              #efefef,
+              #efefef 1px,
+              transparent 1px,
+              transparent 40px
+            )
+            white;
+      }
+
+      h1,
+      h2 {
+        font-size: 1.75rem;
+        line-height: 1.5;
+        font-weight: 600;
+        text-align: center;
+        margin-block-end: 1.5rem;
+      }
+
+      h1:has(+ h2) {
+        margin-block-end: 0;
+      }
+
+      /* First example */
+      .card {
+        max-inline-size: 70vw;
+        block-size: 70vh;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(to right, #90c3fd, #ba71ff, #ff71b8);
+
+        mask-image: radial-gradient(circle, #000 60%, #0000 0),
+          linear-gradient(45deg, #0000 45%, #000 0 55%, #0000 0),
+          linear-gradient(-45deg, #0000 45%, #000 0 55%, #0000 0);
+
+        mask-composite: add;
+        mask-composite: subtract;
+        mask-composite: intersect;
+        mask-composite: exclude;
+
+        mask-size: 50px 100px;
+        mask-size: 100px 50px;
+        mask-size: 100px 100px;
+        mask-position: center;
+      }
+
+      /* Second example */
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        max-inline-size: 75vw;
+        margin-inline: auto;
+        outline: 1px dashed;
+        outline-offset: 0.5rem;
+      }
+
+      .slide {
+        grid-area: 1 / 1;
+        block-size: 70vh;
+      }
+
+      .slide img {
+        inline-size: 100%;
+        block-size: inherit;
+        object-fit: cover;
+        display: block;
+      }
+
+      @property --position {
+        syntax: "<length>";
+        inherits: false;
+        initial-value: 120px;
+      }
+
+      .hero :nth-child(2) {
+        mask-image: linear-gradient(to top, #000 var(--position), #0000 0),
+          linear-gradient(to bottom, #000 var(--position), #0000 0),
+          linear-gradient(to left, #000 var(--position), #0000 0),
+          linear-gradient(to right, #000 var(--position), #0000 0);
+
+        mask-composite: exclude;
+
+        transition: --position 0.75s ease-in-out;
+      }
+
+      .hero:hover :nth-child(2) {
+        --position: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CSS Mask Composite</h1>
+    <div class="card"></div>
+
+    <h2>Hover over image to see the effect</h2>
+    <section class="hero">
+      <div class="slide">
+        <img
+          src="https://images.unsplash.com/photo-1468774871041-fc64dd5522f3"
+          alt=""
+        />
+      </div>
+      <div class="slide">
+        <img
+          src="https://images.unsplash.com/photo-1494783367193-149034c05e8f"
+          alt=""
+        />
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-block-size: 100vh;
+      }
+
+      .container {
+        position: relative;
+        background: #2f363e;
+        box-shadow: 25px 25px 75px rgba(0, 0, 0, 0.7),
+          10px 50px 70px rgba(0, 0, 0, 0.2),
+          inset 0 0 0 10px rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        border-top-left-radius: 225px;
+        border-top-right-radius: 225px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .clock {
+        position: relative;
+        inline-size: 450px;
+        height: 450px;
+        background: #2f363e;
+        border-radius: 50%;
+        box-shadow: 10px 50px 70px rgba(0, 0, 0, 0.2);
+        margin-block-end: 3rem;
+      }
+
+      .clock::before {
+        content: "";
+        position: absolute;
+        inline-size: 8px;
+        block-size: 8px;
+        background: #2f363e;
+        border: 3px solid #fff;
+        border-radius: 50%;
+      }
+
+      .clock span {
+        position: absolute;
+        inset: 20px;
+        color: #fff;
+        text-align: center;
+        transform: rotate(calc(var(--i) * 30deg));
+
+        /* 360/12 */
+      }
+
+      .clock b {
+        display: inline-block;
+        line-height: 1.2;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        transform: rotate(calc(-30deg * var(--i)));
+      }
+
+      .circle {
+        position: absolute;
+        inline-size: 300px;
+        block-size: 300px;
+        border: 2px solid rgba(0, 0, 0, 0.25);
+        border-radius: 50%;
+
+        /* Centrar dentro del contenedor .clock */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        > i {
+            position: absolute;
+            inline-size: 6px;
+            block-size: 50%;
+            background: var(--clr);
+            opacity: 0.75;
+            transform-origin: bottom;
+            transform: scale(0.5);
+        }
+        
+      }
+
+      .circle2 {
+        inline-size: 250px;
+        block-size: 250px;
+        border: 2px solid rgba(0, 0, 0, 0.25);
+      }
+
+      .circle3 {
+        inline-size: 200px;
+        block-size: 200px;
+        border: 2px solid rgba(0, 0, 0, 0.25);
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="clock">
+        <div class="circle" style="--clr: green">
+          <i></i>
+        </div>
+        <div class="circle circle2" style="--clr: red"><i></i></div>
+        <div class="circle circle3" style="--clr: blue">
+          <i></i>
+        </div>
+        <span style="--i: 1"><b>1</b></span>
+        <span style="--i: 2"><b>2</b></span>
+        <span style="--i: 3"><b>3</b></span>
+        <span style="--i: 4"><b>4</b></span>
+        <span style="--i: 5"><b>5</b></span>
+        <span style="--i: 6"><b>6</b></span>
+        <span style="--i: 7"><b>7</b></span>
+        <span style="--i: 8"><b>8</b></span>
+        <span style="--i: 9"><b>9</b></span>
+        <span style="--i: 10"><b>10</b></span>
+        <span style="--i: 11"><b>11</b></span>
+        <span style="--i: 12"><b>12</b></span>
+      </div>
+    </div>
+  </body>
+</html>
