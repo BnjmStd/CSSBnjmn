@@ -43,15 +43,22 @@
 
       .accordion-items-images {
         display: grid;
-        background-color: red;
-
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
+      }
 
-        * > {
-          grid-column: 1/1;
-          grid-row: 1/1;
-        }
+      .accordion-items-images img {
+        grid-column: 1 / 1;
+        grid-row: 1 / 1;
+      }
+
+      .default {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        scale: 1;
+        z-index: 1;
       }
 
       img {
@@ -115,6 +122,12 @@
         scale: 1;
         z-index: 1;
       }
+
+      .accordion:has(details[open]) .default {
+        opacity: 0;
+        scale: 1.1;
+        z-index: -1;
+      }
     </style>
   </head>
   <body>
@@ -148,6 +161,7 @@
 
       <div class="accordion-items-images">
         <img
+          class="default"
           src="../../components/columns/columnsGenshin/assets/6.png"
           alt=""
         />
