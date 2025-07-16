@@ -1,16 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+      }
+
+      .scan {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .scan .fingerprint {
+        position: relative;
+        block-size: 380px;
+        inline-size: 300px;
+        background: url("./fingerPrint_01.png");
+        background-size: 300px;
+      }
+
+      .scan .fingerprint::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        inline-size: 100%;
+        block-size: 100%;
+        background: url("./fingerPrint_02.png");
+        background-size: 300px;
+
+        animation: animate 4s ease-in-out infinite;
+      }
+
+      .scan .fingerprint::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        inline-size: 100%;
+        block-size: 8px;
+
+        background: #3fefef;
+
+        filter: drop-shadow(0 0 20px #3fefef) drop-shadow(0 0 60px #3fefef);
+
+        animation: animate_line 4s ease-in-out infinite;
+      }
+
+      @keyframes animate_line {
+        0%,
+        100% {
+          top: 0;
+        }
+
+        50% {
+          top: 100%;
+        }
+      }
+
+      @keyframes animate {
+        0%,
+        100% {
+          height: 0;
+        }
+
+        50% {
+          height: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
     <div class="scan">
-        <div class="fingerprint">
-            
-        </div>
-        <h3>scanning ...</h3>
+      <div class="fingerprint"></div>
+      <h3>scanning ...</h3>
     </div>
-</body>
+  </body>
 </html>
