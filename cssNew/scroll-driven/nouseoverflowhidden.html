@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .wrapper {
+        background: aliceblue;
+        position: fixed;
+        top: calc(50% - 60px);
+        height: 120px;
+      }
+
+      .wrapper.hidden {
+        left: 1%;
+        width: 48.5%;
+        overflow: hidden;
+      }
+
+      .wrapper.clipped {
+        right: 1%;
+        width: 48.5%;
+        overflow: clip;
+      }
+
+      .box {
+        width: 100px;
+        height: 100px;
+        background: red;
+        margin: 0 auto;
+
+        animation: rotate linear forwards;
+        animation-timeline: scroll(nearest);
+      }
+
+      .wrapper.clipped .box {
+        background: green;
+      }
+
+      @keyframes rotate {
+        to {
+          rotate: 360deg;
+        }
+      }
+
+      body {
+        height: 500vh;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><code>overflow: clip;</code> ❤️ Scroll-Driven Animations</h1>
+    <p>Scroll Down &darr;</p>
+    <div class="wrapper hidden">
+      <p>
+        <code>scroll(nearest)</code> on the red box with
+        <code>overflow: hidden;</code> on the wrapper
+      </p>
+      <div class="box"></div>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+    </div>
+
+    <div class="wrapper clipped">
+      <p>
+        <code>scroll(nearest)</code> on the red box with
+        <code>overflow: clip;</code> on the wrapper
+      </p>
+      <div class="box"></div>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+    </div>
+  </body>
+</html>

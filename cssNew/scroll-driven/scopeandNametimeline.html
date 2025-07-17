@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .gallery {
+        position: relative;
+      }
+
+      .gallery__scrollcontainer {
+        overflow-x: scroll;
+        scroll-timeline: --gallery-scrollcontainer, linear;
+      }
+
+      .gallery__progress {
+        position: absolute;
+        animation: progress linear forwards;
+        animation-timeline: --gallery-scrollcontainer;
+      }
+
+      /* 
+      
+      
+        view-timeline-name:
+        view-timeline-axis:
+        view-timeline-inset:
+      
+      */
+
+      @keyframes rotate-cover {
+        0% {
+          transform: translateX(-100%) rotateY(-45deg);
+        }
+
+        35% {
+          transform: translateX(0) rotateY(-45deg);
+        }
+
+        50% {
+          transform: translateZ(1em) rotateY(0) scale(1.5);
+        }
+
+        65% {
+          transform: translateX(0) rotateY(45deg);
+        }
+
+        100% {
+          transform: translateX(100%) rotateY(45deg);
+        }
+      }
+
+      @keyframes adjust-z-index {
+        0% {
+          z-index: 1;
+        }
+
+        50% {
+          z-index: 3;
+        }
+
+        100% {
+          z-index: 1;
+        }
+      }
+
+      .cards {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        margin: 0;
+        list-style: none;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+      }
+
+      .cards li {
+        flex: 0 0 auto;
+        scroll-snap-align: center;
+        view-timeline-name: --li-in-and-out-of-view;
+        view-timeline-axis: inline;
+        width: 300px;
+        height: auto;
+        position: relative;
+
+        view-timeline: --li-in-and-out-of-view, linear;
+      }
+
+      .cards li {
+        animation: adjust-z-index linear forwards;
+        animation-timeline: --li-in-and-out-of-view;
+      }
+
+      .cards li > img {
+        animation: rotate-cover linear forwards;
+        animation-timeline: --li-in-and-out-of-view;
+
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper" style="overflow: clip">
+      <div style="animation-timeline: scroll()"></div>
+    </div>
+
+    <p>
+      Entonces, ¿por qué overflow: clip no crea un contenedor de desplazamiento?
+      overflow: clip fue introducido en CSS para casos donde solo quieres
+      recortar visualmente el contenido, sin crear ningún contexto de
+      desplazamiento ni scroll.
+    </p>
+
+    <p>
+      En cambio, overflow: hidden oculta contenido también, pero a nivel de
+      layout crea un scroll container, incluso si el usuario no ve un scrollbar.
+    </p>
+
+    <ul class="cards">
+      <li>
+        <img
+          src="../../components/columns/columnsGenshin/assets/18.png"
+          alt=""
+        />
+      </li>
+
+      <li>
+        <img
+          src="../../components/columns/columnsGenshin/assets/18.png"
+          alt=""
+        />
+      </li>
+
+      <li>
+        <img
+          src="../../components/columns/columnsGenshin/assets/18.png"
+          alt=""
+        />
+      </li>
+
+      <li>
+        <img
+          src="../../components/columns/columnsGenshin/assets/18.png"
+          alt=""
+        />
+      </li>
+
+      <li>
+        <img
+          src="../../components/columns/columnsGenshin/assets/18.png"
+          alt=""
+        />
+      </li>
+    </ul>
+  </body>
+</html>

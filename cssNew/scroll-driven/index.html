@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      @supports (animation-timeline: scroll()) {
+        /* polyfill */
+        /* Progressive enhancement */
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        /*usuarios sin preferencia */
+      }
+
+      @keyframes grow-progress {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+
+      #progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        animation: grow-progress auto linear forwards;
+        animation-timeline: scroll();
+
+        /* animation-timeline: scroll(<axis> <scroller>) 
+            
+            axis: inline | block (default) | y | x 
+            scroller: nearest | root | self (default: nearest)
+            */
+
+        background: #333;
+        block-size: 10px;
+        inline-size: 100%;
+        transform-origin: left;
+      }
+
+      body {
+        min-block-size: 300dvh;
+      }
+
+      /* viewTimeline */
+
+      @keyframes reveal {
+        from {
+          opacity: 0;
+          clip-path: inset(45% 20% 45% 20%);
+        }
+        to {
+          opacity: 1;
+          clip-path: inset(0% 0% 0% 0%);
+        }
+      }
+
+      img {
+        width: 100%;
+        block-size: 450px;
+        object-fit: contain;
+        animation: reveal auto ease-in-out;
+        animation-timeline: view();
+
+        /* 
+        
+        view(axis view-timeline-inset)
+
+        view-timeline-inset: auto (default) | length  percentage 
+        */
+      }
+
+      @keyframes sticky-parallax-header {
+        from {
+          height: 100vh;
+          font-size: calc(4vw + 1em);
+        }
+
+        to {
+          height: 10vh;
+          font-size: 2em;
+          background-color: yellow;
+        }
+      }
+
+      .container-1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 2rem;
+        text-align: center;
+        padding: 20px;
+        background-color: red;
+
+        position: fixed;
+        top: 0;
+        height: 100vh;
+        inline-size: 100%;
+        animation: sticky-parallax-header linear;
+        animation-timeline: scroll();
+        animation-range: entry 0% cover 40%;
+
+
+        /* animation-range: entry <start> cover <end> 
+            
+                entry-crossing
+                exit-crossing
+                exit
+                contain
+            */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="progress"></div>
+    <div class="container-1">
+      <h1>bienvenidos</h1>
+    </div>
+
+    <h1>scrollPort</h1>
+    <p>
+      El scrollport (o puerto de desplazamiento) es el área visible de un
+      elemento desplazable — es decir, la ventana a través de la cual se ve una
+      parte del contenido que se puede hacer scroll.
+    </p>
+
+    <h1>scroll container</h1>
+
+    <p>
+      El contenedor de desplazamiento es el elemento HTML que tiene contenido
+      desplazable — es decir, el que tiene scroll. 📌 Es el elemento que “porta”
+      el scroll, ya sea vertical u horizontal. 🔸 ¿Y cómo se define un
+      contenedor de desplazamiento en CSS? Un elemento se convierte en scroll
+      container cuando: Tiene más contenido del que cabe en su caja visible (por
+      ejemplo, más alto que height). Tiene una propiedad de overflow que lo
+      permite: → overflow: auto, overflow: scroll, o overflow: hidden (aunque
+      este último oculta el scroll).
+    </p>
+
+    <img src="../../components/columns/columnsGenshin/assets/13.png" alt="" />
+  </body>
+</html>

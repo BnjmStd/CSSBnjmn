@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: grid;
+        min-block-size: 100vh;
+        align-items: center;
+        background-color: #3333339c;
+      }
+
+      @keyframes reveal {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes detect-scroll {
+        from,
+        to {
+          --can-scroll: ;
+        }
+      }
+      .container {
+        overflow-y: auto;
+        animation: detect-scroll;
+        scroll-timeline: --scroll-timeline block;
+        animation-fill-mode: none;
+        block-size: 100px;
+        inline-size: 300px;
+        margin-inline: auto;
+        background: white;
+        border-radius: 0.5rem;
+        position: relative;
+      }
+
+      .container::after,
+      .container::before {
+        content: "";
+        position: sticky;
+        display: block;
+        left: 0em;
+        right: 0em;
+        block-size: 0.75rem;
+
+        /* --vis-if-can-scroll: var(--can-scroll) visible;
+
+        --vis-if-cant-scroll: hidden;
+
+        visibility: var(--vis-if-can-scroll, var(--vis-if-cant-scroll)); */
+
+        animation: reveal linear both;
+        animation-timeline: --scroll-timeline;
+      }
+
+      .container::after {
+        bottom: 0;
+        background: linear-gradient(to top, transparent, #000);
+
+        animation-range: calc(100% - 2em) calc(100% - 1em);
+      }
+
+      .container::before {  
+        top: 0;
+        background: linear-gradient(to top, transparent, #ff0000);
+        animation-direction: reverse;
+        animation-range: 1em 2em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, eligendi
+      vel? Ullam vero expedita maiores tenetur non iste dolorum, assumenda
+      sapiente atque iusto, dolor ad quibusdam amet unde deleniti error? Lorem
+      ipsum dolor sit, amet consectetur adipisicing elit. Unde minima vel esse
+      deleniti dolore quasi nostrum. Ratione, fugit, amet, totam eveniet ea
+      deleniti in voluptatum ut voluptatibus nostrum quam quae.
+    </div>
+  </body>
+</html>
