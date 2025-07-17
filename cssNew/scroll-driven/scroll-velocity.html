@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      @property --scroll-position {
+        syntax: "<number>";
+        inherits: true;
+        initial-value: 0;
+      }
+
+      @property --scroll-position-delayed {
+        syntax: "<number>";
+        inherits: true;
+        initial-value: 0;
+      }
+
+      @keyframes adjust-pos {
+        from {
+          --scroll-position: 0;
+          --scroll-position-delayed: 0;
+        }
+
+        to {
+          --scroll-position: 1;
+          --scroll-position-delayed: 1;
+        }
+      }
+
+      :root {
+        animation: adjust-pos linear both;
+      }
+
+      body {
+        transition: --scroll-position-delayed 0.15s linear;
+      }
+    </style>
+  </head>
+  <body></body>
+</html>

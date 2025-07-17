@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-block-size: 100vh;
+        background-color: #3333339c;
+      }
+
+      .columns {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .column {
+        display: flex;
+        flex-direction: column;
+      }
+
+      @keyframes adjust-position {
+        from {
+          transform: translateY(calc(-100% + 100vh));
+        }
+
+        to {
+          transform: translateY(calc(100% - 100vh));
+        }
+      }
+
+      @supports (animation-timeline: scroll()) {
+        .column-reverse {
+          transform: translateY(calc(-100% + 100vh));
+          flex-direction: column-reverse;
+
+          animation: adjust-position linear forwards;
+          animation-timeline: scroll(root block);
+        }
+
+        .column {
+          overflow-y: clip;
+        }
+      }
+
+      img {
+        max-inline-size: 100%;
+        display: block;
+        margin-block-end: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="columns">
+      <div class="column column-reverse">
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+      </div>
+      <div class="column">
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+      </div>
+      <div class="column column-reverse">
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+        <img
+          src="../../components/columns/columnsGenshin/assets/1.png"
+          alt=""
+        />
+      </div>
+    </div>
+  </body>
+</html>

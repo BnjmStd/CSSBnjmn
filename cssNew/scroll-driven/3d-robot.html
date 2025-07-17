@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      @keyframes foo {
+      }
+
+      model-viewer {
+        display: block;
+        width: 100%;
+        margin-top: 10vh;
+        height: 80vh;
+        position: fixed;
+        animation: foo linear both;
+        animation-timeline: scroll(block root);
+        pointer-events: none;
+      }
+
+      model-viewer::part(default-progress-bar) {
+        display: none;
+      }
+
+      header,
+      footer {
+        position: fixed;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-style: italic;
+      }
+      header {
+        top: 1em;
+      }
+      footer {
+        bottom: 0;
+      }
+
+      html {
+        height: 400vh;
+        background: #2a2a2a;
+        color: #e4e4e4;
+      }
+
+      a {
+        color: #cea95f;
+      }
+
+      a:hover {
+        color: #9b7134;
+      }
+
+      body {
+        font-family: helvetica;
+      }
+
+      @layer warning {
+        .warning {
+          box-sizing: border-box;
+          padding: 1em;
+          margin: 1em 0;
+          border: 1px solid #ccc;
+          background: rgba(255 255 205 / 0.8);
+
+          position: fixed;
+          top: 40vh;
+          font-size: 2em;
+          left: 1em;
+          right: 1em;
+          max-width: 80ch;
+          margin: 0 auto;
+          z-index: 1000;
+        }
+
+        .warning > :first-child {
+          margin-top: 0;
+        }
+
+        .warning > :last-child {
+          margin-bottom: 0;
+        }
+
+        .warning a {
+          color: blue;
+        }
+        .warning--info {
+          border: 1px solid #123456;
+          background: rgb(205 230 255 / 0.8);
+        }
+        .warning--alarm {
+          border: 1px solid red;
+          background: #ff000010;
+        }
+
+        @supports (animation-timeline: view()) {
+          .warning:not([data-bug]) {
+            display: none;
+          }
+        }
+
+        @supports (animation-range: 0vh 90vh) {
+          .warning[data-bug="1427062"] {
+            display: none;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"
+    ></script>
+
+    <header>
+      Demo for
+      <a href="https://brm.us/scroll-driven-3d" target="_top"
+        >https://brm.us/scroll-driven-3d</a
+      >
+    </header>
+
+    <model-viewer
+      alt="Robot"
+      src="https://assets.codepen.io/89905/robot.glb"
+    ></model-viewer>
+
+    <footer>
+      <p>
+        3D Model <a href="https://skfb.ly/o8NHz" target="_top">“Robot”</a> by
+        l0wpoly –
+        <a href="http://creativecommons.org/licenses/by/4.0/" target="_top"
+          >Creative Commons Attribution</a
+        >.
+      </p>
+    </footer>
+
+    <div class="warning">
+      <p>
+        ⚠️ Your browser does not support Scroll-driven Animations. Please use
+        Chrome 115 or newer.
+      </p>
+    </div>
+
+    <script>
+      import { trackProgress } from "https://esm.sh/@bramus/sda-utilities";
+
+      const model = document.querySelector("model-viewer");
+      trackProgress(model.getAnimations()[0], (progress) => {
+        model.orientation = `0deg 0deg ${progress * -360}deg`;
+      });
+    </script>
+  </body>
+</html>

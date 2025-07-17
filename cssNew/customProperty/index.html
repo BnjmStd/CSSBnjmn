@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Custom Properties por Tipo</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        background-color: #f5f5f5;
+      }
+      section {
+        margin-bottom: 2rem;
+      }
+      h1 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      ul {
+        padding-left: 1.5rem;
+      }
+      li {
+        margin-bottom: 0.3rem;
+        font-family: monospace;
+        color: #444;
+      }
+
+      /*ppp*/
+
+      /* String-based non-semantic custom properties on root */
+      :root {
+        --color1: pink;
+        --color2: orange;
+      }
+
+      /* Set Custom Properties Here */
+      @supports (background: paint(houdini)) {
+        @property --gradPoint {
+          syntax: "<percentage>";
+          inherits: false;
+          initial-value: 40%;
+        }
+      }
+
+      .post {
+        --gradPoint: 40%;
+        font-family: "Amiri";
+        width: 380px;
+        padding: 2rem;
+        text-align: center;
+        display: flex;
+        background: pink; /* fallback value */
+        background: linear-gradient(
+          var(--color1) var(--gradPoint),
+          var(--color2) calc(var(--gradPoint) + 20%)
+        );
+        transition: --gradPoint 0.5s, filter 0.8s;
+      }
+
+      /* Fallback for interaction */
+      @supports not (background: paint(houdini)) {
+        .post:hover,
+        .post:focus {
+          filter: hue-rotate(-90deg);
+        }
+      }
+
+      /* If Houdini and the custom property using @property
+        are supported, move the gradient point */
+      @supports (background: paint(houdini)) {
+        .post {
+        }
+
+        .post:hover,
+        .post:focus {
+          --gradPoint: 100%;
+        }
+      }
+
+      .container {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: white;
+      }
+
+      h2 {
+        font-family: "Montserrat", serif;
+        font-size: 1.4rem;
+        line-height: 1.2;
+      }
+
+      .desc {
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h1>length</h1>
+      <ul>
+        <li>--spacing: 16px;</li>
+        <li>--width: 50vw;</li>
+        <li>--margin: 2em;</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>number</h1>
+      <ul>
+        <li>--opacity: 0.75;</li>
+        <li>--scale: 1.5;</li>
+        <li>--line-count: 3;</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>percentage</h1>
+      <ul>
+        <li>--progress: 75%;</li>
+        <li>--width-percent: 100%;</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>length-percentage</h1>
+      <ul>
+        <li>--position: 50%;</li>
+        <li>--inset: 10px;</li>
+        <li>--mixed: calc(50% - 2rem);</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>color</h1>
+      <ul>
+        <li>--primary-color: #3498db;</li>
+        <li>--text-color: rgba(0, 0, 0, 0.8);</li>
+        <li>--highlight: hsl(200, 80%, 50%);</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>image</h1>
+      <ul>
+        <li>--bg-pattern: image("pattern.png");</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>url</h1>
+      <ul>
+        <li>--bg-url: url("background.jpg");</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>integer</h1>
+      <ul>
+        <li>--columns: 3;</li>
+        <li>--z-level: 10;</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>angle</h1>
+      <ul>
+        <li>--rotation: 45deg;</li>
+        <li>--skew: 10deg;</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>time</h1>
+      <ul>
+        <li>--duration: 2s;</li>
+        <li>--delay: 300ms;</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>resolution</h1>
+      <ul>
+        <li>--dpi: 300dpi;</li>
+        <li>--res: 2dppx;</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>transform-list</h1>
+      <ul>
+        <li>--transform: rotate(45deg) scale(1.2);</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>transform-function</h1>
+      <ul>
+        <li>--rotate-func: rotate(90deg);</li>
+        <li>--scale-func: scale(1.5);</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>custom-ident</h1>
+      <ul>
+        <li>--theme-mode: dark;</li>
+        <li>--state: active;</li>
+        <li>--size-type: fluid;</li>
+      </ul>
+    </section>
+
+    <section>
+      <a class="post">
+        <div class="container">
+          <h2>This Demo Requires Chrome 85+</h2>
+          <p class="desc">
+            Browsers which support @property will see a gradient with a gradient
+            stop transition on hover. Unsupported browsers will see a gradient
+            background with a hue rotation on hover.
+          </p>
+        </div>
+      </a>
+    </section>
+  </body>
+</html>
