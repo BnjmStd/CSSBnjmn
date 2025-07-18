@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      @layer support, demo;
+
+      @layer demo {
+        .pile {
+          display: grid;
+
+          &.toggled > * {
+            grid-area: 1/1;
+          }
+        }
+      }
+
+      @layer support {
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+
+        html {
+          block-size: 100%;
+          color-scheme: dark light;
+        }
+
+        body {
+          min-block-size: 100%;
+          font-family: system-ui, sans-serif;
+
+          background-color: #000;
+
+          display: grid;
+          place-content: center;
+          place-items: center;
+
+          padding-block: 10vmin;
+        }
+
+        span {
+          font-size: 20vmin;
+          line-height: 1.1cap;
+          color: #fffa;
+          pointer-events: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button id="toggle" style="view-transition-name: toggle">Toggle</button>
+
+    <div class="pile" id="pile">
+      <span style="view-transition-name: letter-1">P</span>
+      <span style="view-transition-name: letter-2">I</span>
+      <span style="view-transition-name: letter-3">L</span>
+      <span style="view-transition-name: letter-4">E</span>
+    </div>
+  </body>
+
+  <script>
+    toggle.onclick = () => {
+      if (!document.startViewTransition) pile.classList.toggle("toggled");
+      else
+        document.startViewTransition(() => {
+          pile.classList.toggle("toggled");
+        });
+    };
+  </script>
+</html>

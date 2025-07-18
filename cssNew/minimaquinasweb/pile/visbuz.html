@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import "https://unpkg.com/open-props/easings.min.css";
+
+      visbug-logo {
+        --size: clamp(20px, 50cqi, 320px);
+        inline-size: var(--size);
+        aspect-ratio: 1;
+        display: grid;
+
+        & > * {
+          grid-area: 1/1;
+        }
+
+        visbug-head {
+          place-self: start end;
+          translate: 50% -50%;
+          inline-size: calc(var(--size) / 2.5);
+          aspect-ratio: 1;
+          border-radius: 100vmax;
+          background: black;
+        }
+
+        visbug-thorax {
+          display: grid;
+          isolation: isolate;
+
+          & > * {
+            grid-area: 1/1;
+          }
+
+          &:hover > visbug-wing {
+            --rotation: 25deg;
+          }
+        }
+
+        visbug-body {
+          background: yellow;
+          background: color(rec2020 1 1 0);
+          border-radius: 100% 25% 100% 0% / 100% 0%;
+        }
+
+        visbug-wing {
+          --rotation: 12deg;
+
+          border-radius: 100% 0%;
+          transform-origin: top right;
+          mix-blend-mode: multiply;
+
+          @media (prefers-reduced-motion: no-preference) {
+            transition: transform 0.2s var(--ease-3);
+            transition: transform 0.75s var(--ease-spring-2);
+          }
+
+          &:nth-of-type(1) {
+            background: magenta;
+            background: color(rec2020 1 0 1);
+            transform: rotateZ(var(--rotation));
+          }
+
+          &:nth-of-type(2) {
+            background: cyan;
+            background: color(rec2020 0 1 1);
+            transform: rotateZ(calc(-1 * var(--rotation)));
+          }
+        }
+      }
+
+      @layer demo.support {
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+
+        html {
+          block-size: 100%;
+        }
+
+        body {
+          min-block-size: 100%;
+          font-family: system-ui, sans-serif;
+
+          display: grid;
+          place-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <visbug-logo>
+      <visbug-head></visbug-head>
+      <visbug-thorax>
+        <visbug-body></visbug-body>
+        <visbug-wing></visbug-wing>
+        <visbug-wing></visbug-wing>
+      </visbug-thorax>
+    </visbug-logo>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      @view-transition {
+        navigation: auto;
+      }
+
+      .pile {
+        display: grid;
+
+        > * {
+          grid-area: 1/1;
+          background: white;
+          border-radius: 1rem;
+          padding: 1rem;
+          font-size: 3rem;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+          display: grid;
+          place-items: center;
+          transition: transform 0.3s ease;
+
+          transform: translateY(calc(var(--sibling-index) * -8px))
+            scale(calc(1 - var(--sibling-index) * 0.02));
+          z-index: calc(var(--sibling-index));
+        }
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        ::view-transition-old(newmoji) {
+          animation: var(--animation-fade-out), var(--animation-scale-up);
+        }
+
+        ::view-transition-new(newmoji) {
+          z-index: 1;
+          animation: var(--animation-fade-in), var(--animation-slide-in-up);
+          animation-timing-function: var(--ease-out-5);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pile" id="pile">
+      <div>🥹</div>
+    </div>
+
+    <footer>
+      <button id="add">Add</button>
+      <button id="remove">Remove</button>
+    </footer>
+  </body>
+
+  <script>
+    const emojis = ["🙂", "🤡", "💀", "🥶", "🤯"];
+
+    function rando(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    add.onclick = async () => {
+      let em = document.createElement("div");
+      em.textContent = emojis[rando(0, emojis.length - 1)];
+      em.style.setProperty("--sibling-index", pile.childElementCount);
+      em.style.viewTransitionName = "newmoji";
+
+      document.startViewTransition
+        ? document
+            .startViewTransition(() => pile.appendChild(em))
+            .finished.then(() => (em.style.viewTransitionName = null))
+        : pile.appendChild(em);
+    };
+
+    remove.onclick = () => {
+      let em = pile.lastElementChild;
+      em.style.viewTransitionName = "newmoji";
+
+      document.startViewTransition
+        ? document.startViewTransition(() => em.remove())
+        : em.remove();
+    };
+  </script>
+</html>

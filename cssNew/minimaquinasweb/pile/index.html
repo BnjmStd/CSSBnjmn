@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+
+        @layer base {
+            *, *::before, *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: sans-serif;
+                background-color: #f0f0f0;
+                color: #333;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+        }
+
+
+        @layer variantes {
+            .pile2 {
+                display: grid;
+                grid: [stack] 1fr / [stack] 1fr;
+
+                > * {
+                    grid-area: stack;
+                }
+            }
+        }
+
+        @layer demo {
+            .pile {
+                display: grid;
+
+                > * {
+                    grid-area: 1/1;
+                }
+            }
+        }
+
+    </style>
+  </head>
+  <body>
+    <div class="pile"><span>P</span><span>I</span><span>L</span><span>E</span></div>
+  </body>
+</html>
