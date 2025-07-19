@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      /* See https://brm.us/css-scroll-velocity for details */
+
+      @property --scroll-position {
+        syntax: "<number>";
+        inherits: true;
+        initial-value: 0;
+      }
+      @property --scroll-position-delayed {
+        syntax: "<number>";
+        inherits: true;
+        initial-value: 0;
+      }
+
+      @keyframes adjust-pos {
+        to {
+          --scroll-position: 1;
+          --scroll-position-delayed: 1;
+        }
+      }
+
+      :root {
+        animation: adjust-pos linear both;
+        animation-timeline: scroll(root);
+      }
+
+      body {
+        transition: --scroll-position-delayed 0.15s linear;
+        --scroll-velocity: calc(
+          var(--scroll-position) - var(--scroll-position-delayed)
+        );
+        --scroll-direction: sign(var(--scroll-velocity));
+        --scroll-speed: abs(var(--scroll-velocity));
+      }
+
+      /* Polyfill for abs() and sign(), thanks to Ana Tudor
+   https://css-tricks.com/using-absolute-value-sign-rounding-and-modulo-in-css-today/#aa-sign
+*/
+      @supports not (transform: scaleX(sign(-1))) {
+        body {
+          --scroll-speed: max(
+            var(--scroll-velocity),
+            -1 * var(--scroll-velocity)
+          );
+          --scroll-direction: calc(
+            var(--scroll-velocity) / var(--scroll-speed)
+          );
+        }
+      }
+
+      #debug {
+        counter-reset: scroll-position calc(var(--scroll-position) * 100)
+          scroll-position-delayed calc(var(--scroll-position-delayed) * 100)
+          scroll-velocity calc(var(--scroll-velocity) * 100) scroll-direction
+          var(--scroll-direction) scroll-speed calc(var(--scroll-speed) * 100);
+
+        [data-id="--scroll-position"]::after {
+          content: "--scroll-position: " counter(scroll-position);
+        }
+        [data-id="--scroll-position-delayed"]::after {
+          content: "--scroll-position-delayed: "
+            counter(scroll-position-delayed);
+        }
+        [data-id="--scroll-velocity"]::after {
+          content: "--scroll-velocity: " counter(scroll-velocity);
+        }
+        [data-id="--scroll-direction"]::after {
+          content: "--scroll-direction: " counter(scroll-direction);
+        }
+        [data-id="--scroll-speed"]::after {
+          content: "--scroll-speed: " counter(scroll-speed);
+        }
+      }
+
+      body {
+        font-size: 1.25rem;
+      }
+      @media (min-width: 680px) {
+        body {
+          font-size: 1.5rem;
+        }
+      }
+      @media (min-width: 900px) {
+        body {
+          font-size: 2rem;
+        }
+      }
+
+      #debug {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        background: white;
+        border: 1px solid #ccc;
+        padding: 1rem;
+
+        & li {
+          list-style: none;
+        }
+      }
+
+      main {
+        overflow-y: visible;
+        color: #ccc;
+      }
+
+      body {
+        padding: 2rem;
+        color: #333;
+        font-style: italic;
+      }
+      p {
+        margin: 0 0 2rem 0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum
+        magni sapiente autem quod maiores tempora earum sunt, voluptatem ipsum
+        reiciendis nulla, reprehenderit quam optio perspiciatis consectetur
+        odit. Veritatis, officiis consequuntur?
+      </p>
+    </main>
+
+    <div id="debug">
+      <ul>
+        <li data-id="--scroll-position"></li>
+        <li data-id="--scroll-position-delayed"></li>
+        <li data-id="--scroll-velocity"></li>
+        <li data-id="--scroll-direction"></li>
+        <li data-id="--scroll-speed"></li>
+      </ul>
+    </div>
+  </body>
+</html>
