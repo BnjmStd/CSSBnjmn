@@ -10,6 +10,21 @@ sudo adduser nombre_usuario
 
 sudo usermod -aG sudo nombre_usuario
 
+# poner usuario a grupo docker 
+
+sudo usermod -aG docker $USER
+
+# groups
+
+# silenciar mensajes
+
+touch ~/.hushlogin
+echo "" > ~/.hushlogin
+
+# persistencia linger
+
+sudo loginctl enable-linger tu_usuario
+
 # comprueba
 
 sudo whoami
