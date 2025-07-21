@@ -1,0 +1,15 @@
+#El elemento <dialog> modal
+Se abrió con dialog.showModal().
+Se cerró con dialog.close().
+Inactiva el resto de la página.
+No admite el comportamiento de descarte de la luz.
+Puedes aplicar diseño al estado abierto con el atributo [open].
+Semánticamente, representa un componente interactivo que bloquea la interacción con el resto de la página.
+
+#El atributo [popover]
+Se puede abrir con un invocador declarativo (popovertarget).
+Se cierra con popovertarget (ventana emergente automática) o popovertargetaction=hide (ventana emergente manual).
+No inmoviliza el resto de la página.
+Admite el comportamiento de descarte de la luz.
+Puedes aplicar diseño al estado abierto con la pseudoclase :popover-open.
+No tiene semántica inherente.

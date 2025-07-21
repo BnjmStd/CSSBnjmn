@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+@layer support, demo;
+
+@import "https://unpkg.com/open-props" layer(support.design-system);
+@import "https://unpkg.com/open-props/normalize.min.css" layer(support.demo);
+
+/* layout machine that piles elements */
+@layer demo.the-pile {
+  .pile {
+    display: grid;
+    
+    > * {
+      grid-area: 1/1;
+    }
+  }
+}
+
+/* 
+  single selection machine (radio group) 
+  with looping roving UX 
+*/
+@layer demo.the-looper {
+  .your-hand > .card {
+    &:focus-within {
+      z-index: 1;
+    }
+    
+    &:has(:checked) {
+      --t: -25%;
+    }
+  }
+}
+
+
+
+
+
+@layer support.your-hand {
+  .your-hand {
+    border: none;
+    
+    > legend {
+      visibility: hidden;
+    }
+    
+    > .card {
+      transform: rotate(var(--r, 0deg)) translateY(var(--t, 0px));
+      transform-origin: center 200%;
+      transition: transform .5s var(--ease-spring-2);
+      
+      &:nth-of-type(1) { --r: -30deg }
+      &:nth-of-type(2) { --r: -15deg }
+      &:nth-of-type(3) { --r: 0deg }
+      &:nth-of-type(4) { --r: 15deg }
+      &:nth-of-type(5) { --r: 30deg }
+    }
+  }
+}
+
+@layer support.card {
+  .card {
+    display: grid;
+    inline-size: min(200px, 15vw);
+    aspect-ratio: var(--ratio-portrait);
+    border-radius: var(--radius-3);
+    background: var(--surface-2);
+    box-shadow: var(--shadow-2);
+    border: .5px solid var(--surface-3);
+    padding: var(--size-3) var(--size-4);
+    container: playing-card / inline-size;
+    
+    @media (prefers-color-scheme: light) {
+      background: white;
+    }
+    
+    &.placeholder {
+      border: 3px dashed var(--surface-4);
+      background: none;
+      box-shadow: none;
+      
+      @media (prefers-color-scheme: light) {
+        border-color: var(--surface-1);
+      }
+    }
+    
+    .your-hand > & {
+      inline-size: min(300px, 25vw);
+    }
+    
+    &:is(.spade, .clubs) {
+      color: white;
+      
+      @media (prefers-color-scheme: light) {
+        color: black;
+      }
+    }
+    
+    &:is(.heart, .diamond) {
+      color: var(--red-4);
+      
+      @media (prefers-color-scheme: light) {
+        color: var(--red-7);
+      }
+    }
+    
+    > p {
+      font-size: max(20cqi, 1.2rem);
+      max-inline-size: 1.5ch;
+      line-height: 1;
+      text-align: center;
+    }
+    
+    > p:nth-of-type(2) {
+      place-self: end;
+      rotate: .5turn;
+    }
+    
+    > input {
+      grid-row: 2;
+      opacity: 0;
+    }
+  }
+}
+
+@layer support.poker {
+  .poker {
+    display: flex;
+    gap: var(--size-3);
+  }
+}
+
+@layer support.demo {
+  @media (prefers-color-scheme: light) {
+    html {
+      background: var(--surface-4);
+    }
+  }
+  
+  body {
+    display: grid;
+    place-content: center;
+    place-items: center;
+    padding: var(--size-5);
+    gap: var(--size-10);
+  }
+}
+    </style>
+</head>
+<body>
+    <ol class="poker">
+  <li class="card spade">
+    <p>A ♠</p>
+    <p>A ♠</p>
+  </li>
+  <li class="card heart">
+    <p>Q ♥</p>
+    <p>Q ♥</p>
+  </li>
+  <li class="card diamond">
+    <p>9 ♦</p>
+    <p>9 ♦</p>
+  </li>
+  <li class="card clubs">
+    <p>A ♣</p>
+    <p>A ♣</p>
+  </li>
+  <li class="card placeholder"></li>
+</ol>
+
+<!-- 
+  The Looper
+  https://www.youtube.com/watch?v=vwgihljM2e4
+  https://codepen.io/argyleink/pen/NWJBmPX 
+-->
+<!--
+  The Pile
+  https://www.youtube.com/watch?v=6qpEOBkDr88
+  https://codepen.io/argyleink/pen/ZEZwomP
+-->
+<fieldset class="pile your-hand">
+  <legend>Your Hand</legend>
+
+  <label class="card diamond">
+    <p>A ♦</p>
+    <p>A ♦</p>
+    <input type="radio" name="the-looper" value="ace-of-diamonds">
+  </label>
+  <label class="card diamond">
+    <p>3 ♦</p>
+    <p>3 ♦</p>
+    <input type="radio" name="the-looper" value="3-of-diamonds">
+  </label>
+  <label class="card clubs">
+    <p>6 ♣</p>
+    <p>6 ♣</p>
+    <input type="radio" name="the-looper" checked value="option-3">
+  </label>
+  <label class="card spade">
+    <p>9 ♠</p>
+    <p>9 ♠</p>
+    <input type="radio" name="the-looper" value="option-4">
+  </label>
+  <label class="card heart">
+    <p>J ♥</p>
+    <p>J ♥</p>
+    <input type="radio" name="the-looper" value="option-4">
+  </label>
+</fieldset>
+</body>
+</html>

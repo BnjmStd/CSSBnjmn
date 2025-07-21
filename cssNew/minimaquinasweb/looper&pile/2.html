@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @layer support, demo;
+
+      @import "https://unpkg.com/open-props" layer(support.design-system);
+      @import "https://unpkg.com/open-props/normalize.min.css"
+        layer(support.demo);
+      @import "https://unpkg.com/cssgram/source/css/cssgram.min.css"
+        layer(support.filters);
+
+      @layer demo {
+        .poloroid {
+          @media (prefers-reduced-motion: no-preference) {
+            transition: transform 0.5s var(--ease-spring-2);
+          }
+
+          &:focus-within {
+            outline: 1px solid deeppink;
+            box-shadow: var(--shadow-5);
+          }
+
+          &:has(:checked) {
+            z-index: 1;
+          }
+
+          &:nth-of-type(1):not(:has(:checked)) {
+            transform: translate(-25%, 25%) rotateZ(-10deg);
+          }
+
+          &:nth-of-type(2):not(:has(:checked)) {
+            transform: translate(-25%, -25%) rotateZ(-5deg);
+          }
+
+          &:nth-of-type(3):not(:has(:checked)) {
+            transform: translate(-15%, -15%) rotateZ(-7deg);
+          }
+
+          > figure {
+            max-inline-size: 50vmin;
+            padding: var(--size-3);
+            background: var(--surface-2);
+            box-shadow: var(--shadow-2);
+
+            @media (prefers-color-scheme: light) {
+              background: white;
+            }
+
+            > figcaption {
+              padding-block-start: var(--size-1);
+            }
+          }
+
+          > input[type="radio"] {
+            opacity: 0;
+          }
+        }
+      }
+
+      /* layout machine that piles elements */
+      @layer demo.the-pile {
+        .pile {
+          display: grid;
+
+          > * {
+            grid-area: 1/1;
+          }
+        }
+      }
+
+      @layer support {
+        @media (prefers-color-scheme: light) {
+          html {
+            background: var(--surface-4);
+          }
+        }
+
+        body {
+          display: grid;
+          place-content: center;
+          place-items: center;
+          gap: var(--size-fluid-3);
+          grid-template-rows: 1fr auto;
+
+          @media (width >= 720px) {
+            grid-template-rows: initial;
+            grid-template-columns: 1fr auto;
+          }
+        }
+
+        #gallery {
+          border: none;
+
+          > legend {
+            visibility: hidden;
+          }
+        }
+
+        .sidebar {
+          display: grid;
+          gap: var(--size-1);
+          padding: var(--size-fluid-3);
+          padding-inline-end: 5vw;
+          align-content: start;
+          border: none;
+          max-block-size: 100dvh;
+          overflow-y: auto;
+
+          @media (width <= 720px) {
+            display: flex;
+            flex-wrap: wrap;
+            row-gap: 1px;
+            padding: var(--size-2);
+          }
+
+          > legend {
+            padding-inline-start: var(--size-3);
+            padding-block: var(--size-3) var(--size-2);
+            font-weight: bold;
+          }
+
+          > label {
+            display: flex;
+            place-items: center;
+            gap: var(--size-3);
+            padding-block: var(--size-2);
+            padding-inline: var(--size-3) var(--size-5);
+            border-radius: var(--radius-round);
+            border: 1px solid transparent;
+            white-space: nowrap;
+            cursor: pointer;
+
+            &:hover {
+              border-color: var(--surface-2);
+            }
+
+            &:has(:checked) {
+              background: var(--surface-2);
+            }
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <fieldset class="pile" id="gallery">
+      <legend>A pile of photos</legend>
+
+      <label class="poloroid pile">
+        <figure>
+          <picture>
+            <img
+              src="https://assets.codepen.io/2585/image_fx_a_black_wolf_in_armor_wrecking_a_steampunk_ci.jpg"
+              alt=""
+            />
+          </picture>
+          <figcaption>An armored wolf</figcaption>
+        </figure>
+        <input type="radio" name="the-looper" value="photo-1" />
+      </label>
+
+      <label class="poloroid pile">
+        <figure>
+          <picture>
+            <img
+              src="https://assets.codepen.io/2585/image_fx_a_raptor_in_armor_wrecking_a_cyberbunk_city_w.jpg"
+              alt=""
+            />
+          </picture>
+          <figcaption>An armored raptor</figcaption>
+        </figure>
+        <input type="radio" name="the-looper" value="photo-2" />
+      </label>
+
+      <label class="poloroid pile">
+        <figure>
+          <picture>
+            <img
+              src="https://assets.codepen.io/2585/image_fx_cyberpunk_city_scene_with_neon_streaks_of_lig+%284%29.jpg"
+              alt=""
+            />
+          </picture>
+          <figcaption>An armored T-Rex</figcaption>
+        </figure>
+        <input type="radio" name="the-looper" value="photo-3" checked />
+      </label>
+    </fieldset>
+
+    <fieldset id="grams" class="sidebar">
+      <legend>Apply a filter!</legend>
+
+      <label
+        ><input type="radio" name="gram-looper" value="normal" checked />
+        Normal</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="_1977" /> 1977</label
+      >
+      <label><input type="radio" name="gram-looper" value="aden" /> Aden</label>
+      <label
+        ><input type="radio" name="gram-looper" value="amaro" /> Amaro</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="brannan" />
+        Brannan</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="brooklyn" />
+        Brooklyn</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="clarendon" />
+        Clarendon</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="gingham" />
+        Gingham</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="hudson" /> Hudson</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="inkwell" />
+        Inkwell</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="kelvin" /> Kelvin</label
+      >
+      <label><input type="radio" name="gram-looper" value="lark" /> Lark</label>
+      <label
+        ><input type="radio" name="gram-looper" value="lofi" /> Lo-fi</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="mayfair" />
+        Mayfair</label
+      >
+      <label><input type="radio" name="gram-looper" value="moon" /> Moon</label>
+      <label
+        ><input type="radio" name="gram-looper" value="nashville" />
+        Nashville</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="perpetua" />
+        Perpetua</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="reyes" /> Reyes</label
+      >
+      <label><input type="radio" name="gram-looper" value="rise" /> Rise</label>
+      <label
+        ><input type="radio" name="gram-looper" value="slumber" />
+        Slumber</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="stinson" />
+        Stinson</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="toaster" />
+        Toaster</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="valencia" />
+        Valencia</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="walden" /> Walden</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="willow" /> Willow</label
+      >
+      <label
+        ><input type="radio" name="gram-looper" value="xpro2" /> X-Pro-2</label
+      >
+    </fieldset>
+  </body>
+
+  <script>
+    grams.oninput = (e) =>
+      (gallery.querySelector(
+        ":scope :has(:checked) figure > picture"
+      ).className = e.target.value);
+  </script>
+</html>

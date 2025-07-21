@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import "https://unpkg.com/open-props" layer(support.design-system);
+      @import "https://unpkg.com/open-props/normalize.min.css"
+        layer(support.demo);
+      @import "https://unpkg.com/open-props/buttons.min.css" layer(support.demo);
+
+      [data-hover-popover="adam"] {
+        anchor-name: --adam;
+      }
+      #adam-popover {
+        position-anchor: --adam;
+      }
+
+      [data-hover-popover="una"] {
+        anchor-name: --una;
+      }
+      #una-popover {
+        position-anchor: --una;
+      }
+
+      [data-hover-popover="bramus"] {
+        anchor-name: --bramus;
+      }
+      #bramus-popover {
+        position-anchor: --bramus;
+      }
+
+      .author-meta {
+        /* remove popover default styles in favor of inset-area */
+        inset: auto;
+
+        /* use positioning keywords */
+        position-area: block-start;
+
+        /* flip to bottom if goes off the top of the screen */
+        position-try-fallbacks: flip-block;
+
+        /* margin top/bottom space space from the element when flipping */
+        margin-block: var(--size-2);
+
+        /* prefer a flip position based on more height */
+        position-try-order: most-height;
+      }
+
+      @layer support.demo {
+        body {
+          display: grid;
+          place-content: center;
+          padding: var(--size-5);
+          gap: var(--size-5);
+        }
+
+        .prose {
+          font-size: var(--font-size-4);
+          font-weight: 200;
+          max-inline-size: var(--size-content-2);
+        }
+
+        .author-meta {
+          background: light-dark(white, var(--surface-2));
+          padding: var(--size-2) var(--size-3);
+          border-radius: var(--radius-2);
+          box-shadow: var(--shadow-5);
+          border: 0.5px solid var(--surface-2);
+
+          > header {
+            display: flex;
+            place-items: center;
+            gap: var(--size-3);
+
+            > picture {
+              max-inline-size: var(--size-8);
+              border-radius: var(--radius-round);
+              overflow: clip;
+            }
+
+            h2 {
+              font-size: var(--font-size-3);
+            }
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- if this isn't working, check to make sure you're on Chrome 129+ -->
+    <!-- this demo uses the new syntax and doesn't want to muddy your learning with the old syntax -->
+
+    <p class="prose">
+      My name is
+      <a href="https://nerdy.dev" data-hover-popover="adam">Adam Argyle</a>. I'm
+      a CSS and UI enthusiest working at Google for Chrome and the Web Platform.
+      I've got two rad co-workers you may know:
+      <a href="https://una.im" data-hover-popover="una">Una Kravets</a> and
+      <a href="https://bram.us" data-hover-popover="bramus">Bramus Van Damme</a
+      >.
+    </p>
+
+    <div class="author-meta" id="adam-popover" popover>
+      <header>
+        <picture>
+          <img
+            src="https://pbs.twimg.com/profile_images/1720589781476982784/P9Ld4vC5_400x400.jpg"
+            alt="Adam Argyle"
+          />
+        </picture>
+        <div>
+          <h2>argyleink</h2>
+          <a href="https://nerdy.dev">https://nerdy.dev</a>
+        </div>
+        <button>Follow</button>
+      </header>
+    </div>
+
+    <div class="author-meta" id="una-popover" popover>
+      <header>
+        <picture>
+          <img
+            src="https://pbs.twimg.com/profile_images/1587634978308997121/u7009cGe_400x400.jpg"
+            alt="Una"
+          />
+        </picture>
+        <div>
+          <h2>una</h2>
+          <a href="https://una.im">https://una.im</a>
+        </div>
+        <button>Follow</button>
+      </header>
+    </div>
+
+    <div class="author-meta" id="bramus-popover" popover>
+      <header>
+        <picture>
+          <img
+            src="https://pbs.twimg.com/profile_images/1276240813333401600/brd0hSfW_400x400.jpg"
+            alt="Bramus"
+          />
+        </picture>
+        <div>
+          <h2>bramus</h2>
+          <a href="https://bram.us">https://bram.us</a>
+        </div>
+        <button>Follow</button>
+      </header>
+    </div>
+  </body>
+
+  <script>
+    document.querySelectorAll("[data-hover-popover]").forEach((anchor) => {
+      let popover = document.getElementById(
+        anchor.dataset.hoverPopover + "-popover"
+      );
+
+      anchor.onmouseenter = (event) => popover.showPopover();
+    });
+  </script>
+</html>

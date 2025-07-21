@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @layer demo {
+      }
+
+      @layer demo.support {
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+
+        html {
+          block-size: 100%;
+          color-scheme: dark light;
+        }
+
+        body {
+          min-block-size: 100%;
+          font-family: system-ui, sans-serif;
+
+          display: grid;
+          place-content: center;
+          gap: 10vmin;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <fieldset id="looperGroup">
+      <legend>Looper Group</legend>
+
+      <label for="">
+        Option 1:
+        <input type="radio" name="the-looper" checked value="option-1" />
+      </label>
+
+      <label for="">
+        Option 2:
+        <input type="radio" name="the-looper" value="option-2" />
+      </label>
+
+      <label for="">
+        Option 3:
+        <input type="radio" name="the-looper" value="option-3" />
+      </label>
+
+      <label for="">
+        Option 4:
+        <input type="radio" name="the-looper" value="option-4" />
+      </label>
+    </fieldset>
+  </body>
+
+  <script>
+    const looperGroup = document.getElementById("looperGroup");
+
+    looperGroup.onchange = () => {
+      const selected = looperGroup.querySelector(
+        'input[name="the-looper"]:checked'
+      );
+      console.info(selected.value);
+    };
+  </script>
+</html>

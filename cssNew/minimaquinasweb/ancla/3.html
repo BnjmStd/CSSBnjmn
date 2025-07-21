@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import "https://unpkg.com/open-props" layer(support.design-system);
+      @import "https://unpkg.com/open-props/normalize.min.css"
+        layer(support.demo);
+      @import "https://unpkg.com/open-props/buttons.min.css" layer(support.demo);
+      @import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+
+      .icon-btn {
+        /* enable this as an anchor target */
+        anchor-name: --anchor-icon;
+      }
+
+      .floaty {
+        /* set default anchor target to --anchor-icon */
+        position-anchor: --anchor-icon;
+
+        /* for [popover] to use inset-area */
+        inset: auto;
+
+        /* use positioning keywords */
+        position-area: block-start;
+
+        /* flip to bottom if goes off the top of the screen */
+        position-try-fallbacks: flip-block;
+
+        /* margin top/bottom space space from the element when flipping */
+        margin-block: var(--size-2);
+
+        /* prefer a flip position based on more height */
+        position-try-order: most-height;
+
+        /* hide when the anchor has exited the scrollport */
+        position-visibility: anchors-visible;
+
+        /* transitions */
+        &,
+        &::backdrop {
+          transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete,
+            transform 1s var(--ease-spring-3), opacity 0.5s;
+          opacity: 0;
+        }
+
+        &::backdrop {
+          background: black;
+        }
+
+        &:popover-open {
+          opacity: 1;
+
+          &::backdrop {
+            opacity: 0.5;
+          }
+        }
+
+        @starting-style {
+          &:popover-open {
+            transform: scale(0.9);
+          }
+
+          &:popover-open,
+          &:popover-open::backdrop {
+            opacity: 0;
+          }
+        }
+      }
+
+      @layer support.demo {
+        body {
+          display: grid;
+          place-content: center;
+          place-items: center;
+          gap: 50vh;
+          padding: var(--size-5);
+          padding-block: 80vh 150vh;
+        }
+
+        .icon-btn {
+          border-radius: var(--radius-round);
+          aspect-ratio: var(--ratio-square);
+          padding: var(--size-3);
+          font-size: var(--size-fluid-5);
+          inline-size: var(--size-12);
+        }
+
+        .floaty {
+          background: var(--surface-2);
+          box-shadow: var(--shadow-5);
+          border-radius: var(--radius-3);
+          padding: 0;
+
+          position: relative;
+          overflow: visible;
+
+          > button {
+            position: absolute;
+            inset-block-start: -10px;
+            inset-inline-end: -10px;
+
+            border-radius: var(--radius-round);
+            aspect-ratio: 1;
+            line-height: 1;
+            padding: var(--size-1);
+
+            background: light-dark(var(--surface-1), var(--surface-2));
+            color: light-dark(var(--red-6), var(--red-3));
+          }
+
+          > header {
+            padding-block: var(--size-2);
+            padding-inline: var(--size-3);
+            border-radius: var(--radius-3) var(--radius-3) 0 0;
+            background: var(--surface-3);
+            font-weight: bold;
+            font-size: var(--font-size-2);
+          }
+
+          > section {
+            padding-block: var(--size-2);
+            padding-inline: var(--size-3);
+          }
+        }
+
+        .prompt {
+          display: grid;
+          place-items: center;
+          gap: 1ch;
+
+          text-align: center;
+          line-height: 1.75;
+          max-inline-size: 50ch;
+
+          > b {
+            display: flex;
+            place-items: center;
+            gap: 1ch;
+          }
+        }
+
+        icon-font {
+          font-family: "Material Symbols Outlined";
+          font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="prompt">
+      <b
+        ><icon-font>arrow_downward</icon-font> Scroll down to the anchor
+        <icon-font>arrow_downward</icon-font></b
+      >
+      <p>
+        This demo scrolls so you can test and preview
+        <a
+          href="https://developer.mozilla.org/en-US/docs/Web/CSS/position-try-order"
+          ><code>position-try-order</code></a
+        >
+        and
+        <a
+          href="https://developer.mozilla.org/en-US/docs/Web/CSS/position-visibility"
+          ><code>position-visibility</code></a
+        >.
+      </p>
+    </section>
+
+    <!-- the anchor and popover invoker -->
+    <button class="icon-btn" popovertarget="demo">
+      <icon-font>anchor</icon-font>
+    </button>
+
+    <!-- the popover element positioning itself to the anchor -->
+    <div class="floaty" popover id="demo">
+      <button autofocus popovertarget="demo" popoveraction="close">
+        <icon-font>highlight_off</icon-font>
+      </button>
+      <header>Over Easy</header>
+      <section>
+        <p>I'm positioned to the anchor!</p>
+      </section>
+    </div>
+  </body>
+</html>

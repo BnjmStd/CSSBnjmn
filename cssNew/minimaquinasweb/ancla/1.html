@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .anchor {
+        anchor-name: --over-easy;
+      }
+
+      .positioned-element {
+        position: fixed;
+        position-anchor: --over-easy;
+        position-area: block-end;
+      }
+
+      @layer support {
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+
+        html {
+          block-size: 100%;
+          background: #eee;
+        }
+
+        body {
+          min-block-size: 100%;
+          font-family: system-ui, sans-serif;
+
+          display: grid;
+          place-content: center;
+        }
+
+        .anchor {
+          overflow: clip;
+          border-radius: 30px;
+          outline: 1px solid #0002;
+          max-inline-size: min(50vw, 480px);
+
+          > img {
+            display: flex;
+            max-inline-size: 100%;
+          }
+        }
+
+        .positioned-element {
+          font-size: 2rem;
+          font-weight: bold;
+          background: Canvas;
+          color: CanvasText;
+          padding: 1ch 2ch;
+          border-radius: 1e3px;
+          box-shadow: 0 5px 10px #0003;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="anchor">
+      <img
+        src="https://assets.codepen.io/2585/image_fx_.jpg"
+        alt="a smiling sunny side up egg made of clay"
+      />
+    </div>
+
+    <div class="positioned-element">Over-Easy</div>
+  </body>
+</html>

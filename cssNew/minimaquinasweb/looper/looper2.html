@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      @layer demo {
+        fieldset {
+          /* divide circle by total children */
+          --_offset: calc(360deg / var(--sibling-count));
+
+          /* size also used for circle translateX and Y */
+          --_circle-size: 25vmin;
+          inline-size: var(--_circle-size);
+          block-size: var(--_circle-size);
+
+          /* 1x1 centered cell */
+          --_cell-size: 10vmin;
+          display: grid;
+          place-content: center;
+          grid: var(--_cell-size) / var(--_cell-size);
+
+          /* stack them together in 1 cell */
+          > * {
+            grid-area: 1/1;
+          }
+        }
+
+        input {
+          /* take child index * circle fraction offset */
+          --_angle: calc(var(--sibling-index) * var(--_offset));
+
+          /* cos() translateX, sin() translateY */
+          translate: calc(cos(var(--_angle)) * var(--_circle-size))
+            calc(sin(var(--_angle)) * var(--_circle-size));
+        }
+      }
+
+      @layer demo.support {
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+
+        html {
+          block-size: 100%;
+          color-scheme: dark light;
+        }
+
+        body {
+          min-block-size: 100%;
+          font-family: system-ui, sans-serif;
+
+          display: grid;
+          place-content: center;
+        }
+
+        fieldset {
+          border: none;
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Tab into this radio group and use your arrow keys! -->
+
+    <fieldset style="--sibling-count: 8">
+      <input
+        style="--sibling-index: 1"
+        type="radio"
+        name="cyclical-group"
+        checked
+      />
+      <input style="--sibling-index: 2" type="radio" name="cyclical-group" />
+      <input style="--sibling-index: 3" type="radio" name="cyclical-group" />
+      <input style="--sibling-index: 4" type="radio" name="cyclical-group" />
+      <input style="--sibling-index: 5" type="radio" name="cyclical-group" />
+      <input style="--sibling-index: 6" type="radio" name="cyclical-group" />
+      <input style="--sibling-index: 7" type="radio" name="cyclical-group" />
+      <input style="--sibling-index: 8" type="radio" name="cyclical-group" />
+    </fieldset>
+  </body>
+</html>
