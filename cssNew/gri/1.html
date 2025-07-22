@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      *::after,
+      *::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .yellow {
+        background-color: yellow;
+      }
+
+      .red {
+        background-color: red;
+      }
+
+      .layout-primary {
+        display: grid;
+        inline-size: 100%;
+        grid-template-columns:
+          [full-width]
+          minmax(2rem, 1fr)
+          [content-start]
+          min(1400px, 100% - 4rem)
+          [content-end]
+          minmax(2rem, 1fr)
+          [full-width-end];
+      }
+
+      .layout-primary > * {
+        grid-column: content-start / content-end;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout-primary">
+      <div class="red">hola</div>
+      <div class="yellow">hola</div>
+    </div>
+  </body>
+</html>

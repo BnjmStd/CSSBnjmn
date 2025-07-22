@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      *::after,
+      *::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .layout {
+        display: grid;
+        height: 100vh;
+        grid-template-rows:
+          [header-start] auto
+          [header-end content-start] 1fr
+          [content-end];
+      }
+
+      .header {
+        background: #4b6cb7;
+        color: white;
+        padding: 1rem;
+        grid-row: header-start / header-end;
+      }
+
+      .content {
+        background: #182848;
+        color: white;
+        padding: 2rem;
+        grid-row: content-start / content-end;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header">Encabezado</header>
+      <main class="content">Contenido principal</main>
+    </div>
+  </body>
+</html>
