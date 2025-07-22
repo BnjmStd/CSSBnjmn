@@ -292,3 +292,13 @@ pm2 save
 pm2 startup
 sudo ln -s /etc/nginx/sites-available/genomas /etc/nginx/sites-enabled/
 sudo nginx -t
+
+# monitoreo red por trafico
+sudo apt install iftop
+sudo iftop
+
+docker logs
+docker logs -f
+docker stats
+
+GRAFANA + PROMETHEUS
