@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid Layout con Named Lines y Rows</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: sans-serif;
+        min-height: 100vh;
+      }
+
+      .grid {
+        display: grid;
+        min-height: 100vh;
+
+        /* Columnas con líneas nombradas */
+        grid-template-columns:
+          [sidebar-start] 300px [sidebar-end full-width-start]
+          minmax(2rem, 1fr)
+          [content-start]
+          min(1400px, 100% - 4rem)
+          [content-end]
+          minmax(2rem, 1fr)
+          [full-width-end];
+
+        /* Filas */
+        grid-template-rows:
+          fit-content(100%) /* header */
+          1fr /* main-content */
+          fit-content(100%); /* footer */
+      }
+
+      .sidebar {
+        grid-column: sidebar-start / sidebar-end;
+        grid-row: 1 / span 3;
+        background: #444;
+        color: white;
+        padding: 1rem;
+        position: sticky;
+        align-self: start; /* evita que el grid lo estire verticalmente */
+        top: 0;
+        min-block-size: 100vh;
+      }
+
+      .header {
+        grid-column: content-start / content-end;
+        grid-row: 1;
+        background: #ccc;
+        padding: 1rem;
+      }
+
+      .main-content {
+        grid-column: content-start / content-end;
+        grid-row: 2;
+        background: #eee;
+        padding: 1rem;
+        min-height: 100vh;
+      }
+
+      .footer {
+        grid-column: full-width-start / full-width-end;
+        grid-row: 3;
+        background: #999;
+        padding: 1rem;
+        color: white;
+      }
+
+      /* header */
+      :root {
+        --bg-color-header: #f8f9fa;
+        --padding-width-inline: 0.5rem;
+        --padding-width-block: 0.8rem;
+      }
+
+      .header__home {
+        background-color: var(--bg-color-header);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+
+        display: grid;
+        grid-template-columns:
+          [full-width] minmax(2rem, 1fr) [content-start] min(
+            var(--max-inline-width),
+            100% - 4rem
+          )
+          [content-end] minmax(2rem, 1fr) [full-width-end];
+
+        > * {
+          grid-column: content-start / content-end;
+        }
+      }
+
+      .header__home .container-header {
+        display: flex;
+        flex-flow: row nowrap;
+        padding-block: 1.2rem;
+      }
+
+      .logo--header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-inline-end: auto;
+
+        & h1 {
+          color: var(--second-color);
+          line-height: 2;
+          font-weight: bolder;
+          text-wrap: nowrap;
+          font-size: 33px;
+        }
+      }
+
+      /* input */
+      .checkbox_header {
+        display: none;
+      }
+
+      /* label */
+      .open-sidebar-button {
+        display: none;
+      }
+
+      .close-sidebar-button {
+        display: none;
+      }
+
+      .close-sidebar-button,
+      .open-sidebar-button {
+        cursor: pointer;
+
+        &:hover {
+          color: var(--second-color);
+        }
+      }
+
+      /* overlay */
+      .overlay {
+        opacity: 0;
+        transition: 0.1s ease-in-out;
+      }
+
+      .header__home .container-header nav {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s ease-in-out;
+        gap: 1rem;
+
+        ul {
+          display: flex;
+          flex-direction: row;
+          gap: 1rem;
+
+          & li {
+            display: flex;
+
+            & a {
+              display: flex;
+              text-decoration: none;
+              color: var(--bg-black);
+              padding: var(--padding-width-block) var(--padding-width-inline);
+              transition: background-color 0.15s ease;
+              border-radius: 1rem;
+              position: relative;
+
+              &:hover {
+                &::after {
+                  width: 100%;
+                  left: 0;
+                  transform: translateX(0);
+                }
+              }
+
+              &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 2px;
+                background-color: var(--second-color);
+                transition: width 0.5s ease;
+              }
+
+              &.active-link {
+                &::after {
+                  width: 100%;
+                  left: 0;
+                  transform: translateX(0);
+                }
+              }
+            }
+          }
+        }
+
+        .accent-link {
+          background-color: var(--second-color);
+          color: white;
+          padding: var(--padding-width-block) var(--padding-width-inline);
+          font-size: 1rem;
+          border-radius: 1rem;
+          border: none;
+          cursor: pointer;
+          box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.7);
+          transition: background-color 0.3s ease;
+
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          white-space: nowrap;
+        }
+      }
+
+      .checkbox_header:checked ~ #overlay {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.5);
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 5;
+      }
+
+      .checkbox_header:checked ~ nav {
+        transform: translateX(0);
+      }
+
+      @media (width <= 768px) {
+        .open-sidebar-button {
+          display: block;
+        }
+
+        .close-sidebar-button {
+          display: block;
+          align-self: flex-start;
+        }
+
+        .navbar__home {
+          position: fixed;
+          top: 0;
+          right: 0;
+
+          inline-size: 40%;
+          block-size: 100vh;
+
+          transform: translateX(100%);
+          background-color: var(--bg-color-header);
+          z-index: 10;
+        }
+
+        .header__home .container-header nav {
+          overflow: clip;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          padding-inline: 0.5rem;
+          padding-block: 1rem;
+        }
+
+        .header__home .container-header nav ul {
+          inline-size: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+        }
+      }
+
+      @media (min-width: 769px) {
+        #overlay {
+          display: none !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+        }
+
+        .navbar__home {
+          transform: none !important;
+          position: static !important;
+          inline-size: auto !important;
+          block-size: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+      <div class="sidebar">Sidebar</div>
+      <div class="header">
+        <div class="container-header">
+          <a class="logo--header" href="#home" aria-label="Go to Home">
+            <span class="icon-nut" aria-hidden="true">🔩</span>
+            <h1 class="sidebar__logo">Data4Life</h1>
+          </a>
+
+          <input type="checkbox" id="sidebar-active" class="checkbox_header" />
+          <label
+            for="sidebar-active"
+            class="open-sidebar-button"
+            aria-label="Open Sidebar"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+              <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
+            </svg>
+          </label>
+
+          <label
+            id="overlay"
+            for="sidebar-active"
+            class="overlay"
+            aria-label="Close Sidebar area"
+          ></label>
+
+          <nav id="navbar" class="navbar__home" aria-label="Main Navigation">
+            <label
+              for="sidebar-active"
+              class="close-sidebar-button"
+              aria-label="Close Sidebar button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                width="24"
+                height="24"
+              >
+                <path
+                  d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"
+                ></path>
+              </svg>
+            </label>
+            <ul id="menu-list"></ul>
+            <button class="accent-link">
+              Login <span aria-hidden="true">🔐</span>
+            </button>
+          </nav>
+        </div>
+      </div>
+      <div class="main-content">
+        Contenido principal<br />
+        (agrega más contenido para ver el footer salir del viewport si hace
+        falta)
+      </div>
+      <div class="footer">Footer a todo el ancho</div>
+    </div>
+  </body>
+</html>
