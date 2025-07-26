@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Adaptable</title>
+
+    <style>
+      :root {
+        --brand-color: #8b90ff;
+        --base-color: #f2f4f8;
+        --surface-color: #ffffff;
+        --text-color: #333;
+        --secondary-text-color: #666;
+      }
+
+      body {
+        background-color: var(--base-color);
+        color: var(--text-color);
+        font-family: sans-serif;
+        padding: 2rem;
+        transition: background 0.3s, color 0.3s;
+      }
+
+      .card {
+        background: var(--surface-color);
+        border-left: 5px solid var(--brand-color);
+        padding: 1.5rem;
+        max-width: 400px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s, border-color 0.3s;
+      }
+
+      .card h2 {
+        margin-top: 0;
+        color: var(--text-color);
+      }
+
+      .card p {
+        color: var(--secondary-text-color);
+      }
+
+      label {
+        margin-bottom: 1rem;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Quick mode</h1>
+      <label>
+        Background:
+        <input id="color" type="color" value="#f2f4f8" />
+      </label>
+    </header>
+
+    <div class="card">
+      <h2>Nombre de Marca</h2>
+      <p>
+        Texto legible sin importar el color de fondo. Accesible y adaptable.
+      </p>
+    </div>
+
+    <script>
+      const $colorInput = document.getElementById("color");
+
+      const hexToRgb = (hex) => {
+        hex = hex.replace(/^#/, "");
+        if (hex.length === 3)
+          hex = hex
+            .split("")
+            .map((c) => c + c)
+            .join("");
+        const bigint = parseInt(hex, 16);
+        return {
+          r: (bigint >> 16) & 255,
+          g: (bigint >> 8) & 255,
+          b: bigint & 255,
+        };
+      };
+
+      const getRelativeLuminance = ({ r, g, b }) => {
+        const toLinear = (c) => {
+          c /= 255;
+          return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+        };
+        const R = toLinear(r);
+        const G = toLinear(g);
+        const B = toLinear(b);
+        return 0.2126 * R + 0.7152 * G + 0.0722 * B;
+      };
+
+      const handleSetColor = (hex) => {
+        const rgb = hexToRgb(hex);
+        const luminance = getRelativeLuminance(rgb);
+
+        // Determina texto claro u oscuro según luminancia
+        const isDark = luminance < 0.5;
+        const textColor = isDark ? "#ffffff" : "#111111";
+        const secondaryTextColor = isDark
+          ? "rgba(255,255,255,0.6)"
+          : "rgba(0,0,0,0.6)";
+
+        // Genera surface y brand como escalas suaves del color base
+        const surfaceOverlay = isDark ? 20 : -10; // +% lightness if dark base, -% if light base
+        const brandOverlay = isDark ? 35 : -20;
+
+        const lighten = (channel, percent) => {
+          const newVal = isDark
+            ? channel + ((255 - channel) * percent) / 100
+            : channel - (channel * percent) / 100;
+          return Math.min(255, Math.max(0, Math.round(newVal)));
+        };
+
+        const surfaceRgb = {
+          r: lighten(rgb.r, surfaceOverlay),
+          g: lighten(rgb.g, surfaceOverlay),
+          b: lighten(rgb.b, surfaceOverlay),
+        };
+
+        const brandRgb = {
+          r: lighten(rgb.r, brandOverlay),
+          g: lighten(rgb.g, brandOverlay),
+          b: lighten(rgb.b, brandOverlay),
+        };
+
+        const toHex = ({ r, g, b }) =>
+          `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("")}`;
+
+        document.documentElement.style.setProperty("--base-color", hex);
+        document.documentElement.style.setProperty(
+          "--surface-color",
+          toHex(surfaceRgb)
+        );
+        document.documentElement.style.setProperty(
+          "--brand-color",
+          toHex(brandRgb)
+        );
+        document.documentElement.style.setProperty("--text-color", textColor);
+        document.documentElement.style.setProperty(
+          "--secondary-text-color",
+          secondaryTextColor
+        );
+      };
+
+      $colorInput.addEventListener("input", (e) => {
+        handleSetColor(e.target.value);
+      });
+    </script>
+  </body>
+</html>
