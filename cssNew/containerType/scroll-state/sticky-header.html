@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wdth@75..100&family=Oswald:wght@600&display=swap");
+      @layer presentation, defaultgrid, layout, demo;
+
+      @layer demo {
+        .header-container {
+          width: 100%;
+          position: sticky;
+          top: 0;
+          @supports (container-type: scroll-state) {
+            container-type: scroll-state;
+            header {
+              transition: box-shadow 0.5s ease-out;
+              h1 {
+                transition: font-size 0.5s;
+              }
+              @container scroll-state(stuck: top) {
+                box-shadow: rgba(0, 0, 0, 0.6) 0px 12px 28px 0px,
+                  rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+                  rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+                h1 {
+                  font-size: 1.5rem;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      @layer layout {
+        /*   Set container type */
+        .grid > * {
+          container-type: inline-size;
+        }
+
+        /* Style banner with cq units */
+        .banner {
+          padding: 3cqmax;
+          background: #49416d;
+          color: #b3f2dd;
+          font-size: clamp(1rem, 2cqi + 0.5rem, 1.5rem);
+          border-radius: 0.5rem;
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+          text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.2),
+            1px 1px 1px rgba(0, 0, 0, 0.6);
+        }
+
+        .banner h2 {
+          font-size: clamp(1.3rem, 3cqi + 0.5rem, 2.4rem);
+          margin: 0 0 1cqi;
+        }
+
+        /* Set container name for aside */
+        aside {
+          container-name: aside;
+        }
+
+        /* change the bgcolor when in the sidebar */
+        @container aside (min-inline-size: 100px) {
+          .banner {
+            background-color: #a882dd;
+            color: #111;
+            text-shadow: none;
+          }
+        }
+        .topbanner {
+          background: salmon;
+          color: white;
+          width: 100%;
+          padding: 1.2rem;
+          text-align: center;
+        }
+      }
+
+      @layer defaultgrid {
+        .grid {
+          display: grid;
+          inline-size: 100%;
+          min-block-size: 100dvb;
+          gap: 3vmin;
+          background: #e0efde;
+          overflow: hidden;
+          > * {
+            padding: 1.5rem;
+          }
+          @media screen and (min-width: 768px) {
+            grid-template-columns: 3fr 2fr;
+          }
+        }
+        aside {
+          background: #e08d79;
+        }
+
+        .banner p {
+          margin: 0;
+        }
+      }
+
+      @layer presentation {
+        :root {
+          --color-cerulean: #0081a7;
+          --color-lightest: #fff;
+          --color-orange: #fed9b7;
+          --color-yellow: #fdfcdc;
+          --color-verdigris: #00afb9;
+          --color-cerulean: #0081a7;
+          --color-lightest: #fff;
+          --bg-slider: #161032;
+        }
+
+        *,
+        *::before,
+        *::after {
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          padding: 0;
+          font-family: "Open Sans", sans-serif;
+          font-size: 1.1rem;
+          line-height: 1.55;
+          color: #49416d;
+          min-block-size: 100dvb;
+          place-content: center;
+          place-items: center;
+          background: #d3bdb0;
+        }
+
+        h1 {
+          font-size: clamp(2rem, 5cqi + 0.5rem, 3rem);
+          text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.2),
+            1px 1px 1px rgba(0, 0, 0, 0.6);
+        }
+
+        h1,
+        h2 {
+          font-family: "Oswald", sans-serif;
+          font-weight: 600;
+        }
+
+        header {
+          padding-block: 24px;
+          background: #0081a7;
+
+          width: 100%;
+          .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-inline: 1.5rem;
+            @media screen and (min-width: 768px) {
+              flex-direction: row;
+              justify-content: space-between;
+              gap: 50px;
+            }
+          }
+        }
+        .branding {
+          font-family: "Electrolize", sans-serif;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          color: var(--color-orange);
+          & h1 {
+            margin: 0;
+            font-size: 1.6rem;
+            @media screen and (min-width: 500px) {
+              font-size: 2rem;
+            }
+          }
+        }
+
+        nav ul {
+          display: flex;
+          gap: 15px;
+          margin-block: 15px 0;
+          margin-inline: 0;
+          padding: 0;
+          list-style: none;
+          font-size: 1rem;
+          @media screen and (min-width: 1000px) {
+            margin-block-start: 0;
+            font-size: 1.4rem;
+          }
+        }
+
+        a {
+          color: var(--color-orange);
+          text-decoration: none;
+          transition: color 0.24s;
+          &:is(:hover, :focus) {
+            color: var(--color-lightest);
+          }
+          &.active {
+            color: var(--color-lightest);
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .warning {
+        position: fixed;
+        top: 0;
+        left: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1rem;
+        color: black;
+        background: yellow;
+        padding: 10px;
+        z-index: 10;
+        @supports (container-type: scroll-state) {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbanner">This is just a top banner for the fun of it.</div>
+    <div class="header-container">
+      <header>
+        <div class="container">
+          <div class="branding">
+            <h1>Sticky header stuffs</h1>
+          </div>
+          <nav>
+            <ul>
+              <li><a href="#" class="active" aria-current="page">Home</a></li>
+              <li><a href="#">Oh snap</a></li>
+              <li><a href="#">About us</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    </div>
+    <div class="grid">
+      <main>
+        <h1>This is the title of my main content</h1>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
+          convallis sodales erat vel accumsan. Nam eget massa nec sem vulputate
+          ullamcorper vel quis justo. Duis rhoncus tempor tempus. Nulla
+          facilisi. Maecenas nulla ante, lacinia ac consectetur non, aliquet
+          sollicitudin libero. Quisque congue odio sodales dui fermentum ac
+          laoreet mauris eleifend. Nulla facilisi. Phasellus vel erat a ante
+          pharetra pharetra.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
+          convallis sodales erat vel accumsan. Nam eget massa nec sem vulputate
+          ullamcorper vel quis justo. Duis rhoncus tempor tempus. Nulla
+          facilisi. Maecenas nulla ante, lacinia ac consectetur non, aliquet
+          sollicitudin libero. Quisque congue odio sodales dui fermentum ac
+          laoreet mauris eleifend. Nulla facilisi. Phasellus vel erat a ante
+          pharetra pharetra.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
+          convallis sodales erat vel accumsan. Nam eget massa nec sem vulputate
+          ullamcorper vel quis justo. Duis rhoncus tempor tempus. Nulla
+          facilisi. Maecenas nulla ante, lacinia ac consectetur non, aliquet
+          sollicitudin libero. Quisque congue odio sodales dui fermentum ac
+          laoreet mauris eleifend. Nulla facilisi. Phasellus vel erat a ante
+          pharetra pharetra.
+        </p>
+        <p>
+          Donec fringilla sem at eros vulputate tempus. Maecenas interdum leo a
+          tortor lobortis in hendrerit est pellentesque. Vestibulum non leo et
+          nisi sollicitudin rutrum. Aliquam tristique dui tempor sapien molestie
+          mollis. Integer viverra faucibus nulla ut posuere. Sed quis dui dictum
+          tortor imperdiet imperdiet ut scelerisque augue. Aenean sit amet
+          libero sit amet metus pulvinar viverra et id tortor. Nulla iaculis
+          bibendum nisi, quis elementum risus tempus et. Nullam rutrum, dolor id
+          vulputate feugiat, lectus tortor auctor odio, et lacinia eros neque
+          quis neque. Praesent nibh erat, varius porttitor cursus a, condimentum
+          vel eros. Quisque odio urna, elementum a consequat id, facilisis eget
+          mi. Praesent imperdiet congue velit, non tempus mi sollicitudin eu.
+          Duis vitae nisi leo, ut ultrices leo. Aliquam dolor sapien, cursus
+          suscipit fringilla et, lacinia et ligula. Proin eu lacus leo, at
+          accumsan nisi. Nulla facilisi. Proin vehicula mi nec augue semper
+          eleifend. Aliquam tempus vulputate quam at malesuada. Nulla a lacus
+          sit amet urna varius cursus. Aliquam a nunc sapien.
+        </p>
+        <div class="banner">
+          <h2>This is an awesome banner</h2>
+          <p>
+            Depending on the container, this will adjust its font-size and
+            paddings to fit perfectly
+          </p>
+        </div>
+      </main>
+      <aside>
+        <ul>
+          <li>Lorem ipsum dolor sit amet</li>
+          <li>lacinia ac consectetur non</li>
+          <li>Phasellus vel erat a ante</li>
+          <li>Nulla facilisi</li>
+          <li>ac consectetur non</li>
+        </ul>
+        <div class="banner">
+          <h2>This is an awesome banner</h2>
+          <p>
+            Depending on the container, this will adjust its font-size and
+            paddings to fit perfectly
+          </p>
+        </div>
+      </aside>
+    </div>
+    <div class="warning">
+      This is a demo for state queries, use Chrome Canary and enable the
+      experimental web platform features
+    </div>
+  </body>
+</html>

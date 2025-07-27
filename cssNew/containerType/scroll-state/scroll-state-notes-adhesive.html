@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .photos {
+        /* second photo just peeps over bottom of screen to encourage viewer to scroll */
+        margin-top: 18vh;
+      }
+      .photos {
+        position: sticky;
+        width: 600px;
+      }
+      .photos img {
+        max-width: 100%;
+        border-radius: 15px;
+        box-shadow: 0 0 40px 5px rgba(0, 0, 102, 0.5);
+      }
+
+      .one {
+        top: 8em;
+        transform: rotate(-2deg);
+      }
+      .two {
+        top: 9em;
+        margin-left: 1em;
+        transform: rotate(3deg);
+      }
+      .three {
+        top: 10em;
+        margin-left: 2em;
+        transform: rotate(-5deg);
+      }
+      .four {
+        top: 11em;
+        margin-left: 1em;
+        transform: rotate(5deg);
+      }
+      .five {
+        margin-left: 1em;
+        transform: rotate(-8deg);
+      }
+
+      /* GENERAL STYLING */
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: radial-gradient(circle at 120px, #c2c2ff, #8585ff);
+      }
+      .wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 40em;
+        margin: 0 auto;
+
+        /* Allows room for all photos to disappear off top of page */
+        padding-bottom: 120vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="photos one">
+        <img
+          style="max-width: 600px"
+          src="https://picsum.photos/id/240/3000/2000"
+          alt=""
+        />
+      </div>
+
+      <div class="photos two">
+        <img
+          style="max-width: 600px"
+          src="https://picsum.photos/id/24/3000/2000"
+          alt=""
+        />
+      </div>
+
+      <div class="photos three">
+        <img
+          style="max-width: 600px"
+          src="https://picsum.photos/id/20/3000/2000"
+          alt=""
+        />
+      </div>
+
+      <div class="photos four">
+        <img
+          style="max-width: 600px"
+          src="https://picsum.photos/id/340/3000/2000"
+          alt=""
+        />
+      </div>
+
+      <div class="photos five">
+        <img
+          style="max-width: 600px"
+          src="https://picsum.photos/id/210/3000/2000"
+          alt=""
+        />
+      </div>
+    </div>
+    <!-- END WRAPPER -->
+  </body>
+</html>

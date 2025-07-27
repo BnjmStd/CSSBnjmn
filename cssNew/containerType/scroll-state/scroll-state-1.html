@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .stuck-top {
+        container-type: scroll-state;
+        position: sticky;
+        top: 0px;
+
+        @supports (container-type: scroll-state) {
+          > nav {
+            @container scroll-state(stuck: top) {
+              background: Highlight;
+              color: HighlightText;
+            }
+          }
+        }
+      }
+      @layer support {
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+
+        html {
+          block-size: 100%;
+          color-scheme: dark light;
+        }
+
+        body {
+          min-block-size: 200%;
+          font-family: system-ui, sans-serif;
+          margin-block: 20vmin;
+        }
+
+        nav {
+          padding: 20px;
+        }
+      }
+      /*
+      
+      none
+The sticky container is not shifted in any direction.
+top
+The sticky container is shifted to stay inside the top edge.
+right
+The sticky container is shifted to stay inside the right edge.
+bottom
+The sticky container is shifted to stay inside the bottom edge.
+left
+The sticky container is shifted to stay inside the left edge.
+block-start
+The sticky container is shifted to stay inside the block-start edge.
+inline-start
+The sticky container is shifted to stay inside the inline-start edge.
+block-end
+The sticky container is shifted to stay inside the block-end edge.
+inline-end
+The sticky container is shifted to stay inside the inline-end edge.
+      */
+    </style>
+  </head>
+  <body>
+    <div class="stuck-top">
+      <nav>Nav</nav>
+    </div>
+  </body>
+</html>

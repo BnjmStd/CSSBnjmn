@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- variante 1 -->
+    <style>
+      @layer demo {
+        .sticky-slide {
+          dt {
+            container-type: scroll-state;
+            position: sticky;
+            inset-block-start: 0;
+            inset-inline: 0;
+
+            > header {
+              transition: background 0.3s ease, box-shadow 0.5s ease;
+
+              @container scroll-state(stuck: top) {
+                background: hsl(265 100% 27%);
+                box-shadow: 0 5px 5px #0003;
+              }
+            }
+          }
+        }
+      }
+
+      @layer demo.support {
+        .sticky-slide {
+          background: hsl(265 100% 47%);
+          color: white;
+
+          height: 80vh;
+          max-height: 40ex;
+          border-radius: 1rem;
+          overflow-y: auto;
+
+          & > dl {
+            margin: 0;
+
+            & dt {
+              font-weight: bold;
+              color: hsl(270 50% 80%);
+
+              & > header {
+                padding: 0.25em 1em;
+              }
+
+              &:first-child {
+                margin-top: 1em;
+              }
+            }
+
+            & dd {
+              margin: 0;
+              padding: 0.75em 1em;
+
+              &:last-child {
+                margin-bottom: 1em;
+              }
+            }
+          }
+        }
+
+        body {
+          display: grid;
+          place-items: center;
+          min-height: 100vh;
+          font-family: system-ui, sans-serif;
+        }
+      }
+    </style>
+
+    <!-- variante 2 -->
+    <style>
+      @layer demo {
+        .sticky-slide {
+          dt {
+            container-type: scroll-state;
+            position: sticky;
+
+            > header {
+              transition: background 0.3s ease;
+
+              /* needs experiments enabled in Canary */
+              @container scroll-state(stuck: top) {
+                background: hsl(265 100% 27%);
+              }
+            }
+          }
+        }
+      }
+
+      @layer demo.support {
+        .sticky-slide {
+          background: hsl(265 100% 47%);
+          color: white;
+
+          block-size: 80vh;
+          max-block-size: 40ex;
+          border-radius: 1rem;
+          overflow-y: auto;
+
+          & > dl {
+            margin: 0 0 1rem;
+            display: grid;
+            grid-template-columns: 5ex 1fr;
+            align-items: center;
+
+            > dt {
+              grid-column: 1;
+              inset-block-start: 0.5rem;
+              inset-inline: 0.5rem;
+              font-weight: bold;
+
+              > header {
+                display: inline-flex;
+                place-content: center;
+                place-items: center;
+
+                border: 1px solid hsl(265 100% 27%);
+
+                block-size: 4ex;
+                inline-size: 4ex;
+                border-radius: 50%;
+              }
+            }
+
+            & dd {
+              grid-column: 2;
+              margin: 0;
+              padding: 0.75rem;
+            }
+          }
+
+          & > dl:first-of-type > dd:first-of-type {
+            margin-block-start: 0.25rem;
+          }
+        }
+
+        body {
+          display: grid;
+          place-items: center;
+          min-block-size: 100svh;
+          margin: 0;
+          font-family: system-ui, sans-serif;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sticky-slide">
+      <dl>
+        <dt>A</dt>
+        <dd>Aceyalone</dd>
+        <dd>Aesop Rock</dd>
+        <dd>Angel Haze</dd>
+        <dd>Atmosphere</dd>
+      </dl>
+      <dl>
+        <dt>B</dt>
+        <dd>Babbletron</dd>
+        <dd>Bike For Three</dd>
+        <dd>Binary Star</dd>
+        <dd>Blackalicious</dd>
+        <dd>Black Sheep</dd>
+        <dd>Blueprint</dd>
+        <dd>Blue Scholars</dd>
+      </dl>
+      <dl>
+        <dt>C</dt>
+        <dd>Cecil Otter</dd>
+        <dd>Chali 2na</dd>
+        <dd>Chance The Rapper</dd>
+        <dd>Common Market</dd>
+        <dd>Cool Calm Pete</dd>
+        <dd>Czarface</dd>
+      </dl>
+      <dl>
+        <dt>D</dt>
+        <dd>Danger Doom</dd>
+        <dd>Darc Mind</dd>
+        <dd>Dem Atlas</dd>
+        <dd>Dessa</dd>
+      </dl>
+    </div>
+  </body>
+</html>

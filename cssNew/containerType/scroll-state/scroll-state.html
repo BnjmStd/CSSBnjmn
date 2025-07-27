@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import "https://unpkg.com/open-props" layer(support.design-system);
+      @import "https://unpkg.com/open-props/normalize.min.css"
+        layer(support.demo);
+      @import "https://unpkg.com/open-props/buttons.min.css" layer(support.demo);
+      @import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+        layer(support.demo);
+
+      /* sticky util */
+      .sticky-top {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+
+      .scroll-triggered {
+        /* triggers asap, like 1px scroll down */
+        .sticky-top {
+          container-type: scroll-state;
+
+          > nav {
+            transition: background 0.3s var(--ease-3);
+
+            @container scroll-state(stuck: top) {
+              background: white;
+            }
+          }
+        }
+      }
+
+      .scroll-driven {
+        /* animates over scroll distance, 0-10vh scroll height */
+        nav {
+          animation: bg-fill linear both;
+          animation-timeline: scroll();
+          animation-range: 0vh 10vh; /* adjust vibes here */
+        }
+      }
+
+      @keyframes bg-fill {
+        to {
+          background: white;
+        }
+      }
+
+      @layer support.demo {
+        body {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          min-block-size: 150vh;
+        }
+
+        section {
+          background: url(https://assets.codepen.io/2585/image_fx_+%287%29.jpg)
+            no-repeat;
+        }
+
+        nav {
+          display: flex;
+          place-content: center space-between;
+          padding-block: var(--size-2);
+          padding-inline: var(--size-3);
+
+          > div {
+            display: flex;
+            gap: var(--size-3);
+            place-items: center;
+          }
+
+          a {
+            color: var(--gray-12);
+          }
+
+          button {
+            &.transparent {
+              --_bg: none;
+              --_text: var(--gray-12);
+              --_border: none;
+              --_shadow: none;
+              --_ink-shadow: none;
+              box-shadow: 0 0 0 var(--_highlight-size) var(--_highlight);
+              padding: var(--size-2);
+              aspect-ratio: 1;
+              border-radius: var(--radius-round);
+            }
+            &.dark {
+              --_bg: var(--gray-12);
+              --_border: var(--gray-11);
+              --_text: white;
+              --_ink-shadow: none;
+            }
+            &.light {
+              --_bg: white;
+              --_border: transparent;
+              --_text: var(--gray-12);
+              --_ink-shadow: none;
+              box-shadow: 0 0 0 var(--_highlight-size) var(--_highlight);
+            }
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="scroll-triggered">
+      <div class="sticky-top">
+        <nav>
+          <div>
+            <button class="transparent material-symbols-outlined">Menu</button>
+            <a href="#">Uber <b>Grub</b></a>
+          </div>
+          <div>
+            <button class="light">Log in</button>
+            <button class="dark">Sign up</button>
+          </div>
+        </nav>
+      </div>
+    </section>
+
+    <section class="scroll-driven">
+      <div class="sticky-top">
+        <nav>
+          <div>
+            <button class="transparent material-symbols-outlined">Menu</button>
+            <a href="#">Uber <b>Grub</b></a>
+          </div>
+          <div>
+            <button class="light">Log in</button>
+            <button class="dark">Sign up</button>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import "https://unpkg.com/open-props" layer(design.system);
+
+      @layer demo {
+        .stuck-top {
+          container-type: scroll-state;
+          position: sticky;
+          top: 20px;
+
+          /* like container queries, can't query self */
+          > nav {
+            background: var(--surface-document);
+
+            transition: background-color 0.3s var(--ease-3),
+              box-shadow 0.3s var(--ease-3), margin 0.3s var(--ease-spring-3),
+              border-radius 0.3s var(--ease-3);
+
+            @container scroll-state(stuck: top) {
+              background: var(--surface-1);
+              box-shadow: var(--shadow-5);
+              border-radius: 10px;
+              margin-inline: 20px;
+            }
+          }
+        }
+      }
+
+      @layer demo.scrollspy {
+        body {
+          timeline-scope: --section-css, --section-props, --section-nojs,
+            --section-containers, --section-scrollstate;
+        }
+
+        @keyframes highlight {
+          25%,
+          50% {
+            border-block-end-color: deeppink;
+          }
+        }
+
+        nav {
+          > a {
+            animation: highlight linear both;
+            animation-range: cover 20% exit-crossing 50%;
+
+            border-block-end: 3px solid transparent;
+          }
+          > a:nth-child(1) {
+            animation-timeline: --section-css;
+          }
+          > a:nth-child(2) {
+            animation-timeline: --section-props;
+          }
+          > a:nth-child(3) {
+            animation-timeline: --section-nojs;
+          }
+          > a:nth-child(4) {
+            animation-timeline: --section-containers;
+          }
+          > a:nth-child(5) {
+            animation-timeline: --section-scrollstate;
+          }
+        }
+      }
+
+      @layer demo.support {
+        :root {
+          --surface-document: var(--gray-3);
+          --surface-1: white;
+          --shadow-color: 220 3% 15%;
+          --shadow-strength: 1%;
+        }
+
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+
+        html {
+          block-size: 100%;
+          background: var(--surface-document);
+          color: var(--gray-10);
+          scroll-behavior: smooth;
+        }
+
+        body {
+          min-block-size: 100%;
+          font-family: system-ui, sans-serif;
+        }
+
+        section {
+          border-block-end: 2px solid #0003;
+        }
+
+        header {
+          display: grid;
+          place-content: center;
+          text-align: center;
+          display: grid;
+          gap: var(--size-5);
+          block-size: 95svh;
+
+          > p {
+            color: var(--gray-8);
+            letter-spacing: var(--font-letterspacing-3);
+          }
+        }
+
+        h1 {
+          text-transform: uppercase;
+          font-size: var(--font-size-7);
+          letter-spacing: var(--font-letterspacing-5);
+          text-wrap: balance;
+        }
+
+        .stuck-top {
+          z-index: 1;
+        }
+
+        nav {
+          display: grid;
+          grid-auto-flow: column;
+          grid-auto-columns: 1fr;
+          place-items: center;
+          justify-content: space-between;
+          gap: var(--size-3);
+          padding: var(--size-3);
+
+          font-size: var(--font-size-3);
+
+          @media (width >= 520px) {
+            padding: var(--size-5);
+          }
+
+          > a {
+            white-space: nowrap;
+            color: var(--gray-9);
+            text-decoration: none;
+            padding-inline: var(--size-2);
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Sticky State Queries</h1>
+      <p>Style the nav when stuck</p>
+    </header>
+    <div class="stuck-top">
+      <nav>
+        <a href="#css">CSS</a>
+        <a href="#props">Props</a>
+        <a href="#nojs">No JS</a>
+        <a href="#containers">Containers</a>
+        <a href="#scrollstate">Scroll-State</a>
+      </nav>
+    </div>
+    <section id="css" style="view-timeline-name: --section-css">
+      <header>
+        <h1>CSS</h1>
+      </header>
+    </section>
+    <section id="props" style="view-timeline-name: --section-props">
+      <header>
+        <h1>Props</h1>
+      </header>
+    </section>
+    <section id="nojs" style="view-timeline-name: --section-nojs">
+      <header>
+        <h1>No JS</h1>
+      </header>
+    </section>
+    <section id="containers" style="view-timeline-name: --section-containers">
+      <header>
+        <h1>Containers</h1>
+      </header>
+    </section>
+    <section id="scrollstate" style="view-timeline-name: --section-scrollstate">
+      <header>
+        <h1>Scroll State</h1>
+      </header>
+    </section>
+  </body>
+</html>

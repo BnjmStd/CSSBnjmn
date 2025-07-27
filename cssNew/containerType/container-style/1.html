@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* style query demo */
+      /* want to see if the --detail var is not blank, then set the content to the content of its value */
+      @container style(--detail: new) {
+        /*  Can i reduce redundancy here?  */
+        .comment-block {
+          display: block;
+        }
+
+        .comment-block::after {
+          content: "New";
+          /*   I shouldn't have to have this here   */
+          border: 1px solid currentColor;
+          background: white;
+          position: absolute;
+          bottom: 0.5rem;
+          right: 0.5rem;
+          padding: 0.1rem 0.3rem;
+        }
+      }
+
+      @container style(--detail: low-stock) {
+        /*  Can i reduce redundancy here?  */
+        .comment-block {
+          display: block;
+        }
+
+        .comment-block::after {
+          content: "Low Stock";
+          border: 1px solid currentColor;
+          background: white;
+          position: absolute;
+          bottom: 0.5rem;
+          right: 0.5rem;
+          padding: 0.1rem 0.3rem;
+        }
+
+        .media-img {
+          border: 2px solid #c17474;
+        }
+      }
+
+      /* CQ size adjustments */
+      @container (min-width: 400px) {
+        .product-card p {
+          font-size: 1.2rem;
+        }
+
+        .color-list li {
+          width: 1rem;
+          height: 1rem;
+        }
+
+        .comment-block:after {
+          bottom: 1rem;
+          right: 1rem;
+          font-size: 1.2rem;
+        }
+      }
+
+      /* MQ changes */
+      @media (max-width: 800px) {
+        .view-buttons {
+          display: none;
+        }
+
+        .four-by {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .product-card {
+        width: 100%;
+      }
+
+      @layer product-demo-base {
+        .comment-block {
+          display: none;
+        }
+      }
+
+      @layer product-base {
+        .product-area {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .product-list {
+          display: grid;
+          gap: 1rem;
+        }
+
+        .media-img {
+          position: relative;
+          aspect-ratio: 3 / 4;
+          width: 100%;
+          box-sizing: border-box;
+        }
+
+        .media-img img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+        }
+
+        .meta {
+          padding: 0.5rem 0.5rem 0;
+        }
+
+        .meta p {
+          margin: 0;
+        }
+
+        .color-list {
+          margin-top: 1rem;
+          padding: 0;
+          display: flex;
+          gap: 0.25rem;
+        }
+
+        .color-list li {
+          font-size: 0;
+          width: 0.75rem;
+          height: 0.75rem;
+          display: inline-block;
+          border-radius: 50%;
+          position: relative;
+          border: 1px solid;
+        }
+
+        .color-list li:hover,
+        .color-list li:focus {
+          border-color: white;
+        }
+
+        .section-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .section-header button {
+          border: none;
+          background: none;
+          font-family: Roboto Mono, monospace;
+        }
+
+        .section-header button:hover,
+        .section-header button:focus {
+          text-decoration: underline;
+        }
+
+        .four-by {
+          grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        /*  attr() color interpolation or getting value from a data attr would be really useful for these color lists  */
+        .color-list li {
+          background-color: red;
+        }
+
+        /*  Mini :has() demo  */
+        /*  Only show 5 colors, but hint at more  */
+        /*  If the color list has 6 or more children, apply a (+ more) indicator to the 5th child and hide the rest  */
+        .color-list:has(:nth-child(n + 6)) li:nth-child(5)::after {
+          content: "+ more colors";
+          display: inline;
+          position: absolute;
+          left: calc(100% + 0.5rem);
+          width: max-content;
+          font-size: 0.75rem;
+        }
+
+        .color-list:has(:nth-child(n + 6)) li:nth-child(n + 6) {
+          display: none;
+        }
+      }
+
+      @layer page-base {
+        body {
+          font-family: Roboto Mono, monospace;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="product-area">
+      <div class="section-header">
+        <p>Clothing - The Winter Edit</p>
+      </div>
+
+      <div class="product-list four-by">
+        <div class="product-card-container" style="--detail: new">
+          <div class="product-card">
+            <div class="media-img">
+              <img
+                src="https://images.unsplash.com/photo-1574201635302-388dd92a4c3f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80"
+                alt=""
+              />
+              <div class="comment-block"></div>
+            </div>
+            <div class="meta">
+              <p class="brand">Unicorn</p>
+              <p class="name">Magic Sweater</p>
+              <p class="price">$148</p>
+              <div class="colors">
+                <ul class="color-list">
+                  <li data-color="rgb(x,x,x)">white</li>
+                  <li data-color="rgb(x,x,x)">beige</li>
+                  <li data-color="rgb(x,x,x)">maroon</li>
+                  <li data-color="rgb(x,x,x)">black</li>
+                  <li data-color="rgb(x,x,x)">brown</li>
+                  <li data-color="rgb(x,x,x)">deeppurple</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="product-card-container" style="--detail: low-stock">
+          <div class="product-card">
+            <div class="media-img">
+              <img
+                src="https://images.unsplash.com/photo-1579954568250-8b7abc7743e7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=685&q=80"
+                alt=""
+              />
+              <div class="comment-block"></div>
+            </div>
+            <div class="meta">
+              <p class="brand">Markky</p>
+              <p class="name">On The Go Sweater</p>
+              <p class="price">$68</p>
+              <div class="colors">
+                <ul class="color-list">
+                  <li>green</li>
+                  <li>beige</li>
+                  <li>deeppink</li>
+                  <li>darkblue</li>
+                  <li>orange</li>
+                  <li>brown</li>
+                  <li>gold</li>
+                  <li>white</li>
+                  <li>beige</li>
+                  <li>copper</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="product-card-container">
+          <div class="product-card">
+            <div class="media-img">
+              <img
+                src="https://images.unsplash.com/photo-1601762319935-963f5b1869ad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=723&q=80"
+                alt=""
+              />
+              <div class="comment-block"></div>
+            </div>
+            <div class="meta">
+              <p class="brand">Chaide</p>
+              <p class="name">Slouch Trench</p>
+              <p class="price">$368</p>
+              <div class="colors">
+                <ul class="color-list">
+                  <li>beige</li>
+                  <li>tan</li>
+                  <li>gold</li>
+                  <li>brown</li>
+                  <li>black</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="product-card-container">
+          <div class="product-card">
+            <div class="media-img">
+              <img
+                src="https://images.unsplash.com/photo-1641932481849-9ac1cacf360c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=731&q=80"
+                alt=""
+              />
+              <div class="comment-block"></div>
+            </div>
+            <div class="meta">
+              <p class="brand">Marley & Co</p>
+              <p class="name">Essential Blazer</p>
+              <p class="price">$198</p>
+              <div class="colors">
+                <ul class="color-list">
+                  <li>white</li>
+                  <li>black</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    // Inspired by the products on aritzia.com
+    // Images from Unsplash
+    // Style Queries: Apply "new" or "low stock" tags, style media image if "low stock" tag
+    // :has(): showcases quantity queries
+
+    // what I would like to do instead is use data attributes to set the colors in HTML and apply them in CSS
+    const colors = [...document.querySelectorAll(".color-list li")];
+
+    colors.forEach((color) => {
+      //   using innerText for ease but would likely use data attributes for more specific colors
+      const colorValue = color.innerText;
+      color.style.background = colorValue;
+    });
+  </script>
+</html>

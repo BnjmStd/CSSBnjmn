@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import "https://unpkg.com/open-props/easings.min.css";
+
+      @layer demosupport, demo;
+
+      @layer demo {
+        html {
+          scroll-snap-type: y mandatory;
+        }
+
+        section {
+          container-type: scroll-state;
+          scroll-snap-align: start;
+
+          min-block-size: 100vh;
+          scroll-snap-stop: always;
+
+          @supports (container-type: scroll-state) {
+            > h1 {
+              transition: opacity 0.5s ease, transform 0.5s var(--ease-spring-3);
+              transition-delay: 0.5s;
+              opacity: 0;
+              transform: scale(1.25);
+
+              @container scroll-state(snapped: block) {
+                opacity: 1;
+                transform: scale(1);
+              }
+            }
+          }
+        }
+      }
+
+      @layer demosupport {
+        section {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        section:nth-of-type(even) {
+          color: hsl(320 80% 90%);
+          background: hsl(320 80% 40%);
+        }
+
+        section:nth-of-type(odd) {
+          color: hsl(290 80% 90%);
+          background: hsl(290 80% 40%);
+        }
+
+        body {
+          margin: 0;
+          font-family: system-ui, sans-serif;
+          font-size: 4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+uses scrollSnapChange event
+for a one time class applied that indicates the slide has been or is being seen
+-->
+
+    <section>
+      <h1>slide 1</h1>
+    </section>
+    <section>
+      <h1>slide 2</h1>
+    </section>
+    <section>
+      <h1>slide 3</h1>
+    </section>
+    <section>
+      <h1>slide 4</h1>
+    </section>
+    <section>
+      <h1>slide 5</h1>
+    </section>
+  </body>
+</html>

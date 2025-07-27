@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      :root {
+        --stickyBackground: #f5f5f5;
+        --borderColor: #c9d1dc;
+      }
+
+      body {
+        font-family: "Nunito Sans", sans-serif;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2vmax;
+      }
+
+      h1,
+      h2 {
+        margin-top: 48px;
+      }
+
+      .table-wrapper {
+        height: 320px;
+        border: 1px solid var(--borderColor);
+        overflow: auto;
+      }
+
+      table {
+        border-spacing: 0;
+      }
+
+      thead {
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      tbody {
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        padding: 18px 24px;
+        white-space: nowrap;
+        border-bottom: 1px solid var(--borderColor);
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      /*
+STICKY ROW
+Normal css box-shadow works for the header as it is a single html element
+*/
+
+      tr.sticky {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: var(--stickyBackground);
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+      }
+
+      /*
+STICKY COLUMN
+Avoid undesirable overlapping shadows by creating a faux shadow on the ::after psudo-element instead of using the css box-shadow property.
+*/
+
+      th.sticky,
+      td.sticky {
+        position: sticky;
+        left: 0;
+        background: var(--stickyBackground);
+      }
+
+      th.sticky::after,
+      td.sticky::after {
+        content: "";
+        position: absolute;
+        right: -6px;
+        top: 0;
+        bottom: -1px;
+        width: 5px;
+        border-left: 1px solid var(--borderColor);
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.08) 0%,
+          rgba(0, 0, 0, 0) 100%
+        );
+      }
+
+      th.sticky::before,
+      td.sticky::before {
+        content: "";
+        position: absolute;
+        left: -6px;
+        top: 0;
+        bottom: -1px;
+        width: 5px;
+        border-right: 1px solid var(--borderColor);
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.08) 100%
+        );
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sticky Table Headers and Columns With CSS</h1>
+    <p>
+      A sticky table header and column can be easily achieved by using the css
+      position sticky property. Defining these properties with classes makes it
+      easy to assign either of these options to any of your tables.
+    </p>
+    <h2>Sticky Header and Sticky First Column</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr class="sticky">
+            <th class="sticky">Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+            <th>Column 4</th>
+            <th>Column 5</th>
+            <th>Column 6</th>
+            <th>Column 7</th>
+            <th>Column 8</th>
+            <th>Column 9</th>
+            <th>Column 10</th>
+            <th>Column 11</th>
+            <th>Column 12</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Sticky Header Only</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr class="sticky">
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+            <th>Column 4</th>
+            <th>Column 5</th>
+            <th>Column 6</th>
+            <th>Column 7</th>
+            <th>Column 8</th>
+            <th>Column 9</th>
+            <th>Column 10</th>
+            <th>Column 11</th>
+            <th>Column 12</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Sticky First Column Only</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th class="sticky">Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+            <th>Column 4</th>
+            <th>Column 5</th>
+            <th>Column 6</th>
+            <th>Column 7</th>
+            <th>Column 8</th>
+            <th>Column 9</th>
+            <th>Column 10</th>
+            <th>Column 11</th>
+            <th>Column 12</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+          <tr>
+            <td class="sticky">Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+            <td>Text</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
