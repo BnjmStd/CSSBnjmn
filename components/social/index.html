@@ -12,7 +12,11 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #595959;
+            display: grid;
+
+            block-size: 100vh;
+            place-items: center;
         }
 
         .menu {
@@ -27,7 +31,11 @@
 
         .menu .toggle {
             position: relative;
-            inline-size: 100%;
+            inline-size: 100px;
+            block-size: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            box-shadow: 0 25px 15px rgba(0, 0, 0, 0.5)
         }
     </style>
 </head>
