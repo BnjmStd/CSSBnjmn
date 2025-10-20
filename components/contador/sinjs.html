@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      section {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      h2 {
+        color: #333;
+      }
+
+      div {
+        font-size: 24px;
+        color: #007bff;
+      }
+
+      @property --counter {
+        syntax: "<integer>";
+        inherits: false;
+        initial-value: 0;
+      }
+
+      @keyframes counterAnim {
+        from {
+          --counter: 0;
+        }
+        to {
+          --counter: 150;
+        }
+      }
+
+      .counter__num {
+        counter-reset: counter var(--counter);
+        animation: counterAnim 3s ease-in-out forwards;
+
+        &::after {
+          content: counter(counter);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <section>
+      <h2 class="counter__title">Projects completed</h2>
+      <div class="counter__num"></div>
+    </section>
+  </body>
+</html>

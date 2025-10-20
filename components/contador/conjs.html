@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counter modular con JS moderno</title>
+
+    <style>
+      section {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      h2 {
+        color: #333;
+      }
+
+      .counter__num {
+        font-size: 24px;
+        color: #007bff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <section>
+      <h2 class="counter__title">Projects completed</h2>
+      <div class="counter__num" id="counter">0</div>
+    </section>
+
+    <script type="module" defer>
+      import { Counter } from "./Counter.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const $counterElement = document.getElementById("counter");
+
+        const projectCounter = new Counter($counterElement, 150, 3000);
+        projectCounter.start();
+      });
+    </script>
+  </body>
+</html>
