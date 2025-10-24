@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Physics2DPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+
+    <style>
+      :root {
+        --bg: #030303;
+        --ink: #f3f3f3;
+        --accent: #c3ff00;
+      }
+
+      *,
+      *::after,
+      *::before {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-block-size: 100vh;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        background-image: linear-gradient(
+          rgba(255, 255, 255, 0.05) 2px,
+          transparent 2px
+        );
+        color: var(--ink);
+      }
+
+      .hero {
+        min-block-size: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 4vw;
+        overflow: hidden;
+      }
+
+      .hero__title {
+        font-size: clamp(3rem, 10vw, 10rem);
+        line-height: 1;
+        font-weight: 900;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+      }
+
+      .hero__title > span {
+        display: block;
+      }
+
+      .accent {
+        color: var(--accent);
+      }
+
+      #split {
+        white-space: nowrap;
+      }
+
+      .blast-char {
+        display: inline-block;
+        line-height: 1;
+        will-change: transform, opacity;
+      }
+
+      #split.emoji {
+        display: inline-block;
+        line-height: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero">
+      <h1 id="heroTitle" class="hero__title"></h1>
+    </section>
+
+    <script>
+      gsap.registerPlugin(Physics2DPlugin, SplitText);
+
+      const HERO_LINES = [
+        { pre: "This brand is about to", highlight: "ignite", post: "your world." },
+        { pre: "Turn your ideas into", highlight: "impact", post: "that lasts." },
+        { pre: "Experience the power of", highlight: "innovation", post: "in motion." },
+        { pre: "We don’t follow trends — we", highlight: "create", post: "them." },
+      ];
+
+      const $heroTitle = document.getElementById("heroTitle");
+      let idx = 0;
+
+      function renderSentences(s) {
+        $heroTitle.innerHTML = `
+          <span>
+            ${s.pre} <span id="split" class="accent">${s.highlight}</span> ${
+          s.post ? s.post : ""
+        }
+          </span>
+        `;
+      }
+
+      function animateSplitText() {
+        // Crear los splits AHORA que el texto existe
+        const sentenceSplit = new SplitText($heroTitle, {
+          type: "chars, words, lines",
+          linesClass: "lines",
+          wordClass: "words",
+          charClass: "char",
+        });
+
+        const highlightSplit = new SplitText("#split", {
+          type: "chars",
+          charsClass: "blast-char",
+        });
+
+        gsap.set("#split", { opacity: 1 });
+
+        const tl = gsap.timeline({ delay: 0.8 });
+
+        // animación principal
+        tl.from(sentenceSplit.words, {
+          y: -100,
+          opacity: 0,
+          rotation: "random(-80, 90)",
+          duration: 0.7,
+          ease: "back",
+          stagger: 0.1,
+        })
+          .to(highlightSplit.chars, {
+            duration: 2.2,
+            opacity: 0,
+            rotation: "random(-2000, 2000)",
+            physics2D: {
+              angle: "random(240, 320)",
+              velocity: "random(300, 600)",
+              gravity: 800,
+            },
+            stagger: 0.05,
+            delay: 1.5,
+          })
+          .to(sentenceSplit.words, {
+            y: 100,
+            opacity: 0,
+            rotation: "random(-80, -90)",
+            duration: 0.7,
+            ease: "back",
+            stagger: 0.1,
+            delay: 1.5,
+          })
+          .call(() => {
+            sentenceSplit.revert();
+            highlightSplit.revert();
+          });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderSentences(HERO_LINES[idx]);
+        animateSplitText();
+      });
+    </script>
+  </body>
+</html>
