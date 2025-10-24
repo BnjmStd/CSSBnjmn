@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Scroll Animation Sections</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Physics2DPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
 
@@ -24,15 +25,12 @@
       html,
       body {
         min-block-size: 100vh;
+        scroll-behavior: smooth;
       }
 
       body {
         margin: 0;
         background: var(--bg);
-        background-image: linear-gradient(
-          rgba(255, 255, 255, 0.05) 2px,
-          transparent 2px
-        );
         color: var(--ink);
       }
 
@@ -42,6 +40,10 @@
         place-items: center;
         padding: 4vw;
         overflow: hidden;
+        background-image: linear-gradient(
+          rgba(255, 255, 255, 0.05) 2px,
+          transparent 2px
+        );
       }
 
       .hero__title {
@@ -62,29 +64,18 @@
         color: var(--accent);
       }
 
-      #split {
-        white-space: nowrap;
-      }
-
       .blast-char {
         display: inline-block;
         line-height: 1;
         will-change: transform, opacity;
       }
-
-      #split.emoji {
-        display: inline-block;
-        line-height: 1;
-      }
     </style>
   </head>
   <body>
-    <section class="hero">
-      <h1 id="heroTitle" class="hero__title"></h1>
-    </section>
+    <div id="container"></div>
 
     <script>
-      gsap.registerPlugin(Physics2DPlugin, SplitText);
+      gsap.registerPlugin(ScrollTrigger, Physics2DPlugin, SplitText);
 
       const HERO_LINES = [
         { pre: "This brand is about to", highlight: "ignite", post: "your world." },
@@ -93,38 +84,42 @@
         { pre: "We don’t follow trends — we", highlight: "create", post: "them." },
       ];
 
-      const $heroTitle = document.getElementById("heroTitle");
-      let idx = 0;
+      const $container = document.getElementById("container");
 
-      function renderSentences(s) {
-        $heroTitle.innerHTML = `
-          <span>
-            ${s.pre} <span id="split" class="accent">${s.highlight}</span> ${
-          s.post ? s.post : ""
-        }
-          </span>
+      // Crear una sección por cada línea
+      HERO_LINES.forEach((line, i) => {
+        const section = document.createElement("section");
+        section.classList.add("hero");
+        section.innerHTML = `
+          <h1 class="hero__title" id="title-${i}">
+            <span>${line.pre} <span class="accent" id="split-${i}">${line.highlight}</span> ${line.post}</span>
+          </h1>
         `;
-      }
+        $container.appendChild(section);
+      });
 
-      function animateSplitText() {
-        // Crear los splits AHORA que el texto existe
-        const sentenceSplit = new SplitText($heroTitle, {
+      // Función de animación
+      function animateSplitText(titleEl, highlightEl) {
+        const sentenceSplit = new SplitText(titleEl, {
           type: "chars, words, lines",
           linesClass: "lines",
           wordClass: "words",
           charClass: "char",
         });
 
-        const highlightSplit = new SplitText("#split", {
+        const highlightSplit = new SplitText(highlightEl, {
           type: "chars",
           charsClass: "blast-char",
         });
 
-        gsap.set("#split", { opacity: 1 });
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: titleEl,
+            start: "top 80%", // cuando entra en vista
+            toggleActions: "play none none reverse", // animar cuando entra, revertir al salir
+          },
+        });
 
-        const tl = gsap.timeline({ delay: 0.8 });
-
-        // animación principal
         tl.from(sentenceSplit.words, {
           y: -100,
           opacity: 0,
@@ -160,9 +155,11 @@
           });
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        renderSentences(HERO_LINES[idx]);
-        animateSplitText();
+      // Inicializar animación para cada sección
+      HERO_LINES.forEach((_, i) => {
+        const titleEl = document.getElementById(`title-${i}`);
+        const highlightEl = document.getElementById(`split-${i}`);
+        animateSplitText(titleEl, highlightEl);
       });
     </script>
   </body>
