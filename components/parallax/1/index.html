@@ -8,10 +8,15 @@
     <style>
       .parallax-container {
         height: 100vh;
-        overflow-y: auto;
-        overflow-x: hidden;
+
         perspective: 1px;
         transform-style: preserve-3d;
+
+        scrollbar-width: none;
+      }
+
+      .parallax-container::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Edge */
       }
 
       .parallax-layer {
@@ -48,8 +53,8 @@
         min-height: 200vh;
         display: flex;
         flex-direction: column;
-        gap: 100vh;
-        padding: 100vh 2rem 2rem;
+        gap: 20vh;
+        padding: 20vh 2rem 2rem;
       }
 
       .card {
