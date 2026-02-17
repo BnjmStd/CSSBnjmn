@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 0.9rem;
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        transition: all 0.2s ease;
+
+        border: none;
+
+        &:active {
+          scale: 0.97;
+        }
+      }
+
+      ul {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        position: absolute;
+        background: white;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        list-style: none;
+
+        &:not([data-show]) {
+          display: none;
+        }
+      }
+
+      .tooltip {
+        transition:
+          transform 0.125s ease-out,
+          opacity 0.125s ease-out;
+        transform-origin: var(--transform-origin);
+
+        &[data-starting-style],
+        &[data-ending-style] {
+          opacity: 0;
+          transform: scale(0.97);
+        }
+
+        &[data-instant] {
+          transition-duration: 0ms;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="tooltip">
+      <li>
+        <a href="#"> list askdakjsdas </a>
+      </li>
+      <li>
+        <a href="#"> asdasdasdasdasdasd </a>
+      </li>
+      <li>
+        <a href="#">asdasdasdasdasdasd</a>
+      </li>
+
+      <li>
+        <a href="#">asdasdasdasdasdad</a>
+      </li>
+    </ul>
+
+    <button>Paste</button>
+  </body>
+  <script>
+    const button = document.querySelector("button");
+    const tooltip = document.querySelector(".tooltip");
+
+    button.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const isShown = tooltip.hasAttribute("data-show");
+
+      if (isShown) {
+        // Cerrar tooltip
+        tooltip.setAttribute("data-ending-style", "");
+        tooltip.addEventListener(
+          "transitionend",
+          () => {
+            tooltip.removeAttribute("data-show");
+            tooltip.removeAttribute("data-ending-style");
+          },
+          { once: true },
+        );
+      } else {
+        // Abrir tooltip
+        tooltip.setAttribute("data-show", "");
+        tooltip.setAttribute("data-starting-style", "");
+
+        requestAnimationFrame(() => {
+          tooltip.removeAttribute("data-starting-style");
+        });
+      }
+    });
+
+    // Cerrar al hacer click fuera
+    document.addEventListener("click", () => {
+      if (tooltip.hasAttribute("data-show")) {
+        tooltip.setAttribute("data-ending-style", "");
+        tooltip.addEventListener(
+          "transitionend",
+          () => {
+            tooltip.removeAttribute("data-show");
+            tooltip.removeAttribute("data-ending-style");
+          },
+          { once: true },
+        );
+      }
+    });
+  </script>
+</html>
