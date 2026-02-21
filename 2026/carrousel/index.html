@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Carrusel interactivo estilo Apple con navegación fluida mediante trackpad, touch y teclado" />
+    <meta name="theme-color" content="#000000" />
+    <title>Carrusel Estilo Apple - Navegación Fluida</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: #000;
+        color: #fff;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Skip to main content para accesibilidad */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: #fff;
+        color: #000;
+        padding: 8px 16px;
+        text-decoration: none;
+        z-index: 9999;
+        font-weight: 600;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .carousel-section {
+        height: 100vh;
+        width: 100%;
+        max-width: 1400px;
+      }
+
+      .carousel-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .carousel-header h1 {
+        font-size: clamp(2rem, 5vw, 4rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        letter-spacing: -0.03em;
+      }
+
+      .carousel-header p {
+        font-size: clamp(1rem, 2vw, 1.3rem);
+        color: #aaa;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+
+      .carousel-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        cursor: grab;
+        user-select: none;
+        touch-action: pan-y;
+      }
+
+      .carousel-container:active {
+        cursor: grabbing;
+      }
+
+      .carousel-track {
+        display: flex;
+        gap: 30px;
+        padding: 20px 0;
+        will-change: transform;
+      }
+
+      .carousel-item {
+        min-width: calc(100% / 3 - 20px);
+        height: 500px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        font-weight: 700;
+        opacity: 0.5;
+        transform: scale(0.9);
+        transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .carousel-item::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 100%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .carousel-item:hover::before,
+      .carousel-item:focus::before {
+        opacity: 1;
+      }
+
+      .carousel-item.active {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+      }
+
+      .carousel-item:nth-child(1) {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .carousel-item:nth-child(2) {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      .carousel-item:nth-child(3) {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      }
+
+      .carousel-item:nth-child(4) {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+
+      .carousel-item:nth-child(5) {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+
+      /* Navegación integrada estilo Apple (Dots + Botones) */
+      .carousel-navigation-apple {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 0.8rem 1.5rem;
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 100px;
+        width: fit-content;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 100;
+      }
+
+      .carousel-navigation-apple.scrolled {
+        top: auto;
+        bottom: 3rem;
+        transform: translateX(-50%);
+      }
+
+      .carousel-navigation-apple:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .nav-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s ease;
+        padding: 0;
+      }
+
+      .nav-btn:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.25);
+        transform: scale(1.1);
+      }
+
+      .nav-btn:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+      }
+
+      .nav-btn:active:not(:disabled) {
+        transform: scale(0.95);
+      }
+
+      .nav-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .carousel-dots-apple {
+        display: flex;
+        gap: 8px;
+        padding: 0 8px;
+      }
+
+      .carousel-dot-apple {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 0;
+        position: relative;
+      }
+
+      .carousel-dot-apple::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+      }
+
+      .carousel-dot-apple:hover {
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(1.3);
+      }
+
+      .carousel-dot-apple:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 4px;
+      }
+
+      .carousel-dot-apple.active {
+        width: 20px;
+        border-radius: 3px;
+        background: #fff;
+      }
+
+      /* Prefers reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        
+        .carousel-track {
+          scroll-behavior: auto;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .carousel-item {
+          min-width: calc(50% - 15px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .carousel-item {
+          min-width: 100%;
+          height: 400px;
+        }
+
+        .carousel-track {
+          gap: 20px;
+        }
+
+        .carousel-navigation-apple {
+          gap: 1rem;
+          padding: 0.6rem 1rem;
+        }
+
+        .nav-btn {
+          width: 28px;
+          height: 28px;
+        }
+
+        .carousel-dots-apple {
+          gap: 6px;
+        }
+
+        .carousel-dot-apple {
+          width: 5px;
+          height: 5px;
+        }
+
+        .carousel-dot-apple.active {
+          width: 16px;
+        }
+      }
+
+      /* High contrast mode support */
+      @media (prefers-contrast: high) {
+        .carousel-navigation-apple {
+          border: 2px solid #fff;
+        }
+        
+        .nav-btn {
+          border: 2px solid #fff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <main class="main" id="main-content">
+      <section class="carousel-section">
+        <!-- Sección vacía para generar scroll -->
+      </section>
+      
+      <section class="carousel-section" aria-label="Galería interactiva">
+        <div class="carousel-header">
+          <h1>Carrusel Estilo Apple</h1>
+          <p>Desliza, usa el trackpad o navega con los controles</p>
+        </div>
+
+        <div class="carousel-container" role="region" aria-roledescription="carousel" aria-label="Slides de galería">
+          <div class="carousel-track">
+            <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="Slide 1 de 5" tabindex="0">1</div>
+            <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="Slide 2 de 5" tabindex="-1">2</div>
+            <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="Slide 3 de 5" tabindex="-1">3</div>
+            <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="Slide 4 de 5" tabindex="-1">4</div>
+            <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="Slide 5 de 5" tabindex="-1">5</div>
+          </div>
+        </div>
+
+        <!-- Dots + Botones integrados estilo Apple -->
+        <nav class="carousel-navigation-apple" aria-label="Navegación del carrusel">
+          <button class="nav-btn nav-btn-prev" aria-label="Ir al slide anterior">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          
+          <div class="carousel-dots-apple" role="tablist" aria-label="Seleccionar slide"></div>
+          
+          <button class="nav-btn nav-btn-next" aria-label="Ir al slide siguiente">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </nav>
+        
+        <div class="visually-hidden" role="status" aria-live="polite" aria-atomic="true" id="carousel-announcer"></div>
+      </section>
+    </main>
+
+    <script>
+      // ===== CAROUSEL OPTIMIZADO ESTILO APPLE =====
+      const carouselTrack = document.querySelector('.carousel-track');
+      const carouselItems = Array.from(document.querySelectorAll('.carousel-item'));
+      const dotsContainerApple = document.querySelector('.carousel-dots-apple');
+      const navBtnPrev = document.querySelector('.nav-btn-prev');
+      const navBtnNext = document.querySelector('.nav-btn-next');
+      const carouselContainer = document.querySelector('.carousel-container');
+      const navigationApple = document.querySelector('.carousel-navigation-apple');
+      const announcer = document.getElementById('carousel-announcer');
+
+      let currentSlide = 0;
+      let isAnimating = false;
+      let isDragging = false;
+      let currentTranslate = 0;
+      let targetTranslate = 0;
+
+      // Verificar preferencia de animación reducida
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Crear dots de navegación estilo Apple
+      carouselItems.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('carousel-dot-apple');
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', `Ir al slide ${index + 1}`);
+        dot.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+        dot.setAttribute('aria-controls', `slide-${index + 1}`);
+        if (index === 0) dot.classList.add('active');
+        
+        dot.addEventListener('click', () => {
+          if (!isAnimating) {
+            goToSlide(index, true);
+          }
+        });
+        
+        dotsContainerApple.appendChild(dot);
+      });
+
+      const dotsApple = Array.from(document.querySelectorAll('.carousel-dot-apple'));
+
+      // Calcular límites
+      const getSlideWidth = () => carouselItems[0].offsetWidth;
+      const getGap = () => 30;
+      const getMaxTranslate = () => {
+        const slideWidth = getSlideWidth();
+        const gap = getGap();
+        return -(carouselItems.length - 1) * (slideWidth + gap);
+      };
+
+      // Anunciar cambio de slide para screen readers
+      const announceSlide = (index) => {
+        if (announcer) {
+          announcer.textContent = `Slide ${index + 1} de ${carouselItems.length}`;
+        }
+      };
+
+      // Función para ir a un slide específico - MEJORADA para snap suave
+      const goToSlide = (index, animate = true) => {
+        if (isAnimating && animate) return;
+        
+        const slideWidth = getSlideWidth();
+        const gap = getGap();
+        targetTranslate = -index * (slideWidth + gap);
+        
+        if (animate) {
+          isAnimating = true;
+          // Usar easing más suave y duración adaptativa según distancia
+          const distance = Math.abs(currentSlide - index);
+          const duration = prefersReducedMotion ? 0.01 : Math.min(0.8, 0.4 + distance * 0.15);
+          
+          carouselTrack.style.transition = `transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+          carouselTrack.style.transform = `translateX(${targetTranslate}px)`;
+          currentTranslate = targetTranslate;
+          
+          setTimeout(() => {
+            isAnimating = false;
+          }, duration * 1000);
+        } else {
+          carouselTrack.style.transform = `translateX(${targetTranslate}px)`;
+          currentTranslate = targetTranslate;
+        }
+        
+        // Actualizar dots y ARIA
+        dotsApple.forEach((dot, i) => {
+          const isActive = i === index;
+          dot.classList.toggle('active', isActive);
+          dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+        
+        // Actualizar slides activos y tabindex
+        updateActiveSlide(index);
+        
+        currentSlide = index;
+        updateButtonStates();
+        announceSlide(index);
+      };
+
+      // Actualizar slide activo basado en posición
+      const updateActiveSlide = (specificIndex = null) => {
+        const slideWidth = getSlideWidth();
+        const gap = getGap();
+        const index = specificIndex !== null ? specificIndex : Math.round(-currentTranslate / (slideWidth + gap));
+        
+        carouselItems.forEach((slide, i) => {
+          const isActive = i === index;
+          slide.classList.toggle('active', isActive);
+          slide.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+        
+        dotsApple.forEach((dot, i) => {
+          const isActive = i === index;
+          dot.classList.toggle('active', isActive);
+          dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+        
+        if (specificIndex === null) {
+          currentSlide = index;
+          updateButtonStates();
+        }
+      };
+
+      // Navegación con botones
+      navBtnPrev.addEventListener('click', () => {
+        if (currentSlide > 0 && !isAnimating) {
+          goToSlide(currentSlide - 1, true);
+        }
+      });
+
+      navBtnNext.addEventListener('click', () => {
+        if (currentSlide < carouselItems.length - 1 && !isAnimating) {
+          goToSlide(currentSlide + 1, true);
+        }
+      });
+
+      // Actualizar estado de botones
+      const updateButtonStates = () => {
+        const isFirst = currentSlide === 0;
+        const isLast = currentSlide === carouselItems.length - 1;
+        
+        navBtnPrev.style.opacity = isFirst ? '0.3' : '1';
+        navBtnPrev.disabled = isFirst;
+        navBtnPrev.setAttribute('aria-disabled', isFirst ? 'true' : 'false');
+        
+        navBtnNext.style.opacity = isLast ? '0.3' : '1';
+        navBtnNext.disabled = isLast;
+        navBtnNext.setAttribute('aria-disabled', isLast ? 'true' : 'false');
+      };
+
+      // Navegación con teclado mejorada
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' && currentSlide > 0 && !isAnimating) {
+          e.preventDefault();
+          goToSlide(currentSlide - 1, true);
+        } else if (e.key === 'ArrowRight' && currentSlide < carouselItems.length - 1 && !isAnimating) {
+          e.preventDefault();
+          goToSlide(currentSlide + 1, true);
+        } else if (e.key === 'Home' && !isAnimating) {
+          e.preventDefault();
+          goToSlide(0, true);
+        } else if (e.key === 'End' && !isAnimating) {
+          e.preventDefault();
+          goToSlide(carouselItems.length - 1, true);
+        }
+      });
+
+      // Touch/Swipe support
+      let touchStartX = 0;
+      let touchEndX = 0;
+      let touchStartTime = 0;
+
+      carouselTrack.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartTime = Date.now();
+      }, { passive: true });
+
+      carouselTrack.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, { passive: true });
+
+      const handleSwipe = () => {
+        const swipeThreshold = 50;
+        const swipeDistance = touchStartX - touchEndX;
+        
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+          if (swipeDistance > 0 && currentSlide < carouselItems.length - 1) {
+            goToSlide(currentSlide + 1, true);
+          } else if (swipeDistance < 0 && currentSlide > 0) {
+            goToSlide(currentSlide - 1, true);
+          }
+        }
+      };
+
+      // ===== TRACKPAD CON SCROLL MAGNÉTICO (Sin corrección visible) =====
+      let isScrolling = false;
+      let scrollVelocity = 0;
+      let momentumAnimation = null;
+      let lastDelta = 0;
+
+      carouselContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        
+        // Cancelar animación de momentum
+        if (momentumAnimation) {
+          cancelAnimationFrame(momentumAnimation);
+          momentumAnimation = null;
+        }
+        
+        // Aplicar delta directamente para seguimiento fluido
+        const delta = e.deltaX || e.deltaY;
+        targetTranslate = currentTranslate - delta;
+        
+        // Límites con efecto rubber band suave
+        const maxTranslate = getMaxTranslate();
+        if (targetTranslate > 0) {
+          targetTranslate = targetTranslate * 0.3; // Rubber band al inicio
+        } else if (targetTranslate < maxTranslate) {
+          const overflow = targetTranslate - maxTranslate;
+          targetTranslate = maxTranslate + (overflow * 0.3); // Rubber band al final
+        }
+        
+        // Aplicar sin transición para seguimiento instantáneo
+        if (!prefersReducedMotion) {
+          carouselTrack.style.transition = 'none';
+        }
+        carouselTrack.style.transform = `translateX(${targetTranslate}px)`;
+        currentTranslate = targetTranslate;
+        
+        // Guardar velocidad para momentum (con suavizado)
+        scrollVelocity = scrollVelocity * 0.5 + (-delta) * 0.5;
+        lastDelta = delta;
+        
+        // Actualizar slide activo durante scroll
+        requestAnimationFrame(() => updateActiveSlide());
+        
+        // Iniciar momentum cuando se suelta
+        isScrolling = true;
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          isScrolling = false;
+          applyMagneticMomentum();
+        }, 80);
+        
+      }, { passive: false });
+
+      let scrollTimeout;
+
+      // Aplicar momentum MAGNÉTICO - el movimiento termina naturalmente bien
+      const applyMagneticMomentum = () => {
+        const absVelocity = Math.abs(scrollVelocity);
+        const slideWidth = getSlideWidth();
+        const gap = getGap();
+        
+        // Encontrar el slide más cercano
+        const getNearestSlideIndex = () => {
+          return Math.round(-currentTranslate / (slideWidth + gap));
+        };
+        
+        // Calcular distancia al slide más cercano
+        const getDistanceToNearest = () => {
+          const nearestIndex = getNearestSlideIndex();
+          const nearestPosition = -nearestIndex * (slideWidth + gap);
+          return nearestPosition - currentTranslate;
+        };
+        
+        if (absVelocity > 0.5 && !prefersReducedMotion) {
+          // Hay momentum, aplicar física magnética
+          let velocityDecay = scrollVelocity;
+          
+          const animate = () => {
+            // Calcular fuerza magnética hacia el slide más cercano
+            const distanceToNearest = getDistanceToNearest();
+            const magneticStrength = 0.08; // Fuerza de atracción magnética
+            const magneticForce = distanceToNearest * magneticStrength;
+            
+            // Calcular deceleración adaptativa
+            // Más cerca del slide = mayor deceleración
+            const proximityFactor = Math.abs(distanceToNearest) / slideWidth;
+            const adaptiveDeceleration = 0.88 + (0.08 * proximityFactor); // 0.88 - 0.96
+            
+            // Aplicar deceleración y fuerza magnética
+            velocityDecay *= adaptiveDeceleration;
+            velocityDecay += magneticForce;
+            
+            // Actualizar posición
+            targetTranslate += velocityDecay;
+            
+            // Límites
+            const maxTranslate = getMaxTranslate();
+            targetTranslate = Math.max(maxTranslate, Math.min(0, targetTranslate));
+            
+            carouselTrack.style.transition = 'none';
+            carouselTrack.style.transform = `translateX(${targetTranslate}px)`;
+            currentTranslate = targetTranslate;
+            
+            requestAnimationFrame(() => updateActiveSlide());
+            
+            // Continuar si hay velocidad significativa o distancia al objetivo
+            const shouldContinue = Math.abs(velocityDecay) > 0.15 || Math.abs(distanceToNearest) > 1;
+            
+            if (shouldContinue) {
+              momentumAnimation = requestAnimationFrame(animate);
+            } else {
+              // Finalizar suavemente en la posición exacta
+              finalizePosition();
+            }
+          };
+          
+          animate();
+        } else {
+          // Velocidad baja, ir directamente a la posición final
+          finalizePosition();
+        }
+      };
+
+      // Finalizar en posición exacta del slide (transición imperceptible)
+      const finalizePosition = () => {
+        const slideWidth = getSlideWidth();
+        const gap = getGap();
+        const nearestIndex = Math.round(-currentTranslate / (slideWidth + gap));
+        const clampedIndex = Math.max(0, Math.min(carouselItems.length - 1, nearestIndex));
+        
+        targetTranslate = -clampedIndex * (slideWidth + gap);
+        
+        // Transición súper corta solo si hay diferencia notable
+        const distance = Math.abs(currentTranslate - targetTranslate);
+        if (distance > 0.5) {
+          carouselTrack.style.transition = `transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)`;
+        } else {
+          carouselTrack.style.transition = 'none';
+        }
+        
+        carouselTrack.style.transform = `translateX(${targetTranslate}px)`;
+        currentTranslate = targetTranslate;
+        
+        updateActiveSlide(clampedIndex);
+        currentSlide = clampedIndex;
+        updateButtonStates();
+        announceSlide(clampedIndex);
+      };
+
+      // ===== SCROLL PARA BAJAR NAVEGACIÓN =====
+      let lastScrollY = 0;
+      let scrollTicking = false;
+      
+      window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+          window.requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+            
+            // Si hay scroll, bajar la navegación
+            if (scrollY > 100) {
+              navigationApple.classList.add('scrolled');
+            } else {
+              navigationApple.classList.remove('scrolled');
+            }
+            
+            lastScrollY = scrollY;
+            scrollTicking = false;
+          });
+          scrollTicking = true;
+        }
+      }, { passive: true });
+
+      // Inicializar
+      updateButtonStates();
+      carouselItems[0].classList.add('active');
+      carouselItems[0].setAttribute('tabindex', '0');
+      announceSlide(0);
+
+      // Performance: remover will-change después de la animación
+      carouselTrack.addEventListener('transitionend', () => {
+        if (!isScrolling && !isAnimating) {
+          carouselTrack.style.willChange = 'auto';
+        }
+      });
+
+      carouselContainer.addEventListener('wheel', () => {
+        carouselTrack.style.willChange = 'transform';
+      }, { once: true, passive: true });
+    </script>
+  </body>
+</html>
