@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  block-size: 100vh;
+  background-color: #333;
+  transform-style: preserve-3d;
+}
+
+.cards {
+  position: relative;
+  display: flex;
+  transform-style: preserve-3d;
+  perspective: 500px;
+
+  & > .deck {
+    position: absolute;
+
+    top: calc(50% - 150px);
+    left: calc(50% - 100px);
+
+    inline-size: 200px;
+    block-size: 300px;
+
+    background: #fff;
+    transition: 0.5s;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+
+    transform-style: preserve-3d;
+    transform-origin: bottom;
+    user-select: none;
+
+    --webkit-box-reflect: below 1px linear-gradient(transparent, transparent, #0004);
+
+    &:nth-child(1) {
+      transform: translate3d(-250px, 0, 0) scale(0.8) rotateY(25deg);
+      z-index: 1;
+    }
+
+    &:nth-child(2) {
+      transform: translate3d(-250px, 0, 0) scale(0.8) rotateY(25deg);
+      z-index: 2;
+    }
+
+    &:nth-child(3) {
+      transform: translate3d(-150px, 0, 0) scale(0.9) rotateY(15deg);
+      z-index: 1;
+    }
+
+    &:nth-child(4) {
+      transform: translate3d(0px, 0, 0) scale(1) rotateY(0);
+      z-index: 1;
+    }
+
+    &:nth-child(5) {
+      transform: translate3d(150px, 0, 0) scale(0.9) rotateY(-15deg);
+      z-index: 1;
+    }
+
+    &:nth-child(6) {
+      transform: translate3d(250px, 0, 0) scale(0.8) rotateY(-25deg);
+      z-index: 1;
+    }
+
+    &:nth-child(7) {
+      transform: translate3d(-250px, 0, 0) scale(0.8) rotateY(-25deg);
+      z-index: 1;
+    }
+  }
+}
+
+.deck img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.buttons {
+  position: absolute;
+  bottom: 75px;
+  display: flex;
+  gap: 25px;
+}
+
+.buttons span {
+  position: relative;
+  inline-size: 50px;
+  block-size: 50px;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+  border: 2px solid #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:last-child::before {
+    transform: rotate(135deg);
+    left: initial;
+    right: 20px;
+    inline-size: 10px;
+    block-size: 10px;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+
+    inline-size: 10px;
+    block-size: 10px;
+
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+
+    transform: rotate(-45deg);
+  }
+}
