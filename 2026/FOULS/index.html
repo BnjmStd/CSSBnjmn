@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      *,
+      *::after,
+      *::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      :root {
+        color-scheme: dark;
+      }
+
+      .box {
+        background: #fff;
+        color: #222;
+        margin-top: 3rem;
+        margin-left: 100px;  /* margin is applied to the box, but it doesn't affect the width of the box */
+      }
+
+      .box-one {
+        width: auto;
+      }
+
+      .box-two {
+        width: 100%;
+      }
+
+      .container {
+        width: 60%;
+        margin-inline: auto;
+        outline: 5px solid limegreen;
+      }
+
+      /*
+      
+      the width auto inline crece lo más que puede
+
+      el width 100% hace que el elemento ocupe todo el ancho del contenedor, pero no incluye el margen, por lo que el margen se suma al ancho total del elemento, lo que puede causar que el elemento se desborde del contenedor.
+
+      en height no se aplica el mismo concepto, el height auto se ajusta al contenido, mientras que el height 100% hace que el elemento ocupe todo el alto del contenedor, pero no incluye el padding, por lo que el padding se suma al alto total del elemento, lo que puede causar que el elemento se desborde del contenedor.
+      */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="box box-one flow">
+        <h2 class="title">only with margin</h2>
+      </div>
+
+      <div>
+        <div class="box box-two flow">
+          <h2 class="title">with margin and padding</h2>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
