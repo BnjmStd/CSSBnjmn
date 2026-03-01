@@ -54,7 +54,8 @@ h1 {
     linear-gradient(#fff 0 0) center / calc(100% - 18px) calc(100% - 18px) no-repeat; */
 
   --radius: 6px;
-  background: radial-gradient(circle var(--radius), #0000 98%, #fff)
+  background:
+    radial-gradient(circle var(--radius), #0000 98%, #fff)
       calc(var(--radius) * -1.5) calc(var(--radius) * -1.5) /
       calc(var(--radius) * 3) calc(var(--radius) * 3) round,
     linear-gradient(#fff 0 0) center / calc(100% - calc(var(--radius) * 3))

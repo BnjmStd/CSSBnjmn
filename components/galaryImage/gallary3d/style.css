@@ -28,7 +28,7 @@ body {
 
   &:hover {
     & .slider {
-        animation-play-state: paused;
+      animation-play-state: paused;
     }
   }
 
@@ -95,5 +95,3 @@ body {
     transform: rotateY(360deg);
   }
 }
-
-

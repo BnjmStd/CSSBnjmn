@@ -1,47 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #595959;
-            display: grid;
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #595959;
+        display: grid;
 
-            block-size: 100vh;
-            place-items: center;
-        }
+        block-size: 100vh;
+        place-items: center;
+      }
 
-        .menu {
-            position: relative;
-            inline-size: 220px;
-            block-size: 220px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .menu {
+        position: relative;
+        inline-size: 220px;
+        block-size: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-
-        .menu .toggle {
-            position: relative;
-            inline-size: 100px;
-            block-size: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            box-shadow: 0 25px 15px rgba(0, 0, 0, 0.5)
-        }
+      .menu .toggle {
+        position: relative;
+        inline-size: 100px;
+        block-size: 100px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        box-shadow: 0 25px 15px rgba(0, 0, 0, 0.5);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="menu">
-        <div class="toggle"></div>
+      <div class="toggle"></div>
     </div>
-</body>
+  </body>
 </html>

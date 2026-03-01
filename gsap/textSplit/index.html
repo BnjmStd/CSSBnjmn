@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -78,10 +78,26 @@
       gsap.registerPlugin(ScrollTrigger, Physics2DPlugin, SplitText);
 
       const HERO_LINES = [
-        { pre: "This brand is about to", highlight: "ignite", post: "your world." },
-        { pre: "Turn your ideas into", highlight: "impact", post: "that lasts." },
-        { pre: "Experience the power of", highlight: "innovation", post: "in motion." },
-        { pre: "We don’t follow trends — we", highlight: "create", post: "them." },
+        {
+          pre: "This brand is about to",
+          highlight: "ignite",
+          post: "your world.",
+        },
+        {
+          pre: "Turn your ideas into",
+          highlight: "impact",
+          post: "that lasts.",
+        },
+        {
+          pre: "Experience the power of",
+          highlight: "innovation",
+          post: "in motion.",
+        },
+        {
+          pre: "We don’t follow trends — we",
+          highlight: "create",
+          post: "them.",
+        },
       ];
 
       const $container = document.getElementById("container");

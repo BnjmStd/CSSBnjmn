@@ -1,10 +1,9 @@
 # Fork
 
->[!IMPORTANT]
+> [!IMPORTANT]
 > ISSUES = PROBLEMAS
 
-
->[!IMPORTANT]
+> [!IMPORTANT]
 > PR = PULL REQUEST
 
 - Genero un fork
@@ -78,12 +77,11 @@ main
 
 <summary>Squash (Aplastar)</summary>
 
-
 - Qué hace? Si eliges Squash, Git tomará todos los commits de la rama new y los aplastará en un solo commit. Luego ese único commit se fusionará con la rama main. Es como si todos los cambios hechos en new fueran un solo bloque, y solo aparecerá un único commit cuando los merges a main.
 
 - Resultado: Solo habrá un commit en la rama main representando todos los cambios de new. El historial de new se pierde, y todo se verá como un único commit.
 
-```bash 
+```bash
 
 main
  |
@@ -94,7 +92,7 @@ main
 
 ```
 
->[!IMPORTANT]
+> [!IMPORTANT]
 > Esto simplifica mucho el historial, pero pierde el detalle de los commits originales de la rama new.
 
 </details>
@@ -102,7 +100,6 @@ main
 <details>
 
 <summary>Rebase (Rebase)</summary>
-
 
 - ¿Qué hace? Si usas Rebase, Git toma todos los commits de la rama new y los "re-aplica" sobre la última versión de main. Es decir, Git toma los commits de new, los elimina temporalmente, y los agrega uno a uno por encima de la última versión de la rama main.
 
@@ -121,13 +118,12 @@ main
 
 ```
 
->[!IMPORTANT]
+> [!IMPORTANT]
 > Con el Rebase, los commits de new se re-aplican sobre el historial de main. Esto crea un historial lineal y limpio sin un merge commit.
 
 </details>
 
-
->[!NOTE]
+> [!NOTE]
 
 - Merge: Funde todos los commits de la rama new en main, creando un commit de fusión.
 - Squash: Aplasta todos los commits de new en un solo commit, y luego fusiona ese único commit con main.

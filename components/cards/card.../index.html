@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,8 +10,6 @@
         position: relative;
         padding: 2rem 3rem;
         cursor: pointer;
-
-
 
         &:hover span::before,
         &:hover span::after {
@@ -26,7 +24,9 @@
           position: absolute;
           height: 2px;
           background: #00fff7;
-          transition: transform 0.4s ease, opacity 0.4s ease;
+          transition:
+            transform 0.4s ease,
+            opacity 0.4s ease;
           transform-origin: center;
           transform: scaleX(0.6);
           opacity: 0;
@@ -58,7 +58,9 @@
             position: absolute;
             width: 2px;
             background: #00fff7;
-            transition: transform 0.8s ease, opacity 0.4s ease;
+            transition:
+              transform 0.8s ease,
+              opacity 0.4s ease;
             transform-origin: center;
             transform: scaleY(0.6);
             /* comienza al 60% */

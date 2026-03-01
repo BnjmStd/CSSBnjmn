@@ -46,12 +46,14 @@ body {
   background-color: black;
   width: 200px;
   height: 200px;
-  transition: 0.7s transform, border-radius 0.7s, background-color 0.7s;
-
+  transition:
+    0.7s transform,
+    border-radius 0.7s,
+    background-color 0.7s;
 }
 
 .check-item {
-    display: none;
-    width: 30px;
-    height: 30px;
+  display: none;
+  width: 30px;
+  height: 30px;
 }

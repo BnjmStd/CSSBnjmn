@@ -1,91 +1,91 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    display: grid;
-    min-block-size: 100vh;
-    place-content: center;
+  display: grid;
+  min-block-size: 100vh;
+  place-content: center;
 }
 
 .form-control {
-    inline-size: 100%;
-    padding: 1rem 1.25rem;
-    font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 2px solid #09f;
-    border-radius: 0.75rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    background-repeat: no-repeat;
-    background-position: right 1.4rem center;
-    background-size: 24px;
+  inline-size: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid #09f;
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  background-repeat: no-repeat;
+  background-position: right 1.4rem center;
+  background-size: 24px;
 
-    &:focus {
-        outline: none;
-        border-color: rebeccapurple;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-        transform: translate(-2px);
-    }
+  &:focus {
+    outline: none;
+    border-color: rebeccapurple;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    transform: translate(-2px);
+  }
 }
 
 .invalid-feedback {
-    display: none;
-    color: red;
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
-    padding-left: 0.5rem;
-    animation: shake 0.4s ease;
+  display: none;
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+  animation: shake 0.4s ease;
 }
 
-
 .form-control:invalid:not(:placeholder-shown) {
-    border-color: yellow;
-    background-image: url("./chat-check-fill.svg");
+  border-color: yellow;
+  background-image: url("./chat-check-fill.svg");
 }
 
 .form-control:valid:not(:placeholder-shown) {
-    border-color: green;
-    fill: red;
-    background-image: url("./chat-check-fill.svg");
+  border-color: green;
+  fill: red;
+  background-image: url("./chat-check-fill.svg");
 }
 
 .form-control:invalid:not(:placeholder-shown) ~ .invalid-feedback {
-    display: block;
+  display: block;
 }
 
 label:has(:focus:invalid) {
-    color: tomato;
+  color: tomato;
 }
 
 label:has(:focus:valid) {
-    color: green;
+  color: green;
 }
 
 label:has(:focus-visible:invalid) input {
-    outline-color: red;
+  outline-color: red;
 }
 
 label:has(:focus-visible:valid) input {
-    outline-color: green;
+  outline-color: green;
 }
 
 @keyframes shake {
-    0%, 100% {
-        transform: translateX(0);
-    }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
 
-    25% {
-        transform: translateX(-8px);
-    }
+  25% {
+    transform: translateX(-8px);
+  }
 
-    50% {
-        transform: translateX(8px);
-    }
+  50% {
+    transform: translateX(8px);
+  }
 
-    75% {
-        transform: translateX(-4px);
-    }
+  75% {
+    transform: translateX(-4px);
+  }
 }

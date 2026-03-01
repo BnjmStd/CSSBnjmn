@@ -16,7 +16,7 @@ Fuerza la herencia de la propiedad desde el elemento padre.
 
 ```css
 p {
-    color: inherit; /* Hereda el color del elemento contenedor */
+  color: inherit; /* Hereda el color del elemento contenedor */
 }
 ```
 
@@ -27,7 +27,7 @@ p {
 
 ```css
 p {
-    color: unset; /* Hereda o vuelve al valor por defecto */
+  color: unset; /* Hereda o vuelve al valor por defecto */
 }
 ```
 
@@ -37,6 +37,6 @@ Vuelve al valor del usuario o del navegador, ignorando valores establecidos en C
 
 ```css
 button {
-    all: revert; /* Restablece a los estilos del navegador */
+  all: revert; /* Restablece a los estilos del navegador */
 }
 ```

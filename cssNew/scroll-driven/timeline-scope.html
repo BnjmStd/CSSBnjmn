@@ -1,52 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timeline Scope Demo</title>
-  <style>
-    body {
-      height: 200vh;
-      margin: 0;
-      font-family: sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timeline Scope Demo</title>
+    <style>
+      body {
+        height: 200vh;
+        margin: 0;
+        font-family: sans-serif;
+      }
 
-    .scroll-area {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      timeline-scope: --my-view-timeline;
-    }
+      .scroll-area {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        timeline-scope: --my-view-timeline;
+      }
 
-    .box {
-      width: 100px;
-      height: 100px;
-      background-color: tomato;
-
-      /* Define timeline y animación */
-      view-timeline-name: --my-view-timeline;
-      view-timeline-axis: block;
-
-      animation: color-change 1s linear forwards;
-      animation-timeline: --my-view-timeline;
-    }
-
-    @keyframes color-change {
-      from {
+      .box {
+        width: 100px;
+        height: 100px;
         background-color: tomato;
-      }
-      to {
-        background-color: limegreen;
-      }
-    }
-  </style>
-</head>
-<body>
 
-  <div class="scroll-area">
-    <div class="box"></div>
-  </div>
+        /* Define timeline y animación */
+        view-timeline-name: --my-view-timeline;
+        view-timeline-axis: block;
 
-</body>
+        animation: color-change 1s linear forwards;
+        animation-timeline: --my-view-timeline;
+      }
+
+      @keyframes color-change {
+        from {
+          background-color: tomato;
+        }
+        to {
+          background-color: limegreen;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scroll-area">
+      <div class="box"></div>
+    </div>
+  </body>
 </html>

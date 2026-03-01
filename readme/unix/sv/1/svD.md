@@ -10,7 +10,7 @@ sudo adduser nombre_usuario
 
 sudo usermod -aG sudo nombre_usuario
 
-# poner usuario a grupo docker 
+# poner usuario a grupo docker
 
 sudo usermod -aG docker $USER
 
@@ -213,7 +213,6 @@ HISTCONTROL=ignoredups
 HISTSIZE=2000
 HISTFILESIZE=2000
 
-
 # aliases
 
 ```bash
@@ -239,10 +238,9 @@ function hg(){
 prompt
 ```
 
-
 # info system
 
-El comando ``touch ~/.hushlogin`` crea un archivo vacío llamado .hushlogin en tu directorio de inicio. Esto evita que el sistema muestre mensajes de bienvenida o información al iniciar sesión. El archivo .hushlogin se usa para indicar que el usuario no desea ver la información adicional al iniciar sesión
+El comando `touch ~/.hushlogin` crea un archivo vacío llamado .hushlogin en tu directorio de inicio. Esto evita que el sistema muestre mensajes de bienvenida o información al iniciar sesión. El archivo .hushlogin se usa para indicar que el usuario no desea ver la información adicional al iniciar sesión
 
 # socat
 
@@ -258,7 +256,7 @@ sudo netstat -tuln | grep 4000
 sudo kill <PID>
 sudo kill -9 <PID> # fprte
 
-# nginx 
+# nginx
 
 /etc/nginx/sites-available
 sudo ln -s /etc/nginx/sites-available/tu_api /etc/nginx/sites-enabled/
@@ -267,18 +265,17 @@ sudo nginx -t
 
 sudo systemctl reload nginx
 
-# cerbot 
+# cerbot
 
 sudo apt update
 sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d translate.api.bnjm.site
 
-# persistencia 
+# persistencia
 
 sudo loginctl enable-linger benjamin
 
-loginctl show-user benjamin | grep Linger 
-
+loginctl show-user benjamin | grep Linger
 
 # npm pm2
 
@@ -294,6 +291,7 @@ sudo ln -s /etc/nginx/sites-available/genomas /etc/nginx/sites-enabled/
 sudo nginx -t
 
 # monitoreo red por trafico
+
 sudo apt install iftop
 sudo iftop
 

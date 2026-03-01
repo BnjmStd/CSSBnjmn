@@ -8,21 +8,22 @@ suspects: lista de cadenas que representa los nombres de todos los sospechosos.
 
 Hay que tener que el susurro whisper tiene algunas reglas:
 
-* cada ~ representa una letra incierta en el susurro 
-* cada posición del susurro es una posición del nombre del asesino 
+- cada ~ representa una letra incierta en el susurro
+- cada posición del susurro es una posición del nombre del asesino
 
-* la longitud  del whisper no siempre representa la longitud completa del nombre, ya que la victima pudo haber muerto antes de terminar de decirlo.
+- la longitud del whisper no siempre representa la longitud completa del nombre, ya que la victima pudo haber muerto antes de terminar de decirlo.
 
-* Pero si el último carácter, del susurro es una $ , entonces el nombre del asesino terminaba ahi.
+- Pero si el último carácter, del susurro es una $ , entonces el nombre del asesino terminaba ahi.
 
 Tu objetivo es descubrir quien pudo ser el asesino!:
 
 debes devolver:
-* si solo un nombre encaja en el patron de ese susurro, retorna ese nombre.
 
-* si hay varias nombres  que encajan, retorna todos los nombres separados por coma.
+- si solo un nombre encaja en el patron de ese susurro, retorna ese nombre.
 
-* si ningun nombre encaja, retorna una cadena vacia ""
+- si hay varias nombres que encajan, retorna todos los nombres separados por coma.
+
+- si ningun nombre encaja, retorna una cadena vacia ""
 
 Las mayúsculas y minúsculas de las letras no importan.
 

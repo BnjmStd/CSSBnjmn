@@ -1,50 +1,51 @@
 .section {
-    position: relative;
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
 }
 
 h1 span:first-of-type {
-    color: #09f;
-    font-size: 0.35em;
+  color: #09f;
+  font-size: 0.35em;
 }
 
 section:nth-of-type(1) {
-    height: 100vh;
-
+  height: 100vh;
 }
 
 section:nth-of-type(2) {
-    height: 140vh;
+  height: 140vh;
 }
 
-
 section {
-    view-timeline: --scroll;
+  view-timeline: --scroll;
 }
 
 h1 span:first-child {
-    animation: fade-away both linear;
-    animation-timeline: --scroll;
-    animation-range: exit 20% exit 90%;
+  animation: fade-away both linear;
+  animation-timeline: --scroll;
+  animation-range: exit 20% exit 90%;
 }
 
 h1 span:last-child {
-    animation: 
-        scale-up both ease-in-out,
-        fade-away both linear;
-    animation-timeline: --scroll;
-    animation-range: 
-        exit 0% exit 100%,
-        exit 50% exit 90%;
+  animation:
+    scale-up both ease-in-out,
+    fade-away both linear;
+  animation-timeline: --scroll;
+  animation-range:
+    exit 0% exit 100%,
+    exit 50% exit 90%;
 }
 
-
 @keyframes scale-up {
-    to { scale: 1.5; }
+  to {
+    scale: 1.5;
+  }
 }
 
 @keyframes fade-away {
-    to { opacity: 0; }
+  to {
+    opacity: 0;
+  }
 }

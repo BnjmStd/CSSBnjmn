@@ -1,35 +1,31 @@
 function toggleSubMenu(button) {
+  if (!button.nextElementSibling.classList.contains("show")) {
+    loseAllMenu();
+  }
 
-    if(!button.nextElementSibling.classList.contains('show')) {
-        loseAllMenu()
-    }
+  button.nextElementSibling.classList.toggle("show");
 
-    button.nextElementSibling.classList.toggle("show")
+  button.classList.toggle("rotate");
 
-    button.classList.toggle("rotate")
-
-    if ($sidebar.classList.contains('close')) {
-        $sidebar.classList.toggle('close')
-        $toggleBtn.classList.toggle('rotate')
-    }
+  if ($sidebar.classList.contains("close")) {
+    $sidebar.classList.toggle("close");
+    $toggleBtn.classList.toggle("rotate");
+  }
 }
 
-const $toggleBtn = document.getElementById('toggle-btn')
-const $sidebar = document.getElementById('sidebar')
-
+const $toggleBtn = document.getElementById("toggle-btn");
+const $sidebar = document.getElementById("sidebar");
 
 function toggleSidebar() {
-    $sidebar.classList.toggle('close')
-    $toggleBtn.classList.toggle('rotate')
+  $sidebar.classList.toggle("close");
+  $toggleBtn.classList.toggle("rotate");
 
-    loseAllMenu()
+  loseAllMenu();
 }
 
 function loseAllMenu() {
-    Array.from($sidebar.getElementsByClassName('show')).forEach(
-        ul => {
-            ul.classList.remove('show')
-            ul.previousElementSibling.classList.remove('rotate')
-        }
-    )
+  Array.from($sidebar.getElementsByClassName("show")).forEach((ul) => {
+    ul.classList.remove("show");
+    ul.previousElementSibling.classList.remove("rotate");
+  });
 }

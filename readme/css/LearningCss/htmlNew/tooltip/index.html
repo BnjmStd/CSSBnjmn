@@ -1,36 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
     <style>
-        body {
-            display: grid;
-            place-content: center;
-            justify-content: center;
-        }
+      body {
+        display: grid;
+        place-content: center;
+        justify-content: center;
+      }
     </style>
-</head>
-<body>
-    <button
-    style="anchor-name: --anchor;"
-    popovertarget="info"
+  </head>
+  <body>
+    <button style="anchor-name: --anchor" popovertarget="info">
+      <p aria-hidden="true">?</p>
+    </button>
 
->
-    <p aria-hidden="true">?</p>
-</button>
-
-
-<div
-    popover
-    id="info"
-    role="tooltip"
-    style="position-anchor: --anchor;
-    inset-area: bottom;"
->
-    <p>El contenido del tooltip</p>
-</div>
-</body>
+    <div
+      popover
+      id="info"
+      role="tooltip"
+      style="position-anchor: --anchor; inset-area: bottom"
+    >
+      <p>El contenido del tooltip</p>
+    </div>
+  </body>
 </html>

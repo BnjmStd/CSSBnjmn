@@ -1,57 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-<body>
+  <body>
+    <h1 style="text-align: center">Infinite Scroll</h1>
 
-    <h1 style="text-align: center;">
-        Infinite Scroll
-    </h1>
-
-    <div class="scroller" data-animated="true" >
-        <ul class="tag-list scroller__inner">
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JS</li>
-            <li>SSG</li>
-            <li>webdev</li>
-            <li>animation</li>
-            <li>UI UX</li>
-        </ul>
+    <div class="scroller" data-animated="true">
+      <ul class="tag-list scroller__inner">
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JS</li>
+        <li>SSG</li>
+        <li>webdev</li>
+        <li>animation</li>
+        <li>UI UX</li>
+      </ul>
     </div>
 
     <script>
+      const $scrollers = document.querySelectorAll(".scroller");
 
-        const $scrollers = document.querySelectorAll('.scroller')
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        addAnimation();
+      }
 
-        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            addAnimation()
-        }
+      function addAnimation() {
+        $scrollers.forEach((scroller) => {
+          scroller.setAttribute("data-animated", true);
 
-        function addAnimation() {
-            $scrollers.forEach(scroller => {
-                scroller.setAttribute("data-animated", true)
+          const scrollInner = scroller.querySelector(".scroller__inner");
+          const scrollerContent = Array.from(scrollInner.children);
 
-
-                const scrollInner = scroller.querySelector(".scroller__inner")
-                const scrollerContent = Array.from (scrollInner.children)
-
-                scrollerContent.forEach(item => {
-                    const duplicatedItem = item.cloneNode(true)
-                    duplicatedItem.setAttribute('aria-hidden', true)
-                    scrollInner.appendChild(duplicatedItem)
-                })
-            });
-        }
-
+          scrollerContent.forEach((item) => {
+            const duplicatedItem = item.cloneNode(true);
+            duplicatedItem.setAttribute("aria-hidden", true);
+            scrollInner.appendChild(duplicatedItem);
+          });
+        });
+      }
     </script>
-
-</body>
-
+  </body>
 </html>

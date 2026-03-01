@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -56,7 +56,8 @@
 
             /* background props ready for scroll-state to flip on/off */
             background: var(--_shadow-top), var(--_shadow-bottom);
-            transition: --_scroll-shadow-color-1-opacity 0.5s ease,
+            transition:
+              --_scroll-shadow-color-1-opacity 0.5s ease,
               --_scroll-shadow-color-2-opacity 0.5s ease;
 
             /* derive shadow from background */
@@ -377,7 +378,13 @@
         <div class="scroll-to-top">
           <button
             title="Scroll to top"
-            onclick="this.closest('.scroll-container').scrollTo({top: 0, left: 0, behavior: 'smooth'})"
+            onclick="
+              this.closest('.scroll-container').scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth',
+              })
+            "
           >
             <svg width="32" height="32" viewBox="0 0 24 24">
               <path

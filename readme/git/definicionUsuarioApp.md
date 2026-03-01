@@ -26,23 +26,22 @@ Aplicar solo a un repositorio específico.
 
 ```bash
 
-git config --global --list 
+git config --global --list
 
 
 ```
 
 ## Obtener valores
 
-```bash 
+```bash
 
 git config --get user.name
 git config --get user.name
 
 ```
 
->[!NOTE]
-> Puedes añadir cualquier cosa o dato al user.*thing
-
+> [!NOTE]
+> Puedes añadir cualquier cosa o dato al user.\*thing
 
 ## Eliminar valores
 

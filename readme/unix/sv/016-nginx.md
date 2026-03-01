@@ -1,14 +1,12 @@
 # COPIA DE SEGURIDAD Y MIGRACIÓN DE APACHE A NGINX [PARTE #1] | CURSO DE SYSADMIN EN LINUX
 
-
 reverse proxy con websocket?
 
 migración
 
 # copia de seguridad del servidor
 
-sudo tar --exclude='/proc' -czvf backup.tar.gz 
-
+sudo tar --exclude='/proc' -czvf backup.tar.gz
 
 sudo apt install nginx -y
 sudo ufw app list
@@ -20,27 +18,25 @@ touch /etc/nginx/sites-available/varandcode
 sudo ln -s /etc/nginx/sites-available/varandcode /etc/nginx/sites-enabled/
 
 sudo nginx -t
- sudo systemctl stop apache2
+sudo systemctl stop apache2
 
- # remover link simbolico
+# remover link simbolico
 
- sudo rm /etc/nginx/site_enables/default
+sudo rm /etc/nginx/site_enables/default
 
+# quien usa el puerto
 
- # quien usa el puerto 
-
- sudo lsof -i :8000
+sudo lsof -i :8000
 
 # disable apache2
 
- benja@metafoodcraft:~$  sudo systemctl disable apache2
+benja@metafoodcraft:~$ sudo systemctl disable apache2
 Synchronizing state of apache2.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
 Executing: /usr/lib/systemd/systemd-sysv-install disable apache2
 Removed "/etc/systemd/system/multi-user.target.wants/apache2.service".
 
 sudo apachectl stop
 sudo /etc/init.d/apache2 stop
-
 
 ## pruebas por error
 
@@ -68,10 +64,9 @@ Accept-Ranges: bytes
 
 benja@metafoodcraft:~$
 
-
 # log sistema
-sudo journalctl -u nginx
 
+sudo journalctl -u nginx
 
 # montar no estatico
 
@@ -79,36 +74,30 @@ sudo tail -f /var/log/nginx/error.log
 
 sudo lsof -i :80
 
-
-
-
 sudo ufw delete allow 'Apache Full'
-sudo certbot --nginx 
+sudo certbot --nginx
 
 # exponer docker a internet
 
 network_mode host
 
-
-# otro 
+# otro
 
 benja@metafoodcraft:/etc/nginx/sites-available$ cd /etc/docker/
 benja@metafoodcraft:/etc/docker$ sudo vim daemon.json
 benja@metafoodcraft:/etc/docker$ cat daemon.json
 {
-        "ip": "127.0.0.1"
-        "iptables": false
+"ip": "127.0.0.1"
+"iptables": false
 
 }
 benja@metafoodcraft:/etc/docker$
 
-
 # docusaurios
 
-# mover fnm  aun directorio global
+# mover fnm aun directorio global
 
 sudo mv /root/.local/share/fnm /usr/local/fnm
-
 
 # en /etc/bash.bashrc
 
@@ -119,7 +108,6 @@ eval "$(fnm env)"
 
 source /etc/bash.bashrc
 
-
 ## instalar cosas para todos los usuarios
 
 Instalar herramientas en ubicaciones globales
@@ -129,14 +117,13 @@ Usar directorios globales: Los directorios comunes para instalaciones globales s
 /usr/local/lib: Para bibliotecas compartidas.
 Asegúrate de mover cualquier herramienta a estos directorios para que sean accesibles por todos los usuarios.
 
-# which 
+# which
 
 which ls
 
 busca el ejecutable
 
 which fnm
-
 
 # copiar por ssh
 
@@ -156,8 +143,7 @@ bash
 Copiar código
 scp -r ./miProyecto usuario@192.168.1.100:/var/www/
 
-
-# rsync 
+# rsync
 
 rsync -avz /ruta/local/carpeta usuario@ip_del_servidor:/ruta/remota/
 
@@ -167,7 +153,6 @@ rsync -avz /ruta/local/carpeta usuario@ip_del_servidor:/ruta/remota/
 /ruta/local/carpeta: La carpeta que deseas enviar.
 usuario@ip_del_servidor:/ruta/remota/: Destino en el VPS.
 
-
 Ejemplo:
 Si tienes una carpeta llamada miProyecto y quieres enviarla a /var/www/:
 
@@ -175,7 +160,6 @@ bash
 Copiar código
 rsync -avz ./miProyecto usuario@192.168.1.100:/var/www/
 
-
-## caos real 
+## caos real
 
 scp -r -P 22222 ./serveron/dist/ benja@varandcode.com:/var/www/

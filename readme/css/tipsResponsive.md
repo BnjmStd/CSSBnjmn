@@ -190,11 +190,12 @@ manera de no usar
   }
 }
 ```
+
 manera de si usar:
 
 ```css
 h1 {
-    font-size: clamp(min, curr, max);
-    font-size: clamp(50px, 8vw, 100px);
+  font-size: clamp(min, curr, max);
+  font-size: clamp(50px, 8vw, 100px);
 }
 ```

@@ -1,136 +1,132 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100dvh;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1rem;
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+          padding: 2rem;
+
+          h1 {
+            color: white;
+            background-color: #252731;
+            padding: 1rem;
+            border-radius: 0.5rem;
+          }
+
+          .section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+          }
         }
-
-        body {
-            min-height: 100dvh;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 1rem;
-
-            .container {
-                display: flex;
-                flex-direction: column;
-                gap: 2rem;
-                padding: 2rem;
-
-                h1 {
-                    color: white;
-                    background-color: #252731;
-                    padding: 1rem;
-                    border-radius: .5rem;
-                }
-
-                .section {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1rem;
-                }
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1> Metricas de visibilidad con Intersection Observer </h1>
+      <h1>Metricas de visibilidad con Intersection Observer</h1>
 
-        <span>
-            home > Blog > Metricas de visibilidad
-        </span>
+      <span> home > Blog > Metricas de visibilidad </span>
 
-        <div class="section">
-            <h2>
-                que es
-            </h2>
+      <div class="section">
+        <h2>que es</h2>
 
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio quis qui cumque, quod doloribus tempore voluptas! Omnis eveniet, facere ut, corporis odit inventore culpa vitae nisi molestiae nesciunt aspernatur ea!
-            </p>
-        </div>
-        <div class="section">
-            <h2>
-                que es
-            </h2>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio quis
+          qui cumque, quod doloribus tempore voluptas! Omnis eveniet, facere ut,
+          corporis odit inventore culpa vitae nisi molestiae nesciunt aspernatur
+          ea!
+        </p>
+      </div>
+      <div class="section">
+        <h2>que es</h2>
 
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio quis qui cumque, quod doloribus tempore voluptas! Omnis eveniet, facere ut, corporis odit inventore culpa vitae nisi molestiae nesciunt aspernatur ea!
-            </p>
-        </div>
-        <div class="section">
-            <h2>
-                que es
-            </h2>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio quis
+          qui cumque, quod doloribus tempore voluptas! Omnis eveniet, facere ut,
+          corporis odit inventore culpa vitae nisi molestiae nesciunt aspernatur
+          ea!
+        </p>
+      </div>
+      <div class="section">
+        <h2>que es</h2>
 
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio quis qui cumque, quod doloribus tempore voluptas! Omnis eveniet, facere ut, corporis odit inventore culpa vitae nisi molestiae nesciunt aspernatur ea!
-            </p>
-        </div>
-        <div class="section">
-            <h2>
-                que es
-            </h2>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio quis
+          qui cumque, quod doloribus tempore voluptas! Omnis eveniet, facere ut,
+          corporis odit inventore culpa vitae nisi molestiae nesciunt aspernatur
+          ea!
+        </p>
+      </div>
+      <div class="section">
+        <h2>que es</h2>
 
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio quis qui cumque, quod doloribus tempore voluptas! Omnis eveniet, facere ut, corporis odit inventore culpa vitae nisi molestiae nesciunt aspernatur ea!
-            </p>
-        </div>
-        <div class="section ad">
-            <img class="avatar" src="https://i.pravatar.cc/200?img=36" alt="" />
-        </div>
-    
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio quis
+          qui cumque, quod doloribus tempore voluptas! Omnis eveniet, facere ut,
+          corporis odit inventore culpa vitae nisi molestiae nesciunt aspernatur
+          ea!
+        </p>
+      </div>
+      <div class="section ad">
+        <img class="avatar" src="https://i.pravatar.cc/200?img=36" alt="" />
+      </div>
     </div>
 
     <script>
-        const vCPM = 5 // USD POR 1K DE IMPRESIONES
-        const minTime = 1 
-        const options = {
-            threshold: 0.5
-        }
+      const vCPM = 5; // USD POR 1K DE IMPRESIONES
+      const minTime = 1;
+      const options = {
+        threshold: 0.5,
+      };
 
+      const ad = {
+        id: "ad",
+        impressions: 0,
+        currency: "USD",
+        value: 0,
+      };
 
-        const ad = {
-            id: "ad",
-            impressions: 0,
-            currency: "USD",
-            value: 0
-        }
+      function sendAdData() {
+        const lastAd = JSON.parse(localStorage.getItem("adVI")) ?? ad;
+        lastAd.impressions++;
+        lastAd.value = lastAd.impressions * vCPM * 0.001;
+        localStorage.setItem("adVI", JSON.stringify(lastAd));
+      }
 
-        function sendAdData() {
-            const lastAd = JSON.parse(localStorage.getItem("adVI")) ?? ad
-            lastAd.impressions++
-            lastAd.value = lastAd.impressions * vCPM * 0.001
-            localStorage.setItem("adVI", JSON.stringify(lastAd))
-        }
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.dataset.timeStarted = Date.now()
-                    } else if (
-                        entry.target.dataset.timeStarted){
-                            console.log(entry.target.dataset.timeStarted)
-                            const time = Date.now() - Number(entry.target.dataset.timeStarted)
-                            if (time >= 1000) {
-                                sendAdData()
-                                entry.target.dataset.timeStarted = 0
-                            }
-                    }
-                });
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.dataset.timeStarted = Date.now();
+          } else if (entry.target.dataset.timeStarted) {
+            console.log(entry.target.dataset.timeStarted);
+            const time = Date.now() - Number(entry.target.dataset.timeStarted);
+            if (time >= 1000) {
+              sendAdData();
+              entry.target.dataset.timeStarted = 0;
             }
-        )
+          }
+        });
+      });
 
-        observer.observe(document.querySelector(".ad"))
+      observer.observe(document.querySelector(".ad"));
     </script>
-    
-</body>
+  </body>
 </html>

@@ -1,89 +1,89 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background: black;
+  background: black;
 }
 
 .container {
-    width: 320px;
-    height: 320px;
+  width: 320px;
+  height: 320px;
+  position: relative;
+  margin: 0 auto;
+
+  & .circle {
+    width: 100%;
+    height: 100%;
+    border: 2px solid white;
+    border-radius: 50%;
+  }
+
+  & .outer {
     position: relative;
-    margin: 0 auto;
+    animation: turn 10s ease-in-out infinite;
 
-    & .circle {
-        width: 100%;
-        height: 100%;
-        border: 2px solid white;
-        border-radius: 50%;
+    &::before {
+      content: "🌑";
+      position: absolute;
+      font-size: 4rem;
+      right: 0;
+      animation: turn-back 10s ease-in-out infinite;
     }
 
-    & .outer {
-        position: relative;
-        animation: turn 10s ease-in-out infinite;
+    &::after {
+      content: "🌑";
+      position: absolute;
+      font-size: 4rem;
+      left: 0;
+      bottom: 0;
+    }
+  }
 
-        &::before {
-            content: "🌑" ;
-            position: absolute;
-            font-size: 4rem;
-            right: 0;
-            animation: turn-back 10s ease-in-out infinite;
-        }
-        
-        &::after {
-            content: "🌑" ;
-            position: absolute;
-            font-size: 4rem;
-            left: 0;
-            bottom: 0;
-        }
+  & .inner {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    animation: turn 7s ease-in-out infinite;
+
+    &::before {
+      content: "☀️";
+      position: absolute;
+      font-size: 4rem;
+      left: -2rem;
+      top: 0;
+      animation: turn 7s ease-in-out infinite;
     }
 
-    & .inner {
-        position: absolute;
-        top: 25%;
-        left: 25%;
-        width: 50%;
-        height: 50%;
-        animation: turn 7s ease-in-out infinite;
-
-        &::before {
-            content: "☀️" ;
-            position: absolute;
-            font-size: 4rem;
-            left: -2rem;
-            top: 0;
-            animation: turn 7s ease-in-out infinite;
-        }
-
-        &::after {
-            content: "☀️" ;
-            position: absolute;
-            font-size: 4rem;
-            right: 0;
-            bottom: -2rem;
-            animation: turn 7s ease-in-out infinite;
-        }
+    &::after {
+      content: "☀️";
+      position: absolute;
+      font-size: 4rem;
+      right: 0;
+      bottom: -2rem;
+      animation: turn 7s ease-in-out infinite;
     }
+  }
 }
 
 @keyframes turn {
-    0% {
-        transform: rotate(0);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes turn-back {
-    0% {
-        transform: rotate(0);
-    }
-    100% {
-        transform: rotate(-360deg);
-    }
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
 }

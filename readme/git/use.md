@@ -1,7 +1,7 @@
 # Para generar una rama de tu proyecto y luego juntar todos los commits del main en uno solo con un tag
 
->[!WARNING]
-> Mejor es trabajar en una rama y luego hacer squash al mergear 
+> [!WARNING]
+> Mejor es trabajar en una rama y luego hacer squash al mergear
 
 ```bash
 git checkout -b nueva-rama # crea una rama a partir del main
@@ -22,7 +22,7 @@ git push origin v1.0  # Subir el tag
 
 otro caso
 
-# git merge --squash 
+# git merge --squash
 
 Si quieres combinar todos los commits de una rama secundaria en un solo commit antes de unirlos al main
 
@@ -30,7 +30,6 @@ Si quieres combinar todos los commits de una rama secundaria en un solo commit a
 git push origin main --force  # ⚠ Esto sobrescribe el historial en remoto
 git push origin v1.0  # Subir el tag
 ```
-
 
 # generé una rama local pero no en remoto
 
@@ -46,5 +45,5 @@ git reset --hard origin/main
 git pull
 ```
 
->[!WARNING]
->Advertencia: El comando ``reset --hard`` eliminará cualquier cambio no confirmado que tenga en su rama local. Si tiene cambios sin confirmar que quiere guardar, primero debe hacer un`` git stash`` o un commit.
+> [!WARNING]
+> Advertencia: El comando `reset --hard` eliminará cualquier cambio no confirmado que tenga en su rama local. Si tiene cambios sin confirmar que quiere guardar, primero debe hacer un` git stash` o un commit.

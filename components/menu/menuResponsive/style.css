@@ -1,87 +1,86 @@
 *,
 ::before,
 ::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 .nav {
-    background-color: #333;
+  background-color: #333;
 }
 
 .nav__container {
-    width: min(90%, 1200px);
-    margin: 0 auto;
+  width: min(90%, 1200px);
+  margin: 0 auto;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
 
-    --icon-toggle-menu: url("./open.svg");
-    --transform: translate(-100%)
+  --icon-toggle-menu: url("./open.svg");
+  --transform: translate(-100%);
 }
 
 .nav__list {
+  transform: var(--transform);
 
-    transform: var(--transform);
+  list-style: none;
+  position: fixed;
+  inset: 0;
+  padding: 1.5rem 5%;
+  display: grid;
+  place-content: center;
+  gap: 2rem;
+  text-align: center;
+  background-color: #333;
 
-    list-style: none;
-    position: fixed;
-    inset: 0;
-    padding: 1.5rem 5%;
-    display: grid;
-    place-content: center;
-    gap: 2rem;
-    text-align: center;
-    background-color: #333;
-
-    transition: transform .3s;
+  transition: transform 0.3s;
 }
 
-.nav__figure, .nav__toggle {
-    z-index: 10;
+.nav__figure,
+.nav__toggle {
+  z-index: 10;
 }
-
 
 .nav__toggle {
-    width: 30px;
-    height: 30px;
-    background-image:  var(--icon-toggle-menu);
-    background-size: cover;
-    cursor: pointer;
-    transition: background-image .3s;
+  width: 30px;
+  height: 30px;
+  background-image: var(--icon-toggle-menu);
+  background-size: cover;
+  cursor: pointer;
+  transition: background-image 0.3s;
 }
 
 .nav__link {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
 
 .nav__container:has(.nav__input:checked) {
-    --icon-toggle-menu:  url("./close.svg");
-    --transform: translate(0)
+  --icon-toggle-menu: url("./close.svg");
+  --transform: translate(0);
 }
 
 @media (width > 764px) {
-    .nav__container {
-        --transform: translate(0)
-    }
+  .nav__container {
+    --transform: translate(0);
+  }
 
-    .nav__toggle {
-        display: none;
-    }
+  .nav__toggle {
+    display: none;
+  }
 
-    .nav__list {
-        position: static;
-        grid-auto-flow: column;
-        place-content: unset;
-        padding: 0;
-        transition: unset;
-    }
+  .nav__list {
+    position: static;
+    grid-auto-flow: column;
+    place-content: unset;
+    padding: 0;
+    transition: unset;
+  }
 }

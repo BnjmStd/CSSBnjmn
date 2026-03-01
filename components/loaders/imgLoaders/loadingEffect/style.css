@@ -1,49 +1,48 @@
 body {
-    --bgcolor: #171717;
-    background: var(--bgcolor);
+  --bgcolor: #171717;
+  background: var(--bgcolor);
 }
 
 .container {
-    display: grid;
-    place-items: center;
-    margin-top: 5rem;
-    gap: 2rem;
+  display: grid;
+  place-items: center;
+  margin-top: 5rem;
+  gap: 2rem;
 
-    & span {
-        font-family: Lexend, sans-serif;
-        font-size: 2rem;
-        color: gold;
-    }
+  & span {
+    font-family: Lexend, sans-serif;
+    font-size: 2rem;
+    color: gold;
+  }
 }
 
 .container-logo {
-    clip-path: inset(35px);
-    position: relative;
+  clip-path: inset(35px);
+  position: relative;
 
-    & img {
-        --size: 256px;
-        height: var(--size);
-        width: var(--size);
-        transform: translateY(6%) rotate(-7deg);
-        
-    }
-    
-    & .loading {
-        background: var(--bgcolor);
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        mix-blend-mode: hard-light;
-        animation: loading 5s linear 1 forwards;
-    }
+  & img {
+    --size: 256px;
+    height: var(--size);
+    width: var(--size);
+    transform: translateY(6%) rotate(-7deg);
+  }
+
+  & .loading {
+    background: var(--bgcolor);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    mix-blend-mode: hard-light;
+    animation: loading 5s linear 1 forwards;
+  }
 }
 
 @keyframes loading {
-    0% {
-        height: 100%;
-    }
-    100% {
-        height: 0%;
-    }
+  0% {
+    height: 100%;
+  }
+  100% {
+    height: 0%;
+  }
 }

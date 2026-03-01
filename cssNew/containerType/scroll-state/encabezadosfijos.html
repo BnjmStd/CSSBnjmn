@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -126,8 +126,8 @@
       typeof exports === "object" && typeof module !== "undefined"
         ? factory()
         : typeof define === "function" && define.amd
-        ? define(factory)
-        : factory();
+          ? define(factory)
+          : factory();
     })(this, function () {
       "use strict";
 
@@ -564,7 +564,7 @@
               var instance = this.instances[i];
               instance.props.scrollEl.removeEventListener(
                 "scroll",
-                instance.stateContainer
+                instance.stateContainer,
               );
               this.removeInstance(instance);
             }

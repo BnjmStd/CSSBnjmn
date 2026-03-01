@@ -1,37 +1,37 @@
 .checked-label {
+  position: relative;
+  font-size: 2em;
+  cursor: pointer;
+
+  & input {
+    display: none;
+
+    &:checked ~ span:after {
+      opacity: 1;
+    }
+  }
+
+  & span {
+    display: inline-block;
     position: relative;
-    font-size: 2em;
-    cursor: pointer;
+    height: 2em;
+    width: 2em;
+    background: black;
+    border-radius: 100%;
+    transition: all 0.7s;
 
-    & input {
-        display: none; 
-        
-        &:checked ~ span:after {
-            opacity: 1;
-        }
+    &::after {
+      content: "";
+      position: absolute;
+      border: solid white;
+      border-width: 0 0.3em 0.3em 0;
+      transform: rotate(45deg);
+      width: 0.5em;
+      height: 1em;
+      left: 0.6em;
+      top: 0.25em;
+      opacity: 0;
+      transition: 0.1s ease;
     }
-
-    & span {
-        display: inline-block;
-        position: relative;
-        height: 2em;
-        width: 2em;
-        background: black;
-        border-radius: 100%;
-        transition: all 0.7s;
-    
-        &::after {
-            content: "";
-            position: absolute;
-            border: solid white;
-            border-width: 0 0.3em 0.3em 0;
-            transform: rotate(45deg);
-            width: 0.5em;
-            height: 1em;
-            left: 0.6em;
-            top: 0.25em;
-            opacity: 0;
-            transition: 0.1s ease;
-        }
-    }
+  }
 }

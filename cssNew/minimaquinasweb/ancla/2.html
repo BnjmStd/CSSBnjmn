@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -154,7 +154,7 @@
   <script>
     document.querySelectorAll("[data-hover-popover]").forEach((anchor) => {
       let popover = document.getElementById(
-        anchor.dataset.hoverPopover + "-popover"
+        anchor.dataset.hoverPopover + "-popover",
       );
 
       anchor.onmouseenter = (event) => popover.showPopover();

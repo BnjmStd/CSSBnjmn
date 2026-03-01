@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,33 +6,28 @@
     <title>Document</title>
 
     <style>
+      .card {
+        display: flex;
+        flex-wrap: wrap;
+      }
 
-
-        .card {
-            display: flex;
-            flex-wrap: wrap;
+      .input-field {
+        & input {
+          border: none;
         }
 
-        .input-field {
-            & input {
-                border: none;
-            }
+        flex: 1 0 10rem;
+      }
 
-            flex: 1 0 10rem;
-        }
-
-        .button {
-            flex: 1 0 5rem;
-        }
-
-
+      .button {
+        flex: 1 0 5rem;
+      }
     </style>
-
   </head>
   <body>
     <div class="card">
       <div class="input-field">
-        <input type="text" placeholder="hola">
+        <input type="text" placeholder="hola" />
       </div>
       <button class="button">submit</button>
     </div>

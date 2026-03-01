@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -56,25 +56,26 @@
         height: 5px;
         border-radius: 50%;
         background: red;
-        box-shadow: 0 0 20px #e50914, 0 0 50px #e50914;
+        box-shadow:
+          0 0 20px #e50914,
+          0 0 50px #e50914;
         pointer-events: none;
         opacity: 0;
         animation: animate 2s linear forwards;
         z-index: 0;
       }
 
-
       @keyframes animate {
         0% {
-            transform: scale(1);
-            opacity: 1;
+          transform: scale(1);
+          opacity: 1;
         }
 
         100% {
-            transform: translate(var(--dx), var(--dy))  scale(0.5) ;
-            opacity: 0;
+          transform: translate(var(--dx), var(--dy)) scale(0.5);
+          opacity: 0;
         }
-      } 
+      }
     </style>
   </head>
   <body>
@@ -90,7 +91,7 @@
 
       let spawnDistance = 20;
 
-      function createParticle(){
+      function createParticle() {
         const $particles = document.createElement("div");
         $particles.classList.add("particle");
 
@@ -114,18 +115,17 @@
 
         $btnContainer.appendChild($particles);
         setTimeout(() => {
-            $particles.remove()
-        }, 2000)
-      };
+          $particles.remove();
+        }, 2000);
+      }
 
+      $button.addEventListener("mouseenter", () => {
+        interval = setInterval(createParticle, 80);
+      });
 
-      $button.addEventListener('mouseenter', () => {
-        interval = setInterval(createParticle, 80)
-      })
-
-      $button.addEventListener('mouseleave', () => {
-        clearInterval(interval)
-      })
+      $button.addEventListener("mouseleave", () => {
+        clearInterval(interval);
+      });
     </script>
   </body>
 </html>

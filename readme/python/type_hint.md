@@ -13,6 +13,7 @@ activo: bool = True
 ```
 
 ## types compounds
+
 ```python
 def procesar_nombres(nombres: list[str]) -> dict[str, int]:
     return {nombre: len(nombre) for nombre in nombres}
@@ -53,7 +54,6 @@ class Nodo:
         self.siguiente = siguiente
 
 ```
-
 
 ## typeDict
 

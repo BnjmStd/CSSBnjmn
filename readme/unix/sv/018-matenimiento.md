@@ -6,7 +6,6 @@ sudo apt dist-upgrade -y
 sudo apt autoclean
 sudo apt autoremove -y
 
-
 var = carpetas log
 mayoria de servicios
 
@@ -16,8 +15,7 @@ sudo cat /var/log/auth.log // usuarios
 
 sudo reboot
 
-
-htop 
+htop
 
 ```
 
@@ -28,7 +26,7 @@ htop
  sudo apt update
  sudo apt upgrade -y
  sudo apt dist-upgrade -y
- 
+
  # limpiar temp file
 
  sudo apt autoclean
@@ -38,7 +36,6 @@ htop
 
 ```
 
-
 # darles permisos de ejecución
 
 chmod +x maintenance.sh
@@ -47,11 +44,6 @@ chmod +x maintenance.sh
 
 crontab -e
 
-0 3 * * *  /home/benja/maintenance.sh
+0 3 \* \* \* /home/benja/maintenance.sh
 
 cada dia a las 3 de la mañana
-
-
-
-
-

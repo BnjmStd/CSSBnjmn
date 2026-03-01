@@ -1,46 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        h1 {
-            font-size: 2rem;
-            font-weight: 500;
-            text-align: center;
-            margin-block-end: 1em;
-        }
+      h1 {
+        font-size: 2rem;
+        font-weight: 500;
+        text-align: center;
+        margin-block-end: 1em;
+      }
 
-        .grid-item {
-            background-color: #c16565;
-            border: 1px solid #ccc;
-            padding: 0.5rem 1.25rem;
-            font-size: 1.5rem;
-            color: black;
-            outline: 1px dotted currentColor;
-            outline-offset: -10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .grid-item {
+        background-color: #c16565;
+        border: 1px solid #ccc;
+        padding: 0.5rem 1.25rem;
+        font-size: 1.5rem;
+        color: black;
+        outline: 1px dotted currentColor;
+        outline-offset: -10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-        .grid {
-            display: grid;
-            gap: 0.75rem;
-            grid-template-columns: repeat(2, 100px);
-            grid-template-rows: repeat(2, 100px);
+      .grid {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(2, 100px);
+        grid-template-rows: repeat(2, 100px);
 
-            grid-auto-columns: 100px;
-            grid-auto-rows: 100px;
+        grid-auto-columns: 100px;
+        grid-auto-rows: 100px;
 
-            grid-auto-flow: row;
+        grid-auto-flow: row;
 
-            /* controla el como el navegador o algoritmo de ubicación automatica llena la cuadricula si tienes elementos que aun no han sido colocados de manera explicita en la cuadricula el algoritmo de ubicación interviene para posicionarlos de manera automatica */
+        /* controla el como el navegador o algoritmo de ubicación automatica llena la cuadricula si tienes elementos que aun no han sido colocados de manera explicita en la cuadricula el algoritmo de ubicación interviene para posicionarlos de manera automatica */
 
-            /* si es row, se crean tantas filas como sea necesario */
+        /* si es row, se crean tantas filas como sea necesario */
 
-            /* si es column se crean tantas columnas como sea necesario 
+        /* si es column se crean tantas columnas como sea necesario 
 
 
             dense: si hay un espacio vacio en la cuadricula, dense intenta llenar ese espacio con un elemento que aun no ha sido colocado de manera explicita en la cuadricula
@@ -48,26 +48,25 @@
             dense: Esta palabra clave le indica al navegador que trate de llenar los "huecos" en la cuadrícula. En lugar de dejar vacíos cuando un elemento no cabe en el próximo espacio disponible, el modo dense hará que el navegador busque hacia atrás en la cuadrícula para encontrar cualquier hueco donde el elemento pueda caber
             
             */
-        }
+      }
 
-        .bg {
-            background-color: #65c1c1;
-        }
+      .bg {
+        background-color: #65c1c1;
+      }
     </style>
-
-</head>
-<body>
+  </head>
+  <body>
     <h1>Grid implicit vs Explicit</h1>
     <div class="grid">
-        <div class="grid-item">1</div>
-        <div class="grid-item">2</div>
-        <div class="grid-item">3</div>
-        <div class="grid-item">4</div>
+      <div class="grid-item">1</div>
+      <div class="grid-item">2</div>
+      <div class="grid-item">3</div>
+      <div class="grid-item">4</div>
 
-        <div class="grid-item bg">1</div>
-        <div class="grid-item bg">2</div>
-        <div class="grid-item bg">3</div>
-        <div class="grid-item bg">4</div>
+      <div class="grid-item bg">1</div>
+      <div class="grid-item bg">2</div>
+      <div class="grid-item bg">3</div>
+      <div class="grid-item bg">4</div>
     </div>
-</body>
+  </body>
 </html>

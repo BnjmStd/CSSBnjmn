@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,7 +16,9 @@
             inset-inline: 0;
 
             > header {
-              transition: background 0.3s ease, box-shadow 0.5s ease;
+              transition:
+                background 0.3s ease,
+                box-shadow 0.5s ease;
 
               @container scroll-state(stuck: top) {
                 background: hsl(265 100% 27%);

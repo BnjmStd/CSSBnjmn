@@ -1,10 +1,10 @@
 # Params push
 
-``<remoto><lugar>``
+`<remoto><lugar>`
 
 `git push origin main`
 
->[!IMPORTANT]
+> [!IMPORTANT]
 > para especificar tanto el origen como el lugar, simplemente unelos usando el signo:
 
 ```bash
@@ -13,7 +13,6 @@ git push origin <origen>:<destino>
 
 Ejemplo: `git fetch origin foo`
 
-
 # Rarezas del origin
 
 - Git abusa del parámetro origin
@@ -21,17 +20,16 @@ Ejemplo: `git fetch origin foo`
 - `git push origin :side`
 - `git fetch origin :bugfix`
 
->[!NOTE]
+> [!NOTE]
 > Push de nada a una rama remota la elimina
 
->[!NOTE]
+> [!NOTE]
 > Fetch de nada a un lugar local crea una nueva rama
 
-
->[!IMPORTANT]
+> [!IMPORTANT]
 > `git pull origin foo` = `git fetch origin foo` + `git merge o/foo`
 
->[!IMPORTANT]
+> [!IMPORTANT]
 > `git pull origin bar:bugfix` = `git fetch origin bar:bugfix` + `git merge bugfix`
 
 ## Demostración
@@ -42,7 +40,7 @@ Si especificamos el lugar desde donde hacer fetch, todo ocurre como antes, pero 
 
 ![alt text](image.png)
 
-y pasa 
+y pasa
 
 ¡Ves! Especificando main descargamos los commits a o/main como siempre. Después mergeamos o/main a nuestra rama actual, sin importar qué había en nuestra copia de trabajo.
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -132,15 +132,12 @@
 
           console.log(img.src);
           return img;
-        }
+        },
       );
 
-
-
       const airpods = {
-        frame: 0
-      }
-
+        frame: 0,
+      };
 
       gsap.to(airpods, {
         frame: TOTAL_FRAMES - 1,
@@ -161,7 +158,7 @@
         },
       });
 
-      images[0].onload = () => render()
+      images[0].onload = () => render();
 
       function render() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);

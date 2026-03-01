@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -34,8 +34,11 @@
 
         /* enable transitions in the drop down */
         &::picker(select) {
-          transition: opacity 0.2s ease, transform 0.2s var(--ease-out-3),
-            display 0.2s allow-discrete, overlay 0.2s allow-discrete;
+          transition:
+            opacity 0.2s ease,
+            transform 0.2s var(--ease-out-3),
+            display 0.2s allow-discrete,
+            overlay 0.2s allow-discrete;
         }
 
         &::picker-icon {
@@ -56,8 +59,10 @@
 
         /* transition the selected option changing */
         selectedcontent > * {
-          transition: transform 1s var(--ease-spring-4),
-            display 1s allow-discrete, opacity 1s;
+          transition:
+            transform 1s var(--ease-spring-4),
+            display 1s allow-discrete,
+            opacity 1s;
 
           @starting-style {
             opacity: 0;
@@ -431,7 +436,7 @@
     <script>
       document.body.classList.toggle(
         "supports-custom-select",
-        CSS.supports("appearance: base-select")
+        CSS.supports("appearance: base-select"),
       );
 
       colorspace.oninput = (e) => {

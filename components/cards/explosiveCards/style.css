@@ -79,26 +79,25 @@ body {
 }
 
 .cards .pixel-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+  z-index: 2;
+
+  & .pixel {
     position: absolute;
-    top: 0;
-    left: 0;
-    inline-size: 100%;
-    block-size: 100%;
-    pointer-events: none;
-    z-index: 2;
-
-
-    & .pixel {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background: var(--clr);
-        border: 1px solid rgba(0, 0, 0, 0.3);
-        transition: 0.5s;
-    }
+    width: 20px;
+    height: 20px;
+    background: var(--clr);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    transition: 0.5s;
+  }
 }
 
 .cards:hover .pixel-container .pixel {
-     opacity: 0;
-     transform: translate(var(--tx), var(--ty));
-} 
+  opacity: 0;
+  transform: translate(var(--tx), var(--ty));
+}

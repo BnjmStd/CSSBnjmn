@@ -72,7 +72,7 @@ tienes funcionalidades:
 
 - Usa shaders (GPU Pixeles)
 - (x, y, z)
--  ILUMINACIÓN
+- ILUMINACIÓN
 - sombras
 - materiales
 
@@ -83,4 +83,3 @@ tienes funcionalidades:
 ![alt text](image-5.png)
 ![alt text](image-6.png)
 ![alt text](image-7.png)
-

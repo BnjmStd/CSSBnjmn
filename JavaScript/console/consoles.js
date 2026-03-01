@@ -10,7 +10,6 @@ Potencial perdido : JavaScript ofrece muchos otros métodos integrados consolequ
 
 */
 
-
 // console dir console.dir()
 
 /*
@@ -20,10 +19,12 @@ En lugar de utilizar console.log()para imprimir objetos, lo que puede resultar d
 */
 
 const usuario = {
-    nombre: 'Alice', edad: 25, preferencias: {
-        tema: 'oscuro',
-        notificaciones: verdadero
-    }
+  nombre: "Alice",
+  edad: 25,
+  preferencias: {
+    tema: "oscuro",
+    notificaciones: verdadero,
+  },
 };
 
 console.dir(usuario, { profundidad: null });
@@ -34,7 +35,6 @@ Beneficio : Este método le permite controlar qué tan profundamente desea profu
 
 */
 
-
 /*
 
 console.clear() Mantener limpia la consola
@@ -43,7 +43,6 @@ Si inicias sesión con frecuencia durante el desarrollo, tu consola puede satura
 
 */
 
-
 /*
 
 console.group()y console.groupEnd()para organizar los registros
@@ -51,8 +50,13 @@ A veces, es necesario organizar registros relacionados en grupos para facilitar 
 
 */
 
-console.group('Información del usuario'); console.log(' Nombre : Alice'); console.log('Edad: 25'); console.group(' Preferencias'); console.log('Tema : Oscuro'); console.log(' Notificaciones : Habilitadas'); console.groupEnd(); // Cierra ' Preferencias' console.groupEnd ( ); // Cierra ' Información del usuario '
-
+console.group("Información del usuario");
+console.log(" Nombre : Alice");
+console.log("Edad: 25");
+console.group(" Preferencias");
+console.log("Tema : Oscuro");
+console.log(" Notificaciones : Habilitadas");
+console.groupEnd(); // Cierra ' Preferencias' console.groupEnd ( ); // Cierra ' Información del usuario '
 
 /**
  * 
@@ -61,12 +65,11 @@ Si trabaja con matrices de objetos o grandes conjuntos de datos, console.table()
  */
 
 const usuarios = [
-    { nombre: 'Alice', edad: 25 },
-    { nombre: 'Bob', edad: 30 },
-    { nombre: 'Charlie', edad: 35 }
+  { nombre: "Alice", edad: 25 },
+  { nombre: "Bob", edad: 30 },
+  { nombre: "Charlie", edad: 35 },
 ];
 console.table(usuarios);
-
 
 /*
 
@@ -81,4 +84,4 @@ Beneficio : Este método ofrece una visualización clara y visual de matrices y 
 ¿Necesita saber cuánto tiempo tarda en ejecutarse una función? Utilícelo console.time()al inicio y console.timeEnd()al final de la función para medir el tiempo de ejecución de un bloque de código. Esto resulta especialmente útil para optimizar el rendimiento.
  */
 
-console.time('fetchData'); // Simular alguna operación asincrónica setTimeout ( () => { console.timeEnd ( ' fetchData ' ) ; }, 2000 );
+console.time("fetchData"); // Simular alguna operación asincrónica setTimeout ( () => { console.timeEnd ( ' fetchData ' ) ; }, 2000 );

@@ -4,32 +4,27 @@
 
 permite ver los usuarios registrados
 
-nombre:*contraseña:id:idgrupo:comentario:nombredirectorio:interprete
+nombre:\*contraseña:id:idgrupo:comentario:nombredirectorio:interprete
 
 los más similares el root, debian, el resto de usuarios son inactivos o bloqueados
 
 # sudo cat /etc/shadow
 
-
 nombre:contraseña:fechacambiocontraseña:diasdecambiodecontraseña:maximodedias:numerodediassedaelavisoaluserquecambi:diasinactivoparabloquearcuenta:expire
-
 
 si no se detalla pwd
 
 !significabloqueotempoalmente
-*cuentadesabilitada,muchasvecesusadosporprocesos
-!* combinaciónquenoestadestinadaparaaccesointeractivoportemasdelsistema
-
+_cuentadesabilitada,muchasvecesusadosporprocesos
+!_ combinaciónquenoestadestinadaparaaccesointeractivoportemasdelsistema
 
 las fechas corren 1970 9 de enero
-
 
 # /etc/group
 
 todo grupo con id menos a 1000 es usado por el sistema
 
 nombredelgrupo:contraseña(desuso):idgroup:listadeusuariosopertenecientesalgrupo
-
 
 # whoami
 
@@ -65,11 +60,11 @@ Pertenece al grupo docker, lo que le permite trabajar con Docker sin usar sudo.
 
 # who
 
-benja    pts/0        2025-01-16 13:18 (190.110.103.252)
+benja pts/0 2025-01-16 13:18 (190.110.103.252)
 
 # w
 
 benja@metafoodcraft:~$ w
- 14:10:42 up 4 days, 30 min,  1 user,  load average: 0.00, 0.00, 0.00
-USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU  WHAT
-benja             190.110.103.252  13:18   19:09   0.00s  0.01s sshd: benja [priv]
+14:10:42 up 4 days, 30 min, 1 user, load average: 0.00, 0.00, 0.00
+USER TTY FROM LOGIN@ IDLE JCPU PCPU WHAT
+benja 190.110.103.252 13:18 19:09 0.00s 0.01s sshd: benja [priv]

@@ -87,10 +87,9 @@ La directiva `@layer` permite agrupar estilos en capas para controlar qué regla
 - reset (primero) → base → components → utilities (último y con mayor prioridad).
 - Esto asegura que los estilos de los componentes no sean sobreescritos accidentalmente por reglas globales.
 
-
 **Uso de @layer en Componentes Individuales**
 
-Ejemplo en ``Button.css``:
+Ejemplo en `Button.css`:
 
 ```css
 @layer components {

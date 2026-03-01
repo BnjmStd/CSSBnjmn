@@ -22,12 +22,11 @@ function prepareGifts2(gifts: number[]): number[] {
 }
 
 function prepareGifts3(gifts: number[]): number[] {
+  const buffer: Record<number, number> = {};
 
-    const buffer: Record<number, number> = {};
+  for (const num of gifts) {
+    buffer[num] = num;
+  }
 
-    for (const num of gifts) {
-        buffer[num] = num;
-    }
-
-    return Object.values(buffer)
+  return Object.values(buffer);
 }

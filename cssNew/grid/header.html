@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -48,7 +48,7 @@
           line-height: 2;
           font-weight: bolder;
           text-wrap: nowrap;
-            font-size: 33px; /* Adjusted font size */
+          font-size: 33px; /* Adjusted font size */
         }
       }
 
@@ -230,40 +230,64 @@
   </head>
   <body>
     <div class="header__home">
-        <div class="container-header">
+      <div class="container-header">
         <a class="logo--header" href="#home" aria-label="Go to Home">
           <span class="icon-nut" aria-hidden="true">🔩</span>
           <h1 class="sidebar__logo">Data4Life</h1>
         </a>
 
         <input type="checkbox" id="sidebar-active" class="checkbox_header" />
-        <label for="sidebar-active" class="open-sidebar-button" aria-label="Open Sidebar">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <label
+          for="sidebar-active"
+          class="open-sidebar-button"
+          aria-label="Open Sidebar"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
+          </svg>
         </label>
 
-        <label id="overlay" for="sidebar-active" class="overlay" aria-label="Close Sidebar area"></label>
+        <label
+          id="overlay"
+          for="sidebar-active"
+          class="overlay"
+          aria-label="Close Sidebar area"
+        ></label>
 
         <nav id="navbar" class="navbar__home" aria-label="Main Navigation">
-          <label for="sidebar-active" class="close-sidebar-button" aria-label="Close Sidebar button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="24" height="24">
-              <path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path>
+          <label
+            for="sidebar-active"
+            class="close-sidebar-button"
+            aria-label="Close Sidebar button"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              width="24"
+              height="24"
+            >
+              <path
+                d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"
+              ></path>
             </svg>
           </label>
           <ul id="menu-list">
             <li>
-                <a href="#home">Home</a>
+              <a href="#home">Home</a>
             </li>
             <li>
-                <a href="#about">About</a>
+              <a href="#about">About</a>
             </li>
             <li>
-                <a href="#services">Services</a>
+              <a href="#services">Services</a>
             </li>
             <li>
-                <a href="#contact">Contact</a>
+              <a href="#contact">Contact</a>
             </li>
           </ul>
-          <button class="accent-link">Login <span aria-hidden="true">🔐</span></button>
+          <button class="accent-link">
+            Login <span aria-hidden="true">🔐</span>
+          </button>
         </nav>
       </div>
     </div>

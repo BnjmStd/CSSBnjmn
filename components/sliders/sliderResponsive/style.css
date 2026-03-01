@@ -1,80 +1,79 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: #030728 no-repeat center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #030728 no-repeat center;
 }
 
 .card-list .card-item {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.2);
-    width: 400px;
-    padding: 35px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(30px);
-    user-select: none;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  width: 400px;
+  padding: 35px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(30px);
+  user-select: none;
 }
 
 .card-list .card-item .user-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 3px solid #fff;
-    padding: 4px;
-
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  padding: 4px;
 }
 
 .card-list .card-item .user-profession {
-    font-size: 1.15rem;
-    color: #e3e3e3;
-    font-weight: 500;
-    margin: 14px 0 40px;
+  font-size: 1.15rem;
+  color: #e3e3e3;
+  font-weight: 500;
+  margin: 14px 0 40px;
 }
 
 .card-list .card-item .message-button {
-    font-size: 1.2rem;
-    padding: 10px 35px;
-    color: #030728;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    background:  #fff ;
-    border: 1px solid transparent;
-    transition: 0.2 ease;
+  font-size: 1.2rem;
+  padding: 10px 35px;
+  color: #030728;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid transparent;
+  transition: 0.2 ease;
 
-    &:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid #fff;
-        color: #fff;
-    }
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #fff;
+    color: #fff;
+  }
 }
 
 .slides-wrapper {
-    overflow: hidden;
-    max-width: 1200px;
-    margin: 0 70px 55px;
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 70px 55px;
 
-    & .slides-button {
-        color: #fff;
-        margin-top: -5px;
-    }
+  & .slides-button {
+    color: #fff;
+    margin-top: -5px;
+  }
 }
 
 .slider-wrapper .swiper-pagination-bullet {
-    background-color: #fff;
-    height: 15px;
-    width: 15px;
-    aspect-ratio: 1/1;
+  background-color: #fff;
+  height: 15px;
+  width: 15px;
+  aspect-ratio: 1/1;
 }

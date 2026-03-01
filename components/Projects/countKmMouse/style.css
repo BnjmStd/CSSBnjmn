@@ -6,34 +6,34 @@ other way: woff2_compress *file.tff
 */
 
 @font-face {
-    font-family: "DSEG7";
-    src: 
-        local("DSEG7"),
-        url("fonts/DSEG7.woff2") format("woff2"),
-        url("fonts/DSEG7.woff") format("woff"),
-        url("fonts/DSEG7.ttf") format("truetype");
+  font-family: "DSEG7";
+  src:
+    local("DSEG7"),
+    url("fonts/DSEG7.woff2") format("woff2"),
+    url("fonts/DSEG7.woff") format("woff"),
+    url("fonts/DSEG7.ttf") format("truetype");
 }
 
 body {
-    background: #000;
+  background: #000;
 }
 
 .counter {
-    --color: #e00;
-    --dark-color: color-mix(in srgb, var(--color), black 85%);
+  --color: #e00;
+  --dark-color: color-mix(in srgb, var(--color), black 85%);
 
-    font-family: "DESEG7", monospace;
-    font-size: 4rem;
-    color: var(--color);
-    display: flex;
-    position: relative;
+  font-family: "DESEG7", monospace;
+  font-size: 4rem;
+  color: var(--color);
+  display: flex;
+  position: relative;
 }
 
 .digits {
-    &::before {
-        content: "888888";
-        color: var(--dark-color);
-        position: absolute;
-        z-index: -1;
-    }
+  &::before {
+    content: "888888";
+    color: var(--dark-color);
+    position: absolute;
+    z-index: -1;
+  }
 }

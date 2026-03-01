@@ -1,27 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-
-        @layer conf {
-            * {
-              box-sizing: border-box;
-              margin: 0;
-            }
-
-            body {
-                min-block-size: 100%;
-                font-family: system-ui, sans-serif;
-    
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
+      @layer conf {
+        * {
+          box-sizing: border-box;
+          margin: 0;
         }
+
+        body {
+          min-block-size: 100%;
+          font-family: system-ui, sans-serif;
+
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+      }
 
       @layer demo {
         .icon-btn {
@@ -85,7 +84,9 @@
 
         @media (prefers-reduced-motion: no-preference) {
           .icon-btn {
-            transition: outline-offset 0.3s ease, background-color 0.3s ease;
+            transition:
+              outline-offset 0.3s ease,
+              background-color 0.3s ease;
           }
         }
 
@@ -143,8 +144,6 @@
           grid: 25vmin / repeat(3, 25vmin);
           gap: 5vmin;
         }
-
-
       }
     </style>
   </head>

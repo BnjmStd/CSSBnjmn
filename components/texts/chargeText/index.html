@@ -1,56 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: rgba(0, 0, 0, 1);
+        font-family: Arial, Helvetica, sans-serif;
+        height: 100dvh;
+        display: grid;
+        place-items: center;
+      }
+
+      .shockwave {
+        color: #fff;
+        font: 700 clamp(40px, 10vw, 100px) Arial;
+        position: relative;
+      }
+
+      .shockwave::before {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        animation: shockwave 0.9s infinite;
+      }
+
+      @keyframes shockwave {
+        0% {
+          transform: scale(1);
+          opacity: 1;
         }
 
-        body {
-            background-color: rgba(0, 0, 0, 1);
-            font-family: Arial, Helvetica, sans-serif;
-            height: 100dvh;
-            display: grid;
-            place-items: center;
+        100% {
+          transform: scale(1.5);
+          opacity: 0;
         }
-
-        .shockwave {
-            color: #fff;
-            font: 700 clamp(40px, 10vw, 100px) Arial;
-            position: relative;
-        }
-
-        .shockwave::before {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            animation: shockwave 0.9s infinite;
-        }
-
-        @keyframes shockwave {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div data-text="Benja" class="shockwave">Benja</div>
-</body>
-
+  </body>
 </html>

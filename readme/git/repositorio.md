@@ -3,9 +3,8 @@
 - Es donde, se almacena ese historico de cambios de un proyecto + otras cosas
 - Gites un sistema de control de versiones desentralizado o distribuido
 
->[!IMPORTANT]
+> [!IMPORTANT]
 > Un repositorio local no es igual a un repositorio remoto
-
 
 ## Partes de un repositorio (principales)
 
@@ -42,7 +41,7 @@ git init
 ## Verificación de pendientes
 
 ```bash
-git status 
+git status
 ```
 
 - new files
@@ -57,7 +56,7 @@ git add *.txt
 ## Persistencia de cambios en el repositorio
 
 ```bash
-git commit 
+git commit
 ```
 
 - cada commit representa un conjunto de cambios
@@ -98,8 +97,7 @@ git add .
 git revert --continue
 ```
 
-
-## Ver diferencias 
+## Ver diferencias
 
 ```bash
 git diff

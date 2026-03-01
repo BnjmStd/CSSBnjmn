@@ -1,61 +1,55 @@
 html {
-    font-family: system-ui, sans-serif;
-    font-size: 1.5rem;
-    color: hsl(220 40% 35%);
+  font-family: system-ui, sans-serif;
+  font-size: 1.5rem;
+  color: hsl(220 40% 35%);
 }
 
 body {
-    padding: 2rem;
-    background-color: hsl(220 20% 95%);
+  padding: 2rem;
+  background-color: hsl(220 20% 95%);
 }
 
 .avatars {
-    --avatar-count: 10;
-    --avatar-size: 75px;
+  --avatar-count: 10;
+  --avatar-size: 75px;
 
-    --column-size: calc(var(--avatar-size) / 2);
+  --column-size: calc(var(--avatar-size) / 2);
 
-    display: grid;
-    grid-template-columns: repeat(var(--avatar-count), var(--column-size));
-    transition: 500ms;
-    transition-delay: .2s;
+  display: grid;
+  grid-template-columns: repeat(var(--avatar-count), var(--column-size));
+  transition: 500ms;
+  transition-delay: 0.2s;
 
+  max-width: 80vw;
+  overflow-x: auto;
+  padding-block: 2rem;
 
-    max-width: 80vw;
-    overflow-x: auto;
-    padding-block: 2rem;
-
-
-    &:hover,
-    &:focus-within {
-        --column-size: calc(var(--avatar-size) * 1.5);
-    }
+  &:hover,
+  &:focus-within {
+    --column-size: calc(var(--avatar-size) * 1.5);
+  }
 }
 
 .avatar {
-    width: var(--avatar-size);
-    aspect-ratio: 1;
-    object-fit: cover;
-    border: 5px solid white;
-    border-radius: 100vw;
-    box-shadow: .25rem .25rem .5rem hsl(0, 0%, 0% / 2);
+  width: var(--avatar-size);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 5px solid white;
+  border-radius: 100vw;
+  box-shadow: 0.25rem 0.25rem 0.5rem hsl(0, 0%, 0% / 2);
 
-    transition: scale .3s;
+  transition: scale 0.3s;
 
+  &:hover,
+  &:focus {
+    scale: 2;
+    z-index: 2;
+  }
 
-    &:hover,
-    &:focus {
-        scale: 2;
-        z-index: 2;
+  @supports selector(:has(+ *)) {
+    &:hover + .avatar,
+    &:has(+ .avatar:hover) {
+      scale: 1.5;
     }
-
-
-    @supports selector(:has(+ *)) {
-
-        &:hover+.avatar,
-        &:has(+ .avatar:hover) {
-            scale: 1.5;
-        }
-    }
-
+  }
 }

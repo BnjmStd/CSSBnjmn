@@ -2,7 +2,6 @@ Durante la noche de Halloween 🎃, una bruja 🧙‍♀️ está preparando una
 
 Dada una lista de enteros donde cada número representa el poder de una poción 🧪 y un número entero que representa el poder objetivo, debes encontrar el índice de las dos primeras pociones que sumen exactamente el poder objetivo.
 
-
 ::: javascript
 
     const potions = [4, 5, 6, 2]
@@ -20,6 +19,7 @@ Si no se encuentra ninguna combinación, devuelve undefined
     const goal = 9
 
     createMagicPotion(potions, goal) // undefined
+
 :::
 
 En el caso que haya más de una combinación posible, selecciona la combinación cuya segunda poción aparezca primero en la lista.

@@ -1,72 +1,76 @@
 html {
-    color-scheme: dark;
-    background: black;
-    padding: 1rem;
-    font-family: system-ui;
+  color-scheme: dark;
+  background: black;
+  padding: 1rem;
+  font-family: system-ui;
 }
 
 h1 {
-    font-weight: 300;
-    font-size: 1.625rem;
+  font-weight: 300;
+  font-size: 1.625rem;
 }
 
 h2 {
-    font-weight: 400;
-    font-size: 1rem;
-    margin-block-end: 0.125em;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-block-end: 0.125em;
 }
 
 p {
-    font-size: 0.875rem;
-    opacity: 0.6;
-    max-width: 55ch;
-    margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.6;
+  max-width: 55ch;
+  margin: 0;
 }
 
-.card>svg {
-    height: 30%;
-    width: 55px;
+.card > svg {
+  height: 30%;
+  width: 55px;
 }
 
 .grid {
-    display: grid;
-    gap: 0.5rem;
-    grid-template-columns: repeat(auto-fit, 250px);
-    grid-auto-rows: 150px;
-    position: relative;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, 250px);
+  grid-auto-rows: 150px;
+  position: relative;
 }
 
 .card {
-    position: relative;
-    background: black;
-    padding: 1rem;
+  position: relative;
+  background: black;
+  padding: 1rem;
 }
 
 .card:hover {
-    background-attachment: fixed;
-    background-image: radial-gradient(circle at var(--x, 0) var(--y, 0),
-            hsl(0 0% 100% / 0.175),
-            hsl(0 0% 100% / 0.0125) 10rem);
+  background-attachment: fixed;
+  background-image: radial-gradient(
+    circle at var(--x, 0) var(--y, 0),
+    hsl(0 0% 100% / 0.175),
+    hsl(0 0% 100% / 0.0125) 10rem
+  );
 }
 
 .card::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    background-attachment: fixed;
-    background-image: radial-gradient(circle at var(--x, 0) var(--y, 0),
-            hsl(0 0% 100% / 0.75),
-            transparent 5rem);
-    pointer-events: none;
-    z-index: -1;
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background-attachment: fixed;
+  background-image: radial-gradient(
+    circle at var(--x, 0) var(--y, 0),
+    hsl(0 0% 100% / 0.75),
+    transparent 5rem
+  );
+  pointer-events: none;
+  z-index: -1;
 }
 
 .grid-container {
-    margin-block-start: 3rem;
-    display: grid;
-    grid-template-areas: "a";
+  margin-block-start: 3rem;
+  display: grid;
+  grid-template-areas: "a";
 }
 
-.grid-container >* {
-    grid-area: a;
+.grid-container > * {
+  grid-area: a;
 }

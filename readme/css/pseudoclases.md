@@ -31,7 +31,6 @@ Las pseudoclases en CSS permiten aplicar estilos a un elemento en función de su
 ## Ejemplo de uso
 
 ```css
-
 button:hover {
   background-color: blue;
   color: white;
@@ -44,5 +43,4 @@ input:focus {
 li:nth-child(odd) {
   background-color: lightgray;
 }
-
 ```

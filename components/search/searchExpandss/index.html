@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,68 +6,68 @@
     <title>Document</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #333;
+        font-family: "Roboto";
+        padding: 60px;
+        min-block-size: 100vh;
+        overflow: hidden;
+      }
+
+      .search {
+        position: relative;
+        height: 40px;
+
+        &.active {
+          & .input {
+            width: 215px;
+          }
+
+          & .btn {
+            transform: translateX(175px);
+          }
         }
 
-        body {
-            background-color: #333;
-            font-family: "Roboto";
-            padding: 60px;
-            min-block-size: 100vh;
-            overflow: hidden;
+        & .input {
+          background-color: #09f;
+          border: 0;
+          font-size: 1rem;
+          color: #333;
+          padding: 15px;
+          height: 40px;
+          width: 40px;
+          transition: width 0.8s ease;
+          border-radius: 25px;
         }
 
-        .search {
-            position: relative;
-            height: 40px;
+        & .btn {
+          background-color: #09f;
+          border: 0;
+          cursor: pointer;
+          font-size: 20px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 40px;
+          width: 40px;
+          transition: 0.8s ease;
+          border-radius: 50%;
 
-            &.active {
-                & .input {
-                    width: 215px;
-                }
+          &:hover {
+            background-color: rgba(255, 0, 0, 0.1);
+          }
 
-                & .btn {
-                    transform: translateX(175px);
-                }
-            }
-
-            & .input {
-                background-color: #09f;
-                border: 0;
-                font-size: 1rem;
-                color: #333;
-                padding: 15px;
-                height: 40px;
-                width: 40px;
-                transition: width .8s ease;
-                border-radius: 25px;
-            }
-
-            & .btn {
-                background-color: #09f;
-                border: 0;
-                cursor: pointer;
-                font-size: 20px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 40px;
-                width: 40px;
-                transition: .8s ease;
-                border-radius: 50%;
-
-                &:hover {
-                    background-color: rgba(255, 0, 0, 0.1);
-                }
-
-                &:focus {
-                    outline: 2px solid white;
-                }
-            }
+          &:focus {
+            outline: 2px solid white;
+          }
         }
+      }
     </style>
   </head>
   <body>
@@ -87,15 +87,13 @@
     </search>
 
     <script>
+      const search = document.querySelector(".search");
+      const btn = document.querySelector(".btn");
+      const input = document.querySelector(".input");
 
-        const search = document.querySelector(".search")
-        const btn = document.querySelector(".btn")
-        const input = document.querySelector(".input")
-
-
-        btn.addEventListener("click", () => {
-            search.classList.toggle("active")
-        })
+      btn.addEventListener("click", () => {
+        search.classList.toggle("active");
+      });
     </script>
   </body>
 </html>

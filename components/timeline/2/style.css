@@ -96,7 +96,7 @@ header {
         right: -15px;
       }
     }
-  }	
+  }
 
   & > *:nth-child(odd) {
     left: 50%;
@@ -164,8 +164,8 @@ header {
           left: -15px;
         }
       }
-    }	
-  
+    }
+
     & > *:nth-child(odd) {
       left: 0%;
 

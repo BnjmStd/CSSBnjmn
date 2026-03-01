@@ -17,7 +17,8 @@ body {
   min-block-size: 100vh;
   min-block-size: 100dvh;
 
-  background: fixed linear-gradient(transparent, #070707 70%),
+  background:
+    fixed linear-gradient(transparent, #070707 70%),
     fixed
       repeating-linear-gradient(
         #2b2b2b,

@@ -107,7 +107,7 @@ document.addEventListerner("DOMContentLoaded", () => {
     const mainImageContainer = document.querySelector(".slide-main-img");
 
     const currentMainWrapper = document.querySelector(
-      ".slide-main-img-wrapper"
+      ".slide-main-img-wrapper",
     );
 
     const titleContainer = document.querySelector(".slide-title");
@@ -128,7 +128,7 @@ document.addEventListerner("DOMContentLoaded", () => {
     const newMainImageWrapper = createMainImagewrapper(currentSlide, direction);
     const { $newTitle, $newDescription, $newCounter } = createTextElements(
       currentSlide,
-      direction
+      direction,
     );
 
     slider.appendChild(newSlide);
@@ -170,7 +170,7 @@ document.addEventListerner("DOMContentLoaded", () => {
         duration: 1,
         ease: CustomEase.create(".", ".87, 0, .13, 1"),
       },
-      0
+      0,
     )
       .to(
         currentTitle,
@@ -179,7 +179,7 @@ document.addEventListerner("DOMContentLoaded", () => {
           duration: 1.25,
           ease: "power2.inOut",
         },
-        0
+        0,
       )
 
       .to(
@@ -189,7 +189,7 @@ document.addEventListerner("DOMContentLoaded", () => {
           duration: 1.25,
           ease: "power2.inOut",
         },
-        0
+        0,
       )
       .to(
         currentDescription,
@@ -198,7 +198,7 @@ document.addEventListerner("DOMContentLoaded", () => {
           duration: 1.25,
           ease: "power2.inOut",
         },
-        0
+        0,
       )
       .to(
         $newDescription,
@@ -207,7 +207,7 @@ document.addEventListerner("DOMContentLoaded", () => {
           duration: 1.25,
           ease: "power2.inOut",
         },
-        0
+        0,
       )
       .to(
         currentCounter,
@@ -216,7 +216,7 @@ document.addEventListerner("DOMContentLoaded", () => {
           duration: 1.25,
           ease: "power2.inOut",
         },
-        0
+        0,
       )
       .to(
         $newCounter,
@@ -225,7 +225,7 @@ document.addEventListerner("DOMContentLoaded", () => {
           duration: 1.25,
           ease: "power2.inOut",
         },
-        0
+        0,
       );
   }
 
@@ -253,7 +253,7 @@ document.addEventListerner("DOMContentLoaded", () => {
 
       handleScroll(direction);
     },
-    { passive: false }
+    { passive: false },
   );
 
   let touchStartY = 0;
@@ -267,7 +267,7 @@ document.addEventListerner("DOMContentLoaded", () => {
     },
     {
       passive: false,
-    }
+    },
   );
 
   window.addEventListener(
@@ -288,7 +288,7 @@ document.addEventListerner("DOMContentLoaded", () => {
     },
     {
       passive: false,
-    }
+    },
   );
   document.addEventListener(
     "touchend",
@@ -297,6 +297,6 @@ document.addEventListerner("DOMContentLoaded", () => {
     },
     {
       passive: false,
-    }
+    },
   );
 });

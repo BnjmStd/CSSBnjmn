@@ -1,4 +1,4 @@
-# mdir 
+# mdir
 
 mkdir space
 
@@ -16,6 +16,4 @@ echo -n "benja:" | sudo tee -a /etc/nginx/.htpasswd
 
 echo "benja:$(openssl passwd -apr1)" | sudo tee -a /etc/nginx/.htpasswd
 
-
 file:
-

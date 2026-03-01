@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -38,7 +38,9 @@
         & img {
           opacity: 0;
           transform: translateY(30%);
-          transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+          transition:
+            transform 1s ease-in-out,
+            opacity 1s ease-in-out;
         }
       }
 
@@ -98,7 +100,7 @@
         },
         {
           rootMargin: "10px",
-        }
+        },
       );
 
       $images.forEach((image) => {
@@ -115,7 +117,7 @@
             observer.observe(image);
           });
         }
-      };    
+      };
     </script>
   </body>
 </html>

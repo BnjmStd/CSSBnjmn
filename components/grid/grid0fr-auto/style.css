@@ -1,9 +1,9 @@
 aside {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    background-color: violet;
-    height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background-color: violet;
+  height: 100dvh;
 }
 
 .accordion__wrapper {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,8 +8,12 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body class="min-h-dvh">
-    <div class="relative h-screen w-full overflow-hidden bg-gradient-to-tl from-amber-400 via-slate-500 to-black">
-      <nav class="fixed top-0 left-0 w-full p-3 flex justify-between items-center">
+    <div
+      class="relative h-screen w-full overflow-hidden bg-gradient-to-tl from-amber-400 via-slate-500 to-black"
+    >
+      <nav
+        class="fixed top-0 left-0 w-full p-3 flex justify-between items-center"
+      >
         <p class="text-sm font-semibold antialiased select-none">Benja</p>
         <p class="text-sm font-semibold antialiased select-none">Menu</p>
       </nav>
@@ -22,17 +26,26 @@
         </p>
       </div>
 
-      <div class="bg-red absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-[75%] overflow-hidden ">
-        <img 
-        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-contain
-        "
-        src="../../columns/columnsGenshin/assets/4.png" alt="" />
+      <div
+        class="bg-red absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-[75%] overflow-hidden"
+      >
+        <img
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-contain"
+          src="../../columns/columnsGenshin/assets/4.png"
+          alt=""
+        />
       </div>
 
       <div id="minimap" class="absolute top-1/2 right-[8em] w-20">
-        <div  id="indicator" class="absolute top-0 left-0 w-full h-16 border-black z-10 "></div>
+        <div
+          id="indicator"
+          class="absolute top-0 left-0 w-full h-16 border-black z-10"
+        ></div>
 
-        <div id="items" class="relative h-full w-full flex flex-col gap-0 will-change-transform">
+        <div
+          id="items"
+          class="relative h-full w-full flex flex-col gap-0 will-change-transform"
+        >
           <div id="item" class="w-full h-16 p-1 cursor-pointer">
             <img src="../../columns/columnsGenshin/assets/17.png" alt="" />
           </div>
@@ -127,43 +140,40 @@
           return (img.style.opacity = 1);
         });
 
-        const indicatorStart = -currentTranslate
-        const indicatorEnd = indicatorStart + dimensions.indicatorSize
+        const indicatorStart = -currentTranslate;
+        const indicatorEnd = indicatorStart + dimensions.indicatorSize;
 
-        let maxOverlap = 0
-        let selectedIndex = 0
+        let maxOverlap = 0;
+        let selectedIndex = 0;
 
         itemElements.forEach((item, index) => {
-          const itemStart = index + dimensions.itemSize
-          const itemEnd = itemStart + dimensions.itemSize
-        
-          const overlapStart = Math.max(indicatorStart, itemStart)
-          const overlapEnd = Math.min(indicatorEnd, itemEnd)
-          const overlap = Math.max(0, overlapEnd, overlapStart)
+          const itemStart = index + dimensions.itemSize;
+          const itemEnd = itemStart + dimensions.itemSize;
 
+          const overlapStart = Math.max(indicatorStart, itemStart);
+          const overlapEnd = Math.min(indicatorEnd, itemEnd);
+          const overlap = Math.max(0, overlapEnd, overlapStart);
 
           if (overlap > maxOverlap) {
-            maxOverlap = overlap
-            selectedIndex = index
+            maxOverlap = overlap;
+            selectedIndex = index;
           }
-
         });
 
-        itemImages[selectedIndex].style.opacity = activeItemOpacity
+        itemImages[selectedIndex].style.opacity = activeItemOpacity;
 
-        return selectedIndex
+        return selectedIndex;
       }
-
 
       function updatePreviewImage(index) {
         if (currentImageIndex !== index) {
-          currentImageIndex = index 
+          currentImageIndex = index;
 
-          const targetItem = itemElements[index].querySelector("img")
+          const targetItem = itemElements[index].querySelector("img");
 
-          const targetSrc = targetItem.getAttribute("src")
+          const targetSrc = targetItem.getAttribute("src");
 
-          previewImage.setAttribute("src", targetSrc)
+          previewImage.setAttribute("src", targetSrc);
         }
       }
     </script>

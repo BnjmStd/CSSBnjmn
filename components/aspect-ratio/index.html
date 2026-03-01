@@ -1,51 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      .body {
+        height: 100dvh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid purple;
+      }
 
-        .body {
+      .cards {
+        display: flex;
+        justify-content: center;
+        flex-flow: wrap;
+        gap: 10px;
+      }
 
-
-            height: 100dvh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid purple;
-        }
-
-        .cards {
-            display: flex;
-            justify-content: center;
-            flex-flow: wrap;
-            gap: 10px;
-        }
-
-        .card {
-            background-color: #09f;
-            width: 100px;
-            aspect-ratio: 1 / 1;
-        }
-
-
-
-
-
-
-
-
-
-
+      .card {
+        background-color: #09f;
+        width: 100px;
+        aspect-ratio: 1 / 1;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="cards">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
+      <div class="card"></div>
     </div>
-</body>
+  </body>
 </html>

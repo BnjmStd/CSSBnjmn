@@ -1,69 +1,66 @@
 body {
-    display: grid;
-    min-block-size: 100dvh;
-    place-content: center;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 1.125rem;
-    background: #333;
-    color: #fff;
+  display: grid;
+  min-block-size: 100dvh;
+  place-content: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 1.125rem;
+  background: #333;
+  color: #fff;
 }
 
 .tag-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .tag-list li {
-    padding: 1rem;
-    background: #09f;
-    border-radius: .5rem;
-    box-shadow: 0 0.5rem 1rem -0.25rem purple;
+  padding: 1rem;
+  background: #09f;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem -0.25rem purple;
 }
 
 .scroller {
-    width: 600px;
+  width: 600px;
 }
 
 .scroller__inner {
-    padding-block: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+  padding-block: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .scroller[data-animated="true"] {
-    overflow: hidden;
-    mask: linear-gradient(
-        90deg, 
-        transparent, 
-        white 20%,
-        white 80%,
-        transparent
-        );
+  overflow: hidden;
+  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
 }
 
 .scroller[data-animated="true"] .scroller__inner {
-    flex-wrap: nowrap;
-    animation: scroll var(--_animation-duration, 10s) var(--_animation-direction, forwards)  infinite;
+  flex-wrap: nowrap;
+  animation: scroll var(--_animation-duration, 10s)
+    var(--_animation-direction, forwards) infinite;
 }
 
 .scroller[data-direction="right"] {
-    --_animation-direction: reverse;
-  }
-  
-  .scroller[data-direction="left"] {
-    --_animation-direction: forwards;
-  }
-  
-  .scroller[data-speed="fast"] {
-    --_animation-duration: 20s;
-  }
-  
-  .scroller[data-speed="slow"] {
-    --_animation-duration: 60s;
-  }
+  --_animation-direction: reverse;
+}
+
+.scroller[data-direction="left"] {
+  --_animation-direction: forwards;
+}
+
+.scroller[data-speed="fast"] {
+  --_animation-duration: 20s;
+}
+
+.scroller[data-speed="slow"] {
+  --_animation-duration: 60s;
+}
 
 @keyframes scroll {
-    to { transform: translate(calc(-50% - .5rem));}
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
 }

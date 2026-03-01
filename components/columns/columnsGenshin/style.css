@@ -1,23 +1,21 @@
-
-
 body {
-    background-color: rgb(0, 0, 0);
+  background-color: rgb(0, 0, 0);
 }
 
 .container_image {
-    columns: 300px;
+  columns: 300px;
 }
 
 img {
-    width: 100%;
-    margin-bottom: 0.25rem;
-    object-fit: cover;
-    transition: 
-        transform .3s ease, 
-        filter .3s ease;
+  width: 100%;
+  margin-bottom: 0.25rem;
+  object-fit: cover;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
 
-    &:hover {
-        filter: grayscale(60%);
-        transform: scale(1.01);
-    }
+  &:hover {
+    filter: grayscale(60%);
+    transform: scale(1.01);
+  }
 }

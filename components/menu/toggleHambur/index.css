@@ -1,31 +1,31 @@
 body {
-    background-color: black;
+  background-color: black;
 }
 
 .hamburger_toggle {
-    display: block;
-    position: relative;
-    background-color: #3d3d3d;
-    width: 60px;
-    height: 60px;
-    margin: 50px auto;
-    border-radius: 50%;
-    border: none;
+  display: block;
+  position: relative;
+  background-color: #3d3d3d;
+  width: 60px;
+  height: 60px;
+  margin: 50px auto;
+  border-radius: 50%;
+  border: none;
 }
 
 .hamburguer_icon,
 .hamburguer_icon::before,
 .hamburguer_icon::after {
-    position: absolute;
-    width: 30px;
-    height: 2px;
-    border-radius: 4px;
-    background-color: white;
+  position: absolute;
+  width: 30px;
+  height: 2px;
+  border-radius: 4px;
+  background-color: white;
 }
 
 .hamburguer_icon {
-    top: calc(50% - 2px);
-    left: calc(50% - 15px);
+  top: calc(50% - 2px);
+  left: calc(50% - 15px);
 }
 
 /* position the two pseudo-elements to the very left*/
@@ -37,41 +37,42 @@ body {
 
 /* this is the top dash of the hamburger */
 .hamburguer_icon::before {
-    bottom: 8px;
+  bottom: 8px;
 }
 /* this is the bottom dash of the hamburger */
 .hamburguer_icon::after {
-    top: 8px;
+  top: 8px;
 }
 
 /* HOVER STYLES ON THE BUTTON */
 
 /* rotate middle dash of hamburger */
 .hamburger_toggle:hover .hamburguer_icon {
-    height: 5px;
-    width: 54px;
-    left: 5px;
-    top: calc(50% - 2px);
-    transform: rotate(-45deg);
-    background-color: red;
+  height: 5px;
+  width: 54px;
+  left: 5px;
+  top: calc(50% - 2px);
+  transform: rotate(-45deg);
+  background-color: red;
 }
-  
-  /* rotate bottom dash of hamburger counter clockwise */
+
+/* rotate bottom dash of hamburger counter clockwise */
 .hamburger_toggle:hover .hamburguer_icon::after {
-    width: 54px;
-    height: 5px;
-    top: -1px;
-    transform: rotate(-270deg);
-    background-color: red;
+  width: 54px;
+  height: 5px;
+  top: -1px;
+  transform: rotate(-270deg);
+  background-color: red;
 }
-  
-  /* hide the top dash by scaling it to 0 */
+
+/* hide the top dash by scaling it to 0 */
 .hamburger_toggle:hover .hamburguer_icon::before {
-    transform: scale(0);
+  transform: scale(0);
 }
 
 /* TRANSITION */
 
-.hamburguer_icon, .hamburguer_icon::after {
-    transition: all 0.5s linear;
+.hamburguer_icon,
+.hamburguer_icon::after {
+  transition: all 0.5s linear;
 }

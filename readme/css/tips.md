@@ -2,48 +2,33 @@
 
 Esta guía integra **HTML y CSS** con técnicas modernas como `caret-color`, `accent-color`, `backdrop-filter`, y más.
 
-
 # etiquetas raras
 
 ```html
-
-<mark></mark> 
+<mark></mark>
 
 <details>
   <summary></summary>
 </details>
 
-
 <time></time>
 
-
 <div>
-
-  <label for="browser">
-    choose your browser
-  </label>
+  <label for="browser"> choose your browser </label>
 
   <input list="browsers" id="browser" name="browser" />
 
-
-  <datalist  id="browsers">
-    <option value="chrome">  
+  <datalist id="browsers">
+    <option value="chrome"></option>
   </datalist>
 
-
   <label for="file">Upload files</label>
-  <progress id="file" value="70" max="100" >70%</progress>
+  <progress id="file" value="70" max="100">70%</progress>
   <meter id="disk" value="0.6">60%</meter>
 
-
   <abbr title="world health organization">WHO</abbr>
-
 </div>
-
-
 ```
-
-
 
 ---
 
@@ -461,7 +446,9 @@ header {
 
 ```css
 dialog {
-  transition: scale 0.3s ease, display 0.3s allow-discrete;
+  transition:
+    scale 0.3s ease,
+    display 0.3s allow-discrete;
   scale: 0;
 }
 
@@ -592,8 +579,8 @@ ul {
 }
 ```
 
->[!WARNING]
-> CSS puro no tiene ``@else``, por lo que necesitas dos @supports.
+> [!WARNING]
+> CSS puro no tiene `@else`, por lo que necesitas dos @supports.
 
 ```html
 <div class="grid-container">
@@ -605,9 +592,9 @@ ul {
 </div>
 ```
 
-
 # CONTAINER
- si tienes prblema con la proporcion de tus imagenes
+
+si tienes prblema con la proporcion de tus imagenes
 
 ````css
 .container {
@@ -650,3 +637,4 @@ img {
 # clip-path
 
 mejor que con los psudoElementos
+````

@@ -1,24 +1,21 @@
-@import "tailwindcss"
-
-@font-face {
-    font-family: "Inter";
-    src: url() format("woff2");
-    font-style: normal;
-    font-weight: 100 700;
-    font-display: swap;
+@import "tailwindcss" @font-face {
+  font-family: "Inter";
+  src: url() format("woff2");
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
 }
 
 @theme {
-    --color-primary: #09f;
-    --color-primary-light: #ceecff;
-    --color-primary-dark: #0a4d8c;
+  --color-primary: #09f;
+  --color-primary-light: #ceecff;
+  --color-primary-dark: #0a4d8c;
 
+  --breakpoint-xs: 350px;
 
-    --breakpoint-xs: 350px;
-
-    --font-sans: 'Inter', sans-serif;
+  --font-sans: "Inter", sans-serif;
 }
 
 .social-button {
-    @apply bg-purple-200 p-2 size-12 flex items-center justify-center rounded-full hover:scale-110 transition-transform duration-300 bg-gradient-to-tr from-yellow-300 via-pink-600 to-purple-600;
+  @apply bg-purple-200 p-2 size-12 flex items-center justify-center rounded-full hover:scale-110 transition-transform duration-300 bg-gradient-to-tr from-yellow-300 via-pink-600 to-purple-600;
 }

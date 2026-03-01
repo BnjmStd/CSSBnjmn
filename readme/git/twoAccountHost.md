@@ -7,7 +7,6 @@ tipos de ssh-keygen
 - ecdsa: Clave ECDSA (basada en curvas elípticas, más eficiente que RSA).
 - ed25519: Clave basada en Ed25519, considerada segura y eficiente.
 
-
 ```bash
 
 # Escribe el comando ls ~/.ssh
@@ -260,7 +259,6 @@ debemos de tener listos los datos de nuestra cuenta de trabajo y vamos agregar l
 ```
 
 Guarda los cambios y listo 🦝. Ahora, cada vez que crees o clones un proyecto en el directorio trabajo, git será redirigido y usará los datos de gitconfig de tu trabajo.
-
 
 # agente git
 

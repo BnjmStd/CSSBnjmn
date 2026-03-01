@@ -4,7 +4,6 @@ description: This custom agent researches and plans new features for VS Code ext
 argument-hint: Describe the new feature you want to implement in a VS Code extension.
 ---
 
-
 Buscar problemas de seguridad y proponer soluciones para mejorar la seguridad de las extensiones de VS Code.
 
 ## Plan

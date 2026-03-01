@@ -1,115 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(45deg, #09f, #ffeb3b);
-        }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(45deg, #09f, #ffeb3b);
+      }
 
-        .container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 100px 50px;
-            padding: 100px 50px;
-        
-            & .card {
-                position: relative;
-                display: flex;
-                justify-content: center;
-                align-items: flex-start;
-                width: 350px;
-                height: 300px;
-                background-color: #fff;
-                border-radius: 1rem;
-                box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
-                transition: 0.5s;
+      .container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 100px 50px;
+        padding: 100px 50px;
 
-                &:hover {
-                    height: 400px;
+        & .card {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          width: 350px;
+          height: 300px;
+          background-color: #fff;
+          border-radius: 1rem;
+          box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
+          transition: 0.5s;
 
-                    .imgBx {
-                        top: -100px;
-                        scale: 0.75;
-                        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
-                    }
+          &:hover {
+            height: 400px;
 
-                    .content {
-                        top: 130px;
-                        height: 250px;
-                    }
-                }
-
-                & .imgBx {
-                    position: absolute;
-                    top: 20px;
-                    width: 300px;
-                    height: 220px;
-                    background: #333;
-                    border-radius: 12px;
-                    transition: 0.5s;
-                    overflow: hidden;
-
-                    & img {
-                        position: absolute;
-                        inset: 0;
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                    }
-                }
-
-                & .content {
-                    position: absolute;
-                    width: 100%;
-                    padding: 0 30px;
-                    text-align: center;
-                    top: 252px;
-                    height: 35px;
-                    transition: 0.5s;
-                    overflow: hidden;
-                    
-                    & h2 {
-                        margin-bottom: 10px;
-                    }
-                }
+            .imgBx {
+              top: -100px;
+              scale: 0.75;
+              box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
             }
-        
+
+            .content {
+              top: 130px;
+              height: 250px;
+            }
+          }
+
+          & .imgBx {
+            position: absolute;
+            top: 20px;
+            width: 300px;
+            height: 220px;
+            background: #333;
+            border-radius: 12px;
+            transition: 0.5s;
+            overflow: hidden;
+
+            & img {
+              position: absolute;
+              inset: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+
+          & .content {
+            position: absolute;
+            width: 100%;
+            padding: 0 30px;
+            text-align: center;
+            top: 252px;
+            height: 35px;
+            transition: 0.5s;
+            overflow: hidden;
+
+            & h2 {
+              margin-bottom: 10px;
+            }
+          }
         }
-
-
+      }
     </style>
-
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="card" style="--clr: #09f">
-            <div class="imgBx">
-                <img src="/components/cards/invertedBordderCard/1/4.png" alt="">
-            </div>
-
-            <div class="content">
-                <h2>gangy</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum officia, quo iusto neque porro tempora ex explicabo, inventore accusamus qui dolor ullam eum, aliquam sint unde sapiente! Autem, nulla reiciendis?</p>
-                <a href="#">Read More</a>
-            </div>
+      <div class="card" style="--clr: #09f">
+        <div class="imgBx">
+          <img src="/components/cards/invertedBordderCard/1/4.png" alt="" />
         </div>
+
+        <div class="content">
+          <h2>gangy</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
+            officia, quo iusto neque porro tempora ex explicabo, inventore
+            accusamus qui dolor ullam eum, aliquam sint unde sapiente! Autem,
+            nulla reiciendis?
+          </p>
+          <a href="#">Read More</a>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

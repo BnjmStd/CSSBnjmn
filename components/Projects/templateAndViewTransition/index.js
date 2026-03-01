@@ -1,51 +1,50 @@
 function addMessage(text, sender) {
-    console.log(text)
-    // clonamos el template
-    const clonedTemplate = $template.content.cloneNode(true)
+  console.log(text);
+  // clonamos el template
+  const clonedTemplate = $template.content.cloneNode(true);
 
-    const $newMessage = clonedTemplate.querySelector('.message')
-    const $who = $newMessage.querySelector('span')
-    const $text = $newMessage.querySelector('p')
+  const $newMessage = clonedTemplate.querySelector(".message");
+  const $who = $newMessage.querySelector("span");
+  const $text = $newMessage.querySelector("p");
 
-    $text.textContent = text
-    $who.textContent = sender == 'bot' ? 'GPT' : 'Tú'
+  $text.textContent = text;
+  $who.textContent = sender == "bot" ? "GPT" : "Tú";
 
-    $newMessage.classList.add(sender)
-    $messages.appendChild($newMessage)
+  $newMessage.classList.add(sender);
+  $messages.appendChild($newMessage);
 }
 
-const $ = x => document.querySelector(x)
+const $ = (x) => document.querySelector(x);
 
-const $modal = $(".dialog")
-const $btnOpen = $('.btn-open')
-const $btnClose = $('.btn-close')
-const $submitButton = $('.submit-button')
-const $form =  $('.addMessage')
-const $input = $('.input')
+const $modal = $(".dialog");
+const $btnOpen = $(".btn-open");
+const $btnClose = $(".btn-close");
+const $submitButton = $(".submit-button");
+const $form = $(".addMessage");
+const $input = $(".input");
 
-const $template = $('#message-template')
-const $messages = $('ul')
+const $template = $("#message-template");
+const $messages = $("ul");
 
 $btnOpen.addEventListener("click", () => {
-    $modal.showModal()
-})
+  $modal.showModal();
+});
 
 $btnClose.addEventListener("click", () => {
-    $modal.close()
-})
+  $modal.close();
+});
 
-$form.addEventListener('submit', async (event) => {
-    event.preventDefault()
+$form.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-    const messageText = $input.value.trim()
+  const messageText = $input.value.trim();
 
-    if (messageText === '') return 
+  if (messageText === "") return;
 
-    if (messageText !== '') {
-        $input.value = ''
-    }
+  if (messageText !== "") {
+    $input.value = "";
+  }
 
-    addMessage(messageText, 'user')
-    $modal.close()
-})
-
+  addMessage(messageText, "user");
+  $modal.close();
+});

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -19,7 +19,9 @@
         color: var(--text-color);
         font-family: sans-serif;
         padding: 2rem;
-        transition: background 0.3s, color 0.3s;
+        transition:
+          background 0.3s,
+          color 0.3s;
       }
 
       .card {
@@ -29,7 +31,9 @@
         max-width: 400px;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: background 0.3s, border-color 0.3s;
+        transition:
+          background 0.3s,
+          border-color 0.3s;
       }
 
       .card h2 {
@@ -132,16 +136,16 @@
         document.documentElement.style.setProperty("--base-color", hex);
         document.documentElement.style.setProperty(
           "--surface-color",
-          toHex(surfaceRgb)
+          toHex(surfaceRgb),
         );
         document.documentElement.style.setProperty(
           "--brand-color",
-          toHex(brandRgb)
+          toHex(brandRgb),
         );
         document.documentElement.style.setProperty("--text-color", textColor);
         document.documentElement.style.setProperty(
           "--secondary-text-color",
-          secondaryTextColor
+          secondaryTextColor,
         );
       };
 

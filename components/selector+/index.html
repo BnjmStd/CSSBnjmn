@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -28,10 +28,10 @@
         cursor: pointer;
 
         &:hover {
-            & + img {
-                opacity: 1;
-                transform: translate(0);
-            }
+          & + img {
+            opacity: 1;
+            transform: translate(0);
+          }
         }
       }
 
@@ -42,7 +42,9 @@
         object-fit: cover;
         border-radius: 10px;
         transform: translateY(60%);
-        transition: transform 0.5s, opacity 0.3s;
+        transition:
+          transform 0.5s,
+          opacity 0.3s;
       }
     </style>
   </head>

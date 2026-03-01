@@ -1,59 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
     <h1>Hola</h1>
 
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim aliquid ad deleniti cumque suscipit quisquam aliquam quae, dolorem blanditiis asperiores aperiam pariatur voluptatibus consectetur, eligendi vel dicta quod! Eius, fugiat!</p>
-
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim aliquid ad
+      deleniti cumque suscipit quisquam aliquam quae, dolorem blanditiis
+      asperiores aperiam pariatur voluptatibus consectetur, eligendi vel dicta
+      quod! Eius, fugiat!
+    </p>
 
     <!-- <progress value="75" max="100"></progress> -->
     <div class="progressbar">
-        <span>My solution is <em> js kk </em></span>
+      <span>My solution is <em> js kk </em></span>
     </div>
 
     <div class="testing-ground">
-        <h2>Testing</h2>
-        <button class="" data-progress="0">0</button>
-        <button class="" data-progress="25">25</button>
-        <button class="" data-progress="57">57</button>
-        <button class="" data-progress="82">82</button>
-        <button class="" data-progress="100">100</button>
-        <button class="" data-progress="fake-upload">simulatee</button>
+      <h2>Testing</h2>
+      <button class="" data-progress="0">0</button>
+      <button class="" data-progress="25">25</button>
+      <button class="" data-progress="57">57</button>
+      <button class="" data-progress="82">82</button>
+      <button class="" data-progress="100">100</button>
+      <button class="" data-progress="fake-upload">simulatee</button>
     </div>
 
     <script>
+      let progress = 0;
 
-        let progress = 0;
+      const progressbar = document.querySelector(".progressbar");
 
-        const progressbar = document.querySelector('.progressbar');
+      function enableProgressBar(value) {
+        progressbar.setAttribute("role", `progressbar`);
+        progressbar.setAttribute("aria-valuenow", value);
+        progressbar.setAttribute("aria-live", `polite`);
+      }
 
-        function enableProgressBar(value) {
-            progressbar.setAttribute('role', `progressbar`);
-            progressbar.setAttribute('aria-valuenow', value);
-            progressbar.setAttribute('aria-live', `polite`);
-        }
+      enableProgressBar(0);
 
-        enableProgressBar(0);
+      const testingGround = document.querySelector(".testing-ground");
 
-        const testingGround = document.querySelector('.testing-ground');
+      testingGround.addEventListener("click", (e) => {
+        if (!e.target.closest("button")) return;
 
-        testingGround.addEventListener('click', (e) => {
+        progress = e.target.dataset.progress;
 
-            if (!e.target.closest("button")) return;
+        progressbar.setAttribute("aria-valuenow", progress);
+        progressbar.style.setProperty("--progress", `${progress}%`);
 
-            progress = e.target.dataset.progress;
-
-            progressbar.setAttribute('aria-valuenow', progress);
-            progressbar.style.setProperty('--progress', `${progress}%`);
-
-            enableProgressBar(progress);
-        });
+        enableProgressBar(progress);
+      });
     </script>
-</body>
+  </body>
 </html>

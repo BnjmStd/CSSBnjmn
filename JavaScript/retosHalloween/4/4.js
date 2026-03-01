@@ -1,41 +1,45 @@
 function findTheKiller(whisper, suspects) {
-    const normalizedWhisper = whisper
-        .toLowerCase()
+  const normalizedWhisper = whisper.toLowerCase();
 
-    const isExactMatch = whisper.endsWith('$') // devuelve true si la palabra termina con '$'
+  const isExactMatch = whisper.endsWith("$"); // devuelve true si la palabra termina con '$'
 
-    const matchesPattern = (suspect) => {
+  const matchesPattern = (suspect) => {
+    const whisperToUse = isExactMatch
+      ? normalizedWhisper.slice(0, -1)
+      : normalizedWhisper;
 
-        const whisperToUse = isExactMatch ?
-            normalizedWhisper.slice(0, -1) :
-            normalizedWhisper
+    const normalizedSuspect = suspect.toLowerCase();
 
-        const normalizedSuspect = suspect.toLowerCase()
-
-
-        if (
-            isExactMatch &&
-            whisperToUse.length !== normalizedSuspect) {
-            return false
-        }
-
-        return [...normalizedWhisper].every((char, index) => {
-            return char === '~' || char === normalizedSuspect[index]
-        })
-
-
+    if (isExactMatch && whisperToUse.length !== normalizedSuspect) {
+      return false;
     }
 
-    const matchingSuspects = suspects.filter(matchesPattern)
+    return [...normalizedWhisper].every((char, index) => {
+      return char === "~" || char === normalizedSuspect[index];
+    });
+  };
 
-    return matchingSuspects.join(',')
+  const matchingSuspects = suspects.filter(matchesPattern);
 
+  return matchingSuspects.join(",");
 }
 
-const whisper = 'd~~~~~a'
-const suspects = ['dracula', 'Freddy Krueger', 'Jason Voorhees', 'Michael Myers']
+const whisper = "d~~~~~a";
+const suspects = [
+  "dracula",
+  "Freddy Krueger",
+  "Jason Voorhees",
+  "Michael Myers",
+];
 
-const whisperr = '~r~dd$'
-const suspectss = ['Freddy', 'Michael', 'Jason', 'dracula', 'Freddier', 'Freddiest']
+const whisperr = "~r~dd$";
+const suspectss = [
+  "Freddy",
+  "Michael",
+  "Jason",
+  "dracula",
+  "Freddier",
+  "Freddiest",
+];
 
-findTheKiller(whisper, suspects)
+findTheKiller(whisper, suspects);

@@ -8,12 +8,9 @@ compartiendo software con otras aplicaciones
 
 # install docker
 
-
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 
-
 benja@metafoodcraft:~$ sudo usermod -aG docker $USER
-
 
 # portainer
 
@@ -21,7 +18,7 @@ docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /va
 
 parece que tengo todos los puertos abiertos
 
-<VirtualHost *:80>
+<VirtualHost \*:80>
 ServerAdmin bastudillo.alarcon@gmail.com
 ServerName portainer.varandcode.com
 ServerAlias www.portainer.varandcode.com
@@ -33,11 +30,9 @@ RewriteCond %{SERVER_NAME} =www.portainer.varandcode.com
 RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END, NE, R=permanent]
 </VirtualHost>
 
-
 # solucionar el problema del firewall puertos!
 
 sudo ufw status
-
 
 ## problema con docker
 
@@ -52,13 +47,13 @@ El contenedor de Portainer está configurado para escuchar en el puerto 9000 y D
 Esto se refleja en la salida del comando ss -tuln:
 ruby
 Copiar código
-tcp LISTEN 0 4096 0.0.0.0:9000 0.0.0.0:*
+tcp LISTEN 0 4096 0.0.0.0:9000 0.0.0.0:\*
 Lo que indica que el puerto 9000 está escuchando en todas las interfaces.
 Cómo bloquear el acceso directo al puerto 9000
 Si deseas que el puerto 9000 sea accesible solo a través del subdominio y no directamente desde la IP, puedes ajustar la configuración siguiendo estos pasos:
 
 1. Limitar la exposición del puerto con Docker
-Modifica cómo Docker expone el puerto 9000. Por ejemplo, en lugar de exponerlo en 0.0.0.0:9000, haz que solo esté disponible en localhost.
+   Modifica cómo Docker expone el puerto 9000. Por ejemplo, en lugar de exponerlo en 0.0.0.0:9000, haz que solo esté disponible en localhost.
 
 Si estás ejecutando Portainer con un comando docker run, cambia:
 
@@ -75,11 +70,12 @@ Si estás usando docker-compose, ajusta el archivo docker-compose.yml:
 yaml
 Copiar código
 ports:
-  - "127.0.0.1:9000:9000"
-Esto hará que el puerto 9000 solo sea accesible desde localhost y no desde otras interfaces.
+
+- "127.0.0.1:9000:9000"
+  Esto hará que el puerto 9000 solo sea accesible desde localhost y no desde otras interfaces.
 
 2. Configurar UFW para bloquear el puerto 9000
-Aunque Docker sobrescribe algunas reglas de iptables, puedes configurar ufw para bloquear el acceso directo al puerto 9000. Por ejemplo:
+   Aunque Docker sobrescribe algunas reglas de iptables, puedes configurar ufw para bloquear el acceso directo al puerto 9000. Por ejemplo:
 
 Bloquea el puerto para todas las conexiones externas:
 
@@ -95,8 +91,7 @@ Reinicia ufw para aplicar los cambios:
 
 bash
 Copiar código
-sudo ufw reload
-3. Verifica las reglas de Docker y UFW
+sudo ufw reload 3. Verifica las reglas de Docker y UFW
 Puedes inspeccionar las reglas actuales de iptables para asegurarte de que las reglas de Docker no estén sobrescribiendo las de ufw:
 
 bash
@@ -105,14 +100,14 @@ sudo iptables -L -n -v
 Si ves reglas creadas por Docker que permiten el acceso al puerto 9000, eso explica por qué ufw parece ser ignorado.
 
 4. Usar DOCKER_OPTS para evitar conflictos con UFW
-Puedes configurar Docker para no gestionar las reglas de iptables automáticamente:
+   Puedes configurar Docker para no gestionar las reglas de iptables automáticamente:
 
 Crea o edita el archivo /etc/docker/daemon.json:
 
 json
 Copiar código
 {
-  "iptables": false
+"iptables": false
 }
 Reinicia el servicio Docker:
 
@@ -127,14 +122,12 @@ Puedes limitar esto configurando Docker para que solo exponga el puerto en local
 Usa ufw para bloquear el acceso al puerto 9000 desde el exterior si Docker lo expone.
 Si prefieres un control más estricto, desactiva la gestión automática de iptables en Docker.
 
-
 {
-    "iptables": false
+"iptables": false
 
 }
 
-en el file:  sudo vim /etc/docker/daemon.json
-
+en el file: sudo vim /etc/docker/daemon.json
 
 # limitar docker a conexiones locales (127)
 
@@ -144,22 +137,20 @@ docker modifica las reglas de firewall reglas finales, docker tira facts
 
 docker modifica el firewall, servia los servicios por ahi
 
-
-iptables > ufw 
+iptables > ufw
 sudo iptables -L -n -v
-limitar el alcance que tiene docker al exterior 
+limitar el alcance que tiene docker al exterior
 
 siempre usar chain de docker user
 
- sudo vim /etc/docker/daemon.json
+sudo vim /etc/docker/daemon.json
 
 {
-        "ip": "127.0.0.1"
+"ip": "127.0.0.1"
 
 }
 
 sudo systemctl status docker
 sudo systemctl reload docker
-sudo systemctl 
-                                                                                                         ~                 
-
+sudo systemctl
+~

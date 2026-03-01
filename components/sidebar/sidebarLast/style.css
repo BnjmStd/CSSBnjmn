@@ -1,108 +1,104 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins"
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins";
 }
 
 body {
-    min-height: 100dvh;
-    background: linear-gradient(rgb(144, 185, 212), rgb(43, 82, 108));
+  min-height: 100dvh;
+  background: linear-gradient(rgb(144, 185, 212), rgb(43, 82, 108));
 }
 
 .sidebar {
-    background-color: #333;
-    position: fixed;
-    margin: 16px;
-    border-radius: 16px;
-    height: calc(100dvh - 32px); 
-    & .sidebar-header {
+  background-color: #333;
+  position: fixed;
+  margin: 16px;
+  border-radius: 16px;
+  height: calc(100dvh - 32px);
+  & .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 20px;
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 25px 20px;
-
-
-        & .header-logo {
-            & img {
-                width: 46px;
-                height: 46px;
-                object-fit: contain;
-                border-radius: 50%;
-                display: block;
-            }
-        }
-
-        & .toggler {
-            height: 35px;
-            width: 35px;
-            border: none;
-            border-radius: 8px;
-            background: #fff;
-            cursor: pointer;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-
-            transition: background-color .3s ease;
-
-            &:hover {
-                background-color: pink;
-            }
-
-            & span {    
-                font-size: 1.75rem;
-            }
-        }
+    & .header-logo {
+      & img {
+        width: 46px;
+        height: 46px;
+        object-fit: contain;
+        border-radius: 50%;
+        display: block;
+      }
     }
+
+    & .toggler {
+      height: 35px;
+      width: 35px;
+      border: none;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: pink;
+      }
+
+      & span {
+        font-size: 1.75rem;
+      }
+    }
+  }
 }
 
 .sidebar-nav {
-    & .nav-list {
-        list-style: none;
+  & .nav-list {
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    padding: 0 15px;
+
+    & .nav-item {
+      & .nav-link {
+        color: #fff;
+        text-decoration: none;
         display: flex;
-        gap: 4px;
-        flex-direction: column;
-        padding: 0 15px;
+        align-items: center;
+        padding: 12px 15px;
+        gap: 12px;
+        transition: background-color 0.3s ease;
 
-        & .nav-item {
-            & .nav-link {
-                color: #fff;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                padding: 12px 15px;
-                gap: 12px;
-                transition: background-color .3s ease;
+        &:hover {
+          background-color: #fff;
 
-                &:hover {
-                    background-color: #fff;
-
-                    span {
-                        color: black;
-                    }
-                }
-
-                &  span {
-                    transition: color .3s ease-out;
-                }
-            }
+          span {
+            color: black;
+          }
         }
-    }
 
-    & .primary-nav {
-
+        & span {
+          transition: color 0.3s ease-out;
+        }
+      }
     }
+  }
 
-    & .secondary-nav {
-        position: absolute;
-        bottom: 30px;
-        width: 100%;
-        
-    }
+  & .primary-nav {
+  }
+
+  & .secondary-nav {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+  }
 }

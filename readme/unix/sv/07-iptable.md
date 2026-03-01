@@ -10,9 +10,7 @@ primera práctica es empezar bloqueando todos los puertos
 
 negar todos los paquetes que entran
 
-
 tambien puedes negar los que salgan
-
 
 sudo iptables -A INPUT -p tcp --dport 22222 -j ACCEPT
 
@@ -33,11 +31,6 @@ bash
 sudo apt install iptables-persistent
 sudo netfilter-persistent save
 
-
-
-
-
-
 SSH ES PROTOCOLO TCP?
 
 Sí, SSH (Secure Shell) es un protocolo que utiliza TCP como su protocolo de transporte. Por defecto, SSH opera en el puerto 22 TCP, aunque puedes configurarlo para usar un puerto diferente (como el 22222 en tu caso).
@@ -45,14 +38,15 @@ Sí, SSH (Secure Shell) es un protocolo que utiliza TCP como su protocolo de tra
 Esto significa que si estás configurando un servidor SSH para que escuche en el puerto 22222, el comando de iptables que mencionaste es válido para permitir conexiones SSH en ese puerto.
 
 # cerrar todos los puertos
+
 sudo iptables -A INPUT -j DROP
 
 # otra
 
 sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 
+# ver reglas actuales
 
-# ver reglas actuales 
 sudo iptables -L -n -v
 
 Explicación:
@@ -60,17 +54,17 @@ Explicación:
 -n: Muestra las direcciones y puertos en formato numérico.
 -v: Muestra información detallada, como el número de paquetes y bytes que han coincidido con cada regla.
 
-# bloquear ip 
+# bloquear ip
 
-sudo iptables -A input -s *ip -j DROP
+sudo iptables -A input -s \*ip -j DROP
 
 # BLOQUEAR TODAS LAS IP MENOS LA DEL ADMINISTRADOR
 
-sudo iptables -A INPUT -s *ip -j ACCEPT
+sudo iptables -A INPUT -s \*ip -j ACCEPT
 
 ## guia
 
-## step 1 update your system 
+## step 1 update your system
 
 Distribution and operating system developers offer frequent software package updates, very often for security reasons. Keeping your distribution or operating system up-to-date is essential for securing your server.
 
@@ -98,7 +92,6 @@ Once this is installed, the iptables folder will contain two files for IPV4 and 
 /etc/iptables/rules.v6
 Typically, an iptables command is as follows:
 
-
 ```bash
 
 sudo iptables [option] CHAIN_rule [-j target]
@@ -117,7 +110,6 @@ Here is a list of some common iptables options:
 -v --verbose: Displays more information when using a list option.
 -X --delete-chain: Deletes the supplied string.
 
-
 # Step 3: Check the current status of iptables
 
 To display all of the current rules on your server, enter the following command in the terminal window:
@@ -132,15 +124,17 @@ sudo iptables -L
 The system displays the status of your channels.
 The output will list three strings:
 
-** poner step3.png
-
+\*\* poner step3.png
 
 # Step 4: Allow traffic on localhost
+
 To allow traffic from your own system (the localhost), add the input string by entering the following:
+
 ```bash
 sudo iptables -A INPUT -i lo -j ACCEPT
 
 ```
+
 This command configures the firewall to accept traffic for the localhost (lo) interface (-i). From now on, everything that comes from your system will pass through your firewall. You must set this rule to allow applications to communicate with the localhost interface.
 
 # Step 5: Allow traffic on specific ports
@@ -156,7 +150,6 @@ sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 ```
 
 To allow only inbound SSH (Secure Shell) traffic, enter the following (note that we use the default SSH port number 22. If your port number is different, make sure to adjust the commands accordingly):
-
 
 ```bash
 
@@ -219,7 +212,6 @@ The iptables options we used in the examples work as follows:
 -iprange: Instructs the system to wait for a range of IP addresses instead of one.
 --src-range: Identifies the IP address range.
 
-
 # Step 7: Delete unwanted traffic
 
 If you are defining iptables firewall rules, you must prevent unauthorised access by removing all traffic from other ports:
@@ -239,7 +231,7 @@ The -A option adds a new rule to the string. If a connection goes through ports 
 A more precise method is to delete the line number of a rule.
 
 ```bash
-sudo iptables -P INPUT DROP 
+sudo iptables -P INPUT DROP
 
 
 ```
@@ -253,7 +245,7 @@ sudo iptables -L --line-numbers
 
 ```
 
-** imagen step8.png
+\*\* imagen step8.png
 
 Locate the line for the firewall rule you want to remove and run this command:
 
@@ -292,4 +284,4 @@ The next time your system boots, iptables will automatically reload the firewall
 
 You can now configure basic iptables firewall rules for your Linux server. Feel free to experiment because you can always delete the rules you don't need, or empty all the rules and start over.
 
-https://help.ovhcloud.com/csm/en-dedicated-servers-firewall-iptables?id=kb_article_view&sysparm_article=KB0043436 
+https://help.ovhcloud.com/csm/en-dedicated-servers-firewall-iptables?id=kb_article_view&sysparm_article=KB0043436

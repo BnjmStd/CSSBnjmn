@@ -1,78 +1,82 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #111;
-    background-color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #111;
+  background-color: #fff;
 }
 
 header,
 footer {
-    padding-block: 2rem;
-    color: #fff;
-    background: linear-gradient(135deg, #0f4b60 0%, #06436d 100%);
+  padding-block: 2rem;
+  color: #fff;
+  background: linear-gradient(135deg, #0f4b60 0%, #06436d 100%);
 }
 
 main,
 .page-width {
-    max-width: 900px;
-    padding-inline: 3rem;
-    margin-inline: auto;
+  max-width: 900px;
+  padding-inline: 3rem;
+  margin-inline: auto;
 }
 
 main {
-    padding-block: 2rem;
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    align-items: start;
-    gap: 2rem;
+  padding-block: 2rem;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: start;
+  gap: 2rem;
 
-    /* overflow: visible; */
+  /* overflow: visible; */
 }
 
 aside {
-    position: sticky;
-    top: 2rem;
+  position: sticky;
+  top: 2rem;
 
-    /* background-color: lightblue; */
+  /* background-color: lightblue; */
 }
 
 .widget {
-    min-height: 250px;
-    border-radius: 8px;
+  min-height: 250px;
+  border-radius: 8px;
 }
 
 .widget:not(:last-child) {
-    margin-block-end: 1rem;
+  margin-block-end: 1rem;
 }
 
 .widget.golden {
-    background: repeating-linear-gradient(45deg,
-            #f6ba52,
-            #f6ba52 10px,
-            #ffd180 10px,
-            #ffd180 20px);
+  background: repeating-linear-gradient(
+    45deg,
+    #f6ba52,
+    #f6ba52 10px,
+    #ffd180 10px,
+    #ffd180 20px
+  );
 }
 
 .widget.blue {
-    background: repeating-linear-gradient(45deg,
-            #8391ea,
-            #8391ea 10px,
-            #616ebc 10px,
-            #616ebc 20px);
+  background: repeating-linear-gradient(
+    45deg,
+    #8391ea,
+    #8391ea 10px,
+    #616ebc 10px,
+    #616ebc 20px
+  );
 }
 
 h1 {
-    font-size: 2rem;
-    font-weight: 600;
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 p {
-    margin-block-end: 1em;
+  margin-block-end: 1em;
 }

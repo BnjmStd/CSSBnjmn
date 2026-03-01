@@ -1,88 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Scroll Horizontal con Scroll Vertical</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: sans-serif;
-      background: #111;
-      color: white;
-    }
-
-    #wrapper {
-      block-size: 500vh; /* Scroll vertical largo */
-      overflow: visible;
-      view-timeline: --section-pin-tl block;
-    }
-
-    .sticky {
-      position: sticky;
-      top: 0;
-      inline-size: 100vw;
-      block-size: 100vh;
-      background-color: #222;
-      overflow-x: clip;
-      display: flex;
-      align-items: center;
-    }
-
-    .horizontal-strip {
-      display: flex;
-      gap: 2rem;
-      padding: 2rem;
-      block-size: 100vh;
-      inline-size: 250vmax;
-
-      animation: move linear forwards;
-      animation-timeline: --section-pin-tl;
-      animation-range: contain 0% contain 100%;
-    }
-
-    .card {
-      width: 300px;
-      height: 400px;
-      background: #444;
-      border-radius: 1rem;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    @keyframes move {
-      to {
-        transform: translateX(calc(-100% + 100vw));
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scroll Horizontal con Scroll Vertical</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
-    }
-  </style>
-</head>
-<body>
 
-  <section id="wrapper">
-    <div style="block-size: 100vh;">
+      body {
+        font-family: sans-serif;
+        background: #111;
+        color: white;
+      }
 
-    </div>
-    <div class="sticky">
-      <div class="horizontal-strip">
-        <div class="card">1</div>
-        <div class="card">2</div>
-        <div class="card">3</div>
-        <div class="card">4</div>
+      #wrapper {
+        block-size: 500vh; /* Scroll vertical largo */
+        overflow: visible;
+        view-timeline: --section-pin-tl block;
+      }
 
+      .sticky {
+        position: sticky;
+        top: 0;
+        inline-size: 100vw;
+        block-size: 100vh;
+        background-color: #222;
+        overflow-x: clip;
+        display: flex;
+        align-items: center;
+      }
+
+      .horizontal-strip {
+        display: flex;
+        gap: 2rem;
+        padding: 2rem;
+        block-size: 100vh;
+        inline-size: 250vmax;
+
+        animation: move linear forwards;
+        animation-timeline: --section-pin-tl;
+        animation-range: contain 0% contain 100%;
+      }
+
+      .card {
+        width: 300px;
+        height: 400px;
+        background: #444;
+        border-radius: 1rem;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #fff;
+      }
+
+      @keyframes move {
+        to {
+          transform: translateX(calc(-100% + 100vw));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section id="wrapper">
+      <div style="block-size: 100vh"></div>
+      <div class="sticky">
+        <div class="horizontal-strip">
+          <div class="card">1</div>
+          <div class="card">2</div>
+          <div class="card">3</div>
+          <div class="card">4</div>
+        </div>
       </div>
-    </div>
-  </section>
-
-</body>
+    </section>
+  </body>
 </html>

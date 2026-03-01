@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -56,7 +56,6 @@
         z-index: 3;
         background-color: yellow;
         box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
-
       }
 
       .container .box.prev2,
@@ -65,9 +64,7 @@
         z-index: 3;
         background-color: yellow;
         box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
-
       }
-
     </style>
   </head>
   <body>
@@ -112,7 +109,7 @@
           const parent = event.target.parentElement;
 
           const sibling = parent.querySelectorAll(
-            ".prev1, .prev2, .next1, .next2, .hovered"
+            ".prev1, .prev2, .next1, .next2, .hovered",
           );
           sibling.forEach(($sibling) => {
             $sibling.classList.remove(
@@ -120,7 +117,7 @@
               "prev2",
               "next1",
               "next2",
-              "hovered"
+              "hovered",
             );
           });
 

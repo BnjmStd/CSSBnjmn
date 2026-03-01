@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -73,7 +73,8 @@
             background: transparent;
             color: white;
             border-color: transparent;
-            transition: border-color 1s var(--easeInOutCirc) 0s,
+            transition:
+              border-color 1s var(--easeInOutCirc) 0s,
               background-color 1s var(--easeInOutCirc) 0s,
               color 1s var(--easeInOutCirc) 0s,
               transform 2s var(--easeInOutCirc) 0s;
@@ -89,13 +90,15 @@
 
           &.background {
             background: white;
-            transition: background-color 2s var(--easeInOutCirc) 0.3s,
+            transition:
+              background-color 2s var(--easeInOutCirc) 0.3s,
               transform 2s var(--easeInOutCirc) 0.2s;
           }
 
           &.box-shadow {
             transition-delay: 0.4s;
-            box-shadow: 0 -1px 25px rgba(0, 0, 0, 0.4),
+            box-shadow:
+              0 -1px 25px rgba(0, 0, 0, 0.4),
               0 7.6px 6.1px rgba(0, 0, 0, 0.051),
               0 14.3px 11.5px rgba(0, 0, 0, 0.059),
               0 25.5px 20.5px rgba(0, 0, 0, 0.07),
@@ -150,7 +153,9 @@
           padding: 1ch 2ch;
           border-radius: 4ch;
           opacity: 0;
-          transition: opacity 0.5s ease 0s, transform 0.5s ease;
+          transition:
+            opacity 0.5s ease 0s,
+            transform 0.5s ease;
           transform: rotate(-45deg) rotateY(45deg) translateX(20px);
           background: lch(0 0 0 / 70%);
 
@@ -162,8 +167,11 @@
 
         &.content {
           z-index: 5;
-          transition: border-color 4s ease, background-color 5s ease 2s,
-            color 4s ease 0s, transform 4s ease 0s;
+          transition:
+            border-color 4s ease,
+            background-color 5s ease 2s,
+            color 4s ease 0s,
+            transform 4s ease 0s;
           padding: 5vmin;
           font-size: max(2.5vmin, 0.9rem);
           line-height: 1.5;
@@ -245,7 +253,9 @@
 
         &.background {
           z-index: 2;
-          transition: background-color 4s ease 0.3s, transform 4s ease 0.3s;
+          transition:
+            background-color 4s ease 0.3s,
+            transform 4s ease 0.3s;
 
           &::after {
             content: "Background Box";
@@ -255,9 +265,12 @@
         &.box-shadow {
           z-index: 1;
           background: transparent;
-          transition: box-shadow 4s ease 0.4s, transform 4s ease 0.4s;
+          transition:
+            box-shadow 4s ease 0.4s,
+            transform 4s ease 0.4s;
 
-          box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.02),
+          box-shadow:
+            0 2.8px 2.2px rgba(0, 0, 0, 0.02),
             0 6.7px 5.3px rgba(0, 0, 0, 0.028),
             0 12.5px 10px rgba(0, 0, 0, 0.035),
             0 22.3px 17.9px rgba(0, 0, 0, 0.042),

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -282,7 +282,7 @@
   <script>
     grams.oninput = (e) =>
       (gallery.querySelector(
-        ":scope :has(:checked) figure > picture"
+        ":scope :has(:checked) figure > picture",
       ).className = e.target.value);
   </script>
 </html>

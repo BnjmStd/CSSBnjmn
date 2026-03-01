@@ -1,305 +1,327 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        img {
-            max-width: 100%;
-        }
+      img {
+        max-width: 100%;
+      }
 
-        body {
-            font-family: system-ui, sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            color: #111;
-            background-color: #fff;
-            border-top: 10px solid #f1d23a;
-            padding: 4rem 3rem;
-        }
+      body {
+        font-family: system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #111;
+        background-color: #fff;
+        border-top: 10px solid #f1d23a;
+        padding: 4rem 3rem;
+      }
 
-        .page-width {
-            max-width: 1320px;
-            margin-inline: auto;
-        }
+      .page-width {
+        max-width: 1320px;
+        margin-inline: auto;
+      }
 
-        h1 {
-            font-size: 1.75rem;
-            line-height: 1.5;
-            font-weight: 800;
-            text-align: center;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-        }
+      h1 {
+        font-size: 1.75rem;
+        line-height: 1.5;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+      }
 
-        .profile-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
+      .profile-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+      }
 
-        .profile-card {
-            --i-width: 42px;
-            --i-offset-left: 16px;
-            --i-offset-bottom: 16px;
+      .profile-card {
+        --i-width: 42px;
+        --i-offset-left: 16px;
+        --i-offset-bottom: 16px;
 
-            position: relative;
-            /*
+        position: relative;
+        /*
                 width = 100
                 height = 100 * 1.25 = 125
             */
-            aspect-ratio: 1 / 1.25;
-        }
+        aspect-ratio: 1 / 1.25;
+      }
 
-        .profile-card img {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: cover;
-        }
+      .profile-card img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
 
-        /* icons */
+      /* icons */
 
-        .profile-card .icon-plus,
-        .profile-card .icon-social {
-            position: absolute;
-            left: var(--i-offset-left);
-            bottom: var(--i-offset-bottom);
-            width: var(--i-width);
-            aspect-ratio: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #111;
-            background-color: #fff;
-        }
+      .profile-card .icon-plus,
+      .profile-card .icon-social {
+        position: absolute;
+        left: var(--i-offset-left);
+        bottom: var(--i-offset-bottom);
+        width: var(--i-width);
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #111;
+        background-color: #fff;
+      }
 
-        .profile-card .icon-plus {
-            z-index: 1;
-            font-size: 1.25rem;
-            transition: background-color 0.3s ease-in-out;
-        }
+      .profile-card .icon-plus {
+        z-index: 1;
+        font-size: 1.25rem;
+        transition: background-color 0.3s ease-in-out;
+      }
 
-        .profile-card .icon-social {
-            transition: 0.3s ease-in-out;
-        }
+      .profile-card .icon-social {
+        transition: 0.3s ease-in-out;
+      }
 
-        .profile-card:hover .icon-plus,
-        .profile-card:focus-within .icon-plus,
-        .profile-card .icon-social:hover,
-        .profile-card .icon-social:focus-visible {
-            color: #fff;
-            background-color: #ff5e14;
-        }
+      .profile-card:hover .icon-plus,
+      .profile-card:focus-within .icon-plus,
+      .profile-card .icon-social:hover,
+      .profile-card .icon-social:focus-visible {
+        color: #fff;
+        background-color: #ff5e14;
+      }
 
-        .profile-card .icon-social:focus-visible {
-            outline: 1px solid;
-            outline-offset: -4px;
-        }
+      .profile-card .icon-social:focus-visible {
+        outline: 1px solid;
+        outline-offset: -4px;
+      }
 
-        .profile-card .icon-plus i {
-            transition: 0.3s ease-in-out;
-        }
+      .profile-card .icon-plus i {
+        transition: 0.3s ease-in-out;
+      }
 
-        .profile-card:hover .icon-plus i,
-        .profile-card:focus-within .icon-plus i {
-            rotate: 135deg;
-        }
+      .profile-card:hover .icon-plus i,
+      .profile-card:focus-within .icon-plus i {
+        rotate: 135deg;
+      }
 
-        .profile-card:hover a:nth-of-type(1),
-        .profile-card:focus-within a:nth-of-type(1) {
-            /* (42 + 8) * 1 + 16 = 66 */
-            bottom: calc((var(--i-width) + 8px) * 1 + var(--i-offset-bottom));
-        }
+      .profile-card:hover a:nth-of-type(1),
+      .profile-card:focus-within a:nth-of-type(1) {
+        /* (42 + 8) * 1 + 16 = 66 */
+        bottom: calc((var(--i-width) + 8px) * 1 + var(--i-offset-bottom));
+      }
 
-        .profile-card:hover a:nth-of-type(2),
-        .profile-card:focus-within a:nth-of-type(2) {
-            /* (42 + 8) * 2 + 16 = 116 */
-            bottom: calc((var(--i-width) + 8px) * 2 + var(--i-offset-bottom));
-        }
+      .profile-card:hover a:nth-of-type(2),
+      .profile-card:focus-within a:nth-of-type(2) {
+        /* (42 + 8) * 2 + 16 = 116 */
+        bottom: calc((var(--i-width) + 8px) * 2 + var(--i-offset-bottom));
+      }
 
-        .profile-card:hover a:nth-of-type(3),
-        .profile-card:focus-within a:nth-of-type(3) {
-            /* (42 + 8) * 3 + 16 = 166 */
-            bottom: calc((var(--i-width) + 8px) * 3 + var(--i-offset-bottom));
-        }
+      .profile-card:hover a:nth-of-type(3),
+      .profile-card:focus-within a:nth-of-type(3) {
+        /* (42 + 8) * 3 + 16 = 166 */
+        bottom: calc((var(--i-width) + 8px) * 3 + var(--i-offset-bottom));
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="page-width">
-        <h1>Social Links Reveal Effect</h1>
+      <h1>Social Links Reveal Effect</h1>
 
-        <section class="profile-cards">
-            <div class="profile-card">
-                <img src="https://images.pexels.com/photos/5325840/pexels-photo-5325840.jpeg" alt="Jane Doe" />
+      <section class="profile-cards">
+        <div class="profile-card">
+          <img
+            src="https://images.pexels.com/photos/5325840/pexels-photo-5325840.jpeg"
+            alt="Jane Doe"
+          />
 
-                <div class="icon-plus">
-                    <i class="bi bi-plus-lg"></i>
-                </div>
+          <div class="icon-plus">
+            <i class="bi bi-plus-lg"></i>
+          </div>
 
-                <a href="#" class="icon-social" title="YouTube">
-                    <i class="bi bi-youtube"></i>
-                </a>
+          <a href="#" class="icon-social" title="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                </a>
+          <a href="#" class="icon-social" title="Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Instagram">
-                    <i class="bi bi-instagram"></i>
-                </a>
-            </div>
+          <a href="#" class="icon-social" title="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+        </div>
 
-            <div class="profile-card">
-                <img src="https://images.unsplash.com/photo-1524492926121-4723520d78d9" alt="John Doe" />
+        <div class="profile-card">
+          <img
+            src="https://images.unsplash.com/photo-1524492926121-4723520d78d9"
+            alt="John Doe"
+          />
 
-                <div class="icon-plus">
-                    <i class="bi bi-plus-lg"></i>
-                </div>
+          <div class="icon-plus">
+            <i class="bi bi-plus-lg"></i>
+          </div>
 
-                <a href="#" class="icon-social" title="YouTube">
-                    <i class="bi bi-youtube"></i>
-                </a>
+          <a href="#" class="icon-social" title="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                </a>
+          <a href="#" class="icon-social" title="Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Instagram">
-                    <i class="bi bi-instagram"></i>
-                </a>
-            </div>
+          <a href="#" class="icon-social" title="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+        </div>
 
-            <div class="profile-card">
-                <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4" alt="Jane Doe" />
+        <div class="profile-card">
+          <img
+            src="https://images.unsplash.com/photo-1554151228-14d9def656e4"
+            alt="Jane Doe"
+          />
 
-                <div class="icon-plus">
-                    <i class="bi bi-plus-lg"></i>
-                </div>
+          <div class="icon-plus">
+            <i class="bi bi-plus-lg"></i>
+          </div>
 
-                <a href="#" class="icon-social" title="YouTube">
-                    <i class="bi bi-youtube"></i>
-                </a>
+          <a href="#" class="icon-social" title="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                </a>
+          <a href="#" class="icon-social" title="Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Instagram">
-                    <i class="bi bi-instagram"></i>
-                </a>
-            </div>
+          <a href="#" class="icon-social" title="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+        </div>
 
-            <div class="profile-card">
-                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956" alt="Jane Doe" />
+        <div class="profile-card">
+          <img
+            src="https://images.unsplash.com/photo-1580489944761-15a19d654956"
+            alt="Jane Doe"
+          />
 
-                <div class="icon-plus">
-                    <i class="bi bi-plus-lg"></i>
-                </div>
+          <div class="icon-plus">
+            <i class="bi bi-plus-lg"></i>
+          </div>
 
-                <a href="#" class="icon-social" title="YouTube">
-                    <i class="bi bi-youtube"></i>
-                </a>
+          <a href="#" class="icon-social" title="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                </a>
+          <a href="#" class="icon-social" title="Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Instagram">
-                    <i class="bi bi-instagram"></i>
-                </a>
-            </div>
+          <a href="#" class="icon-social" title="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+        </div>
 
-            <div class="profile-card">
-                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6" alt="John Doe" />
+        <div class="profile-card">
+          <img
+            src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6"
+            alt="John Doe"
+          />
 
-                <div class="icon-plus">
-                    <i class="bi bi-plus-lg"></i>
-                </div>
+          <div class="icon-plus">
+            <i class="bi bi-plus-lg"></i>
+          </div>
 
-                <a href="#" class="icon-social" title="YouTube">
-                    <i class="bi bi-youtube"></i>
-                </a>
+          <a href="#" class="icon-social" title="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                </a>
+          <a href="#" class="icon-social" title="Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Instagram">
-                    <i class="bi bi-instagram"></i>
-                </a>
-            </div>
+          <a href="#" class="icon-social" title="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+        </div>
 
-            <div class="profile-card">
-                <img src="https://images.unsplash.com/photo-1550173250-6279c71c6e9b" alt="Jane Doe" />
+        <div class="profile-card">
+          <img
+            src="https://images.unsplash.com/photo-1550173250-6279c71c6e9b"
+            alt="Jane Doe"
+          />
 
-                <div class="icon-plus">
-                    <i class="bi bi-plus-lg"></i>
-                </div>
+          <div class="icon-plus">
+            <i class="bi bi-plus-lg"></i>
+          </div>
 
-                <a href="#" class="icon-social" title="YouTube">
-                    <i class="bi bi-youtube"></i>
-                </a>
+          <a href="#" class="icon-social" title="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                </a>
+          <a href="#" class="icon-social" title="Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Instagram">
-                    <i class="bi bi-instagram"></i>
-                </a>
-            </div>
+          <a href="#" class="icon-social" title="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+        </div>
 
-            <div class="profile-card">
-                <img src="https://images.pexels.com/photos/5384445/pexels-photo-5384445.jpeg" alt="John Doe" />
+        <div class="profile-card">
+          <img
+            src="https://images.pexels.com/photos/5384445/pexels-photo-5384445.jpeg"
+            alt="John Doe"
+          />
 
-                <div class="icon-plus">
-                    <i class="bi bi-plus-lg"></i>
-                </div>
+          <div class="icon-plus">
+            <i class="bi bi-plus-lg"></i>
+          </div>
 
-                <a href="#" class="icon-social" title="YouTube">
-                    <i class="bi bi-youtube"></i>
-                </a>
+          <a href="#" class="icon-social" title="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                </a>
+          <a href="#" class="icon-social" title="Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Instagram">
-                    <i class="bi bi-instagram"></i>
-                </a>
-            </div>
+          <a href="#" class="icon-social" title="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+        </div>
 
-            <div class="profile-card">
-                <img src="https://images.unsplash.com/photo-1525134479668-1bee5c7c6845" alt="Jane Doe" />
+        <div class="profile-card">
+          <img
+            src="https://images.unsplash.com/photo-1525134479668-1bee5c7c6845"
+            alt="Jane Doe"
+          />
 
-                <div class="icon-plus">
-                    <i class="bi bi-plus-lg"></i>
-                </div>
+          <div class="icon-plus">
+            <i class="bi bi-plus-lg"></i>
+          </div>
 
-                <a href="#" class="icon-social" title="YouTube">
-                    <i class="bi bi-youtube"></i>
-                </a>
+          <a href="#" class="icon-social" title="YouTube">
+            <i class="bi bi-youtube"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Twitter">
-                    <i class="bi bi-twitter-x"></i>
-                </a>
+          <a href="#" class="icon-social" title="Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
 
-                <a href="#" class="icon-social" title="Instagram">
-                    <i class="bi bi-instagram"></i>
-                </a>
-            </div>
-        </section>
+          <a href="#" class="icon-social" title="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+        </div>
+      </section>
     </div>
-</body>
-
+  </body>
 </html>

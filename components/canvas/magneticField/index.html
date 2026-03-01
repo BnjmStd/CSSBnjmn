@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -50,15 +50,14 @@
             let force = Math.min(50 / dist, 10);
             let offsetX = dx * force;
             let offsetY = dy * force;
-            ctx.lineTo(x + offsetX, y + offsetY)
-            
+            ctx.lineTo(x + offsetX, y + offsetY);
+          }
+          ctx.stroke();
         }
-        ctx.stroke()
-        }
-        requestAnimationFrame(drawField)
+        requestAnimationFrame(drawField);
       }
 
-      drawField()
+      drawField();
     </script>
   </body>
 </html>

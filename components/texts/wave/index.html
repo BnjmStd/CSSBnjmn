@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -31,7 +31,10 @@
 
       .border {
         color: white;
-        text-shadow: -1px -1px 0 white, -1px 1px 0 white, 1ox 1ox 0 white,
+        text-shadow:
+          -1px -1px 0 white,
+          -1px 1px 0 white,
+          1ox 1ox 0 white,
           1px -1px 0 white;
       }
 
@@ -41,8 +44,20 @@
       }
 
       @keyframes wave {
-        0%, 100% {
-            clip-path: polygon(0% 47%, 10% 48%, 33% 54%, 54% 60%, 70% 61%, 84% 59%, 100% 52%, 100%, 100%, 0% 100%);
+        0%,
+        100% {
+          clip-path: polygon(
+            0% 47%,
+            10% 48%,
+            33% 54%,
+            54% 60%,
+            70% 61%,
+            84% 59%,
+            100% 52%,
+            100%,
+            100%,
+            0% 100%
+          );
         }
       }
     </style>

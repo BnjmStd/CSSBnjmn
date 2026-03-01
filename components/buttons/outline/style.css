@@ -1,57 +1,60 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: rgba(253, 253, 253, 0.9);
-    font-family: sans-serif;
-    height: 100dvh;
-    display: grid;
-    place-content: center;
+  background-color: rgba(253, 253, 253, 0.9);
+  font-family: sans-serif;
+  height: 100dvh;
+  display: grid;
+  place-content: center;
 }
 
 :root {
-    --grid-size: 24px;
-    --grid-color: hsl(0, 1%, 15%);
-    --mask-angle: 17deg;
-    --mask-gradient: linear-gradient(var(--mask-angle), transparent 51%, white);
+  --grid-size: 24px;
+  --grid-color: hsl(0, 1%, 15%);
+  --mask-angle: 17deg;
+  --mask-gradient: linear-gradient(var(--mask-angle), transparent 51%, white);
 }
 
 body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: 
-        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size),
-        linear-gradient(var(--grid-color) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size);
-    mask: var(--mask-gradient);
-    -webkit-mask: var(--mask-gradient);
-    transform-style: flat;
-    pointer-events: none;
-    z-index: -1;
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px) 0 0 /
+      var(--grid-size) var(--grid-size),
+    linear-gradient(var(--grid-color) 1px, transparent 1px) 0 0 /
+      var(--grid-size) var(--grid-size);
+  mask: var(--mask-gradient);
+  -webkit-mask: var(--mask-gradient);
+  transform-style: flat;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .outline {
-    border: 2px solid #2c2c2c;
-    border-radius: 2rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 2rem;
-    cursor: pointer;
+  border: 2px solid #2c2c2c;
+  border-radius: 2rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 2rem;
+  cursor: pointer;
 
-    &:hover {
-        outline: 2px solid;
-        animation: outline-dance 1s infinite;
-    }
+  &:hover {
+    outline: 2px solid;
+    animation: outline-dance 1s infinite;
+  }
 }
 
 @keyframes outline-dance {
-    0%, 100% {
-        outline-offset: -7px;
-    }
+  0%,
+  100% {
+    outline-offset: -7px;
+  }
 
-    50% {
-        outline-offset: 5px;
-    }
+  50% {
+    outline-offset: 5px;
+  }
 }

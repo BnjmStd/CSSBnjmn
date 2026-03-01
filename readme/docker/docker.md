@@ -1,5 +1,3 @@
-
-
 # DOCKER
 
 ![Text](images/dockercheat.jpg)

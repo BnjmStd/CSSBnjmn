@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -40,11 +40,12 @@
         inline-size: 250px;
         block-size: 350px;
         background: var(--clr);
-        box-shadow: 0 0 0 15px #0009, 
-        0 25px 55px  var(--clr);
-    }
+        box-shadow:
+          0 0 0 15px #0009,
+          0 25px 55px var(--clr);
+      }
 
-    svg {
+      svg {
         inline-size: 24px;
         block-size: auto;
         aspect-ratio: 1/1;
@@ -52,42 +53,49 @@
         transition: 0.5s;
         transition-delay: 0;
         opacity: 0;
-    }
+      }
 
-    h2 {
+      h2 {
         position: relative;
         color: #111;
         font-size: 4em;
         text-align: center;
         line-height: 2.5;
-        transition: transform .3s ease;
+        transition: transform 0.3s ease;
         transform: scale(0);
         transition-delay: 0;
         filter: blur(10px);
-         
-    }
+      }
 
-    small {
+      small {
         font-size: 0.35em;
         text-transform: uppercase;
         font-weight: 500;
-    }
+      }
 
-    .box:hover  h2 {
+      .box:hover h2 {
         transform: scale(1);
         transition-delay: 0.5s;
-    }
+      }
 
-    .box:hover svg {
+      .box:hover svg {
         opacity: 1;
         transition-delay: 1;
-    }
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="box" style="--clr: #f00">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 20H23V22H1V20H3V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V20ZM11 8H9V10H11V12H13V10H15V8H13V6H11V8ZM14 20H16V14H8V20H10V16H14V20Z"></path></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            d="M21 20H23V22H1V20H3V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V20ZM11 8H9V10H11V12H13V10H15V8H13V6H11V8ZM14 20H16V14H8V20H10V16H14V20Z"
+          ></path>
+        </svg>
         <h2>01 <br /><small>Design</small></h2>
         <div class="clip"><span></span><span></span><span></span></div>
       </div>
@@ -97,8 +105,6 @@
       const $ = (selector) => document.querySelector(selector);
 
       const $$ = (selector) => document.querySelectorAll(selector);
-
-
     </script>
   </body>
 </html>

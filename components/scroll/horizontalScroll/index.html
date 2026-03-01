@@ -1,79 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            min-height: 400vh;
-        }
+      body {
+        min-height: 400vh;
+      }
 
-        .container {
-            position: fixed;
-            display: flex;
-            width: 500%;
-            height: 100vh;
-            transition: 0.5s ease-in-out;
-        }
+      .container {
+        position: fixed;
+        display: flex;
+        width: 500%;
+        height: 100vh;
+        transition: 0.5s ease-in-out;
+      }
 
-        .section {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            background: var(--cle);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 5px solid #333;
-        }
+      .section {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        background: var(--cle);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 5px solid #333;
+      }
 
-        .content {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+      .content {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-        h2 {
-            font-size: 4em;
-            color: #333;
-        }
+      h2 {
+        font-size: 4em;
+        color: #333;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <section class="" style="--cle: #09f">
-            <div class="content">
-                <h2>Section 1</h2>
-            </div>
-        </section>
-        <section class="" style="--cle: #f90">
-            <div class="content">
-                <h2>Section 2</h2>
-            </div>
-        </section>
-        <section class="" style="--cle: #f09">
-            <div class="content">
-                <h2>Section 3</h2>
-            </div>
-        </section>
+      <section class="" style="--cle: #09f">
+        <div class="content">
+          <h2>Section 1</h2>
+        </div>
+      </section>
+      <section class="" style="--cle: #f90">
+        <div class="content">
+          <h2>Section 2</h2>
+        </div>
+      </section>
+      <section class="" style="--cle: #f09">
+        <div class="content">
+          <h2>Section 3</h2>
+        </div>
+      </section>
     </div>
 
-
     <script>
-        let scrollY = window.scrollY;
-        let totalHeight = document.body.scrollHeight - window.innerHeight;
-        let percentScrolled = (scrollY / totalHeight) * 100;
+      let scrollY = window.scrollY;
+      let totalHeight = document.body.scrollHeight - window.innerHeight;
+      let percentScrolled = (scrollY / totalHeight) * 100;
 
-        let translateX = (percentScrolled / 5) * -4;
-        document.querySelector('.container').style.transform = `translateX(${translateX}%)`;
+      let translateX = (percentScrolled / 5) * -4;
+      document.querySelector(".container").style.transform =
+        `translateX(${translateX}%)`;
     </script>
-</body>
+  </body>
 </html>

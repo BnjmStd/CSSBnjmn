@@ -75,36 +75,35 @@
   }
 }
 
-
 @layer demo.view-transition {
-    ::view-transition-group(*) {
-      animation-duration: .5s;
-      animation-timing-function: var(--ease-5);
-    }
-    
-    .hub > * {
-      @media (prefers-reduced-motion: no-preference) {
-        &:nth-child(1) {
-          view-transition-name: gallery-item-1;
-        }
-        &:nth-child(2) {
-          view-transition-name: gallery-item-2;
-        }
-        &:nth-child(3) {
-          view-transition-name: gallery-item-3;
-        }
-        &:nth-child(4) {
-          view-transition-name: gallery-item-4;
-        }
-        &:nth-child(5) {
-          view-transition-name: gallery-item-5;
-        }
-        &:nth-child(6) {
-          view-transition-name: gallery-item-6;
-        }
-        &:nth-child(7) {
-          view-transition-name: gallery-item-7;
-        }
+  ::view-transition-group(*) {
+    animation-duration: 0.5s;
+    animation-timing-function: var(--ease-5);
+  }
+
+  .hub > * {
+    @media (prefers-reduced-motion: no-preference) {
+      &:nth-child(1) {
+        view-transition-name: gallery-item-1;
       }
+      &:nth-child(2) {
+        view-transition-name: gallery-item-2;
+      }
+      &:nth-child(3) {
+        view-transition-name: gallery-item-3;
+      }
+      &:nth-child(4) {
+        view-transition-name: gallery-item-4;
+      }
+      &:nth-child(5) {
+        view-transition-name: gallery-item-5;
+      }
+      &:nth-child(6) {
+        view-transition-name: gallery-item-6;
+      }
+      &:nth-child(7) {
+        view-transition-name: gallery-item-7;
+      }
+    }
   }
 }

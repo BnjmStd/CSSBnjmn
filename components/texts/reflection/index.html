@@ -1,57 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+      body {
+        background-color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-            flex-direction: column;
-            height: 100vh;
+        flex-direction: column;
+        height: 100vh;
+      }
 
-        }
+      .reflection {
+        font-size: clamp(2rem, 10vw, 15rem);
+        font-weight: 700;
+        color: #3ffd39;
+        position: relative;
 
-        .reflection {
-            font-size: clamp(2rem, 10vw, 15rem);
-            font-weight: 700;
-            color: #3ffd39;
-            position: relative;
+        text-transform: uppercase;
+        font-family: cursive;
+      }
 
-            text-transform: uppercase;
-            font-family: cursive;
-        }
-
-        .reflection::after {
-            content: attr(
-                data-text
-            );
-            position: absolute;
-            left: 0;
-            top: 70%;
-            transform: scaleY(-1);
-            background: linear-gradient(
-                to bottom,
-                rgba(63, 223, 57),
-                transparent
-            );
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+      .reflection::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 70%;
+        transform: scaleY(-1);
+        background: linear-gradient(to bottom, rgba(63, 223, 57), transparent);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="reflection" data-text="REFLECTION">REFLECTION</div>
-</body>
+  </body>
 </html>

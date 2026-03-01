@@ -1,6 +1,6 @@
 # Branches
 
->[!NOTE]
+> [!NOTE]
 > Branch es una copia independiente
 
 ### Creando una rama
@@ -22,10 +22,10 @@ git branch -d name
 1. Estar en la rama destino
 
 ```bash
-git merge *branch 
+git merge *branch
 ```
 
->[!TIPS]
+> [!TIPS]
 > Fast forward, es la unión más sencilla
 
 2. Rama original sufre cambios
@@ -45,10 +45,10 @@ git merge --abort
 git merge --continue
 ```
 
-4. merging 
+4. merging
 
 ```bash
-git add 
+git add
 git commit
 
 # ok!
@@ -66,8 +66,8 @@ git branch -m <name>
 git branch -m old-name new-name
 ```
 
->[!WARNING]
->  Importante si ya has subido la rama a remoto
+> [!WARNING]
+> Importante si ya has subido la rama a remoto
 
 **Si la rama que renombraste ya estaba en GitHub/GitLab u otro remoto, el cambio no se reflejará automáticamente en el servidor. Debes hacer lo siguiente:**
 
@@ -78,6 +78,7 @@ git push origin --delete old-name
 ```
 
 2. SUBIR LA RAMA CON EL NUEVO NOMBRE
+
 ```bash
 git push origin new-name
 ```
@@ -89,7 +90,7 @@ git branch --unset-upstream
 git branch --set-upstream-to=origin/new-name
 ```
 
-## Listar  ramas 
+## Listar ramas
 
 ```bash
 git branch
@@ -101,15 +102,14 @@ git branch
 git branch -r
 ```
 
-
 ### git switch
 
 ```bash
-    git switch 
+    git switch
     git switch -c *ramanew
 ```
 
->[!IMPORTANT]
+> [!IMPORTANT]
 > El comando git switch --detach se usa para mover el HEAD de Git a un commit específico sin asociarlo a ninguna rama en particular. En otras palabras, te coloca en un "estado de separación" (detached HEAD). Cuando usas git switch --detach, Git no actualizará la rama actual, y estarás trabajando directamente con el commit en ese punto específico. Esto es útil si necesitas explorar un commit o realizar algunos cambios sin alterar ninguna rama existente.
 
 ```bash
@@ -124,7 +124,6 @@ En resumen, estarás en un estado donde no estás "en" ninguna rama, sino en un 
 
 ### Modo detallado
 
-
 ```bash
 git remote --v
 git remote --verbose
@@ -138,7 +137,7 @@ git push --set-upstream origin main
 
 ## Git checkout
 
->[!WARNING]
+> [!WARNING]
 > No recomendable, debido a que altera el principio de la filosofia linux, principio minimalista
 
 ### cambiar rama
@@ -159,7 +158,7 @@ git checkout commit *hash --file
 git checkout -b newbranch
 ```
 
-### cambiar a una rama remota y crearla en local 
+### cambiar a una rama remota y crearla en local
 
 ```bash
 git checkout -b *ramalocal origin/remote
@@ -167,8 +166,8 @@ git checkout -b *ramalocal origin/remote
 
 # generar una nueva rama en local y subirla al remoto
 
->[!IMPORTANT]
->ASEGURATE DE QUEE STAS EN LA NUEVA RAMA ANTES DE SUBIRLA
+> [!IMPORTANT]
+> ASEGURATE DE QUEE STAS EN LA NUEVA RAMA ANTES DE SUBIRLA
 
 ** Ejemplo: Si tu nueva rama se llama feature-login, entonces ejecuta:**
 
@@ -178,8 +177,8 @@ git push -u origin feature-login
 git branch -r # verifica que la rama se subio
 ```
 
->[!IMPORTANT]
->¿Qué hace el -u en git push -u? El -u (o --set-upstream) establece un "seguimiento" entre tu rama local y la rama remota. Después de esto, solo necesitarás hacer:
+> [!IMPORTANT]
+> ¿Qué hace el -u en git push -u? El -u (o --set-upstream) establece un "seguimiento" entre tu rama local y la rama remota. Después de esto, solo necesitarás hacer:
 
 # saber que rama apunto al remoto
 
@@ -192,6 +191,7 @@ git branch --set-upstream-to=origin/main main # si no hay remota, creala
 ```
 
 **RESUMEN**
+
 - git branch --show-current → Muestra la rama actual.
 - git rev-parse --abbrev-ref --symbolic-full-name @{u} → Muestra la rama remota asociada.
 - git branch -vv → Muestra todas las ramas y sus ramas remotas asociadas.

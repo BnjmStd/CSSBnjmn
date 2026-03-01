@@ -1,29 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-<body>
+  <body>
     <div class="hover-box"></div>
 
     <script>
-        const hoverBox = document.querySelector(".hover-box");
+      const hoverBox = document.querySelector(".hover-box");
 
-        hoverBox.addEventListener("mousemove", (event) => {
-            // because we're starting in the middle
-            const x = event.offsetX - hoverBox.offsetWidth / 2;
-            const y = event.offsetY - hoverBox.offsetHeight / 2;
+      hoverBox.addEventListener("mousemove", (event) => {
+        // because we're starting in the middle
+        const x = event.offsetX - hoverBox.offsetWidth / 2;
+        const y = event.offsetY - hoverBox.offsetHeight / 2;
 
-            hoverBox.style.setProperty("--x", `${x}px`);
-            hoverBox.style.setProperty("--y", `${y}px`);
-        });
-
+        hoverBox.style.setProperty("--x", `${x}px`);
+        hoverBox.style.setProperty("--y", `${y}px`);
+      });
     </script>
-</body>
-
+  </body>
 </html>

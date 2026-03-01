@@ -1,118 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-
     <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
 
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
+      body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #1d1d1d;
+        font-family: "Courier New", Courier, monospace;
+      }
 
-        body {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #1d1d1d;
-            font-family: 'Courier New', Courier, monospace;
-        }
+      button {
+        padding: 20px 60px;
+        border-radius: 100px;
+        border: none;
+        background-color: #23dff8;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease-in-out;
 
-        button {
-            padding: 20px 60px;
-            border-radius: 100px;
-            border: none;
-            background-color: #23dff8;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all .3s ease-in-out;
+        &:hover {
+          background-color: #010101;
 
-            &:hover {
-                background-color: #010101;
+          & .text {
+            left: -3px;
+          }
 
-                & .text {
-                    left: -3px;
-                }
-
-                &::before {
-                    left: 200px;
-                    background-color: #fff;
-                }
-            }
-        }
-
-        .text {
-            color: #fff;
-            font-size: 40px;
-            position: relative;
-            left: 30px;
-            top: -5px;
-            z-index: 2;
-            transition: all .3s ease;
-        }
-
-        button::before {
-            content: "";
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background-color: yellow;
-            left: -20px;
-            top: -10px;
-            border-radius: 50%;
-            box-shadow: 0 0 10px 15px rgba(255, 255, 255, 0.2);
-            z-index: 1;
-            transition: all .3s ease;
-        }
-
-        .cloud {
-            position: absolute;
+          &::before {
+            left: 200px;
             background-color: #fff;
-            border-radius: 50%;
-            aspect-ratio: 1;
-            z-index: 1;
+          }
         }
+      }
 
-        .cloud:nth-child(2) {
-            width: 40px;
-            left: 10px;
-            bottom: -20px;
-        }
+      .text {
+        color: #fff;
+        font-size: 40px;
+        position: relative;
+        left: 30px;
+        top: -5px;
+        z-index: 2;
+        transition: all 0.3s ease;
+      }
 
-        .cloud:nth-child(3) {
-            width: 60px;
-            left: 40px;
-            bottom: -40px;
-        }
+      button::before {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        background-color: yellow;
+        left: -20px;
+        top: -10px;
+        border-radius: 50%;
+        box-shadow: 0 0 10px 15px rgba(255, 255, 255, 0.2);
+        z-index: 1;
+        transition: all 0.3s ease;
+      }
 
-        .cloud:nth-child(4) {
-            width: 50px;
-            left: 80px;
-            bottom: -40px;
-        }
+      .cloud {
+        position: absolute;
+        background-color: #fff;
+        border-radius: 50%;
+        aspect-ratio: 1;
+        z-index: 1;
+      }
 
+      .cloud:nth-child(2) {
+        width: 40px;
+        left: 10px;
+        bottom: -20px;
+      }
 
-        
+      .cloud:nth-child(3) {
+        width: 60px;
+        left: 40px;
+        bottom: -40px;
+      }
 
-
-
+      .cloud:nth-child(4) {
+        width: 50px;
+        left: 80px;
+        bottom: -40px;
+      }
     </style>
-
-</head>
-<body>
+  </head>
+  <body>
     <button>
-        <span class="text">Button</span>
+      <span class="text">Button</span>
 
-        <span class="cloud"></span>
-        <span class="cloud"></span>
-        <span class="cloud"></span>
-        <span class="cloud"></span>
+      <span class="cloud"></span>
+      <span class="cloud"></span>
+      <span class="cloud"></span>
+      <span class="cloud"></span>
     </button>
-</body>
+  </body>
 </html>

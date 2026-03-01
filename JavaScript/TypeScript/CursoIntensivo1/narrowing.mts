@@ -1,37 +1,34 @@
 // narrowing
 
 function mostrarLongitud(objeto: number | string) {
-    if(typeof objeto == 'string') {
-        return objeto.length
-    }       
+  if (typeof objeto == "string") {
+    return objeto.length;
+  }
 }
 
-
-mostrarLongitud('1')
-
+mostrarLongitud("1");
 
 interface Mario {
-    company: string,
-    nombre: string,
-    saltar: () => void
+  company: string;
+  nombre: string;
+  saltar: () => void;
 }
 
 interface Sonic {
-    company: string, 
-    nombre: string, 
-    correr: () => void
+  company: string;
+  nombre: string;
+  correr: () => void;
 }
 
-
-type Personaje = Mario | Sonic
+type Personaje = Mario | Sonic;
 // dejame comprobar
-function CheckisSonic(personaje: Personaje) : personaje is Sonic {
-    return (personaje as Sonic).correr != undefined
+function CheckisSonic(personaje: Personaje): personaje is Sonic {
+  return (personaje as Sonic).correr != undefined;
 }
 
 function jugar(personaje: Personaje) {
-    if(CheckisSonic(personaje)) {
-        personaje.correr()
-        return
-    }
+  if (CheckisSonic(personaje)) {
+    personaje.correr();
+    return;
+  }
 }

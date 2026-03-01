@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>Markdown Render</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-</head>
-<body>
-  <textarea id="markdown" style="width:100%;height:100px;">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Markdown Render</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+  <body>
+    <textarea id="markdown" style="width: 100%; height: 100px">
 
 
 # 🧾 Resumen de Directivas `@` en CSS
@@ -41,19 +41,20 @@
 
 
 
-  </textarea>
+  </textarea
+    >
 
-  <div id="rendered"></div>
+    <div id="rendered"></div>
 
-  <script>
-    const mdInput = document.getElementById('markdown');
-    const rendered = document.getElementById('rendered');
+    <script>
+      const mdInput = document.getElementById("markdown");
+      const rendered = document.getElementById("rendered");
 
-    mdInput.addEventListener('input', () => {
-      rendered.innerHTML = marked.parse(mdInput.value);
-    });
+      mdInput.addEventListener("input", () => {
+        rendered.innerHTML = marked.parse(mdInput.value);
+      });
 
-    mdInput.dispatchEvent(new Event('input'));
-  </script>
-</body>
+      mdInput.dispatchEvent(new Event("input"));
+    </script>
+  </body>
 </html>

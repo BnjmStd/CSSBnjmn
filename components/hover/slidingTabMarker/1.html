@@ -1,78 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-<body>
+  <body>
     <h1>Sliding Tab Marker - CSS Only</h1>
 
     <div class="widget">
-        <div class="tabs">
+      <div class="tabs">
+        <input type="radio" id="overview" name="tabs" checked />
 
-            <input 
-                type="radio" 
-                id="overview" 
-                name="tabs" 
-                checked 
-            />
-            
-            <label for="overview">Overview</label>
+        <label for="overview">Overview</label>
 
-            <input 
-                type="radio" 
-                id="experience" 
-                name="tabs" 
-            />
+        <input type="radio" id="experience" name="tabs" />
 
-            <label for="experience">Experience</label>
+        <label for="experience">Experience</label>
 
-            <input 
-                type="radio" 
-                id="awards" 
-                name="tabs" 
-            />
-            
-            <label for="awards">Awards</label>
+        <input type="radio" id="awards" name="tabs" />
+
+        <label for="awards">Awards</label>
+      </div>
+
+      <div class="tab-content">
+        <div class="tab-content-1">
+          <h2>Overview</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, ad
+            eum! Vero asperiores nostrum voluptatum libero blanditiis
+            consectetur vitae nihil facere, nemo error iste voluptas incidunt
+            cumque atque tempore soluta?
+          </p>
         </div>
 
-        <div class="tab-content">
-            <div class="tab-content-1">
-                <h2>Overview</h2>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, ad eum! Vero asperiores nostrum
-                    voluptatum libero blanditiis consectetur vitae nihil facere, nemo error iste voluptas incidunt
-                    cumque atque tempore soluta?
-                </p>
-            </div>
-
-            <div class="tab-content-2">
-                <h2>Experience</h2>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, ad eum! Vero asperiores nostrum
-                    voluptatum libero blanditiis consectetur vitae nihil facere, nemo error iste voluptas incidunt
-                    cumque atque tempore soluta?
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, ad eum! Vero asperiores nostrum
-                    voluptatum libero.
-                </p>
-            </div>
-
-            <div class="tab-content-3">
-                <h2>Awards</h2>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, ad eum! Vero asperiores nostrum
-                    voluptatum libero blanditiis consectetur vitae nihil facere, nemo error iste voluptas incidunt
-                    cumque atque tempore soluta?
-                </p>
-            </div>
+        <div class="tab-content-2">
+          <h2>Experience</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, ad
+            eum! Vero asperiores nostrum voluptatum libero blanditiis
+            consectetur vitae nihil facere, nemo error iste voluptas incidunt
+            cumque atque tempore soluta?
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, ad
+            eum! Vero asperiores nostrum voluptatum libero.
+          </p>
         </div>
+
+        <div class="tab-content-3">
+          <h2>Awards</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, ad
+            eum! Vero asperiores nostrum voluptatum libero blanditiis
+            consectetur vitae nihil facere, nemo error iste voluptas incidunt
+            cumque atque tempore soluta?
+          </p>
+        </div>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>

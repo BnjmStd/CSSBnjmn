@@ -1,5 +1,5 @@
 // URL de la API que proporciona datos de usuarios (JSONPlaceholder)
-const apiUrl = 'http://localhost:8000/';
+const apiUrl = "http://localhost:8000/";
 
 // Función para realizar la solicitud a la API y procesar la respuesta
 async function fetchData() {
@@ -13,14 +13,14 @@ async function fetchData() {
       const data = await response.json();
 
       // Procesar los datos obtenidos (en este caso, mostraremos los datos en la consola)
-      console.log('Datos de usuarios:', data);
+      console.log("Datos de usuarios:", data);
     } else {
       // Si la respuesta no fue exitosa, mostrar un mensaje de error
-      console.error('Error al obtener los datos:', response.statusText);
+      console.error("Error al obtener los datos:", response.statusText);
     }
   } catch (error) {
     // Manejar cualquier error que ocurra durante la solicitud
-    console.error('Se produjo un error en la conexión a la api:', error);
+    console.error("Se produjo un error en la conexión a la api:", error);
   }
 }
 
