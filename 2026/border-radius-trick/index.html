@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      nav {
+        anchor-name: --active-nav;
+      }
+
+      nav::after {
+        content: "";
+        background: oklch(from deeppink a(50%));
+        border: 2px solid deeppink;
+        box-shadow: inset 0 0 12px oklch(from deeppink);
+
+        border-radius: 2rem;
+        corner-shape: squircle;
+
+        position: absolute;
+
+        position-anchor: --active-nav;
+
+        left: anchor(left);
+        right: anchor(right);
+        top: anchor(top);
+        bottom: anchor(bottom);
+
+        z-index: -1;
+        transition: inset 1000ms;
+
+        transition-timing-function: linear(0, 0.5, 1.2, 0.9, 1.05, 0.98, 1);
+      }
+
+      nav a:is(:hover, :focus-visible) {
+        anchor-name: --active-nav;
+      }
+    </style>
+
+    <!-- <style>
+      /* inspo: https://dribbble.com/shots/23129994-Glassy-button */
+
+      nav {
+        anchor-name: --active-nav;
+      }
+
+      nav ul {
+        anchor-name: --nav-ul;
+
+        border-block-start: 3px solid hsl(0 0% 100% / 0.2);
+        border-block-end: 3px solid hsl(0 0% 100% / 0.2);
+      }
+
+      nav::after {
+        content: "";
+        border-block-start: 3px solid transparent;
+        border-block-end: 3px solid transparent;
+
+        background:
+          radial-gradient(#111) padding-box,
+          radial-gradient(deeppink, transparent) border-box;
+
+        position: absolute;
+        position-anchor: --active-nav;
+
+        left: calc(anchor(left) - 40px);
+        right: calc(anchor(right) - 40px);
+        top: anchor(top --nav-ul);
+        bottom: anchor(bottom --nav-ul);
+
+        pointer-events: none;
+        z-index: -1;
+
+        opacity: 0;
+        transition:
+          inset 300ms,
+          opacity 700ms;
+        transition-delay: 700ms, 0ms;
+      }
+
+      nav a:is(:hover, :focus) {
+        anchor-name: --active-nav;
+      }
+
+      nav:has(a:hover, a:focus)::after {
+        opacity: 1;
+        transition-delay: 0ms, 0ms;
+      }
+
+      @layer general-styling {
+        body {
+          background: #111;
+          color: white;
+          font-size: 3rem;
+          font-family: system-ui;
+          margin: 4rem;
+        }
+
+        nav {
+          margin-inline: auto;
+
+          ul {
+            list-style: none;
+            margin: 0rem;
+            padding: 2rem;
+            gap: 1rem;
+
+            display: flex;
+            justify-content: center;
+          }
+
+          a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+
+            border-radius: 2rem;
+            corner-shape: squircle;
+            border: 2px solid hsl(0 0 100% / 0.25);
+            background: hsl(0 0 20%);
+            transition: background-color 300ms;
+          }
+
+          a:is(:hover, :focus) {
+            background: deeppink;
+            box-shadow: 0 0 32px oklch(from deeppink l c h / 0.5);
+          }
+        }
+      }
+    </style> -->
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </body>
+</html>
