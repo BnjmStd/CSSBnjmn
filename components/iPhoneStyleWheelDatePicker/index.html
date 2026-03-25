@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      .card {
+        background: #1a1a1a;
+        border-radius: 20px;
+        padding: 24px;
+        inline-size: 360px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      h2 {
+        font-size: 14px;
+        color: #888;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      body {
+        min-block-size: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #111;
+        font-family: sans-serif;
+        color: #fff;
+      }
+
+      /*
+        the drum is the visible window.
+
+        height = row_h x visible = 44 x 5 = 220px
+        */
+      .drum {
+        position: relative;
+        block-size: 220px;
+        display: flex;
+        background: #222;
+        border-radius: 14px;
+
+        overflow: hidden;
+        overflow: clip;
+      }
+
+      .col {
+        flex: 1;
+        block-size: 220px;
+        overflow: hidden;
+      }
+
+      .drum-sep {
+        width: 1px;
+        background: #333;
+      }
+
+      /*
+      
+      the centre highlight  band
+
+      top = (visible - 1) / 2 x row_h 
+        = (5 - 1) / 2 x 44
+        = 2 x 44
+        = 88px - this is exactly where the centre row starts
+
+
+        height = one row = 44px
+      */
+
+      .drum::before {
+        content: "";
+        position: absolute;
+        top: 88px;
+        left: 6px;
+        right: 6px;
+        block-size: 44px;
+        background: rgba(79, 140, 255, 0.12);
+        border: 1px solid rgba(79, 140, 255, 0.35);
+        border-radius: 8px;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      /* the fade mask */
+
+      .drum::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          #222 0%,
+          transparent 20%,
+          transparent 80%,
+          #222 100%
+        );
+        z-index: 2;
+        pointer-events: none;
+        border-radius: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>Select Date</h2>
+
+      <div class="drum">
+        <div class="col" id="colMonth"></div>
+
+        <div class="drum-sep"></div>
+
+        <div class="col" id="colDay"></div>
+
+        <div class="drum-sep"></div>
+
+        <div class="col" id="colYear"></div>
+      </div>
+    </div>
+
+    <script></script>
+  </body>
+</html>
