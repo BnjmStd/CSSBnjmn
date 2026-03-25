@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+
     <style>
       *,
       *::before,
@@ -113,6 +118,54 @@
         pointer-events: none;
         border-radius: 14px;
       }
+
+      .col {
+        & .swiper {
+          inline-size: 100%;
+          block-size: 100%;
+        }
+
+        & .swiper-slide {
+          block-size: 44px !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 15px;
+          color: #555;
+          cursor: pointer;
+          transition: color 0.2s;
+        }
+
+        & .swiper-slide-active {
+          color: #fff;
+          font-size: 17px;
+          font-weight: 600;
+        }
+      }
+
+      button {
+        padding: 13px;
+        background: #09f;
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      input {
+        padding-block: 11px;
+        padding: 11px 0px;
+        padding: 11px 14px;
+
+        background: #222;
+
+        border: 1px solid #333;
+        color: #fff;
+        font-size: 14px;
+        outline: none;
+      }
     </style>
   </head>
   <body>
@@ -120,18 +173,176 @@
       <h2>Select Date</h2>
 
       <div class="drum">
-        <div class="col" id="colMonth"></div>
+        <div class="col" id="colMonth">
+          <div class="swiper" id="swMonth">
+            <div class="swiper-wrapper"></div>
+          </div>
+        </div>
 
         <div class="drum-sep"></div>
 
-        <div class="col" id="colDay"></div>
+        <div class="col" id="colDay">
+          <div class="swiper" id="swDay">
+            <div class="swiper-wrapper"></div>
+          </div>
+        </div>
 
         <div class="drum-sep"></div>
 
-        <div class="col" id="colYear"></div>
+        <div class="col" id="colYear">
+          <div class="swiper" id="swYear">
+            <div class="swiper-wrapper"></div>
+          </div>
+        </div>
       </div>
+
+      <button id="confirmBtn">Confirm</button>
+      <input
+        class=""
+        id="dateOut"
+        type="text"
+        readonly
+        placeholder="chosen date appears here ..."
+      />
     </div>
 
-    <script></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <script>
+      const ROW_H = 44; // MUST MATCH CSS BLOCK SIZE OF EACH SLIDE
+      const VISIBLE = 5; // MUST MATCH NUMBER OF VISIBLE SLIDES IN CSS --rows (how many rows show at once)
+
+      // offset = how many rows sit above / below  the centre row x row h
+
+      const OFFSET = ((VISIBLE - 1) / 2) * ROW_H; // 88px
+
+      const MONTHS = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+
+      const YEARS = Array.from({ length: 171 }, (_, i) => 1930 + i);
+
+      // Today's values as default selected values
+      const today = new Date();
+
+      let pickedMonth = today.getMonth();
+      let pickedDay = today.getDate() - 1;
+      let pickedYear = today.getFullYear();
+
+      // return how many  days a given month has in a given year (for leap year february)
+      const daysInMonth = (month, year) =>
+        new Date(year, month + 1, 0).getDate();
+
+      // build an array of day strings for a given month and year
+
+      const buildDaysArray = (month, year) =>
+        Array.from({ length: daysInMonth(month, year) }, (_, i) => `${i + 1}`);
+
+      const fillColumn = (swiperId, items) => {
+        const $wrapper = document.querySelector(`#${swiperId} .swiper-wrapper`);
+
+        $wrapper.innerHTML = "";
+
+        items.forEach((item) => {
+          const $slide = document.createElement("div");
+          $slide.classList.add("swiper-slide");
+          $slide.textContent = item;
+          $wrapper.appendChild($slide);
+        });
+      };
+
+      fillColumn(
+        "swMonth",
+        MONTHS.map((m) => m.slice(0, 3).toUpperCase()),
+      );
+
+      fillColumn("swDay", buildDaysArray(pickedMonth, pickedYear));
+
+      fillColumn("swYear", YEARS);
+
+      function createWheel(id, startIndex, onChanged) {
+        return new Swiper(`#${id} .swiper`, {
+          direction: "vertical",
+          slidesPerView: VISIBLE,
+          centeredSlides: false,
+          slidesOffsetBefore: OFFSET,
+          slidesOffsetAfter: OFFSET,
+          mouseWheel: true,
+          resistenceRatio: 0,
+          slideToClickedSlide: true,
+          initialSlide: startIndex,
+
+          freeMode: {
+            enable: true,
+            sticky: true,
+            momentumRatio: 0.2,
+            momentumVelocityRatio: 0.2,
+          },
+
+          mouseWheel: { enable: true },
+
+          on: {
+            slideChange(sw) {
+              onChanged(sw.activeIndex);
+            },
+          },
+        });
+      }
+
+      // declare all three  with  let before assigning them
+
+      let monthWheel, dayWheel, yearWheel;
+
+      monthWheel = createWheel("swMonth", pickedMonth, (idx) => {
+        pickedMonth = idx;
+
+        rebuildDayWheel();
+      });
+
+      dayWheel = createWheel("swDay", pickedDay, (idx) => (pickedDay = idx));
+
+      yearWheel = createWheel("swYear", YEARS.indexOf(pickedYear), (idx) => {
+        pickedYear = YEARS[idx];
+
+        rebuildDayWheel();
+      });
+
+
+
+      const rebuildDayWheel = () => {
+        if (!dayWheel) return; // guard  - not ready yet
+
+        const day = buildDaysArray(pickedMonth, pickedYear);
+
+        const maxIdx = day.length - 1;
+
+
+        // clamp : if selected day 31 and new month has 28 days, clamp selected day to 28 
+
+        if (pickedDay > maxIdx) {
+          pickedDay = maxIdx;
+        }
+
+        fillColumn("swDay", day);
+        dayWheel.update(); // tell swiper to recalculate dimensions
+        dayWheel.slideTo(pickedDay); // slide to the clamped day index
+      };
+
+      document.getElementById("confirmBtn").addEventListener("click", () => {
+        const chosenDate = `${MONTHS[pickedMonth]} ${pickedDay + 1}, ${pickedYear}`;
+
+        document.getElementById("dateOut").value = chosenDate;
+      });
+    </script>
   </body>
 </html>
