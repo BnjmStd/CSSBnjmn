@@ -119,28 +119,26 @@
         border-radius: 14px;
       }
 
-      .col {
-        & .swiper {
-          inline-size: 100%;
-          block-size: 100%;
-        }
+      .col .swiper {
+        inline-size: 100%;
+        block-size: 100%;
+      }
 
-        & .swiper-slide {
-          block-size: 44px !important;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 15px;
-          color: #555;
-          cursor: pointer;
-          transition: color 0.2s;
-        }
+      .col .swiper-slide {
+        block-size: 44px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        color: #555;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
 
-        & .swiper-slide-active {
-          color: #fff;
-          font-size: 17px;
-          font-weight: 600;
-        }
+      .col .swiper-slide-active {
+        color: #fff;
+        font-size: 17px;
+        font-weight: 600;
       }
 
       button {
@@ -317,8 +315,6 @@
         rebuildDayWheel();
       });
 
-
-
       const rebuildDayWheel = () => {
         if (!dayWheel) return; // guard  - not ready yet
 
@@ -326,8 +322,7 @@
 
         const maxIdx = day.length - 1;
 
-
-        // clamp : if selected day 31 and new month has 28 days, clamp selected day to 28 
+        // clamp : if selected day 31 and new month has 28 days, clamp selected day to 28
 
         if (pickedDay > maxIdx) {
           pickedDay = maxIdx;
