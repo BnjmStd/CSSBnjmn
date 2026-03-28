@@ -4,89 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
 
-    <style>
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      .box-bad {
-        inline-size: clamp(100px, 18vw, 160px);
-        block-size: clamp(100px, 18vw, 160px);
-
-        border-radius: 12px;
-
-        --hue-bad: 10;
-
-        background: hsl(var(--hue-bad), 90%, 58%);
-
-        transition: --hue-bad 0.6s ease;
-
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &:hover {
-          --hue-bad: 260;
-        }
-      }
-
-      @property --hue-bad {
-        syntax: "number";
-        inherits: false;
-        initial-value: 40;
-      }
-
-      @property --hue {
-        syntax: "number";
-        inherits: false;
-        initial-value: 10;
-      }
-
-        @property --hue2 {
-            syntax: "number";
-            inherits: false;
-            initial-value: 40;
-        }
-
-      .box-good {
-        width: clamp(100px, 18vw, 160px);
-        height: clamp(100px, 18vw, 160px);
-        border-radius: 12px;
-
-        --hue: 10;
-        --hue: 40;
-
-        background: linear-gradient(
-          135deg,
-          hsl(var(--hue), hsl(var(--hue2), 90%, 58%))
-        );
-
-        transition:
-          --hue 0.6s ease,
-          --hue2 0.6s ease;
-
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 0 40px hsl(var(--hue), 90%, 58%, 0.25);
-
-        &:hover {
-          --hue: 260;
-          --hue2: 90;
-        }
-      }
-    </style>
   </head>
   <body>
     <div class="box-bad"></div>
 
     <div class="box-good"></div>
-    <div class="box-good"></div>
+
+    <div class="spinner"></div>
   </body>
 </html>

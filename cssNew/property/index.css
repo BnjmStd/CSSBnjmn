@@ -1,0 +1,113 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+.box-bad {
+  inline-size: clamp(100px, 18vw, 160px);
+  block-size: clamp(100px, 18vw, 160px);
+
+  border-radius: 12px;
+
+  --hue-bad: 10;
+
+  background: hsl(var(--hue-bad), 90%, 58%);
+
+  transition: --hue-bad 0.6s ease;
+
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    --hue-bad: 260;
+  }
+
+  &.snapped {
+    background: hsl(260, 90%, 58%);
+  }
+}
+
+.snap-label {
+}
+
+@property --hue {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 10;
+}
+
+@property --hue2 {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 40;
+}
+
+.box-good {
+  width: clamp(100px, 18vw, 160px);
+  height: clamp(100px, 18vw, 160px);
+  border-radius: 12px;
+
+  --hue: 10;
+  --hue2: 40;
+
+  background: linear-gradient(
+    135deg,
+    hsl(var(--hue), 90%, 58%),
+    hsl(var(--hue2), 90%, 58%)
+  );
+
+  transition:
+    --hue 0.6s ease,
+    --hue2 0.6s ease;
+
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 40px hsl(var(--hue), 90%, 58%, 0.25);
+
+  &:hover {
+    --hue: 200;
+    --hue2: 280;
+  }
+}
+
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.spinner {
+  inline-size: clamp(50px, 10vw, 80px);
+  block-size: clamp(50px, 10vw, 80px);
+  border-radius: 50%;
+
+  --angle: 0deg;
+
+  background: conic-gradient(
+    hsl(var(--hue2), 90%, 58%),
+    var(--angle),
+    transparent var(--angle)
+  );
+
+  transition:
+    --angle 0.6s ease,
+    --hue 0.6s ease;
+  cursor: pointer;
+
+  border: lime solid 0.5px;
+
+  &:hover {
+    --angle: 360deg;
+    --hue: 280;
+  }
+}
