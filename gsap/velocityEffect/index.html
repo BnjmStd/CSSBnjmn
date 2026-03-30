@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      :root {
+        color-scheme: dark;
+
+        --bg: #0a0a0a;
+        --ink: #f0ede6;
+        --accent: #ff0000;
+
+        --muted: rgba(255, 255, 255, 0.1);
+        --border: rgba(240, 237, 230, 0.07);
+        --row-h: clamp(80px, 11vw, 130px);
+      }
+
+      html,
+      body {
+        block-size: 100%;
+      }
+
+      body {
+        background-color: var(--bg);
+        background-image: linear-gradient(
+          rgba(255, 255, 255, 255, 0.04) 2px,
+          transparent 2px
+        );
+      }
+
+      *,
+      *::after,
+      *::before {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero">
+      <div>
+        <p class="hero__eyebrow">GSAP SCROLLTRIGGER PIXEL PERFECT</p>
+
+        <h1 class="hero__title">
+          <span class="solid">SCROLL</span><br /><span class="accent"
+            >VELOCITY</span
+          ><br /><span class="">MARQUEE</span>
+        </h1>
+        <p class="hero__desc">Scroll fast - feel the difference</p>
+      </div>
+      <div class="scroll-cue">
+        <div class="scroll-cue__bar">
+
+        </div>
+        scroll
+      </div>
+
+
+      <div class="marquee-section" id="marqueeSection">
+        <div>
+            <div></div>
+            <span></span>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
