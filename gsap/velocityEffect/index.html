@@ -24,10 +24,30 @@
 
       body {
         background-color: var(--bg);
-        background-image: linear-gradient(
-          rgba(255, 255, 255, 255, 0.04) 2px,
-          transparent 2px
-        );
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.04) 2px, transparent 2px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.04) 2px,
+            transparent 2px
+          ),
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+
+        background-size:
+          100px 100px,
+          100px 100px,
+          20px 20px,
+          20px 20px;
+        background-position:
+          -2px -2px,
+          -2px -2px,
+          -1px -1px,
+          -1px -1px;
+
+        color: var(--ink);
+        overflow-x: hidden;
+        font-family: monospace;
       }
 
       *,
@@ -37,6 +57,148 @@
         margin: 0;
         padding: 0;
       }
+
+      .hero {
+        min-block-size: 100svh;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 4vw;
+        position: relative;
+      }
+
+      .hero__eyebrow {
+        font-size: 0.65rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 2.5rem;
+      }
+
+      .hero__title {
+        font-family: sans-serif;
+        line-height: 0.86;
+        letter-spacing: 0.01em;
+        color: transparent;
+        -webkit-text-stroke: 1.5px var(--ink);
+
+        & .solid {
+          color: var(--ink);
+          -webkit-text-stroke: 0px;
+        }
+
+        & .accent {
+          color: var(--accent);
+          -webkit-text-stroke: 0px;
+        }
+
+        .hero__desc {
+          margin-top: 2.5rem;
+          font-size: 0.7rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          display: flex;
+
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          color: var(--muted);
+
+          &::after,
+          &::before {
+            content: "";
+            width: 36px;
+            height: 1px;
+            background-color: var(--muted);
+          }
+        }
+      }
+      .scroll-cue {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.65rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .scroll-cue__bar {
+        width: 2px;
+        height: 16px;
+        background: linear-gradient(to bottom, var(--accent), transparent);
+
+        transform-origin: top;
+
+        animation: grow 1.8s ease-out infinite;
+      }
+
+      @keyframes grow {
+        0% {
+          transform: scaleY(0);
+          opacity: 1;
+        }
+        70% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scaleY(1);
+          opacity: 0;
+        }
+      }
+
+      .marquee-section {
+        padding-block: 5rem;
+        padding-inline: 0;
+
+        position: relative;
+
+        border-top: 1px solid var(--border);
+
+        border-bottom: 1px solid var(--border);
+
+        &::after,
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+
+          height: 100%;
+          width: min(180px, 15vw);
+          z-index: 3;
+
+          pointer-events: none;
+        }
+
+        &::before {
+          left: 0;
+          background: linear-gradient(90deg, var(--bg), transparent);
+        }
+
+        &::after {
+          right: 0;
+          background: linear-gradient(-90deg, var(--bg), transparent);
+        }
+      }
+
+      .m-row {
+        height: var(--row-h);
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .m-row + .m-row {
+       border-top:  1px solid var(--border);
+      }
+
     </style>
   </head>
   <body>
@@ -52,19 +214,56 @@
         <p class="hero__desc">Scroll fast - feel the difference</p>
       </div>
       <div class="scroll-cue">
-        <div class="scroll-cue__bar">
-
-        </div>
+        <div class="scroll-cue__bar"></div>
         scroll
       </div>
 
-
       <div class="marquee-section" id="marqueeSection">
+        <div class="m-row" id="row0">
+          <div class="m-track" id="track0"></div>
+          <span class="m-row__badge">01</span>
+        </div>
+        <div class="m-row" id="row1">
+          <div class="m-track" id="track1"></div>
+          <span class="m-row__badge">02</span>
+        </div>
+        <div class="m-row" id="row2">
+          <div class="m-track" id="track2"></div>
+          <span class="m-row__badge">03</span>
+        </div>
+        <div class="m-row" id="row3">
+          <div class="m-track" id="track3"></div>
+          <span class="m-row__badge">04</span>
+        </div>
+      </div>
+
+      <div class="outro">
         <div>
-            <div></div>
-            <span></span>
+          <h2 class="outro__heading">
+            SPEED IS A <em>DESIGN</em>
+            DECISION
+          </h2>
+
+          <div class="outro__meta">
+            <div class="outro__pip"></div>
+            <span>Pixel Perfect Labs</span>
+            <div class="outro__pip"></div>
+            <span>Gsap Master Playlist</span>
+            <div class="outro__pip"></div>
+          </div>
         </div>
       </div>
     </section>
+
+    <div class="hud">
+      <span class="hud__label">scroll velocity</span>
+
+      <div class="hud__track">
+        <div class="hud__fill" id="hudfill"></div>
+      </div>
+      <span class="hud__val" id="hudVal">0 px/s</span>
+    </div>
   </body>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
 </html>
