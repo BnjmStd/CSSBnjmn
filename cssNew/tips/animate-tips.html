@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        *,
+        *::after,
+        *::before {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            line-height: 1.5;
+            min-block-size: 100vh;
+            padding: 1rem;
+            background-color: #ccc;
+        }
+
+        article {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+        }
+
+        header {
+            background-color: red;
+            inline-size: 100%;
+
+            block-size: 300px;
+            margin-block: 0;
+            margin-inline: auto;
+        }
+
+        button {
+            padding: 1.2rem 0.8rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            background-color: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.1s ease-out;
+
+            will-change: transform;
+
+            &:active {
+                transform: scale(0.97);
+            }
+        }
+
+        .modal {
+            transform: scale(0.9);
+            opacity: 0;
+            transition: 0.25s ease-out, opacity 0.25s ease-out;
+            pointer-events: none;
+        }
+
+        .modal.is-open {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <article class="product-card">
+
+        <header>
+            <h1>scale your buttons</h1>
+
+            <ul>
+                <li>active state, tactile feedback, scale down</li>
+            </ul>
+        </header>
+
+
+        <div>
+            <button>
+                click me
+            </button>
+        </div>
+
+    </article>
+
+    <article>
+        <header>
+            <h1>
+                don't animate from scale(0)
+            </h1>
+
+            <ul>
+                <li>
+                    initial state, pop-in effect (aparicion out of blue) , gentle movement (movimiento suave o sutil)
+                </li>
+            </ul>
+
+            <div>
+
+            </div>
+        </header>
+    </article>
+
+</body>
+
+</html>

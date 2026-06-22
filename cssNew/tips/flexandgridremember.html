@@ -1,0 +1,2559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox & Grid Remember - Cheat Sheet interactivo</title>
+  
+  <!-- Tipografías de Google Fonts para un diseño editorial de primera calidad -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================================
+       SISTEMA DE DISEÑO Y RESETEO
+       ========================================================================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-color: #080710;
+      --card-bg: rgba(17, 17, 30, 0.7);
+      --card-border: rgba(255, 255, 255, 0.06);
+      --card-border-hover: rgba(99, 102, 241, 0.35);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dark: #64748b;
+      
+      /* Colores primarios */
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --accent-gold: #e2b714;
+      --accent-gold-glow: rgba(226, 183, 20, 0.15);
+      
+      /* Colores de código (Dracula-esque) */
+      --code-bg: #0f0e17;
+      --code-keyword: #ff79c6;
+      --code-selector: #50fa7b;
+      --code-property: #8be9fd;
+      --code-value: #f1fa8c;
+      --code-comment: #6272a4;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-color);
+      background-image: 
+        radial-gradient(circle at 50% 0%, #17124a 0%, var(--bg-color) 65%),
+        radial-gradient(circle at 0% 100%, #0d0b25 0%, var(--bg-color) 50%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* =========================================================================
+       CABECERA
+       ========================================================================= */
+    header.page-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      margin-top: 1rem;
+    }
+
+    header.page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    header.page-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* =========================================================================
+       TARJETAS DE TIPS (ARTICLES)
+       ========================================================================= */
+    article.tip-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 3.5rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+    }
+
+    article.tip-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-2px);
+    }
+
+    .tip-header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 1.5rem;
+    }
+
+    .tip-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .tip-number {
+      color: var(--accent-gold);
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .tip-summary {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .tip-summary code {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9em;
+      color: #cbd5e1;
+    }
+
+    /* =========================================================================
+       ÁREAS DE DEMOSTRACIÓN INTERACTIVA
+       ========================================================================= */
+    .demo-area {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .demo-area {
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+    }
+
+    .demo-visualizer {
+      background: #0d0c15;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .demo-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    button.btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    button.btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+    }
+
+    button.btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    /* =========================================================================
+       ESTILOS DEL EJEMPLO 1 (NAVBAR EN FLEXBOX)
+       ========================================================================= */
+    .flex-navbar-wrapper {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .flex-navbar {
+      display: flex;
+      align-items: center;
+      background: #2b24b8; /* Fondo azul/violeta intenso */
+      padding: 0.85rem 1.75rem;
+      border-radius: 8px;
+      min-height: 58px;
+      box-shadow: 0 10px 25px rgba(43, 36, 184, 0.3);
+      position: relative;
+    }
+
+    .nav-item {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.25rem 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .nav-item:hover {
+      color: #ffffff;
+    }
+
+    .login-item {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.45rem 1.15rem;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+
+    .login-item:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Animación del Espaciador de Free Space (Visualización Educativa) */
+    .flex-spacer {
+      flex-grow: 0;
+      width: 0;
+      height: 32px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed transparent;
+      background: transparent;
+      border-radius: 6px;
+      transition: flex-grow 0.6s cubic-bezier(0.25, 1, 0.5, 1), margin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .flex-spacer.active {
+      flex-grow: 1;
+      margin: 0 1.25rem;
+      border: 1px dashed rgba(226, 183, 20, 0.45);
+      background: var(--accent-gold-glow);
+    }
+
+    .spacer-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--accent-gold);
+      white-space: nowrap;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.3s ease 0.25s, transform 0.3s ease 0.25s;
+    }
+
+    .flex-spacer.active .spacer-label {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Aplicación real del margin-left: auto cuando se activa */
+    .login-item.isolated-real {
+      margin-left: auto;
+    }
+
+    /* =========================================================================
+       ESTILOS DEL EJEMPLO 2 (GRID AUTO-FIT vs AUTO-FILL)
+       ========================================================================= */
+    .grid-container-wrapper {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .grid-demo-container {
+      display: grid;
+      gap: 1rem;
+      transition: all 0.4s ease;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    /* Modos interactivos del Grid */
+    .grid-demo-container.mode-fit {
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    }
+
+    .grid-demo-container.mode-fill {
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+
+    .grid-demo-item {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 1.25rem;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .grid-demo-item:hover {
+      transform: scale(1.02);
+    }
+
+    /* Indicador visual de huecos vacíos para auto-fill */
+    .grid-placeholder-item {
+      border: 2px dashed rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.01);
+      border-radius: 6px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      color: var(--text-dark);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    .grid-demo-container.mode-fill .grid-placeholder-item {
+      display: flex;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* =========================================================================
+       VISUALIZADOR DE CÓDIGO (ESTILO EDITOR)
+       ========================================================================= */
+    .code-container {
+      background: var(--code-bg);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      overflow: hidden;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .code-tab {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .code-tab::after {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff5f56;
+      box-shadow: 12px 0 0 #ffbd2e, 24px 0 0 #27c93f;
+      margin-right: 1.5rem;
+    }
+
+    .code-container pre {
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    .code-container code {
+      white-space: pre;
+    }
+
+    /* Clases de resaltado sintáctico */
+    .keyword { color: var(--code-keyword); }
+    .selector { color: var(--code-selector); }
+    .property { color: var(--code-property); }
+    .value { color: var(--code-value); }
+    .comment { color: var(--code-comment); }
+    
+    .code-highlight-line {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 2px solid var(--accent-gold);
+      padding-left: 4px;
+      display: inline-block;
+      width: 100%;
+    }
+
+    /* =========================================================================
+       EXPLICACIÓN ACADÉMICA / TEÓRICA
+       ========================================================================= */
+    .tip-explanation {
+      margin-top: 2rem;
+      background: rgba(255, 255, 255, 0.015);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      border-left: 4px solid var(--primary);
+    }
+
+    .tip-explanation h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+    }
+
+    .tip-explanation p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .tip-explanation p:last-child {
+      margin-bottom: 0;
+    }
+
+    .tip-explanation ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 0.5rem;
+    }
+
+    .tip-explanation li {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 1.25rem;
+    }
+
+    .tip-explanation li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+    }
+
+    /* =========================================================================
+       ESTILOS DEL EJEMPLO 3 (CHECKBOX HITBOX)
+       ========================================================================= */
+    .hitbox-demo-wrapper {
+      width: 100%;
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      color: #1e293b;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .hitbox-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .hitbox-list li {
+      margin-top: 0.25rem;
+      background-color: #e9eff6;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      transition: background-color 0.2s;
+    }
+
+    .hitbox-list li:hover {
+      background-color: #dbe4f0;
+    }
+
+    .hitbox-list input[type="checkbox"] {
+      width: 1rem;
+      height: 1rem;
+      cursor: pointer;
+    }
+
+    /* En el modo Good UX (por defecto) */
+    .hitbox-list.good-ux li {
+      padding-left: 1rem;
+    }
+
+    .hitbox-list.good-ux label {
+      flex-grow: 1;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: #1e293b;
+      font-size: 0.95rem;
+      transition: background-color 0.2s, outline 0.2s;
+      position: relative;
+    }
+
+    /* En el modo Bad UX */
+    .hitbox-list.bad-ux li {
+      padding: 0.5rem 1rem; /* El padding se lo queda el li */
+    }
+
+    .hitbox-list.bad-ux label {
+      flex-grow: 0;
+      padding: 0;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: #1e293b;
+      font-size: 0.95rem;
+      transition: background-color 0.2s, outline 0.2s;
+      position: relative;
+    }
+
+    /* Visualización del área clickeable (Hitbox) */
+    .hitbox-list.show-hitbox label {
+      outline: 2px dashed #f59e0b;
+      background-color: rgba(245, 158, 11, 0.12);
+      outline-offset: -1px;
+    }
+
+    .hitbox-list.show-hitbox label::after {
+      content: 'Clickable';
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.65rem;
+      color: #d97706;
+      background: #fef3c7;
+      padding: 0.05rem 0.35rem;
+      border-radius: 4px;
+      border: 1px solid #fcd34d;
+      pointer-events: none;
+    }
+
+    /* =========================================================================
+       ESTILOS DEL EJEMPLO 4 (GRID OVERLAY STACKING)
+       ========================================================================= */
+    .grid-stack-wrapper {
+      width: 100%;
+      max-width: 450px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .stack-container {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease;
+      
+      /* Modo por defecto: CSS Grid Stacking */
+      display: grid;
+      place-items: end;
+    }
+
+    .stack-container.absolute-mode {
+      /* Modo tradicional: Position absolute */
+      display: block;
+      position: relative;
+    }
+
+    .stack-container img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      
+      /* Ubicación Grid Stacking */
+      grid-area: 1 / 1;
+    }
+
+    .stack-container .text-overlay {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 1.25rem;
+      box-sizing: border-box;
+      
+      /* Ubicación Grid Stacking */
+      grid-area: 1 / 1;
+      
+      /* Animación suave al cambiar contenido */
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Estilo del texto overlay en Absolute mode */
+    .stack-container.absolute-mode .text-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    /* =========================================================================
+       ESTILOS DEL EJEMPLO 5 (EVEN COLUMNS)
+       ========================================================================= */
+    .even-cols-wrapper {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .cols-container {
+      gap: 1rem;
+      transition: all 0.4s ease;
+    }
+
+    /* Modo 1: Flex Desigual */
+    .cols-container.flex-uneven {
+      display: flex;
+    }
+    
+    .cols-container.flex-uneven .col-item {
+      flex: 0 1 auto;
+    }
+
+    /* Modo 2: Flex Igual */
+    .cols-container.flex-even {
+      display: flex;
+    }
+    
+    .cols-container.flex-even .col-item {
+      flex: 1;
+    }
+
+    /* Modo 3: Grid Igual */
+    .cols-container.grid-even {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+    }
+
+    .col-item {
+      background: #5c53c4; /* El color púrpura del pantallazo */
+      color: #ffffff;
+      padding: 1.5rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.4s ease;
+    }
+
+    /* Estilo del botón activo para esta demo */
+    button.btn-primary.active {
+      background: var(--accent-gold);
+      color: #000000;
+      box-shadow: 0 4px 12px var(--accent-gold-glow);
+    }
+
+    /* =========================================================================
+       ESTILOS DEL EJEMPLO 8 (EQUAL-HEIGHT CARD CONTENT)
+       ========================================================================= */
+    .cards-demo-wrapper {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .cards-row {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    /* ---- BROKEN mode (default) ---- */
+    .cards-row.broken .card-item {
+      display: flex;
+      flex-direction: column;
+      background: #1e1b4b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.25rem;
+      gap: 0.75rem;
+      transition: all 0.4s cubic-bezier(.25,1,.5,1);
+    }
+
+    .cards-row.broken .card-item .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e0d9ff;
+      line-height: 1.35;
+    }
+
+    .cards-row.broken .card-item .card-desc {
+      font-size: 0.85rem;
+      color: #a09cbf;
+      line-height: 1.55;
+      /* No flex-grow — desc doesn't stretch */
+    }
+
+    .cards-row.broken .card-item .card-btn {
+      align-self: flex-start;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      border: none;
+      background: #5c53c4;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    /* ---- FLEX-GROW mode ---- */
+    .cards-row.flex-fix .card-item {
+      display: flex;
+      flex-direction: column;
+      background: #1e1b4b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.25rem;
+      gap: 0.75rem;
+      transition: all 0.4s cubic-bezier(.25,1,.5,1);
+    }
+
+    .cards-row.flex-fix .card-item .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e0d9ff;
+      line-height: 1.35;
+    }
+
+    .cards-row.flex-fix .card-item .card-desc {
+      font-size: 0.85rem;
+      color: #a09cbf;
+      line-height: 1.55;
+      flex-grow: 1; /* KEY: absorbs leftover space */
+    }
+
+    .cards-row.flex-fix .card-item .card-btn {
+      align-self: flex-start;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      border: none;
+      background: #22c55e;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    /* ---- GRID-ROWS mode ---- */
+    .cards-row.grid-fix .card-item {
+      display: grid;
+      grid-template-rows: auto 1fr auto; /* title / desc(stretch) / button */
+      background: #1e1b4b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.25rem;
+      gap: 0.75rem;
+      transition: all 0.4s cubic-bezier(.25,1,.5,1);
+    }
+
+    .cards-row.grid-fix .card-item .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e0d9ff;
+      line-height: 1.35;
+    }
+
+    .cards-row.grid-fix .card-item .card-desc {
+      font-size: 0.85rem;
+      color: #a09cbf;
+      line-height: 1.55;
+      /* 1fr row handles the stretching */
+    }
+
+    .cards-row.grid-fix .card-item .card-btn {
+      align-self: flex-start;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      border: none;
+      background: #f59e0b;
+      color: #000;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    /* ---- JCC SPACE-BETWEEN mode ---- */
+    .cards-row.jcc-fix .card-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* KEY: distribuye el espacio entre hijos */
+      background: #1e1b4b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.25rem;
+      gap: 0.75rem;
+      transition: all 0.4s cubic-bezier(.25,1,.5,1);
+    }
+
+    .cards-row.jcc-fix .card-item .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e0d9ff;
+      line-height: 1.35;
+    }
+
+    .cards-row.jcc-fix .card-item .card-desc {
+      font-size: 0.85rem;
+      color: #a09cbf;
+      line-height: 1.55;
+      /* space-between empuja el botón al fondo */
+    }
+
+    .cards-row.jcc-fix .card-item .card-btn {
+      align-self: flex-start;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      border: none;
+      background: #ec4899;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    /* ---- MARGIN-TOP AUTO mode ---- */
+    .cards-row.mta-fix .card-item {
+      display: flex;
+      flex-direction: column;
+      background: #1e1b4b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.25rem;
+      gap: 0.75rem;
+      transition: all 0.4s cubic-bezier(.25,1,.5,1);
+    }
+
+    .cards-row.mta-fix .card-item .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e0d9ff;
+      line-height: 1.35;
+    }
+
+    .cards-row.mta-fix .card-item .card-desc {
+      font-size: 0.85rem;
+      color: #a09cbf;
+      line-height: 1.55;
+    }
+
+    .cards-row.mta-fix .card-item .card-btn {
+      margin-top: auto; /* KEY: empuja todo lo de arriba, el botón cae al fondo */
+      align-self: flex-start;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      border: none;
+      background: #06b6d4;
+      color: #000;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    /* Highlight guides */
+    .cards-row.show-guides .card-item .card-title {
+      outline: 2px dashed rgba(139,92,246,0.7);
+      outline-offset: 2px;
+    }
+    .cards-row.show-guides .card-item .card-desc {
+      outline: 2px dashed rgba(34,197,94,0.7);
+      outline-offset: 2px;
+    }
+    .cards-row.show-guides .card-item .card-btn {
+      outline: 2px dashed rgba(245,158,11,0.7);
+      outline-offset: 2px;
+    }
+
+    /* Legend dots */
+    .cards-legend {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      font-family: 'Fira Code', monospace;
+    }
+    .cards-legend span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .cards-legend .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-title  { background: rgba(139,92,246,0.9); }
+    .dot-desc   { background: rgba(34,197,94,0.9); }
+    .dot-btn    { background: rgba(245,158,11,0.9); }
+
+    /* =========================================================================
+       ESTILOS DEL EJEMPLO 7 (LAYOUT STICKY FOOTER auto 1fr auto)
+       ========================================================================= */
+    .layout-demo-wrapper {
+      width: 100%;
+      background: linear-gradient(135deg, #1e1b4b 0%, #312ebd 100%);
+      padding: 2rem 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    .layout-visualizer-container {
+      display: flex;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 650px;
+      align-items: stretch;
+    }
+
+    .layout-guide-column {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-width: 50px;
+      text-align: right;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .layout-guide-column > div {
+      border-right: 2px solid var(--accent-gold);
+      padding-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+    }
+
+    .layout-guide-column span.label-auto,
+    .layout-guide-column span.label-fr {
+      font-family: 'Fira Code', monospace;
+      color: var(--accent-gold);
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-shadow: 0 0 6px rgba(226, 183, 20, 0.4);
+    }
+
+    .layout-guide-column span.tick-top,
+    .layout-guide-column span.tick-bottom {
+      position: absolute;
+      right: -5px;
+      width: 8px;
+      height: 2px;
+      background: var(--accent-gold);
+      box-shadow: 0 0 4px rgba(226, 183, 20, 0.4);
+    }
+
+    .layout-guide-column span.tick-top { top: 0; }
+    .layout-guide-column span.tick-bottom { bottom: 0; }
+
+    /* El mockup del navegador */
+    .mockup-browser {
+      width: 100%;
+      min-height: 400px;
+      background: #f8fafc;
+      color: #1e293b;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      
+      /* Toggleable: Grid layout (Good) vs Normal block (Bad) */
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      transition: all 0.4s ease;
+    }
+
+    .mockup-browser.normal-flow {
+      display: block; /* Desactiva el grid y pasa a flujo de bloque */
+    }
+
+    /* Elementos del mockup */
+    .mockup-header {
+      background: #111827;
+      color: #f3f4f6;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .mockup-nav {
+      display: flex;
+      gap: 0.85rem;
+    }
+
+    .mockup-nav span {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+
+    .mockup-nav span:hover {
+      opacity: 1;
+    }
+
+    .mockup-main {
+      padding: 2.25rem;
+      background: #f8fafc;
+      transition: padding 0.3s ease;
+    }
+
+    .mockup-main h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #0f172a;
+    }
+
+    .mockup-main p {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: #475569;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .mockup-footer {
+      background: #1f2937;
+      color: #9ca3af;
+      padding: 1.25rem 2.25rem;
+      font-size: 0.7rem;
+      border-top: 1px solid #374151;
+    }
+
+    .footer-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .footer-col h5 {
+      color: #f3f4f6;
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .footer-col ul li {
+      color: #9ca3af;
+      font-size: 0.65rem;
+    }
+
+    /* =========================================================================
+       ESTILOS DEL EJEMPLO 6 (RESPONSIVE GRID WITHOUT MQ)
+       ========================================================================= */
+    .responsive-grid-wrapper {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    .responsive-grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 1rem;
+      border-radius: 8px;
+      transition: width 0.15s ease-out;
+    }
+
+    .grid-card-item {
+      background: linear-gradient(135deg, var(--primary) 0%, #6366f1 100%);
+      color: #ffffff;
+      padding: 1.5rem 1rem;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 80px;
+      transition: transform 0.2s;
+    }
+
+    .grid-card-item:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Estilizar range slider de forma cyberpunk/oscura */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: #1e1b4b;
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent-gold-glow);
+      transition: transform 0.1s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <header class="page-header">
+      <h1>Flexbox & Grid Remember</h1>
+      <p>Un espacio interactivo para repasar y dominar los comportamientos clave en layouts modernos de CSS.</p>
+    </header>
+
+    <!-- =========================================================================
+         TIP 1: ISOLATING ELEMENTS IN FLEXBOX
+         ========================================================================= -->
+    <article class="tip-card" id="tip-isolating-flex">
+      <div class="tip-header">
+        <h2><span class="tip-number">1.</span> Isolating Elements in Flexbox</h2>
+        <p class="tip-summary">Aísla elementos individuales en una estructura Flexbox usando auto-margins (<code>margin-left: auto</code>) en lugar de anidar múltiples contenedores innecesarios.</p>
+      </div>
+
+      <div class="demo-area">
+        <!-- Visualizador interactivo de la Navbar -->
+        <div class="demo-visualizer">
+          <div class="demo-controls">
+            <button id="btn-toggle-flex" class="btn-primary">
+              <span id="btn-icon">⚡</span> <span id="btn-text">Aplicar margin-left: auto</span>
+            </button>
+          </div>
+
+          <div class="flex-navbar-wrapper">
+            <nav class="flex-navbar" id="demo-navbar">
+              <a href="#" class="nav-item">Home</a>
+              <a href="#" class="nav-item">Products</a>
+              <a href="#" class="nav-item">About</a>
+              <a href="#" class="nav-item">Pricing</a>
+              
+              <!-- El espaciador simula de forma fluida el crecimiento del margin-left auto -->
+              <div class="flex-spacer" id="demo-spacer">
+                <span class="spacer-label">free space absorbed</span>
+              </div>
+              
+              <a href="#" class="nav-item login-item" id="demo-login">Login</a>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Editor de Código que se actualiza dinámicamente -->
+        <div class="code-container">
+          <div class="code-tab">flexbox-navbar.css</div>
+          <pre><code><span class="selector">.flex-navbar</span> {
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">gap</span>: <span class="value">1rem</span>;
+}
+
+<span class="selector">.login-item</span> {
+<span id="code-line-flex">  <span class="comment">/* Flujo de caja normal */</span></span>
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="tip-explanation">
+        <h3>¿Cómo funciona?</h3>
+        <p>En Flexbox, los márgenes con valor <code>auto</code> tienen un superpoder: **absorben todo el espacio libre disponible** en la dirección correspondiente antes de que se calculen las alineaciones.</p>
+        <p>Si declaras <code>margin-left: auto</code> en el elemento final:</p>
+        <ul>
+          <li>Ese elemento absorberá todo el espacio restante a su izquierda.</li>
+          <li>Se empujará de forma limpia hacia el extremo derecho del contenedor flex.</li>
+          <li>Es perfecto para menús de navegación, botones de cierre/confirmación o barras de herramientas.</li>
+        </ul>
+      </div>
+    </article>
+
+
+    <!-- =========================================================================
+         TIP 2: AUTO-FIT VS AUTO-FILL IN GRID
+         ========================================================================= -->
+    <article class="tip-card" id="tip-grid-auto">
+      <div class="tip-header">
+        <h2><span class="tip-number">2.</span> Auto-Fit vs Auto-Fill in Grid</h2>
+        <p class="tip-summary">Domina la diferencia clave en la distribución y el estiramiento de columnas usando <code>repeat(auto-fit/fill, minmax(...))</code>.</p>
+      </div>
+
+      <div class="demo-area">
+        <!-- Visualizador interactivo de las columnas del Grid -->
+        <div class="demo-visualizer">
+          <div class="demo-controls">
+            <button id="btn-toggle-grid" class="btn-primary">
+              <span>🔲</span> <span>Cambiar a auto-fill</span>
+            </button>
+          </div>
+
+          <div class="grid-container-wrapper">
+            <div class="grid-demo-container mode-fit" id="grid-demo">
+              <div class="grid-demo-item">Col 1</div>
+              <div class="grid-demo-item">Col 2</div>
+              <div class="grid-demo-item">Col 3</div>
+              <div class="grid-placeholder-item">Empty Track</div>
+              <div class="grid-placeholder-item">Empty Track</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editor de Código que se actualiza dinámicamente -->
+        <div class="code-container">
+          <div class="code-tab">grid-columns.css</div>
+          <pre><code><span class="selector">.grid-container</span> {
+  <span class="property">display</span>: <span class="value">grid</span>;
+  <span class="property">gap</span>: <span class="value">1rem</span>;
+<span id="code-line-grid" class="code-highlight-line">  <span class="property">grid-template-columns</span>: <span class="keyword">repeat</span>(
+    <span class="value">auto-fit</span>, 
+    <span class="keyword">minmax</span>(<span class="value">130px, 1fr</span>)
+  );</span>
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="tip-explanation">
+        <h3>¿Cómo funciona?</h3>
+        <p>Ambos valores calculan automáticamente cuántas columnas caben en el contenedor sin desbordarse. La diferencia surge cuando hay **menos elementos que columnas posibles**:</p>
+        <ul>
+          <li><strong><code>auto-fit</code> (Ajustar):</strong> Comprime el tamaño de las columnas vacías a 0. Las columnas que sí tienen contenido se estiran para llenar todo el ancho del contenedor.</li>
+          <li><strong><code>auto-fill</code> (Rellenar):</strong> Mantiene las columnas vacías como pistas (tracks) reales en el grid. Los elementos existentes conservan su ancho base (según el minmax) y dejan espacio libre para hipotéticos elementos futuros.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- =========================================================================
+         TIP 3: EXPANDING CLICKABLE HITBOX FOR CHECKBOXES/LABELS
+         ========================================================================= -->
+    <article class="tip-card" id="tip-checkbox-hitbox">
+      <div class="tip-header">
+        <h2><span class="tip-number">3.</span> Checkbox Hitbox Clickable Area</h2>
+        <p class="tip-summary">Aumenta el área de contacto para checkboxes y radio buttons haciendo que toda la fila sea interactiva, en lugar de forzar al usuario a apuntar a un texto pequeño.</p>
+      </div>
+
+      <div class="demo-area">
+        <!-- Visualizador interactivo de la Lista -->
+        <div class="demo-visualizer" style="background: #0d0c15;">
+          <div class="demo-controls" style="flex-wrap: wrap;">
+            <button id="btn-toggle-ux" class="btn-primary">
+              <span>🚀</span> <span>Cambiar a Bad UX (Texto corto interactivo)</span>
+            </button>
+            <button id="btn-toggle-hitbox" class="btn-primary" style="background: var(--accent-gold); color: #000; box-shadow: 0 4px 12px var(--accent-gold-glow);">
+              <span>👁️</span> <span>Mostrar área clickeable</span>
+            </button>
+          </div>
+
+          <div class="hitbox-demo-wrapper">
+            <ul class="hitbox-list good-ux" id="demo-hitbox-list">
+              <li>
+                <input type="checkbox" id="chk-1">
+                <label for="chk-1">Example Item</label>
+              </li>
+              <li>
+                <input type="checkbox" id="chk-2" checked>
+                <label for="chk-2">Short</label>
+              </li>
+              <li>
+                <input type="checkbox" id="chk-3">
+                <label for="chk-3">Longer Item Name</label>
+              </li>
+              <li>
+                <input type="checkbox" id="chk-4">
+                <label for="chk-4">Item</label>
+              </li>
+              <li>
+                <input type="checkbox" id="chk-5">
+                <label for="chk-5">Very long Text for an Item</label>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Editor de Código que se actualiza dinámicamente -->
+        <div class="code-container">
+          <div class="code-tab">list-item.css</div>
+          <pre><code><span class="selector">ul li</span> {
+  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">align-items</span>: <span class="value">center</span>;
+  <span class="property">padding-left</span>: <span class="value">1rem</span>;
+}
+
+<span class="selector">ul label</span> {
+<span id="code-line-hitbox" class="code-highlight-line">  <span class="property">flex-grow</span>: <span class="value">1</span>;
+  <span class="property">padding</span>: <span class="value">0.5rem 1rem</span>;
+  <span class="property">cursor</span>: <span class="value">pointer</span>;</span>
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="tip-explanation">
+        <h3>¿Cómo funciona?</h3>
+        <p>Por defecto, las etiquetas <code>&lt;label&gt;</code> son elementos en línea y solo ocupan el ancho de su contenido de texto. Esto crea una mala experiencia de usuario (UX) en dispositivos móviles y de escritorio, ya que los clics en la parte derecha del ítem son ignorados.</p>
+        <p>Para solucionar esto de manera limpia usando Flexbox:</p>
+        <ul>
+          <li>Establece <code>display: flex</code> en el contenedor <code>&lt;li&gt;</code> para alinear el checkbox y la etiqueta.</li>
+          <li>Aplica <code>flex-grow: 1</code> en la etiqueta <code>&lt;label&gt;</code> para forzarla a estirarse y llenar todo el espacio restante disponible a lo ancho.</li>
+          <li>Mueve el relleno (<code>padding</code>) del <code>&lt;li&gt;</code> directamente hacia el <code>&lt;label&gt;</code>. Esto expande la caja física clickeable vertical y horizontalmente.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- =========================================================================
+         TIP 4: GRID STACKING OVERLAYS vs POSITION ABSOLUTE
+         ========================================================================= -->
+    <article class="tip-card" id="tip-grid-stacking">
+      <div class="tip-header">
+        <h2><span class="tip-number">4.</span> Grid Stacking (Elimina absolute)</h2>
+        <p class="tip-summary">Usa CSS Grid para apilar imágenes, textos y overlays en la misma celda (<code>grid-area: 1 / 1</code>) eliminando la necesidad de posiciones absolutas frágiles.</p>
+      </div>
+
+      <div class="demo-area">
+        <!-- Visualizador interactivo del Card con Overlay -->
+        <div class="demo-visualizer" style="background: #0d0c15;">
+          <div class="demo-controls" style="flex-wrap: wrap;">
+            <button id="btn-toggle-stack-mode" class="btn-primary">
+              <span>🔀</span> <span>Cambiar a Absolute Mode</span>
+            </button>
+            <button id="btn-toggle-stack-content" class="btn-primary" style="background: var(--accent-gold); color: #000; box-shadow: 0 4px 12px var(--accent-gold-glow);">
+              <span>📝</span> <span>Simular Texto Largo</span>
+            </button>
+          </div>
+
+          <div class="grid-stack-wrapper">
+            <div class="stack-container" id="demo-stack-container">
+              <img src="brown_labrador.png" alt="Labrador Dog" id="demo-stack-img">
+              <div class="text-overlay" id="demo-stack-text">
+                <h4 style="font-weight: 700; margin-bottom: 0.25rem;">Labrador Retriever</h4>
+                <p id="demo-stack-paragraph" style="font-size: 0.85rem; line-height: 1.4; color: #cbd5e1; margin-bottom: 0;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis numquam asperiores.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editor de Código que se actualiza dinámicamente -->
+        <div class="code-container">
+          <div class="code-tab">grid-stacking.css</div>
+          <pre><code><span class="selector">.wrapper</span> {
+<span id="code-line-stack-wrapper">  <span class="property">display</span>: <span class="value">grid</span>;
+  <span class="property">place-items</span>: <span class="value">end</span>;</span>
+}
+
+<span class="selector">img</span> {
+  <span class="property">width</span>: <span class="value">100%</span>;
+  <span class="property">object-fit</span>: <span class="value">cover</span>;
+<span id="code-line-stack-img">  <span class="property">grid-area</span>: <span class="value">1 / 1</span>;</span>
+}
+
+<span class="selector">.text-overlay</span> {
+  <span class="property">width</span>: <span class="value">100%</span>;
+  <span class="property">background-color</span>: <span class="value">rgba(0,0,0,0.75)</span>;
+<span id="code-line-stack-text">  <span class="property">grid-area</span>: <span class="value">1 / 1</span>;</span>
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="tip-explanation">
+        <h3>¿Cómo funciona?</h3>
+        <p>Cuando asignas el mismo valor de <code>grid-area: 1 / 1</code> a varios elementos en un contenedor Grid de una sola columna y fila, todos ellos **se posicionan en la misma celda**, apilándose uno encima de otro en el orden del HTML (el último tiene prioridad de z-index nativo).</p>
+        <p>A diferencia de <code>position: absolute</code>:</p>
+        <ul>
+          <li>El contenedor padre (wrapper) **conoce las dimensiones físicas de todos sus hijos**. Su altura se adaptará de forma segura si el texto del overlay crece, en lugar de cortarse o desbordarse.</li>
+          <li>Puedes usar <code>align-self: end</code> o <code>place-items: end</code> para empujar el texto a la parte inferior del contenedor.</li>
+          <li>Funciona de forma responsiva sin necesidad de calcular alturas fijas o usar hacks de JavaScript.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- =========================================================================
+         TIP 5: EVEN COLUMNS WITH FLEX AND GRID
+         ========================================================================= -->
+    <article class="tip-card" id="tip-even-columns">
+      <div class="tip-header">
+        <h2><span class="tip-number">5.</span> How to Get Even Columns</h2>
+        <p class="tip-summary">Alinea columnas para que tengan exactamente el mismo ancho, sin importar que el contenido de una sea mucho más largo o corto que las demás, utilizando Flexbox y CSS Grid.</p>
+      </div>
+
+      <div class="demo-area">
+        <!-- Visualizador interactivo de las Columnas -->
+        <div class="demo-visualizer" style="background: #0d0c15;">
+          <div class="demo-controls" style="flex-wrap: wrap;">
+            <button id="btn-even-flex-uneven" class="btn-primary active">
+              <span>⚠️</span> <span>Flex Desigual (Por Defecto)</span>
+            </button>
+            <button id="btn-even-flex" class="btn-primary">
+              <span>⚡</span> <span>Flexbox (flex: 1)</span>
+            </button>
+            <button id="btn-even-grid" class="btn-primary">
+              <span>🔳</span> <span>Grid Auto-Columns (1fr)</span>
+            </button>
+          </div>
+
+          <div class="even-cols-wrapper">
+            <div class="cols-container flex-uneven" id="demo-cols-container">
+              <div class="col-item">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, quidem!
+              </div>
+              <div class="col-item">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem nisi voluptatibus neque officiis eveniet tempore necessitatibus mollitia quo ex doloribus.
+              </div>
+              <div class="col-item">
+                Lorem ipsum dolor sit amet.
+              </div>
+              <div class="col-item">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur doloremque quis enim quae nam quasi libero sapiente officiis nulla dolores.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editor de Código que se actualiza dinámicamente -->
+        <div class="code-container">
+          <div class="code-tab" id="code-tab-even">flex-uneven.css</div>
+          <pre><code><span class="selector" id="even-selector">.cols-container</span> {
+<span id="code-line-even-container">  <span class="property">display</span>: <span class="value">flex</span>;
+  <span class="property">gap</span>: <span class="value">1rem</span>;</span>
+}
+
+<span class="selector" id="even-child-selector">.col-item</span> {
+<span id="code-line-even-child">  <span class="comment">/* Ancho automático según contenido */</span></span>
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="tip-explanation">
+        <h3>¿Cómo funciona y cuándo usar cada uno?</h3>
+        
+        <h4>Método 1: Flexbox con <code>flex: 1</code></h4>
+        <p>Por defecto, en un contenedor Flex, los elementos se dimensionan según su contenido (<code>flex-basis: auto</code>). Al declarar <code>flex: 1</code> (que es el atajo de <code>flex-grow: 1; flex-shrink: 1; flex-basis: 0%;</code>) en todos los hijos, forzamos a que su tamaño inicial sea <code>0%</code> y luego crezcan equitativamente absorbiendo todo el espacio disponible por igual, logrando columnas idénticas.</p>
+        <p><strong>Cuándo usar Flexbox:</strong> Ideal para layouts sencillos unidimensionales (una sola fila) y cuando quieres que el diseño tenga la flexibilidad de envolver o reordenarse.</p>
+
+        <h4>Método 2: Grid con <code>grid-auto-flow</code> y <code>grid-auto-columns</code></h4>
+        <p>Con CSS Grid, podemos lograr columnas iguales **directamente desde el contenedor padre**, sin tener que añadir clases o estilos a cada uno de los elementos hijos. Establecemos <code>grid-auto-flow: column</code> para que cada hijo cree una nueva columna automáticamente, y <code>grid-auto-columns: 1fr</code> para forzar a que cada pista de columna generada ocupe la misma fracción de espacio (<code>1fr</code>).</p>
+        <p><strong>Cuándo usar Grid:</strong> Excelente para layouts más estructurados, cuando quieres mantener el control del diseño 100% en el elemento padre, y cuando manejas múltiples dimensiones o rejillas más complejas.</p>
+      </div>
+    </article>
+
+    <!-- =========================================================================
+         TIP 6: RESPONSIVE GRID WITHOUT MEDIA QUERIES
+         ========================================================================= -->
+    <article class="tip-card" id="tip-responsive-no-mq">
+      <div class="tip-header">
+        <h2><span class="tip-number">6.</span> Responsive Grid without Media Queries</h2>
+        <p class="tip-summary">Crea rejillas responsivas fluidas que calculan automáticamente el número de columnas ideales según el espacio disponible utilizando <code>repeat(auto-fit/fill, minmax(min, max))</code>.</p>
+      </div>
+
+      <div class="demo-area">
+        <!-- Visualizador interactivo del Grid Responsivo con Slider -->
+        <div class="demo-visualizer" style="background: #0d0c15;">
+          <div class="demo-controls" style="flex-direction: column; align-items: stretch; gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.9rem;">
+              <span>Redimensionar ancho del contenedor del Grid:</span>
+              <span id="slider-width-val" style="font-family: 'Fira Code', monospace; color: var(--accent-gold); font-weight: bold;">100%</span>
+            </div>
+            <input type="range" id="range-container-width" min="300" max="800" value="800" style="width: 100%; cursor: pointer;">
+          </div>
+
+          <div class="responsive-grid-wrapper">
+            <div class="responsive-grid-container" id="demo-responsive-grid" style="width: 100%;">
+              <div class="grid-card-item">Card 1</div>
+              <div class="grid-card-item">Card 2</div>
+              <div class="grid-card-item">Card 3</div>
+              <div class="grid-card-item">Card 4</div>
+              <div class="grid-card-item">Card 5</div>
+              <div class="grid-card-item">Card 6</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editor de Código -->
+        <div class="code-container">
+          <div class="code-tab">responsive-grid.css</div>
+          <pre><code><span class="selector">.grid-container</span> {
+  <span class="property">display</span>: <span class="value">grid</span>;
+  <span class="property">gap</span>: <span class="value">1rem</span>;
+  <span class="property">grid-template-columns</span>: <span class="keyword">repeat</span>(
+    <span class="value">auto-fit</span>, 
+    <span class="keyword">minmax</span>(<span class="value">180px, 1fr</span>)
+  );
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="tip-explanation">
+        <h3>¿Cómo funciona la fórmula mágica?</h3>
+        <p>Esta declaración combina tres conceptos clave de Grid para automatizar la adaptabilidad sin una sola línea de <code>@media</code> queries:</p>
+        <ul>
+          <li><strong><code>repeat()</code>:</strong> Le dice al navegador que cree múltiples columnas siguiendo un mismo patrón.</li>
+          <li><strong><code>auto-fit</code>:</strong> En lugar de pasar un número fijo (como 3 o 4), le dice al navegador: <em>"calcula dinámicamente cuántas columnas caben basándote en su tamaño mínimo"</em>.</li>
+          <li><strong><code>minmax(180px, 1fr)</code>:</strong> Define el rango de tamaño de cada columna. Cada una tendrá **como mínimo** <code>180px</code> de ancho, y **como máximo** se estirará de forma equitativa utilizando una fracción del espacio libre disponible (<code>1fr</code>).</li>
+        </ul>
+        <p><strong>💡 El resultado:</strong> Si el contenedor mide 300px, solo cabe 1 columna de 180px (y se estira a 300px). Si mide 600px, caben 3 columnas de 180px (y se estiran a 200px cada una). La rejilla es completamente fluida e inteligente.</p>
+      </div>
+    </article>
+
+    <!-- =========================================================================
+         TIP 7: STICKY FOOTER LAYOUT (auto 1fr auto)
+         ========================================================================= -->
+    <article class="tip-card" id="tip-sticky-footer">
+      <div class="tip-header">
+        <h2><span class="tip-number">7.</span> Classic Page Layout (auto 1fr auto)</h2>
+        <p class="tip-summary">Diseña la estructura básica de cualquier página web usando Grid (<code>grid-template-rows: auto 1fr auto</code>) para forzar al pie de página (footer) a permanecer abajo aunque el contenido sea muy corto.</p>
+      </div>
+
+      <div class="demo-area">
+        <!-- Visualizador interactivo de la Página -->
+        <div class="demo-visualizer" style="background: #0d0c15;">
+          <div class="demo-controls" style="flex-wrap: wrap;">
+            <button id="btn-layout-grid" class="btn-primary active">
+              <span>🔳</span> <span>Grid Layout (auto 1fr auto)</span>
+            </button>
+            <button id="btn-layout-block" class="btn-primary">
+              <span>⚠️</span> <span>Normal Flow (Block)</span>
+            </button>
+            <button id="btn-layout-text" class="btn-primary" style="background: var(--accent-gold); color: #000; box-shadow: 0 4px 12px var(--accent-gold-glow);">
+              <span>📝</span> <span>Simular Contenido Corto</span>
+            </button>
+          </div>
+
+          <div class="layout-demo-wrapper">
+            <div class="layout-visualizer-container">
+              <!-- Las guías verticales (auto, 1fr, auto) -->
+              <div class="layout-guide-column" id="demo-guide-column">
+                <div>
+                  <span class="label-auto">auto</span>
+                  <span class="tick-top"></span>
+                  <span class="tick-bottom"></span>
+                </div>
+                <div>
+                  <span class="label-fr">1fr</span>
+                  <span class="tick-top"></span>
+                  <span class="tick-bottom"></span>
+                </div>
+                <div>
+                  <span class="label-auto">auto</span>
+                  <span class="tick-top"></span>
+                  <span class="tick-bottom"></span>
+                </div>
+              </div>
+
+              <!-- El navegador mockup -->
+              <div class="mockup-browser" id="demo-browser">
+                <header class="mockup-header">
+                  <span style="font-weight: 700;">Homepage</span>
+                  <nav class="mockup-nav">
+                    <span>Services</span>
+                    <span>Common Questions</span>
+                    <span>Pricing</span>
+                    <span>Contact</span>
+                  </nav>
+                </header>
+                <main class="mockup-main">
+                  <h3>Contact</h3>
+                  <p id="demo-layout-p">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi neque mollitia nobis error deleniti? Quasi illum minima accusamus.</p>
+                  <div style="font-size: 0.8rem; font-weight: 600; color: #0f172a;">
+                    Email: <span style="color: #2563eb; font-weight: normal; text-decoration: underline;">example@outlook.de</span>
+                  </div>
+                </main>
+                <footer class="mockup-footer">
+                  <div class="footer-columns">
+                    <div class="footer-col">
+                      <h5>Homepage</h5>
+                      <ul>
+                        <li>Services</li>
+                        <li>Pricing</li>
+                      </ul>
+                    </div>
+                    <div class="footer-col">
+                      <h5>Common Questions</h5>
+                      <ul>
+                        <li>Work with us</li>
+                        <li>Contact</li>
+                      </ul>
+                    </div>
+                    <div class="footer-col">
+                      <h5>Privacy Policy</h5>
+                      <ul>
+                        <li>Legal Notice</li>
+                        <li>Report a bug</li>
+                      </ul>
+                    </div>
+                  </div>
+                </footer>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editor de Código -->
+        <div class="code-container">
+          <div class="code-tab" id="code-tab-layout">grid-layout.css</div>
+          <pre><code><span class="selector">.page-container</span> {
+<span id="code-line-layout">  <span class="property">display</span>: <span class="value">grid</span>;
+  <span class="property">grid-template-rows</span>: <span class="value">auto 1fr auto</span>;
+  <span class="property">min-height</span>: <span class="value">400px</span>;</span>
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="tip-explanation">
+        <h3>¿Cómo funciona la propiedad y cuándo usarla?</h3>
+        
+        <h4>Explicación de las propiedades:</h4>
+        <ul>
+          <li><strong><code>grid-template-rows: auto 1fr auto;</code>:</strong> Define tres filas en el contenedor Grid.
+            <ul>
+              <li>La primera fila (Header) y la tercera fila (Footer) tienen un tamaño de <code>auto</code>, lo que significa que ocuparán estrictamente la altura requerida por su contenido.</li>
+              <li>La segunda fila (Main Content) tiene un tamaño de <code>1fr</code>. Al ser el único valor fraccionario, **absorbe la totalidad del espacio vertical que sobre** en el contenedor principal.</li>
+            </ul>
+          </li>
+          <li><strong><code>min-height: 100vh;</code> (en producción):</strong> Asegura que el contenedor Grid ocupe como mínimo el 100% de la altura de la pantalla del navegador, permitiendo que la fila de <code>1fr</code> tenga espacio para estirarse.</li>
+        </ul>
+
+        <p><strong>💡 Cuándo usar:</strong> Siempre que crees el contenedor principal (layout base) de un sitio web. Evita la mala práctica clásica de que el footer flote a mitad de pantalla cuando hay muy poco contenido en el cuerpo de la página.</p>
+      </div>
+    </article>
+
+    <!-- =========================================================================
+         TIP 8: EQUAL-HEIGHT CARD ALIGNMENT (flex-grow vs grid-template-rows)
+         ========================================================================= -->
+    <article class="tip-card" id="tip-card-align">
+      <div class="tip-header">
+        <h2><span class="tip-number">8.</span> Alinear contenido en cards de la misma altura</h2>
+        <p class="tip-summary">Cuando tienes un grid de cards con diferente cantidad de texto, ¿cómo haces para que los títulos, las descripciones y los botones queden en la misma línea horizontal? Dos técnicas: <code>flex-grow: 1</code> en el <code>&lt;p&gt;</code>, o <code>grid-template-rows: auto 1fr auto</code> en la card.</p>
+      </div>
+
+      <div class="demo-area">
+        <!-- Controles -->
+        <div class="demo-visualizer" style="background: #0d0c15;">
+          <div class="demo-controls" style="flex-wrap: wrap;">
+            <button id="btn-cards-broken" class="btn-primary active">
+              <span>💔</span> <span>Sin fix (broken)</span>
+            </button>
+            <button id="btn-cards-flex" class="btn-primary">
+              <span>💡</span> <span>Fix: flex-grow</span>
+            </button>
+            <button id="btn-cards-grid" class="btn-primary">
+              <span>🔳</span> <span>Fix: grid-template-rows</span>
+            </button>
+            <button id="btn-cards-jcc" class="btn-primary">
+              <span>↕️</span> <span>Fix: justify-content: space-between</span>
+            </button>
+            <button id="btn-cards-mta" class="btn-primary">
+              <span>📌</span> <span>Fix: margin-top: auto (btn)</span>
+            </button>
+            <button id="btn-cards-guides" class="btn-primary" style="background: rgba(139,92,246,0.25); color: #a78bfa; border: 1px solid rgba(139,92,246,0.5);">
+              <span>🔍</span> <span>Mostrar guías</span>
+            </button>
+          </div>
+
+          <!-- Demo Cards -->
+          <div style="padding: 1.5rem 0;">
+            <div class="cards-demo-wrapper">
+              <div class="cards-row broken" id="demo-cards-row">
+                <div class="card-item">
+                  <h3 class="card-title">Diseño UI/UX</h3>
+                  <p class="card-desc">Aprende los principios fundamentales del diseño de interfaces modernas y la experiencia de usuario.</p>
+                  <button class="card-btn">Ver curso →</button>
+                </div>
+                <div class="card-item">
+                  <h3 class="card-title">Desarrollo Fullstack con Node.js, React y bases de datos relacionales</h3>
+                  <p class="card-desc">Domina el stack completo: backend, frontend, APIs REST y bases de datos SQL en un solo programa intensivo con proyectos reales y mentoría personalizada cada semana.</p>
+                  <button class="card-btn">Ver curso →</button>
+                </div>
+                <div class="card-item">
+                  <h3 class="card-title">CSS Avanzado</h3>
+                  <p class="card-desc">Grid, Flexbox, animaciones y técnicas pro para crear layouts complejos sin frameworks.</p>
+                  <button class="card-btn">Ver curso →</button>
+                </div>
+              </div>
+
+              <!-- Legend (visible solo cuando show-guides está activo) -->
+              <div class="cards-legend" id="cards-legend" style="display: none;">
+                <span><span class="dot dot-title"></span> .card-title (auto)</span>
+                <span><span class="dot dot-desc"></span> .card-desc (1fr / flex-grow: 1)</span>
+                <span><span class="dot dot-btn"></span> .card-btn (auto)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Editor de Código -->
+          <div class="code-container">
+            <div class="code-tab" id="code-tab-cards">broken-cards.css</div>
+            <pre><code><span class="selector" id="cards-selector">.card-item</span> {
+<span id="code-line-cards"><span class="property">  display</span>: <span class="value">flex</span>;
+  <span class="property">flex-direction</span>: <span class="value">column</span>;
+  <span class="comment">  /* ⚠️ Sin flex-grow en .card-desc */
+  /* El botón NO baja al fondo */</span></span>
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-explanation">
+        <h3>¿Cómo funciona y cuándo usar cada técnica?</h3>
+        <h4>El problema:</h4>
+        <p>En un grid de cards, cada card tiene distinta cantidad de texto. Si no haces nada especial, los botones quedan a diferentes alturas porque el <code>&lt;p&gt;</code> solo ocupa lo que necesita.</p>
+
+        <h4>Técnica 1 — <code>flex-grow: 1</code> en el párrafo:</h4>
+        <ul>
+          <li><strong>Cómo:</strong> La card es <code>display: flex; flex-direction: column</code>. Aplica <code>flex-grow: 1</code> al <code>&lt;p&gt;</code> para que absorba todo el espacio libre restante y empuje el botón al fondo.</li>
+          <li><strong>Cuándo:</strong> La más usada en la práctica. Ideal para cards simples (título + desc + botón).</li>
+          <li><strong>⚠️ Clave:</strong> Solo funciona si la card padre tiene <code>flex-direction: column</code>.</li>
+        </ul>
+
+        <h4>Técnica 2 — <code>grid-template-rows: auto 1fr auto</code>:</h4>
+        <ul>
+          <li><strong>Cómo:</strong> La card es <code>display: grid; grid-template-rows: auto 1fr auto</code>. La fila <code>1fr</code> estira la descripción; la última fila <code>auto</code> mantiene el botón al fondo.</li>
+          <li><strong>Cuándo:</strong> Cuando la card tiene más de 3 secciones (imagen, título, desc, tags, botón) y quieres control explícito de cada fila.</li>
+          <li><strong>Ventaja:</strong> Más escalable. Puedes nombrar áreas con <code>grid-template-areas</code>.</li>
+        </ul>
+
+        <h4>Técnica 3 — <code>justify-content: space-between</code>:</h4>
+        <ul>
+          <li><strong>Cómo:</strong> La card es <code>display: flex; flex-direction: column; justify-content: space-between</code>. Distribuye el espacio disponible <em>entre</em> todos los hijos equitativamente.</li>
+          <li><strong>⚠️ Cuándo evitarla:</strong> Si hay muchos elementos intermedios, el espacio se reparte entre todos y el resultado puede verse desigual. Si solo hay 2 ítems, uno queda arriba y otro abajo sin contenido visual en el centro.</li>
+          <li><strong>Úsala cuando:</strong> Tienes exactamente 3 secciones y quieres separación visual uniforme entre ellas, no solo el botón al fondo.</li>
+        </ul>
+
+        <h4>Técnica 4 — <code>margin-top: auto</code> en el botón:</h4>
+        <ul>
+          <li><strong>Cómo:</strong> La card es <code>display: flex; flex-direction: column</code>. Al botón le pones <code>margin-top: auto</code>. El margen automático absorbe todo el espacio sobrante por encima del botón y lo empuja al fondo.</li>
+          <li><strong>Cuándo:</strong> Cuando no quieres tocar el <code>&lt;p&gt;</code> (por ejemplo, si es un componente reutilizable) y prefieres que el botón se auto-posicione.</li>
+          <li><strong>Es el mismo principio que <code>margin-left: auto</code></strong> del Tip 1 (aislar elementos en Flexbox), pero en dirección vertical.</li>
+        </ul>
+
+        <p><strong>💡 Resumen rápido:</strong></p>
+        <ul>
+          <li>✅ <strong>flex-grow: 1 en el p</strong> → la más común, más semántica</li>
+          <li>✅ <strong>grid-template-rows</strong> → más control, más escalable</li>
+          <li>⚠️ <strong>justify-content: space-between</strong> → cuidado si hay muchos elementos</li>
+          <li>✅ <strong>margin-top: auto en el btn</strong> → cuando el botón se auto-posiciona sin tocar hermanos</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- =========================================================================
+         [PLANTILLA] INSTRUCCIONES PARA AGREGAR MÁS TIPS
+         =========================================================================
+         Para agregar un nuevo Tip, puedes duplicar la estructura de arriba:
+         
+         <article class="tip-card" id="tip-id">
+           <div class="tip-header">
+             <h2><span class="tip-number">N.</span> Título del Tip</h2>
+             <p class="tip-summary">Resumen explicativo rápido...</p>
+           </div>
+           
+           <div class="demo-area">
+             ... Contenido interactivo o demostración ...
+           </div>
+           
+           <div class="tip-explanation">
+             ... Explicación detallada y viñetas ...
+           </div>
+         </article>
+    -->
+
+  </div>
+
+  <!-- =========================================================================
+       CONTROLADORES INTERACTIVOS (JS SEGURO - SIN INNERHTML)
+       ========================================================================= -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      /* ==========================================
+         JS PARA TIP 1: FLEXBOX AUTO-MARGIN
+         ========================================== */
+      const btnFlex = document.getElementById('btn-toggle-flex');
+      const btnText = document.getElementById('btn-text');
+      const btnIcon = document.getElementById('btn-icon');
+      const spacer = document.getElementById('demo-spacer');
+      const login = document.getElementById('demo-login');
+      const codeLineFlex = document.getElementById('code-line-flex');
+      
+      let flexIsolated = false;
+      
+      btnFlex.addEventListener('click', () => {
+        flexIsolated = !flexIsolated;
+        
+        if (flexIsolated) {
+          // Activar espaciador educativo para la transición fluida
+          spacer.classList.add('active');
+          login.classList.add('isolated-real');
+          
+          // Actualizar texto del botón de forma segura
+          btnText.textContent = 'Restaurar flujo de caja';
+          btnIcon.textContent = '↩';
+          
+          // Actualizar visualización del código con resaltado seguro
+          codeLineFlex.classList.add('code-highlight-line');
+          codeLineFlex.textContent = ''; // Limpiamos contenido anterior
+          
+          const propSpan = document.createElement('span');
+          propSpan.className = 'property';
+          propSpan.textContent = '  margin-left';
+          
+          const colonText = document.createTextNode(': ');
+          
+          const valSpan = document.createElement('span');
+          valSpan.className = 'value';
+          valSpan.textContent = 'auto';
+          
+          const semiText = document.createTextNode(';');
+          
+          codeLineFlex.appendChild(propSpan);
+          codeLineFlex.appendChild(colonText);
+          codeLineFlex.appendChild(valSpan);
+          codeLineFlex.appendChild(semiText);
+          
+        } else {
+          // Desactivar estado
+          spacer.classList.remove('active');
+          login.classList.remove('isolated-real');
+          
+          btnText.textContent = 'Aplicar margin-left: auto';
+          btnIcon.textContent = '⚡';
+          
+          codeLineFlex.classList.remove('code-highlight-line');
+          codeLineFlex.textContent = ''; // Limpiamos contenido
+          
+          const commentSpan = document.createElement('span');
+          commentSpan.className = 'comment';
+          commentSpan.textContent = '  /* Flujo de caja normal */';
+          codeLineFlex.appendChild(commentSpan);
+        }
+      });
+
+
+      /* ==========================================
+         JS PARA TIP 2: GRID AUTO-FIT vs AUTO-FILL
+         ========================================== */
+      const btnGrid = document.getElementById('btn-toggle-grid');
+      const gridDemo = document.getElementById('grid-demo');
+      const codeLineGrid = document.getElementById('code-line-grid');
+      
+      let isFit = true;
+      
+      btnGrid.addEventListener('click', () => {
+        isFit = !isFit;
+        
+        codeLineGrid.textContent = ''; // Limpiamos el nodo de código para actualizarlo de forma segura
+        
+        const propSpan = document.createElement('span');
+        propSpan.className = 'property';
+        propSpan.textContent = '  grid-template-columns';
+        
+        const colonText = document.createTextNode(': ');
+        
+        const repeatSpan = document.createElement('span');
+        repeatSpan.className = 'keyword';
+        repeatSpan.textContent = 'repeat';
+        
+        const openParen = document.createTextNode('(\n    ');
+        
+        const modeSpan = document.createElement('span');
+        modeSpan.className = 'value';
+        
+        const restOfRule = document.createTextNode(', \n    ');
+        
+        const minmaxSpan = document.createElement('span');
+        minmaxSpan.className = 'keyword';
+        minmaxSpan.textContent = 'minmax';
+        
+        const valSpan = document.createElement('span');
+        valSpan.className = 'value';
+        valSpan.textContent = '(130px, 1fr)';
+        
+        const closeParen = document.createTextNode('\n  );');
+        
+        if (isFit) {
+          gridDemo.classList.replace('mode-fill', 'mode-fit');
+          btnGrid.children[0].textContent = '🔲';
+          btnGrid.children[1].textContent = 'Cambiar a auto-fill';
+          
+          modeSpan.textContent = 'auto-fit';
+        } else {
+          gridDemo.classList.replace('mode-fit', 'mode-fill');
+          btnGrid.children[0].textContent = '🔳';
+          btnGrid.children[1].textContent = 'Cambiar a auto-fit';
+          
+          modeSpan.textContent = 'auto-fill';
+        }
+        
+        // Reconstrucción del código del Grid de forma totalmente segura
+        codeLineGrid.appendChild(propSpan);
+        codeLineGrid.appendChild(colonText);
+        codeLineGrid.appendChild(repeatSpan);
+        codeLineGrid.appendChild(openParen);
+        codeLineGrid.appendChild(modeSpan);
+        codeLineGrid.appendChild(restOfRule);
+        codeLineGrid.appendChild(minmaxSpan);
+        codeLineGrid.appendChild(valSpan);
+        codeLineGrid.appendChild(closeParen);
+      });
+
+      /* ==========================================
+         JS PARA TIP 3: CHECKBOX HITBOX
+         ========================================== */
+      const btnUX = document.getElementById('btn-toggle-ux');
+      const btnHitbox = document.getElementById('btn-toggle-hitbox');
+      const hitboxList = document.getElementById('demo-hitbox-list');
+      const codeLineHitbox = document.getElementById('code-line-hitbox');
+      
+      let isGoodUX = true;
+      let showHitboxOutline = false;
+      
+      btnUX.addEventListener('click', () => {
+        isGoodUX = !isGoodUX;
+        
+        codeLineHitbox.textContent = ''; // Limpiamos el nodo de forma segura
+        
+        if (isGoodUX) {
+          hitboxList.classList.replace('bad-ux', 'good-ux');
+          btnUX.children[0].textContent = '🚀';
+          btnUX.children[1].textContent = 'Cambiar a Bad UX (Texto corto interactivo)';
+          
+          // Reconstruir código Good UX de forma segura
+          const flexGrowProp = document.createElement('span');
+          flexGrowProp.className = 'property';
+          flexGrowProp.textContent = '  flex-grow';
+          const flexGrowVal = document.createElement('span');
+          flexGrowVal.className = 'value';
+          flexGrowVal.textContent = '1';
+          
+          const paddingProp = document.createElement('span');
+          paddingProp.className = 'property';
+          paddingProp.textContent = '\n  padding';
+          const paddingVal = document.createElement('span');
+          paddingVal.className = 'value';
+          paddingVal.textContent = '0.5rem 1rem';
+          
+          const cursorProp = document.createElement('span');
+          cursorProp.className = 'property';
+          cursorProp.textContent = '\n  cursor';
+          const cursorVal = document.createElement('span');
+          cursorVal.className = 'value';
+          cursorVal.textContent = 'pointer';
+          
+          codeLineHitbox.appendChild(flexGrowProp);
+          codeLineHitbox.appendChild(document.createTextNode(': '));
+          codeLineHitbox.appendChild(flexGrowVal);
+          codeLineHitbox.appendChild(document.createTextNode(';'));
+          
+          codeLineHitbox.appendChild(paddingProp);
+          codeLineHitbox.appendChild(document.createTextNode(': '));
+          codeLineHitbox.appendChild(paddingVal);
+          codeLineHitbox.appendChild(document.createTextNode(';'));
+          
+          codeLineHitbox.appendChild(cursorProp);
+          codeLineHitbox.appendChild(document.createTextNode(': '));
+          codeLineHitbox.appendChild(cursorVal);
+          codeLineHitbox.appendChild(document.createTextNode(';'));
+          
+          codeLineHitbox.classList.add('code-highlight-line');
+        } else {
+          hitboxList.classList.replace('good-ux', 'bad-ux');
+          btnUX.children[0].textContent = '⚠️';
+          btnUX.children[1].textContent = 'Cambiar a Good UX (Fila completa interactiva)';
+          
+          // Reconstruir código Bad UX de forma segura
+          const comment1 = document.createElement('span');
+          comment1.className = 'comment';
+          comment1.textContent = '  /* No se estira, no tiene padding */\n';
+          
+          const flexGrowProp = document.createElement('span');
+          flexGrowProp.className = 'property';
+          flexGrowProp.textContent = '  flex-grow';
+          const flexGrowVal = document.createElement('span');
+          flexGrowVal.className = 'value';
+          flexGrowVal.textContent = '0';
+          
+          const cursorProp = document.createElement('span');
+          cursorProp.className = 'property';
+          cursorProp.textContent = '\n  cursor';
+          const cursorVal = document.createElement('span');
+          cursorVal.className = 'value';
+          cursorVal.textContent = 'pointer';
+          
+          codeLineHitbox.appendChild(comment1);
+          codeLineHitbox.appendChild(flexGrowProp);
+          codeLineHitbox.appendChild(document.createTextNode(': '));
+          codeLineHitbox.appendChild(flexGrowVal);
+          codeLineHitbox.appendChild(document.createTextNode(';'));
+          codeLineHitbox.appendChild(cursorProp);
+          codeLineHitbox.appendChild(document.createTextNode(': '));
+          codeLineHitbox.appendChild(cursorVal);
+          codeLineHitbox.appendChild(document.createTextNode(';'));
+          
+          codeLineHitbox.classList.remove('code-highlight-line');
+        }
+      });
+      
+      btnHitbox.addEventListener('click', () => {
+        showHitboxOutline = !showHitboxOutline;
+        
+        if (showHitboxOutline) {
+          hitboxList.classList.add('show-hitbox');
+          btnHitbox.children[1].textContent = 'Ocultar área clickeable';
+        } else {
+          hitboxList.classList.remove('show-hitbox');
+          btnHitbox.children[1].textContent = 'Mostrar área clickeable';
+        }
+      });
+
+      /* ==========================================
+         JS PARA TIP 4: GRID OVERLAY STACKING
+         ========================================== */
+      const btnStackMode = document.getElementById('btn-toggle-stack-mode');
+      const btnStackContent = document.getElementById('btn-toggle-stack-content');
+      const stackContainer = document.getElementById('demo-stack-container');
+      const stackParagraph = document.getElementById('demo-stack-paragraph');
+      
+      const codeLineStackWrapper = document.getElementById('code-line-stack-wrapper');
+      const codeLineStackImg = document.getElementById('code-line-stack-img');
+      const codeLineStackText = document.getElementById('code-line-stack-text');
+      
+      let isGridStack = true;
+      let isLongText = false;
+      
+      btnStackMode.addEventListener('click', () => {
+        isGridStack = !isGridStack;
+        
+        // Limpiamos los bloques de código de forma segura
+        codeLineStackWrapper.textContent = '';
+        codeLineStackImg.textContent = '';
+        codeLineStackText.textContent = '';
+        
+        if (isGridStack) {
+          stackContainer.classList.remove('absolute-mode');
+          btnStackMode.children[0].textContent = '🔲';
+          btnStackMode.children[1].textContent = 'Cambiar a Absolute Mode';
+          
+          // Reconstruir CSS Grid de forma segura
+          const p1 = document.createElement('span'); p1.className = 'property'; p1.textContent = '  display';
+          const v1 = document.createElement('span'); v1.className = 'value'; v1.textContent = 'grid';
+          const p2 = document.createElement('span'); p2.className = 'property'; p2.textContent = '\n  place-items';
+          const v2 = document.createElement('span'); v2.className = 'value'; v2.textContent = 'end';
+          
+          codeLineStackWrapper.appendChild(p1);
+          codeLineStackWrapper.appendChild(document.createTextNode(': '));
+          codeLineStackWrapper.appendChild(v1);
+          codeLineStackWrapper.appendChild(document.createTextNode(';'));
+          codeLineStackWrapper.appendChild(p2);
+          codeLineStackWrapper.appendChild(document.createTextNode(': '));
+          codeLineStackWrapper.appendChild(v2);
+          codeLineStackWrapper.appendChild(document.createTextNode(';'));
+          
+          const p3 = document.createElement('span'); p3.className = 'property'; p3.textContent = '  grid-area';
+          const v3 = document.createElement('span'); v3.className = 'value'; v3.textContent = '1 / 1';
+          codeLineStackImg.appendChild(p3);
+          codeLineStackImg.appendChild(document.createTextNode(': '));
+          codeLineStackImg.appendChild(v3);
+          codeLineStackImg.appendChild(document.createTextNode(';'));
+          
+          const p4 = document.createElement('span'); p4.className = 'property'; p4.textContent = '  grid-area';
+          const v4 = document.createElement('span'); v4.className = 'value'; v4.textContent = '1 / 1';
+          codeLineStackText.appendChild(p4);
+          codeLineStackText.appendChild(document.createTextNode(': '));
+          codeLineStackText.appendChild(v4);
+          codeLineStackText.appendChild(document.createTextNode(';'));
+          
+        } else {
+          stackContainer.classList.add('absolute-mode');
+          btnStackMode.children[0].textContent = '⚡';
+          btnStackMode.children[1].textContent = 'Cambiar a Grid Stacking';
+          
+          // Reconstruir CSS Absolute de forma segura
+          const p1 = document.createElement('span'); p1.className = 'property'; p1.textContent = '  position';
+          const v1 = document.createElement('span'); v1.className = 'value'; v1.textContent = 'relative';
+          codeLineStackWrapper.appendChild(p1);
+          codeLineStackWrapper.appendChild(document.createTextNode(': '));
+          codeLineStackWrapper.appendChild(v1);
+          codeLineStackWrapper.appendChild(document.createTextNode(';'));
+          
+          const commentImg = document.createElement('span'); commentImg.className = 'comment'; commentImg.textContent = '  /* Flujo de imagen normal */';
+          codeLineStackImg.appendChild(commentImg);
+          
+          const p3 = document.createElement('span'); p3.className = 'property'; p3.textContent = '  position';
+          const v3 = document.createElement('span'); v3.className = 'value'; v3.textContent = 'absolute';
+          const p4 = document.createElement('span'); p4.className = 'property'; p4.textContent = '\n  bottom';
+          const v4 = document.createElement('span'); v4.className = 'value'; v4.textContent = '0';
+          const p5 = document.createElement('span'); p5.className = 'property'; p5.textContent = '\n  left';
+          const v5 = document.createElement('span'); v5.className = 'value'; v5.textContent = '0';
+          
+          codeLineStackText.appendChild(p3);
+          codeLineStackText.appendChild(document.createTextNode(': '));
+          codeLineStackText.appendChild(v3);
+          codeLineStackText.appendChild(document.createTextNode(';'));
+          codeLineStackText.appendChild(p4);
+          codeLineStackText.appendChild(document.createTextNode(': '));
+          codeLineStackText.appendChild(v4);
+          codeLineStackText.appendChild(document.createTextNode(';'));
+          codeLineStackText.appendChild(p5);
+          codeLineStackText.appendChild(document.createTextNode(': '));
+          codeLineStackText.appendChild(v5);
+          codeLineStackText.appendChild(document.createTextNode(';'));
+        }
+      });
+      
+      btnStackContent.addEventListener('click', () => {
+        isLongText = !isLongText;
+        
+        if (isLongText) {
+          stackParagraph.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, nesciunt excepturi? Ipsa excepturi mollitia inventore corrupti. Cupiditate laudantium minima ex. Tempora voluptatem magnam reiciendis sint ad facilis expedita distinctio alias, nihil error animi aut minus aspernatur unde in, veritatis laboriosam illum cum voluptatibus voluptatum, eaque quasi! Velit, distinctio eveniet.';
+          btnStackContent.children[1].textContent = 'Restaurar Texto Corto';
+        } else {
+          stackParagraph.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis numquam asperiores.';
+          btnStackContent.children[1].textContent = 'Simular Texto Largo';
+        }
+      });
+
+      /* ==========================================
+         JS PARA TIP 5: EVEN COLUMNS
+         ========================================== */
+      const btnEvenFlexUneven = document.getElementById('btn-even-flex-uneven');
+      const btnEvenFlex = document.getElementById('btn-even-flex');
+      const btnEvenGrid = document.getElementById('btn-even-grid');
+      const colsContainer = document.getElementById('demo-cols-container');
+      
+      const evenSelector = document.getElementById('even-selector');
+      const evenChildSelector = document.getElementById('even-child-selector');
+      const codeLineEvenContainer = document.getElementById('code-line-even-container');
+      const codeLineEvenChild = document.getElementById('code-line-even-child');
+      const codeTabEven = document.getElementById('code-tab-even');
+
+      function clearEvenButtons() {
+        btnEvenFlexUneven.classList.remove('active');
+        btnEvenFlex.classList.remove('active');
+        btnEvenGrid.classList.remove('active');
+      }
+
+      // Helper para renderizar CSS de forma segura
+      function renderCSS(containerLines, childLines) {
+        codeLineEvenContainer.textContent = '';
+        codeLineEvenChild.textContent = '';
+
+        containerLines.forEach((line, index) => {
+          const propSpan = document.createElement('span');
+          propSpan.className = 'property';
+          propSpan.textContent = '  ' + line.prop;
+
+          const valSpan = document.createElement('span');
+          valSpan.className = 'value';
+          valSpan.textContent = line.val;
+
+          codeLineEvenContainer.appendChild(propSpan);
+          codeLineEvenContainer.appendChild(document.createTextNode(': '));
+          codeLineEvenContainer.appendChild(valSpan);
+          codeLineEvenContainer.appendChild(document.createTextNode(';'));
+          if (index < containerLines.length - 1) {
+            codeLineEvenContainer.appendChild(document.createTextNode('\n'));
+          }
+        });
+
+        childLines.forEach((line, index) => {
+          if (line.isComment) {
+            const commentSpan = document.createElement('span');
+            commentSpan.className = 'comment';
+            commentSpan.textContent = '  ' + line.val;
+            codeLineEvenChild.appendChild(commentSpan);
+          } else {
+            const propSpan = document.createElement('span');
+            propSpan.className = 'property';
+            propSpan.textContent = '  ' + line.prop;
+
+            const valSpan = document.createElement('span');
+            valSpan.className = 'value';
+            valSpan.textContent = line.val;
+
+            codeLineEvenChild.appendChild(propSpan);
+            codeLineEvenChild.appendChild(document.createTextNode(': '));
+            codeLineEvenChild.appendChild(valSpan);
+            codeLineEvenChild.appendChild(document.createTextNode(';'));
+          }
+          if (index < childLines.length - 1) {
+            codeLineEvenChild.appendChild(document.createTextNode('\n'));
+          }
+        });
+      }
+
+      btnEvenFlexUneven.addEventListener('click', () => {
+        clearEvenButtons();
+        btnEvenFlexUneven.classList.add('active');
+        colsContainer.className = 'cols-container flex-uneven';
+        codeTabEven.textContent = 'flex-uneven.css';
+        
+        evenSelector.textContent = '.cols-container';
+        evenChildSelector.textContent = '.col-item';
+
+        renderCSS(
+          [
+            { prop: 'display', val: 'flex' },
+            { prop: 'gap', val: '1rem' }
+          ],
+          [
+            { isComment: true, val: '/* Ancho automático según contenido */' }
+          ]
+        );
+      });
+
+      btnEvenFlex.addEventListener('click', () => {
+        clearEvenButtons();
+        btnEvenFlex.classList.add('active');
+        colsContainer.className = 'cols-container flex-even';
+        codeTabEven.textContent = 'flex-even.css';
+        
+        evenSelector.textContent = '.cols-container';
+        evenChildSelector.textContent = '.col-item';
+
+        renderCSS(
+          [
+            { prop: 'display', val: 'flex' },
+            { prop: 'gap', val: '1rem' }
+          ],
+          [
+            { prop: 'flex', val: '1' },
+            { isComment: true, val: '/* Equivale a flex: 1 1 0% */' }
+          ]
+        );
+      });
+
+      btnEvenGrid.addEventListener('click', () => {
+        clearEvenButtons();
+        btnEvenGrid.classList.add('active');
+        colsContainer.className = 'cols-container grid-even';
+        codeTabEven.textContent = 'grid-even.css';
+        
+        evenSelector.textContent = '.cols-container';
+        evenChildSelector.textContent = '.col-item';
+
+        renderCSS(
+          [
+            { prop: 'display', val: 'grid' },
+            { prop: 'gap', val: '1rem' },
+            { prop: 'grid-auto-flow', val: 'column' },
+            { prop: 'grid-auto-columns', val: '1fr' }
+          ],
+          [
+            { isComment: true, val: '/* No requiere estilos en los hijos */' }
+          ]
+        );
+      });
+
+      /* ==========================================
+         JS PARA TIP 6: RESPONSIVE GRID WITHOUT MQ
+         ========================================== */
+      const rangeWidth = document.getElementById('range-container-width');
+      const responsiveGrid = document.getElementById('demo-responsive-grid');
+      const sliderWidthVal = document.getElementById('slider-width-val');
+      
+      rangeWidth.addEventListener('input', (e) => {
+        const val = e.target.value;
+        if (val === '800') {
+          responsiveGrid.style.width = '100%';
+          sliderWidthVal.textContent = '100%';
+        } else {
+          responsiveGrid.style.width = val + 'px';
+          sliderWidthVal.textContent = val + 'px';
+        }
+      });
+
+      /* ==========================================
+         JS PARA TIP 8: EQUAL-HEIGHT CARD ALIGNMENT
+         ========================================== */
+      const btnCardsBroken = document.getElementById('btn-cards-broken');
+      const btnCardsFlex   = document.getElementById('btn-cards-flex');
+      const btnCardsGrid   = document.getElementById('btn-cards-grid');
+      const btnCardsGuides = document.getElementById('btn-cards-guides');
+      const demoCardsRow   = document.getElementById('demo-cards-row');
+      const codeTabCards   = document.getElementById('code-tab-cards');
+      const codeLineCards  = document.getElementById('code-line-cards');
+      const cardsLegend    = document.getElementById('cards-legend');
+
+      let guidesOn = false;
+
+      const btnCardsJcc     = document.getElementById('btn-cards-jcc');
+      const btnCardsMta     = document.getElementById('btn-cards-mta');
+
+      function clearCardsButtons() {
+        btnCardsBroken.classList.remove('active');
+        btnCardsFlex.classList.remove('active');
+        btnCardsGrid.classList.remove('active');
+        btnCardsJcc.classList.remove('active');
+        btnCardsMta.classList.remove('active');
+      }
+
+      function renderCardsCSS(lines) {
+        codeLineCards.textContent = '';
+        lines.forEach((line, i) => {
+          if (line.isComment) {
+            const s = document.createElement('span');
+            s.className = 'comment';
+            s.textContent = '  ' + line.val;
+            codeLineCards.appendChild(s);
+          } else {
+            const p = document.createElement('span'); p.className = 'property'; p.textContent = '  ' + line.prop;
+            const v = document.createElement('span'); v.className = 'value';    v.textContent = line.val;
+            codeLineCards.appendChild(p);
+            codeLineCards.appendChild(document.createTextNode(': '));
+            codeLineCards.appendChild(v);
+            codeLineCards.appendChild(document.createTextNode(';'));
+          }
+          if (i < lines.length - 1) codeLineCards.appendChild(document.createTextNode('\n'));
+        });
+      }
+
+      btnCardsBroken.addEventListener('click', () => {
+        clearCardsButtons();
+        btnCardsBroken.classList.add('active');
+        demoCardsRow.className = 'cards-row broken' + (guidesOn ? ' show-guides' : '');
+        codeTabCards.textContent = 'broken-cards.css';
+        renderCardsCSS([
+          { prop: 'display',         val: 'flex' },
+          { prop: 'flex-direction',  val: 'column' },
+          { isComment: true,         val: '/* ⚠️ Sin flex-grow en .card-desc */' },
+          { isComment: true,         val: '/* El botón NO baja al fondo */' }
+        ]);
+      });
+
+      btnCardsFlex.addEventListener('click', () => {
+        clearCardsButtons();
+        btnCardsFlex.classList.add('active');
+        demoCardsRow.className = 'cards-row flex-fix' + (guidesOn ? ' show-guides' : '');
+        codeTabCards.textContent = 'flex-fix.css';
+        renderCardsCSS([
+          { prop: 'display',         val: 'flex' },
+          { prop: 'flex-direction',  val: 'column' },
+          { isComment: true,         val: '/* En .card-desc: */' },
+          { prop: 'flex-grow',       val: '1' },
+          { isComment: true,         val: '/* Absorbe el espacio libre ↑ */' }
+        ]);
+      });
+
+      btnCardsGrid.addEventListener('click', () => {
+        clearCardsButtons();
+        btnCardsGrid.classList.add('active');
+        demoCardsRow.className = 'cards-row grid-fix' + (guidesOn ? ' show-guides' : '');
+        codeTabCards.textContent = 'grid-fix.css';
+        renderCardsCSS([
+          { prop: 'display',              val: 'grid' },
+          { prop: 'grid-template-rows',   val: 'auto 1fr auto' },
+          { isComment: true,              val: '/* título | desc(estira) | btn */' }
+        ]);
+      });
+
+      btnCardsJcc.addEventListener('click', () => {
+        clearCardsButtons();
+        btnCardsJcc.classList.add('active');
+        demoCardsRow.className = 'cards-row jcc-fix' + (guidesOn ? ' show-guides' : '');
+        codeTabCards.textContent = 'jcc-fix.css';
+        renderCardsCSS([
+          { prop: 'display',           val: 'flex' },
+          { prop: 'flex-direction',    val: 'column' },
+          { prop: 'justify-content',   val: 'space-between' },
+          { isComment: true,           val: '/* reparte el espacio entre hijos */' },
+          { isComment: true,           val: '/* ⚠️ cuidado con muchos elementos */' }
+        ]);
+      });
+
+      btnCardsMta.addEventListener('click', () => {
+        clearCardsButtons();
+        btnCardsMta.classList.add('active');
+        demoCardsRow.className = 'cards-row mta-fix' + (guidesOn ? ' show-guides' : '');
+        codeTabCards.textContent = 'mta-fix.css';
+        renderCardsCSS([
+          { isComment: true,     val: '/* en .card-item (igual que antes): */' },
+          { prop: 'display',     val: 'flex' },
+          { prop: 'flex-direction', val: 'column' },
+          { isComment: true,     val: '/* en .card-btn: */' },
+          { prop: 'margin-top',  val: 'auto' },
+          { isComment: true,     val: '/* absorbe el espacio por encima ↑ */' }
+        ]);
+      });
+
+      btnCardsGuides.addEventListener('click', () => {
+        guidesOn = !guidesOn;
+        const base = demoCardsRow.className.replace(' show-guides', '');
+        demoCardsRow.className = guidesOn ? base + ' show-guides' : base;
+        cardsLegend.style.display = guidesOn ? 'flex' : 'none';
+        btnCardsGuides.children[0].textContent = guidesOn ? '🙈' : '🔍';
+        btnCardsGuides.children[1].textContent = guidesOn ? 'Ocultar guías' : 'Mostrar guías';
+      });
+
+      /* ==========================================
+         JS PARA TIP 7: LAYOUT STICKY FOOTER
+         ========================================== */
+      const btnLayoutGrid = document.getElementById('btn-layout-grid');
+      const btnLayoutBlock = document.getElementById('btn-layout-block');
+      const btnLayoutText = document.getElementById('btn-layout-text');
+      const demoBrowser = document.getElementById('demo-browser');
+      const demoGuideColumn = document.getElementById('demo-guide-column');
+      const demoLayoutP = document.getElementById('demo-layout-p');
+      const codeLineLayout = document.getElementById('code-line-layout');
+      const codeTabLayout = document.getElementById('code-tab-layout');
+      
+      let isLayoutGrid = true;
+      let isShortText = true;
+
+      btnLayoutGrid.addEventListener('click', () => {
+        btnLayoutGrid.classList.add('active');
+        btnLayoutBlock.classList.remove('active');
+        
+        demoBrowser.classList.remove('normal-flow');
+        demoGuideColumn.style.opacity = '1';
+        
+        codeTabLayout.textContent = 'grid-layout.css';
+        codeLineLayout.textContent = '';
+        
+        const p1 = document.createElement('span'); p1.className = 'property'; p1.textContent = '  display';
+        const v1 = document.createElement('span'); v1.className = 'value'; v1.textContent = 'grid';
+        const p2 = document.createElement('span'); p2.className = 'property'; p2.textContent = '\n  grid-template-rows';
+        const v2 = document.createElement('span'); v2.className = 'value'; v2.textContent = 'auto 1fr auto';
+        const p3 = document.createElement('span'); p3.className = 'property'; p3.textContent = '\n  min-height';
+        const v3 = document.createElement('span'); v3.className = 'value'; v3.textContent = '400px';
+        
+        codeLineLayout.appendChild(p1);
+        codeLineLayout.appendChild(document.createTextNode(': '));
+        codeLineLayout.appendChild(v1);
+        codeLineLayout.appendChild(document.createTextNode(';'));
+        
+        codeLineLayout.appendChild(p2);
+        codeLineLayout.appendChild(document.createTextNode(': '));
+        codeLineLayout.appendChild(v2);
+        codeLineLayout.appendChild(document.createTextNode(';'));
+        
+        codeLineLayout.appendChild(p3);
+        codeLineLayout.appendChild(document.createTextNode(': '));
+        codeLineLayout.appendChild(v3);
+        codeLineLayout.appendChild(document.createTextNode(';'));
+      });
+
+      btnLayoutBlock.addEventListener('click', () => {
+        btnLayoutGrid.classList.remove('active');
+        btnLayoutBlock.classList.add('active');
+        
+        demoBrowser.classList.add('normal-flow');
+        demoGuideColumn.style.opacity = '0';
+        
+        codeTabLayout.textContent = 'normal-flow.css';
+        codeLineLayout.textContent = '';
+        
+        const comment = document.createElement('span');
+        comment.className = 'comment';
+        comment.textContent = '  /* Flujo de bloque tradicional */\n';
+        
+        const p1 = document.createElement('span'); p1.className = 'property'; p1.textContent = '  display';
+        const v1 = document.createElement('span'); v1.className = 'value'; v1.textContent = 'block';
+        
+        codeLineLayout.appendChild(comment);
+        codeLineLayout.appendChild(p1);
+        codeLineLayout.appendChild(document.createTextNode(': '));
+        codeLineLayout.appendChild(v1);
+        codeLineLayout.appendChild(document.createTextNode(';'));
+      });
+
+      btnLayoutText.addEventListener('click', () => {
+        isShortText = !isShortText;
+        
+        if (isShortText) {
+          demoLayoutP.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi neque mollitia nobis error deleniti? Quasi illum minima accusamus.';
+          btnLayoutText.children[1].textContent = 'Simular Contenido Largo';
+        } else {
+          demoLayoutP.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi neque mollitia nobis error deleniti? Quasi illum minima accusamus de la plantilla principal de la página. Explicación interactiva para verificar cómo el layout dinámico se estira y responde adaptándose a grandes cantidades de información sin perder la integridad de las columnas.';
+          btnLayoutText.children[1].textContent = 'Simular Contenido Corto';
+        }
+      });
+      
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patrones Modernos de Manipulación del DOM</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #ffffff;
+      border-bottom: 1px solid #333;
+      padding-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 3rem;
+      color: #ffffff;
+    }
+    h3 {
+      font-size: 1.2rem;
+      margin-top: 0;
+      color: #4CAF50;
+    }
+    .subtitle {
+      color: #a0a0a0;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      font-family: monospace;
+    }
+    .explanation {
+      background-color: #1e1e2e;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      border-left: 4px solid #4CAF50;
+    }
+    .explanation p {
+      margin-top: 0;
+    }
+    .explanation ul {
+      margin-bottom: 0;
+      padding-left: 1.5rem;
+    }
+    .explanation li {
+      margin-bottom: 0.5rem;
+    }
+    .demo-area {
+      background-color: #0f0f16;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    /* Estilos Ejemplo 1 */
+    .card {
+      background-color: #2a2a35;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      border-left: 4px solid #ff9800;
+      font-family: monospace;
+    }
+    
+    /* Estilos Ejemplo 2 */
+    .box {
+      background-color: #333;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+      border: 2px dashed #555;
+    }
+    /* El estado .active lo vuelve naranja como en la imagen */
+    .box.active {
+      background-color: #ff9800; 
+      color: #000;
+      font-weight: bold;
+      border: 2px solid #ff9800;
+    }
+    
+    /* Estilos Ejemplo 3 */
+    .security-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .danger-box {
+      border: 1px solid #f44336;
+      background-color: rgba(244, 67, 54, 0.05);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .safe-box {
+      border: 1px solid #4CAF50;
+      background-color: rgba(76, 175, 80, 0.05);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .demo-header {
+      color: #a0a0a0;
+      font-family: monospace;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .danger-box .demo-header {
+      color: #f44336;
+    }
+    .safe-box .demo-header {
+      color: #4CAF50;
+    }
+    .inner-box {
+      background-color: #0f0f16;
+      border: 1px solid #333;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-family: monospace;
+      word-break: break-all;
+    }
+    .inner-box.danger {
+      color: #f44336;
+      border-color: #f44336;
+    }
+    .inner-box.safe {
+      color: #e0e0e0;
+    }
+    .alert {
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-weight: bold;
+      font-family: monospace;
+    }
+    .alert.danger {
+      background-color: #f44336;
+      color: white;
+    }
+    .alert.safe {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    /* Estilos Ejemplo 4 */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      background-color: #1e1e2e;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .grid-item {
+      background-color: #2a2a35;
+      color: #a0a0a0;
+      padding: 1rem 0;
+      text-align: center;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+    .grid-item:hover {
+      background-color: #3f3f4e;
+    }
+    .grid-item.lit {
+      background-color: #ff9800;
+      color: #000;
+      font-weight: bold;
+    }
+    .listeners-count-display {
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      font-family: monospace;
+      margin-bottom: 1rem;
+      color: #a0a0a0;
+      background-color: #0f0f16;
+    }
+    .listeners-count-display .count-number {
+      font-size: 2.5rem;
+      color: #4CAF50;
+      font-weight: bold;
+      vertical-align: middle;
+      margin: 0 0.5rem;
+    }
+    .listeners-log {
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background-color: #0f0f16;
+    }
+    .log-row {
+      display: flex;
+      justify-content: space-between;
+      color: #4CAF50;
+    }
+    .log-row span:first-child {
+      color: #4db8ff;
+    }
+
+    /* Estilos Ejemplo 5 */
+    .fragment-demo {
+      display: flex;
+      gap: 1rem;
+    }
+    @media (max-width: 600px) {
+      .fragment-demo {
+        flex-direction: column;
+      }
+    }
+    .fragment-box {
+      flex: 1;
+      background-color: #1e1e2e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .fragment-box h4 {
+      margin-top: 0;
+      color: #a0a0a0;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    .fragment-box.bad {
+      border-top: 4px solid #f44336;
+    }
+    .fragment-box.good {
+      border-top: 4px solid #4CAF50;
+    }
+    .perf-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      justify-content: center;
+      margin-bottom: 1rem;
+      min-height: 50px;
+      max-height: 150px;
+      overflow-y: auto;
+      background-color: #0f0f16;
+      border-radius: 4px;
+      padding: 4px;
+    }
+    .perf-item {
+      background-color: #2a2a35;
+      width: 15px;
+      height: 15px;
+      border-radius: 2px;
+    }
+    .btn-run {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: monospace;
+      width: 100%;
+    }
+    .btn-run:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .time-result {
+      margin-top: 0.5rem;
+      font-family: monospace;
+      color: #ff9800;
+      font-weight: bold;
+      min-height: 1.5rem;
+    }
+
+    .console-output {
+      background-color: #000;
+      color: #4CAF50; /* Verde estilo terminal */
+      padding: 1rem;
+      border-radius: 6px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      margin-top: 1rem;
+      border: 1px solid #222;
+    }
+    .highlight {
+      color: #ff9800;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Patrones Modernos de Manipulación del DOM</h1>
+
+    <!-- EJEMPLO 1 -->
+    <section>
+      <h2>1. querySelector<span class="highlight">.live</span> vs <span class="highlight">.static</span></h2>
+      <div class="subtitle">live HTMLCollection vs static NodeList</div>
+      
+      <div class="explanation">
+        <h3>¿Qué está pasando aquí?</h3>
+        <p>Este ejemplo demuestra la diferencia entre buscar elementos usando métodos antiguos frente a los modernos:</p>
+        <ul>
+          <li><strong><code>getElementsByClassName</code> (Colección Viva):</strong> Devuelve un <code>HTMLCollection</code>. Está "vivo", es decir, si en el futuro se añaden o eliminan elementos del DOM que coincidan con la clase, la variable se actualiza automáticamente por detrás.</li>
+          <li><strong><code>querySelectorAll</code> (Colección Estática):</strong> Devuelve un <code>NodeList</code>. Es una "foto" (snapshot) del momento exacto en que se ejecutó la línea. Si el DOM cambia después, esta variable no se entera y sigue teniendo los mismos elementos que encontró inicialmente.</li>
+        </ul>
+        <p><strong>💡 Por qué es mejor usar <code>querySelectorAll</code>:</strong> Hoy en día se prefiere casi siempre porque es más predecible. Evita bugs extraños en bucles donde el tamaño del array cambia inesperadamente. Además, el <code>NodeList</code> devuelto tiene el método <code>.forEach()</code> incorporado nativamente, lo que facilita mucho la iteración (a diferencia del HTMLCollection, que te obliga a convertirlo en un Array normal primero).</p>
+      </div>
+
+      <div class="demo-area">
+        <div id="cards-container">
+          <div class="card">.card #1</div>
+          <div class="card">.card #2</div>
+          <div class="card">.card #3</div>
+        </div>
+        <div class="console-output" id="output1"></div>
+      </div>
+    </section>
+
+    <!-- EJEMPLO 2 -->
+    <section>
+      <h2>2. classList<span class="highlight">.live</span></h2>
+      <div class="subtitle">idempotent add · force-state toggle</div>
+      
+      <div class="explanation">
+        <h3>¿Qué está pasando aquí?</h3>
+        <p>La propiedad <code>classList</code> es la forma moderna y segura de manipular las clases CSS de un elemento desde JavaScript. Atrás quedaron los días de tener que modificar el string completo de <code>className</code> o usar expresiones regulares.</p>
+        <ul>
+          <li><strong>Idempotencia con <code>.add()</code>:</strong> Puedes llamar a <code>classList.add('clase')</code> todas las veces que quieras. Si la clase ya existe, el navegador simplemente lo ignora. No duplicará la clase en el HTML (nunca verás algo como <code>class="box active active"</code>). Esto significa que no necesitas escribir código extra como <code>if (!box.classList.contains(...))</code> antes de añadirla.</li>
+          <li><strong>Toggle con Estado Forzado:</strong> El método <code>.toggle('clase')</code> normalmente añade la clase si no está, y la quita si está. ¡Pero tiene un superpoder oculto! Puedes pasarle un <strong>segundo parámetro opcional (un booleano)</strong>. Si le pasas <code>true</code>, forzará a que la clase se añada. Si le pasas <code>false</code>, forzará a que se quite. Esto es increíblemente útil para sincronizar clases CSS con el estado de tu aplicación (por ejemplo, sincronizar la clase 'active' con la variable <code>isLoggedIn</code>).</li>
+        </ul>
+      </div>
+
+      <div class="demo-area">
+        <div class="box" id="demo-box">.box</div>
+        <div class="console-output" id="output2"></div>
+      </div>
+    </section>
+
+    <!-- EJEMPLO 3 -->
+    <section>
+      <h2>3. replaceChildren<span class="highlight">.live</span> vs innerHTML</h2>
+      <div class="subtitle">innerHTML parses HTML · replaceChildren inserts text</div>
+      
+      <div class="explanation">
+        <h3>¿Qué está pasando aquí? (Prevención de XSS)</h3>
+        <p>Este ejemplo muestra una diferencia crítica de seguridad entre insertar contenido con <code>innerHTML</code> y hacerlo con métodos modernos como <code>replaceChildren()</code>.</p>
+        <ul>
+          <li><strong>El peligro de <code>innerHTML</code>:</strong> Cuando asignas un string a <code>innerHTML</code>, el navegador <strong>evalúa y ejecuta</strong> cualquier etiqueta HTML que encuentre. Si ese string viene de un usuario malintencionado (un "payload" como <code>&lt;img src=x onerror="hacked()"&gt;</code>), el navegador intentará cargar la imagen, fallará, y ejecutará el script malicioso que está en <code>onerror</code>. Esto abre la puerta a ataques <strong>Cross-Site Scripting (XSS)</strong>.</li>
+          <li><strong>La seguridad de <code>replaceChildren</code>:</strong> Si le pasas un string directamente a <code>replaceChildren(string)</code>, el navegador lo trata estrictamente como <strong>texto plano</strong>. No importa si contiene etiquetas HTML; simplemente las imprimirá en pantalla de forma visual y segura, sin ejecutarlas jamás.</li>
+        </ul>
+        <p><strong>💡 Regla de oro:</strong> Si el contenido proviene de un usuario (inputs, comentarios, base de datos), <strong>NUNCA</strong> uses <code>innerHTML</code> directamente con ese texto. Usa <code>textContent</code> para modificar el texto interno, o <code>replaceChildren()</code> si quieres vaciar un elemento y añadirle nuevo texto plano de forma segura.</p>
+      </div>
+
+      <div class="demo-area security-demo">
+        <div class="danger-box">
+          <div class="demo-header">el.innerHTML = payload</div>
+          <div class="inner-box danger" id="unsafe-target">
+            <!-- El contenido se inyectará aquí -->
+          </div>
+          <div class="alert danger" id="unsafe-alert" style="display: none;">
+            ⚠️ onerror FIRED - script ran
+          </div>
+        </div>
+
+        <div class="safe-box">
+          <div class="demo-header">el.replaceChildren(payload)</div>
+          <div class="inner-box safe" id="safe-target">
+            <!-- El contenido se inyectará aquí -->
+          </div>
+          <div class="alert safe" id="safe-alert" style="display: none;">
+            ✓ inserted as TEXT - no script
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EJEMPLO 4 -->
+    <section>
+      <h2>4. delegation + <span class="highlight">AbortController</span></h2>
+      <div class="subtitle">one parent listener · one abort() removes it</div>
+      
+      <div class="explanation">
+        <h3>¿Qué está pasando aquí?</h3>
+        <p>Este ejemplo combina dos patrones avanzados muy potentes:</p>
+        <ul>
+          <li><strong>Delegación de Eventos (Event Delegation):</strong> En lugar de añadir 40 "escuchadores" de eventos individuales (uno por cada cuadrito), añadimos <strong>un solo escuchador</strong> al contenedor padre (el "grid"). Usamos <code>e.target.closest('.item')</code> para saber qué cuadrito fue clicado. Esto ahorra muchísima memoria y mejora el rendimiento drásticamente en listas largas.</li>
+          <li><strong>AbortController para limpiar eventos:</strong> Tradicionalmente, para usar <code>removeEventListener</code> necesitabas guardar la referencia exacta a la función que usaste en <code>addEventListener</code>. Con la API moderna <code>AbortController</code>, puedes pasar su <code>signal</code> como una opción al añadir el evento. Cuando quieras eliminar el evento (o múltiples eventos a la vez asociados a esa señal), simplemente llamas a <code>ctrl.abort()</code>. Es infinitamente más limpio.</li>
+        </ul>
+        <p><strong>👆 Prueba el ejemplo:</strong> Haz clic en los números de la cuadrícula para ver cómo se encienden. Luego, presiona el botón para simular <code>abort()</code> y verás cómo la cuadrícula deja de responder a los clics al instante porque el listener principal ha sido removido.</p>
+      </div>
+
+      <div class="demo-area">
+        <div class="grid-container" id="demo-grid">
+          <!-- Se llenará con JS -->
+        </div>
+        
+        <div class="listeners-count-display">
+          LISTENERS <span class="count-number" id="listener-big-count">0</span> ON THE GRID
+        </div>
+        
+        <div class="listeners-log" id="listeners-log">
+          <!-- El log se insertará aquí -->
+        </div>
+        
+        <button id="btn-abort" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background-color: #ff9800; color: black; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: monospace; font-size: 1rem;">ctrl.abort()</button>
+      </div>
+    </section>
+
+    <!-- EJEMPLO 5 -->
+    <section>
+      <h2>5. DocumentFragment</h2>
+      <div class="subtitle">batch inserts · 1 reflow</div>
+      
+      <div class="explanation">
+        <h3>¿Qué está pasando aquí? (Rendimiento)</h3>
+        <p>Cuando necesitas insertar muchos elementos nuevos en el DOM (por ejemplo, renderizar una lista de miles de items), la forma en que lo haces afecta muchísimo al rendimiento.</p>
+        <ul>
+          <li><strong>Mala práctica (Bucle directo):</strong> Si haces <code>contenedor.appendChild(elemento)</code> dentro de un bucle de 1000 iteraciones, estás obligando al navegador a recalcular el diseño de la página (reflow) y repintarla 1000 veces. Esto bloquea la interfaz de usuario.</li>
+          <li><strong>Buena práctica (DocumentFragment):</strong> Un <code>DocumentFragment</code> es como un DOM en miniatura "en memoria" (invisible). Puedes añadirle 1000 elementos dentro de un bucle instantáneamente (cero reflows). Cuando terminas, haces un único <code>contenedor.appendChild(fragmento)</code>. El navegador toma todos los hijos del fragmento y los inserta de golpe en el DOM real, provocando <strong>un solo reflow</strong>.</li>
+        </ul>
+        <p><strong>💡 Haz la prueba:</strong> Pulsa los botones para insertar 1000 pequeños cuadrados. En ordenadores modernos la diferencia puede ser de pocos milisegundos, pero en dispositivos móviles o con listas gigantescas, usar <code>DocumentFragment</code> es la clave (y es lo que usan frameworks como React o Vue internamente).</p>
+      </div>
+
+      <div class="demo-area fragment-demo">
+        <div class="fragment-box bad">
+          <h4>Bucle Directo (Múltiples Reflows)</h4>
+          <div class="perf-list" id="list-bad"></div>
+          <button class="btn-run" id="btn-bad">Insertar 1000</button>
+          <div class="time-result" id="time-bad"></div>
+        </div>
+
+        <div class="fragment-box good">
+          <h4>DocumentFragment (1 Reflow)</h4>
+          <div class="perf-list" id="list-good"></div>
+          <button class="btn-run" id="btn-good" style="background-color: #4CAF50;">Insertar 1000</button>
+          <div class="time-result" id="time-good"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    /* ==========================================
+       EJEMPLO 1: Live vs Static
+       ========================================== */
+    const output1 = document.getElementById('output1');
+    
+    function show1(label, liveLength, snapLength) {
+      output1.innerHTML += `${label}:\n  live.length = ${liveLength}\n  snap.length = ${snapLength}\n\n`;
+    }
+
+    const cardsContainer = document.getElementById('cards-container');
+    const liveCards = document.getElementsByClassName('card');
+    const snapCards = document.querySelectorAll('.card');
+
+    output1.innerHTML = '// Ejecutando script...\n\n';
+    show1('ANTES de añadir tarjeta', liveCards.length, snapCards.length);
+    
+    // Añadimos una nueva tarjeta al contenedor
+    const newCard = document.createElement('div');
+    newCard.className = 'card';
+    newCard.textContent = `.card #${cardsContainer.children.length + 1}`;
+    cardsContainer.appendChild(newCard);
+    
+    output1.innerHTML += `// Añadiendo una nueva tarjeta al DOM...\n\n`;
+    show1('DESPUÉS de añadir tarjeta', liveCards.length, snapCards.length);
+
+
+    /* ==========================================
+       EJEMPLO 2: classList idempotent & toggle
+       ========================================== */
+    const output2 = document.getElementById('output2');
+    const box = document.getElementById('demo-box');
+    
+    function show2(label, className) {
+      // Ajustamos el espaciado para que se vea ordenado en consola
+      const paddedLabel = label.padEnd(15, ' ');
+      output2.innerHTML += `${paddedLabel} class="${className}"\n`;
+    }
+
+    output2.innerHTML = '// Ejecutando script...\n\n';
+
+    // 1. Idempotent add (Añadir múltiples veces de forma segura)
+    box.classList.add('active');
+    box.classList.add('active'); // Observa cómo no se duplica
+    
+    show2('add x2', box.className);
+
+    // 2. Force-state toggle (Sincronizando estado)
+    // Imagina que este valor es dinámico (estado del usuario, un checkbox, etc.)
+    const isLoggedIn = true; 
+    
+    // Al pasarle 'isLoggedIn', forzamos el estado de la clase
+    // true = añade la clase (si no la tiene) o la mantiene
+    // false = quita la clase (si la tiene) o la mantiene quitada
+    box.classList.toggle('active', isLoggedIn);
+    
+    show2('toggle force', box.className);
+
+    /* ==========================================
+       EJEMPLO 3: replaceChildren vs innerHTML
+       ========================================== */
+    const payloadHTML = '&lt;img src=x onerror="hacked()"&gt;';
+    const unsafeTarget = document.getElementById('unsafe-target');
+    const safeTarget = document.getElementById('safe-target');
+
+    // 1. Simulando el peligro de innerHTML
+    // Nota: Para ilustrar el efecto visualmente de forma segura en este documento,
+    // simulamos la ejecución de la carga de la imagen fallida que activa el script.
+    const simulateHackedImg = `<img src="invalid-image.jpg" style="display:none;" onerror="
+      document.getElementById('unsafe-alert').style.display = 'block';
+      this.parentElement.innerHTML = '⚡ hacked() executed - your code ran';
+    ">`;
+    unsafeTarget.innerHTML = simulateHackedImg;
+
+    // 2. La forma segura con replaceChildren
+    // El payload original se pasa como string. replaceChildren lo trata como texto puro.
+    safeTarget.replaceChildren('<img src=x onerror="hacked()">');
+    document.getElementById('safe-alert').style.display = 'block';
+
+    /* ==========================================
+       EJEMPLO 4: Delegation + AbortController
+       ========================================== */
+    const grid = document.getElementById('demo-grid');
+    const bigCount = document.getElementById('listener-big-count');
+    const logContainer = document.getElementById('listeners-log');
+    const btnAbort = document.getElementById('btn-abort');
+
+    // 1. Crear el grid de 40 elementos
+    for (let i = 1; i <= 40; i++) {
+      const item = document.createElement('div');
+      item.className = 'grid-item item';
+      item.textContent = i;
+      grid.appendChild(item);
+    }
+
+    // Función auxiliar para simular el log visual de la imagen
+    function updateListenersLog(action, count) {
+      bigCount.textContent = count;
+      const row = document.createElement('div');
+      row.className = 'log-row';
+      row.innerHTML = `<span>${action}</span><span>${count} listener${count !== 1 ? 's' : ''}</span>`;
+      logContainer.appendChild(row);
+    }
+
+    // 2. El patrón AbortController
+    const ctrl = new AbortController();
+    
+    // 3. Event Delegation en el contenedor Padre
+    grid.addEventListener('click', e => {
+      // closest() encuentra el ancestro más cercano (o el propio elemento) que coincida
+      // el operador ?. evita errores si se hizo clic en el gap del grid
+      e.target.closest('.item')?.classList.toggle('lit');
+    }, { signal: ctrl.signal }); // <-- ¡La magia está aquí!
+
+    // Actualizamos la UI para indicar que hay 1 listener activo
+    updateListenersLog('delegation', 1);
+
+    // Botón para disparar el abort()
+    btnAbort.addEventListener('click', () => {
+      if (!ctrl.signal.aborted) {
+        // Al llamar abort(), TODOS los event listeners que tengan esta señal
+        // se remueven instantáneamente. No necesitamos removeEventListener.
+        ctrl.abort(); 
+        updateListenersLog('abort()', 0);
+        
+        // Estilos visuales para el botón
+        btnAbort.disabled = true;
+        btnAbort.style.opacity = '0.5';
+        btnAbort.textContent = 'Aborted (La cuadrícula ya no reacciona)';
+      }
+    });
+
+    /* ==========================================
+       EJEMPLO 5: DocumentFragment
+       ========================================== */
+    const listBad = document.getElementById('list-bad');
+    const listGood = document.getElementById('list-good');
+    const btnBad = document.getElementById('btn-bad');
+    const btnGood = document.getElementById('btn-good');
+    const timeBad = document.getElementById('time-bad');
+    const timeGood = document.getElementById('time-good');
+    const ITEMS_COUNT = 1000;
+
+    btnBad.addEventListener('click', () => {
+      listBad.innerHTML = ''; // Limpiar antes de insertar
+      timeBad.textContent = 'Calculando...';
+      
+      // setTimeout para permitir que la UI se actualice antes de bloquear el hilo
+      setTimeout(() => {
+        const start = performance.now();
+        
+        // MALA PRÁCTICA: Modificar el DOM real en cada iteración
+        for (let i = 0; i < ITEMS_COUNT; i++) {
+          const div = document.createElement('div');
+          div.className = 'perf-item';
+          listBad.appendChild(div); // <-- Múltiples reflows
+        }
+        
+        const end = performance.now();
+        timeBad.textContent = `${(end - start).toFixed(2)} ms`;
+      }, 50);
+    });
+
+    btnGood.addEventListener('click', () => {
+      listGood.innerHTML = ''; // Limpiar antes de insertar
+      timeGood.textContent = 'Calculando...';
+      
+      // setTimeout para permitir que la UI se actualice
+      setTimeout(() => {
+        const start = performance.now();
+        
+        // BUENA PRÁCTICA: Usar DocumentFragment
+        const fragment = document.createDocumentFragment();
+        for (let i = 0; i < ITEMS_COUNT; i++) {
+          const div = document.createElement('div');
+          div.className = 'perf-item';
+          fragment.appendChild(div); // <-- Operación en memoria, cero reflows
+        }
+        // Solo 1 reflow al final al insertar todo de golpe
+        listGood.appendChild(fragment);
+        
+        const end = performance.now();
+        timeGood.textContent = `${(end - start).toFixed(2)} ms`;
+      }, 50);
+    });
+
+  </script>
+
+  <!-- =========================================================================
+       PARTE 2: MÁS CASOS DE USO (Un ejemplo extra para cada patrón)
+       ========================================================================= -->
+  <style>
+    .extra-section {
+      margin-top: 5rem;
+      padding-top: 3rem;
+      border-top: 2px dashed #333;
+    }
+    .extra-section h1 {
+      border-bottom: none;
+      margin-bottom: 1rem;
+    }
+    .mini-demo {
+      background-color: #1e1e2e;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2.5rem;
+      border-left: 4px solid #4db8ff;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .mini-demo button {
+      background-color: #4db8ff;
+      color: #000;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      align-self: flex-start;
+      font-family: monospace;
+    }
+    .mini-demo button:hover {
+      opacity: 0.9;
+    }
+    .mini-demo label {
+      cursor: pointer;
+      font-family: monospace;
+      color: #a0a0a0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .theme-box {
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+      font-family: monospace;
+    }
+    .theme-light { background-color: #e0e0e0; color: #121212; }
+    .theme-dark { background-color: #121212; color: #e0e0e0; border: 1px solid #333; }
+    
+    .user-list { list-style: none; padding: 0; margin: 0; }
+    .user-list li {
+      background-color: #2a2a35; padding: 0.75rem 1rem; margin-bottom: 0.5rem; border-radius: 4px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: monospace;
+    }
+  </style>
+
+  <div class="container extra-section">
+    <h1>Parte 2: Casos de uso adicionales</h1>
+    <p class="subtitle" style="margin-bottom: 3rem;">Un segundo ejemplo práctico para cada patrón.</p>
+
+    <!-- Extra 1 -->
+    <h3>1. querySelectorAll <span style="color:#a0a0a0; font-size:1rem;">(Selectores Complejos)</span></h3>
+    <div class="mini-demo">
+      <p style="margin:0; color:#a0a0a0;">Usa pseudo-clases de CSS para buscar estados, como <code>:checked</code>.</p>
+      <div>
+        <label><input type="checkbox" class="chk-item"> Bugfix Navbar</label><br>
+        <label><input type="checkbox" class="chk-item" checked> Actualizar dependencias</label><br>
+        <label><input type="checkbox" class="chk-item" checked> Refactorizar base de datos</label>
+      </div>
+      <button id="btn-count">Contar Tareas Completadas</button>
+      <div id="res-count" class="console-output" style="margin-top:0;">Haz clic en el botón</div>
+    </div>
+
+    <!-- Extra 2 -->
+    <h3>2. classList <span style="color:#a0a0a0; font-size:1rem;">(replace)</span></h3>
+    <div class="mini-demo">
+      <p style="margin:0; color:#a0a0a0;">Ideal para cambiar temas o estados de iconos de un tirón con <code>.replace('old', 'new')</code>.</p>
+      <div id="theme-box" class="theme-box theme-dark">Modo Oscuro</div>
+      <button id="btn-theme">Cambiar Tema</button>
+    </div>
+
+    <!-- Extra 3 -->
+    <h3>3. replaceChildren <span style="color:#a0a0a0; font-size:1rem;">(Vaciar contenedores)</span></h3>
+    <div class="mini-demo">
+      <p style="margin:0; color:#a0a0a0;">Si lo llamas sin argumentos, es la forma más rápida y segura de borrar todo el contenido de un elemento.</p>
+      <ul class="user-list" id="clear-list">
+        <li>Notificación 1</li><li>Notificación 2</li><li>Notificación 3</li>
+      </ul>
+      <button id="btn-clear" style="background-color: #f44336; color: white;">Limpiar Todo</button>
+    </div>
+
+    <!-- Extra 4 -->
+    <h3>4. closest() <span style="color:#a0a0a0; font-size:1rem;">(Extraer datos del padre)</span></h3>
+    <div class="mini-demo">
+      <p style="margin:0; color:#a0a0a0;">Si haces clic en un botón anidado, puedes "subir" hasta encontrar el ID en un atributo <code>data-*</code>.</p>
+      <ul class="user-list" id="action-list">
+        <li data-user-id="USER_892">@john_doe <button class="btn-delete-user" style="background-color: #f44336; color: white; padding: 0.2rem 0.5rem;">Banear</button></li>
+        <li data-user-id="USER_104">@jane_smith <button class="btn-delete-user" style="background-color: #f44336; color: white; padding: 0.2rem 0.5rem;">Banear</button></li>
+      </ul>
+      <div id="res-closest" class="console-output" style="margin-top:0;">Haz clic en "Banear"</div>
+    </div>
+
+    <!-- Extra 5 -->
+    <h3>5. AbortController <span style="color:#a0a0a0; font-size:1rem;">(Cancelar peticiones de red)</span></h3>
+    <div class="mini-demo">
+      <p style="margin:0; color:#a0a0a0;">El caso de uso estrella de esta API. Pásale la señal a un <code>fetch()</code> para poder cancelarlo a mitad de camino.</p>
+      <button id="btn-fetch" style="background-color: #4CAF50; color: white;">Descargar Archivo Pesado</button>
+      <button id="btn-cancel-fetch" style="background-color: #f44336; color: white; display: none;">¡Cancelar Descarga!</button>
+      <div id="res-fetch" class="console-output" style="margin-top:0;">Esperando...</div>
+    </div>
+
+    <!-- Extra 6 -->
+    <h3>6. DocumentFragment <span style="color:#a0a0a0; font-size:1rem;">(Reordenar listas existentes)</span></h3>
+    <div class="mini-demo">
+      <p style="margin:0; color:#a0a0a0;">Si extraes elementos del DOM, los ordenas en un fragmento y los devuelves con <code>replaceChildren(fragmento)</code>, haces magia.</p>
+      <ul class="user-list" id="sort-list">
+        <li>Zebra</li><li>Águila</li><li>Perro</li><li>Gato</li>
+      </ul>
+      <button id="btn-sort">Ordenar Alfabéticamente</button>
+    </div>
+
+  </div>
+
+  <script>
+    // Extra 1: querySelectorAll
+    document.getElementById('btn-count').addEventListener('click', () => {
+      const checkedInputs = document.querySelectorAll('.chk-item:checked');
+      document.getElementById('res-count').textContent = `[ OK ] Tareas completadas: ${checkedInputs.length}`;
+    });
+
+    // Extra 2: classList.replace
+    const themeBox = document.getElementById('theme-box');
+    document.getElementById('btn-theme').addEventListener('click', () => {
+      if (themeBox.classList.contains('theme-dark')) {
+        themeBox.classList.replace('theme-dark', 'theme-light');
+        themeBox.textContent = 'Modo Claro';
+      } else {
+        themeBox.classList.replace('theme-light', 'theme-dark');
+        themeBox.textContent = 'Modo Oscuro';
+      }
+    });
+
+    // Extra 3: replaceChildren (Vaciar)
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      document.getElementById('clear-list').replaceChildren();
+    });
+
+    // Extra 4: closest()
+    const resClosest = document.getElementById('res-closest');
+    document.getElementById('action-list').addEventListener('click', (e) => {
+      if (e.target.classList.contains('btn-delete-user')) {
+        const liPadre = e.target.closest('li');
+        resClosest.textContent = `[ EJECUTANDO ] Baneando al usuario con ID: ${liPadre.dataset.userId}`;
+      }
+    });
+
+    // Extra 5: AbortController (Fetch)
+    let fetchController;
+    const btnFetch = document.getElementById('btn-fetch');
+    const btnCancelFetch = document.getElementById('btn-cancel-fetch');
+    const resFetch = document.getElementById('res-fetch');
+
+    btnFetch.addEventListener('click', () => {
+      fetchController = new AbortController();
+      btnFetch.style.display = 'none';
+      btnCancelFetch.style.display = 'block';
+      resFetch.textContent = '⏱️ Conectando con el servidor... (Simulando 3 segundos)';
+
+      // Simulamos un retraso para poder cancelarlo a tiempo
+      const simulatedDelay = new Promise(resolve => setTimeout(resolve, 3000));
+      
+      simulatedDelay.then(() => {
+        return fetch('https://jsonplaceholder.typicode.com/users/1', { signal: fetchController.signal });
+      })
+      .then(res => res.json())
+      .then(data => {
+        resFetch.textContent = '✅ Descarga completada: Usuario ' + data.name;
+        btnFetch.style.display = 'block';
+        btnCancelFetch.style.display = 'none';
+      })
+      .catch(err => {
+        if (err.name === 'AbortError') {
+          resFetch.textContent = '🛑 Operación cancelada por el usuario.';
+        } else {
+          resFetch.textContent = '❌ Error de red.';
+        }
+        btnFetch.style.display = 'block';
+        btnCancelFetch.style.display = 'none';
+      });
+    });
+
+    btnCancelFetch.addEventListener('click', () => {
+      if (fetchController) {
+        fetchController.abort(); // ¡Corta la conexión!
+      }
+    });
+
+    // Extra 6: DocumentFragment (Reordenar)
+    document.getElementById('btn-sort').addEventListener('click', () => {
+      const list = document.getElementById('sort-list');
+      // 1. Extraemos los Nodos a un Array de JS
+      const itemsArray = Array.from(list.children);
+      // 2. Ordenamos el Array basándonos en su texto
+      itemsArray.sort((a, b) => a.textContent.localeCompare(b.textContent));
+      
+      // 3. Los añadimos al fragmento
+      const fragment = document.createDocumentFragment();
+      itemsArray.forEach(item => fragment.appendChild(item));
+      
+      // 4. Volvemos a inyectarlos de golpe
+      list.replaceChildren(fragment);
+    });
+  </script>
+</body>
+</html>

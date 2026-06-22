@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    summary,
+    ul {
+      list-style: none;
+      background-color: blue;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      min-block-size: 100vh;
+      display: grid;
+      place-items: center;
+      background-color: #f9f9f9;
+      padding-inline: 1rem;
+      padding-block: 2rem;
+    }
+
+    .faq {
+      width: min(680px, 90%);
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .faq__header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .faq__info {
+      color: #6366f1;
+      font-size: .75rem;
+      letter-spacing: .1em;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+
+
+    .accordion {
+      position: relative;
+      background-color: #fff;
+      border: 1px solid #e2e;
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: all 0.4s ease-in;
+
+
+      &:has(.accordion__details[open]) {
+        background-color: #6366f1;
+        box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.1) 0 8px 10px -5px rgba(99, 102, 241, 0.1);
+
+      }
+
+      &:has(.accordion__details[open]) .accordion__bar {
+        scale: 1;
+      }
+    }
+
+    .accordion__bar {
+      position: absolute;
+      inset: 0;
+      width: 4px;
+      scale: 0;
+      background-image: linear-gradient(#2563eb, #7c3aed);
+      transition: scale 0.4s ease-in;
+    }
+
+    .accordion__summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 1rem;
+
+      padding-inline: 1.25rem;
+
+      padding-block: 1.5rem;
+
+
+      &:hover .accordion__question {
+        color: #6366f1;
+
+      }
+    }
+
+    .accordion__icon {
+      width: 32px;
+      height: 32px;
+      scale: 2;
+      display: grid;
+      grid-area: "icon";
+
+
+    }
+
+    .line-1,
+    .line-2 {
+
+      grid-area: icon;
+
+      display: block;
+
+      width: 18px;
+      height: 2px;
+      background-color: #0f1;
+
+    }
+
+
+    .line-2 {
+      rotate: 90deg;
+      height: 1.5px;
+      transition: rotate 0.3s ease;
+    }
+
+
+    .accordion__details[open] {
+
+
+      .line-1,
+      .line-2 {
+        background-color: yellow;
+
+      }
+
+      .line-2 {
+        rotate: 0deg;
+
+      }
+
+
+      &+.accordion__body {
+        grid-template-rows: 1fr;
+        opacity: 1;
+      }
+
+
+    }
+
+
+    /*
+    
+      cubic bezier 0.175 0.885 0.32 1.1
+    */
+
+    .accordion__body {
+      display: grid;
+      opacity: 0;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.4s ease-in, opacity 0.4s ease-in;
+    }
+
+    .accordion__inner {
+      overflow: hidden;
+
+    }
+
+    .accordion__answer {
+      padding: 0 1.5rem 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header class="faq__header">
+      <span class="faq__info">Curso de CSS</span>
+      <h1 class="faq__title">Preguntas Frecuentes</h1>
+      <p class="faq__subtitle">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas,
+        voluptate.
+      </p>
+    </header>
+
+    <ul class="faq__list">
+      <li class="accordion">
+        <div class="accordion__bar"></div>
+
+        <details class="accordion__details">
+          <summary class="accordion__summary">
+            <span class="accordion__question"> ¿Qué es CSS? </span>
+
+            <div class="accordion__icon">
+              <span class="line-1"></span>
+              <span class="line-2"></span>
+            </div>
+          </summary>
+
+
+        </details>
+
+        <article class="accordion__body">
+          <div class="accordion_inner">
+            <div class="accordion__answer">
+              CSS es un lenguaje de hojas de estilo utilizado para describir la
+              presentación de un documento escrito en HTML o XML. CSS define
+              cómo se deben mostrar los elementos en la pantalla, en papel o
+              en otros medios. Con CSS, puedes controlar el diseño, los colores,
+              las fuentes y otros aspectos visuales de una página web.
+            </div>
+          </div>
+        </article>
+      </li>
+    </ul>
+  </main>
+</body>
+
+</html>
