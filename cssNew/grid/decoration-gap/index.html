@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        body {
+            display: flex;
+            gap: 100px;
+            align-items: center;
+            min-height: 100vh;
+
+            flex-direction: column;
+        }
+
+
+        .box1 {
+            display: grid;
+            grid-template-columns: repeat(5, 40px);
+            grid-template-rows: repeat(5, 40px);
+            width: max-content;
+            border: 2px solid black;
+
+            .cell {
+                background: #ccc;
+                border: 2px solid indigo;
+            }
+        }
+
+
+        .box2 {
+            display: grid;
+            grid-template-columns: repeat(5, 40px);
+            grid-template-rows: repeat(5, 40px);
+            width: max-content;
+            border: 2px solid black;
+
+            gap: 1px;
+            column-rule-width: 1px;
+            column-rule-style: dotted;
+            column-rule-color: black;
+        }
+
+
+
+
+        # shorthand .element {
+            column-rule-width: 1px;
+            column-rule-style: dotted;
+            column-rule-color: black;
+            row-rule-width: 1px;
+            row-rule-style: dotted;
+            row-rule-color: black;
+
+            /* Shorthand */
+            rule-width: 1px;
+            rule-style: dotted;
+            rule-color: black;
+        }
+    </style>
+
+</head>
+
+<body>
+    <section>
+
+        <h1>
+            Grid Decoration Gap error
+        </h1>
+
+        <div class="box1">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <h1>
+            Grid Decoration Gap correct
+        </h1>
+
+        <div class="box2"></div>
+
+    </section>
+</body>
+
+</html>

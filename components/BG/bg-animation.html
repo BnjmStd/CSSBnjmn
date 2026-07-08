@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        section {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            background: #191919;
+            display: flex;
+            flex-wrap: wrap;
+
+            overflow: clip;
+
+            &>div {
+                position: relative;
+                width: 50px;
+                height: 50px;
+                background: #09f;
+
+                border-radius: 50%;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <section>
+
+    </section>
+
+    <script>
+        const $section = document.querySelector('section');
+
+
+        for (let i = 0; i < 600; i++) {
+            const $div = document.createElement('div');
+            $section.appendChild($div);
+        }
+
+
+        document.addEventListener("mousemove", function (e) {
+            document.querySelectorAll('div').forEach((div) => {
+                const x = (div.offsetLeft) - e.pageX;
+                const y = (div.offsetTop) - e.pageY;
+                const dist = Math.sqrt(x * x + y * y);
+                const score = Math.exp(dist * -0.01);
+
+                div.style.transform = "scale(" + score * 1 + ")"
+            })
+        })
+    </script>
+</body>
+
+</html>
