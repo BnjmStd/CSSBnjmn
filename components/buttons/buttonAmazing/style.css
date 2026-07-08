@@ -1,0 +1,77 @@
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+a {
+    position: relative;
+    padding: 20px 60px;
+    border-radius: 50px;
+    background: rgba(45, 45, 45, 1);
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    font-size: 1.2em;
+    transition: all .5s;
+
+    overflow: hidden;
+
+    &:hover {
+        color: var(--clr);
+        text-shadow: 0 0 15px var(--clr),
+            0 0 40px var(--clr);
+    }
+
+    &:hover::before {
+        opacity: 1;
+    }
+
+
+    &>span {
+        position: relative;
+        z-index: 1;
+        display: block;
+
+    }
+
+
+    /* Glow radial que sigue al hover */
+    &::before {
+        content: "";
+        position: absolute;
+        top: var(--y);
+        left: var(--x);
+        transform: translate(-50%, -50%);
+
+        inline-size: 200px;
+        block-size: 200px;
+
+        background: radial-gradient(var(--clr), transparent, transparent);
+
+        transition: 0.5s, top 0s, left 0s;
+
+        opacity: 0;
+        z-index: 1;
+    }
+
+    /* Fondo interior que simula el hueco del borde */
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        background: rgba(45, 45, 45, 1);
+        border-radius: 50px;
+    }
+}

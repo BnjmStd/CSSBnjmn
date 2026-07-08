@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan de Aprendizaje – Progreso CSS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ─── tokens ─── */
+    :root {
+      --bg: #080c10;
+      --surface: #0f1419;
+      --border: rgba(0, 229, 255, .15);
+      --accent: #00e5ff;
+      --accent2: #7c3aed;
+      --warn: #f59e0b;
+      --ok: #22d3ee;
+      --text: #c8d6df;
+      --muted: #4a6070;
+      --radius: 14px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Syne', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 3rem 1.5rem 5rem;
+      gap: 3rem;
+
+      /* grain overlay */
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0, 229, 255, .08) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    }
+
+    /* ─── header ─── */
+    .header {
+      text-align: center;
+    }
+
+    .header .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: .75;
+      margin-bottom: .5rem;
+    }
+
+    .header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+
+    .header p {
+      margin-top: .75rem;
+      font-size: .92rem;
+      color: var(--muted);
+      max-width: 42ch;
+    }
+
+    /* ─── grid ─── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* ─── card ─── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 229, 255, .04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 229, 255, .1);
+    }
+
+    .card-title {
+      font-size: .8rem;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .card-label {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .card-use {
+      font-size: .78rem;
+      color: var(--muted);
+      line-height: 1.6;
+      border-left: 2px solid var(--border);
+      padding-left: .75rem;
+    }
+
+    /* ══════════════════════════════════════
+       1. <meter>  –  estado de batería/nivel
+    ══════════════════════════════════════ */
+    .demo-meter {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+
+    .demo-meter label {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      font-size: .88rem;
+      color: var(--text);
+    }
+
+    /* Chrome / Safari */
+    meter {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 10px;
+      border-radius: 99px;
+      border: none;
+      background: #1e2b35;
+    }
+
+    meter::-webkit-meter-bar {
+      background: #1e2b35;
+      border-radius: 99px;
+    }
+
+    /* optimal (green zone) */
+    meter::-webkit-meter-optimum-value {
+      background: var(--ok);
+      border-radius: 99px;
+    }
+
+    /* sub-optimal (yellow) */
+    meter::-webkit-meter-suboptimum-value {
+      background: var(--warn);
+      border-radius: 99px;
+    }
+
+    /* really bad (red) */
+    meter::-webkit-meter-even-less-good-value {
+      background: #ef4444;
+      border-radius: 99px;
+    }
+
+    /* Firefox */
+    meter::-moz-meter-bar {
+      border-radius: 99px;
+    }
+
+    meter:-moz-meter-optimum::-moz-meter-bar {
+      background: var(--ok);
+    }
+
+    meter:-moz-meter-sub-optimum::-moz-meter-bar {
+      background: var(--warn);
+    }
+
+    meter:-moz-meter-sub-sub-optimum::-moz-meter-bar {
+      background: #ef4444;
+    }
+
+    .meter-row {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .meter-row span {
+      font-family: 'Space Mono', monospace;
+      font-size: .7rem;
+      color: var(--muted);
+      min-width: 2.4rem;
+      text-align: right;
+    }
+
+    .meter-row meter {
+      flex: 1;
+    }
+
+    /* ══════════════════════════════════════
+       2. <progress>  –  avance lineal
+    ══════════════════════════════════════ */
+    .demo-progress {
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+    }
+
+    .prog-item {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+
+    .prog-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: .8rem;
+    }
+
+    .prog-header .name {
+      color: var(--text);
+    }
+
+    .prog-header .pct {
+      font-family: 'Space Mono', monospace;
+      color: var(--accent);
+    }
+
+    progress {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 99px;
+      border: none;
+      overflow: hidden;
+    }
+
+    progress::-webkit-progress-bar {
+      background: #1e2b35;
+      border-radius: 99px;
+    }
+
+    progress::-webkit-progress-value {
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width .9s cubic-bezier(.25, .8, .25, 1);
+    }
+
+    progress::-moz-progress-bar {
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+    }
+
+    /* indeterminate (loading) */
+    progress.loading {
+      position: relative;
+    }
+
+    progress.loading::-webkit-progress-value {
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      animation: shimmer 1.4s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(200%);
+      }
+    }
+
+    /* ══════════════════════════════════════
+       3. Circular (canvas)  –  overview total
+    ══════════════════════════════════════ */
+    .demo-circular {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .ring-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .ring-wrap canvas {
+      display: block;
+    }
+
+    .ring-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .ring-label .big {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .ring-label .small {
+      font-size: .62rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .ring-info {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .ring-info .stat {
+      font-size: .82rem;
+      color: var(--text);
+    }
+
+    .ring-info .stat strong {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    /* ══════════════════════════════════════
+       4. Segmentada + Milestones
+    ══════════════════════════════════════ */
+    .demo-segments {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .seg-track {
+      display: flex;
+      gap: 4px;
+    }
+
+    .seg {
+      flex: 1;
+      height: 10px;
+      border-radius: 4px;
+      background: #1e2b35;
+      transition: background .4s, box-shadow .4s;
+    }
+
+    .seg.done {
+      background: var(--ok);
+      box-shadow: 0 0 8px rgba(34, 211, 238, .5);
+    }
+
+    .seg.active {
+      background: var(--warn);
+      box-shadow: 0 0 8px rgba(245, 158, 11, .4);
+      animation: pulse-seg .9s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse-seg {
+      from {
+        opacity: .85;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .milestones {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: .25rem;
+    }
+
+    .milestone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .3rem;
+      flex: 1;
+    }
+
+    .milestone .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #1e2b35;
+      border: 2px solid #2a3d4d;
+      transition: background .4s, box-shadow .4s;
+    }
+
+    .milestone.reached .dot {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(0, 229, 255, .7);
+    }
+
+    .milestone .ml {
+      font-size: .6rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .milestone.reached .ml {
+      color: var(--accent);
+    }
+
+    /* ══════════════════════════════════════
+       5. Tabla de casos de uso
+    ══════════════════════════════════════ */
+    .use-table {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .use-table h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+
+    th {
+      text-align: left;
+      font-family: 'Space Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: .5rem .75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: .65rem .75rem;
+      color: var(--text);
+      border-bottom: 1px solid rgba(0, 229, 255, .06);
+      vertical-align: top;
+    }
+
+    td:first-child {
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    tr:hover td {
+      background: rgba(0, 229, 255, .03);
+    }
+
+    /* ─── responsive ─── */
+    @media (max-width: 540px) {
+      .demo-circular {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ─ Header ─ -->
+  <header class="header">
+    <p class="eyebrow">CSS Native Elements</p>
+    <h1>Progreso en tu Plan de Aprendizaje</h1>
+    <p>Comparativa visual de &lt;meter&gt;, &lt;progress&gt;, barra circular y segmentada — cuándo usar cada una.</p>
+  </header>
+
+  <!-- ─ Cards grid ─ -->
+  <div class="grid">
+
+    <!-- 1. meter -->
+    <div class="card">
+      <span class="card-title">01 · &lt;meter&gt;</span>
+      <span class="card-label">Estado / nivel medible</span>
+
+      <div class="demo-meter">
+        <!-- bajo (rojo) -->
+        <div class="meter-row">
+          <meter id="m-low" value="15" min="0" max="100" low="30" high="80" optimum="100"></meter>
+          <span>15 %</span>
+        </div>
+        <!-- sub-óptimo (amarillo) -->
+        <div class="meter-row">
+          <meter id="m-mid" value="55" min="0" max="100" low="30" high="80" optimum="100"></meter>
+          <span>55 %</span>
+        </div>
+        <!-- óptimo (cyan) -->
+        <div class="meter-row">
+          <meter id="m-ok" value="90" min="0" max="100" low="30" high="80" optimum="100"></meter>
+          <span>90 %</span>
+        </div>
+      </div>
+
+      <p class="card-use">
+        Usa <code>&lt;meter&gt;</code> cuando el valor tiene umbrales semánticos: puntaje de evaluación, nivel de
+        batería, o salud de un sistema. El navegador cambia de color automáticamente según <em>low / high /
+          optimum</em>.
+      </p>
+    </div>
+
+    <!-- 2. progress lineal -->
+    <div class="card">
+      <span class="card-title">02 · &lt;progress&gt;</span>
+      <span class="card-label">Avance lineal por módulo</span>
+
+      <div class="demo-progress">
+
+        <div class="prog-item">
+          <div class="prog-header">
+            <span class="name">Box Model</span>
+            <span class="pct" id="pct1">100 %</span>
+          </div>
+          <progress id="p1" value="100" max="100"></progress>
+        </div>
+
+        <div class="prog-item">
+          <div class="prog-header">
+            <span class="name">Flexbox</span>
+            <span class="pct" id="pct2">72 %</span>
+          </div>
+          <progress id="p2" value="72" max="100"></progress>
+        </div>
+
+        <div class="prog-item">
+          <div class="prog-header">
+            <span class="name">Grid</span>
+            <span class="pct" id="pct3">38 %</span>
+          </div>
+          <progress id="p3" value="38" max="100"></progress>
+        </div>
+
+        <div class="prog-item">
+          <div class="prog-header">
+            <span class="name">Animaciones</span>
+            <span class="pct" id="pct4">cargando…</span>
+          </div>
+          <!-- indeterminate: sin value -->
+          <progress id="p4" class="loading" max="100"></progress>
+        </div>
+
+      </div>
+
+      <p class="card-use">
+        Usa <code>&lt;progress&gt;</code> para mostrar avance directo de tareas: lecciones, ejercicios, módulos. Sin
+        atributo <em>value</em> se vuelve indeterminado (spinner), útil mientras se carga la info.
+      </p>
+    </div>
+
+    <!-- 3. circular -->
+    <div class="card">
+      <span class="card-title">03 · Canvas circular</span>
+      <span class="card-label">Resumen total del plan</span>
+
+      <div class="demo-circular">
+        <div class="ring-wrap">
+          <canvas id="ring" width="120" height="120"></canvas>
+          <div class="ring-label">
+            <span class="big" id="ringPct">0%</span>
+            <span class="small">total</span>
+          </div>
+        </div>
+        <div class="ring-info">
+          <div class="stat">
+            <strong id="doneCount">0</strong>
+            lecciones completadas
+          </div>
+          <div class="stat">
+            <strong id="leftCount">0</strong>
+            pendientes
+          </div>
+        </div>
+      </div>
+
+      <p class="card-use">
+        El anillo circular funciona como "badge de nivel" en un dashboard o perfil. Es la primera imagen que el usuario
+        ve y comunica el progreso global de un vistazo.
+      </p>
+    </div>
+
+    <!-- 4. segmentada + milestones -->
+    <div class="card">
+      <span class="card-title">04 · Segmentada + Hitos</span>
+      <span class="card-label">Fases del plan con metas</span>
+
+      <div class="demo-segments">
+        <div class="seg-track" id="segTrack"></div>
+
+        <div class="milestones" id="milestones"></div>
+      </div>
+
+      <p class="card-use">
+        Perfecta cuando el plan está dividido en fases (ej. Beginner → Intermediate → Advanced). Los hitos refuerzan la
+        motivación al alcanzar un certificado, proyecto o evaluación.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ─ Tabla de casos de uso ─ -->
+  <div class="use-table">
+    <h2>📋 Cuándo usar cada elemento</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Elemento</th>
+          <th>Caso de uso principal</th>
+          <th>Lo que NO hace bien</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>&lt;meter&gt;</td>
+          <td>Nivel con umbrales semánticos (batería, puntaje, salud). El color cambia automáticamente.</td>
+          <td>No indica "tarea en proceso", no es indeterminado.</td>
+        </tr>
+        <tr>
+          <td>&lt;progress&gt;</td>
+          <td>Avance de una tarea determinada (o indeterminada sin <em>value</em>). Lecciones, descargas, carga de
+            datos.</td>
+          <td>No diferencia zonas buenas/malas por sí solo.</td>
+        </tr>
+        <tr>
+          <td>Circular (canvas)</td>
+          <td>Resumen total en un dashboard. Porcentaje global del plan, nivel de usuario, gamificación.</td>
+          <td>Ocupa más espacio; evitar en listas largas de ítems.</td>
+        </tr>
+        <tr>
+          <td>Segmentada + hitos</td>
+          <td>Plan estructurado en fases. Cada segmento = una fase; cada hito = un logro concreto.</td>
+          <td>No es ideal para progreso continuo sin fases claras.</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+  </div>
+
+  <article>
+    <h1>meter</h1>
+
+    Muestra una medición dentro de un rango conocido (como un medidor o gauge).
+    Casos de uso:
+
+    Intensidad de señal (WiFi, celular)
+    Temperatura
+    Velocidad
+    Nivel de batería
+    Calificación o puntuación
+    Presión, humedad, etc.
+
+
+    <label>Temperatura:</label>
+    <meter value="37" min="35" max="40"></meter>
+
+    <label>Señal WiFi:</label>
+    <meter value="8" min="0" max="10"></meter>
+
+    <label>Calificación:</label>
+    <meter value="7" min="0" max="10" low="4" high="8"></meter>
+
+
+    Características:
+
+    Tiene atributos low y high para marcar rangos
+    Puede verse roja, amarilla o verde según el valor
+    Representa un estado actual en un momento
+    Optimizado para visualizar condiciones instantáneas
+
+
+  </article>
+
+  <article>
+    <h1>progress
+
+    </h1>
+
+    Casos de uso:
+
+    Descarga de archivo
+    Carga de página
+    Progreso de instalación
+    Barra de reproducción
+    Progreso en un formulario
+
+    <label>Descarga:</label>
+    <progress value="70" max="100"></progress>
+
+    <label>Carga:</label>
+    <progress value="35" max="100"></progress>
+    <span>35%</span>
+
+    Características:
+
+    Solo tiene atributos value y max
+    Representa progreso hacia una meta
+    No tiene rangos intermedios
+    Es un proceso lineal (0 → 100%)
+  </article>
+
+  <article>
+    Aspecto<meter><progress>PropósitoMedición/estadoProgreso de tareaRangoCustomizable (low, high)0 a maxUsoIndicadores
+        en tiempo realProcesos secuencialesEjemploBatería, temperaturaDescarga, carga
+  </article>
+
+  <script>
+    // ─── Datos simulados ───────────────────────────────
+    const TOTAL_LESSONS = 40;
+    const DONE_LESSONS = 21;   // ← cambia este valor para probar
+
+    // ─── 3. Anillo circular ────────────────────────────
+    (function () {
+      const canvas = document.getElementById('ring');
+      const ctx = canvas.getContext('2d');
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const R = 46;
+      const LW = 10;
+      const pct = DONE_LESSONS / TOTAL_LESSONS;
+
+      document.getElementById('doneCount').textContent = DONE_LESSONS;
+      document.getElementById('leftCount').textContent = TOTAL_LESSONS - DONE_LESSONS;
+
+      let cur = 0;
+      const target = pct;
+
+      function draw(p) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // track
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, 0, Math.PI * 2);
+        ctx.strokeStyle = '#1e2b35';
+        ctx.lineWidth = LW;
+        ctx.stroke();
+
+        // arc
+        const end = -Math.PI / 2 + Math.PI * 2 * p;
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, -Math.PI / 2, end);
+        ctx.strokeStyle = '#00e5ff';
+        ctx.lineWidth = LW;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        document.getElementById('ringPct').textContent =
+          Math.round(p * 100) + '%';
+      }
+
+      function animate() {
+        if (cur < target) {
+          cur = Math.min(cur + .008, target);
+          draw(cur);
+          requestAnimationFrame(animate);
+        } else {
+          draw(target);
+        }
+      }
+      animate();
+    })();
+
+    // ─── 4. Segmentada + milestones ───────────────────
+    (function () {
+      const phases = [
+        { label: 'Fundamentos', icon: '📐' },
+        { label: 'Layout', icon: '🏗️' },
+        { label: 'Motion', icon: '✨' },
+        { label: 'Avanzado', icon: '🚀' },
+        { label: 'Certificado', icon: '🏆' },
+      ];
+      const currentPhase = 2; // 0-indexed: fase 3 en progreso
+
+      const track = document.getElementById('segTrack');
+      const msContainer = document.getElementById('milestones');
+
+      phases.forEach((ph, i) => {
+        // segmento
+        const seg = document.createElement('div');
+        seg.className = 'seg';
+        if (i < currentPhase) seg.classList.add('done');
+        if (i === currentPhase) seg.classList.add('active');
+        track.appendChild(seg);
+
+        // milestone
+        const ms = document.createElement('div');
+        ms.className = 'milestone';
+        if (i <= currentPhase) ms.classList.add('reached');
+        ms.innerHTML = `
+          <div class="dot"></div>
+          <span class="ml">${ph.icon}<br>${ph.label}</span>
+        `;
+        msContainer.appendChild(ms);
+      });
+    })();
+  </script>
+
+</body>
+
+</html>

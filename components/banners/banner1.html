@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        *,
+        *::after,
+        *::before {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-block-size: 100dvh;
+        }
+
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 100dvh;
+            background: rgb(77, 76, 76);
+            overflow: hidden;
+
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            overflow: hidden;
+
+
+            &::before {
+                content: attr(data-text);
+
+                position: absolute;
+
+                font-weight: 800;
+                text-transform: uppercase;
+                font-size: 12em;
+                color: transparent;
+
+                -webkit-text-stroke: 1px #fff;
+
+                z-index: 1;
+
+
+            }
+
+            &::after {
+                content: attr(data-text);
+
+                position: absolute;
+
+                font-weight: 800;
+                text-transform: uppercase;
+                font-size: 12em;
+                color: transparent;
+
+                -webkit-text-stroke: 2px #fff;
+
+                clip-path: circle(250px at var(--x) var(--y));
+
+                transition: clip-path 0.1s;
+
+                background: red;
+
+                background-size: cover;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                inset: 0;
+
+
+            }
+
+            &:hover::after {
+                clip-path: circle(250px at var(--x) var(--y));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner" data-text="create"></div>
+
+
+    <script>
+        const $banner = document.querySelector('.banner');
+
+        $banner.onmousemove = function (e) {
+            const x = e.pageX - $banner.offsetLeft;
+
+            const y = e.pageY - $banner.offsetTop;
+
+            $banner.style.setProperty('--x', x + 'px');
+            $banner.style.setProperty('--y', y + 'px');
+        }
+    </script>
+</body>
+
+</html>

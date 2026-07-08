@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        *,
+        *::after,
+        *::before {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-block-size: 100dvh;
+            background-color: #222;
+        }
+
+        .loader {
+            position: relative;
+
+            inline-size: 300px;
+            block-size: 300px;
+            aspect-ratio: 1/1;
+            transform-style: preserve-3d;
+
+            transform: rotateX(35deg) rotateZ(345deg);
+
+            animation: animate 4s linear infinite;
+
+            & span {
+                position: absolute;
+                inset: 0;
+                background: rgba(255, 255, 255, 0.1);
+                border: 2px solid rgba(255, 255, 255, 0.25);
+                backdrop-filter: blur(2px);
+                transition: 2.5s;
+            }
+
+            & i {
+                position: absolute;
+                inset: 0;
+                transform-style: preserve-3d;
+                transition: 2.5;
+
+                &::before,
+                &::after {
+                    border: 2px solid rgba(255, 255, 255, 0.5);
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    inset: 5px;
+                    background: linear-gradient(45deg, #00bcd4, #ff0057);
+                    transform: translateZ(-90px);
+                }
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 15px;
+                    background: rgba(255, 255, 255, 0.1);
+                    transform: translateZ(90px);
+                    backdrop-filter: blur(2px);
+                }
+            }
+
+        }
+
+
+        @keyframes animate {
+            0% {
+                transform: rotateX(35deg) rotateZ(0deg);
+            }
+
+            100% {
+                transform: rotateX(35deg) rotateZ(345deg);
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="loader"><span></span><i></i></div>
+</body>
+
+</html>

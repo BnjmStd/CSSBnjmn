@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loader Liquid</title>
+
+    <style>
+        *,
+        *::after,
+        *::before {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-block-size: 100dvh;
+            background-color: #111;
+        }
+
+        .loader {
+            position: relative;
+            inline-size: 300px;
+            block-size: 40px;
+            filter: url(#liquid);
+        }
+
+        .loader span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            inline-size: 40px;
+            block-size: 40px;
+            display: block;
+            box-shadow: 0 0 40px #009ad4;
+            background: linear-gradient(#02edff, #009ad4);
+            border-radius: 50%;
+            animation: animate 5s ease-in-out infinite;
+            animation-delay: calc(0.1s * var(--i));
+        }
+
+        @keyframes animate {
+            0% {
+                left: 0;
+
+            }
+
+            25% {
+                left: calc(100% - 40px);
+            }
+
+            50% {
+                left: calc(100% - 40px);
+            }
+
+            75% {
+                left: 0;
+            }
+
+            100% {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader">
+        <span style="--i: 1"></span>
+        <span style="--i: 2"></span>
+        <span style="--i: 3"></span>
+        <span style="--i: 4"></span>
+        <span style="--i: 5"></span>
+        <span style="--i: 6"></span>
+        <span style="--i: 7"></span>
+    </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0;">
+        <defs>
+            <filter id="liquid">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="liquid" />
+            </filter>
+        </defs>
+    </svg>
+</body>
+
+</html>

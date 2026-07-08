@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        *,
+        *::after,
+        *::before {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        :root {
+            color-scheme: dark;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+
+            padding-inline: 1rem;
+
+            >article:first-child {
+                margin-block-start: 2rem;
+            }
+
+        }
+
+        article {
+            min-block-size: 25vh;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            inline-size: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <article>
+
+        <p>Some text with a <a href="#" interestfor="mypopover">link</a>.</p>
+        <p id="mypopover" popover>A short preview with some quick info</p>
+
+    </article>
+
+
+    <article>
+        <p>
+            Some content including a
+            <button interestfor="my-tooltip" commandfor="my-infobox" command="toggle-popover">
+                button
+            </button>
+        </p>
+        <p id="my-tooltip" popover="hint">A hover tooltip</p>
+        <p id="my-infobox" popover>
+            An infobox that also contains some control buttons<br />
+            <button>Button 1</button> <button>Button 2</button>
+        </p>
+    </article>
+
+
+    <article>
+        <style>
+            @scope {
+                :scope {
+                    border: 1px solid gray;
+                }
+
+                button {
+                    interest-delay: 1s 2s;
+                }
+
+                button:interest-source {
+                    background-color: orange;
+                }
+
+                p:has(button:interest-source) button {
+                    interest-delay-start: 0s;
+                }
+
+                #my-tooltip {
+                    position-area: bottom;
+                }
+
+                #my-tooltip:interest-target {
+                    border-style: dashed;
+                }
+
+            }
+        </style>
+
+        <p>
+            <button interestfor="my-tooltip">Button 1</button>
+            <button interestfor="my-tooltip">Button 2</button>
+        </p>
+        <p id="my-tooltip" popover="hint">A hover tooltip</p>
+    </article>
+
+
+    <article>
+
+        <style>
+            @scope {
+                a[interestfor] {
+                    interest-delay-start: 1s;
+                }
+            }
+
+            #user-info {
+                position-area: bottom right;
+            }
+        </style>
+
+        <p>
+            I think
+            <a href="https://github.com/chrisdavidmills/" interestfor="user-info" target="_blank">
+                @chrisdavidmills
+            </a>
+            should know about this.
+        </p>
+
+        <div id="user-info" popover="hint">
+            <div class="wrapper">
+                <img src="chris-mills.jpg" alt="chris mills" />
+                <section>
+                    <p><strong>Chris Mills</strong></p>
+                    <p>
+                        Independent tech writer and web technology tinkerer, working on MDN on
+                        behalf of Google and Mozilla. A11y and open standards advocate. Heavy
+                        metal drummer. <button>Follow</button>
+                    </p>
+                    <p>🌍 Greenfield, UK</p>
+                </section>
+            </div>
+        </div>
+    </article>
+
+
+    <article>
+
+        <style>
+            @scope {
+                .black-white {
+                    color: black;
+                    background-color: white;
+                    border: 2px solid black;
+                }
+
+                .bubblegum {
+                    color: #fff8f0;
+                    background-color: #ef476f;
+                    border: 2px solid #fff8f0;
+                    box-shadow: 0 0 2px #ef476f;
+                }
+
+                .purple-haze {
+                    color: #8a1c7c;
+                    background-color: #f0bcd4;
+                    border: 2px solid #8a1c7c;
+                }
+
+                .blaze {
+                    color: #f2e94e;
+                    background-color: #7e6b8f;
+                    border: 2px solid #f2e94e;
+                }
+
+                .mint-brown {
+                    color: #41463d;
+                    background-color: #1cfeba;
+                    border: 2px solid #41463d;
+                }
+            }
+
+            button:interest-source {
+                background-color: black;
+                color: white;
+                border: 2px solid black;
+            }
+
+            #style-panel {
+                transition: all 0.7s;
+            }
+        </style>
+
+        <div>
+            <button interestfor="style-panel" class="black-white">Black/White</button>
+            <button interestfor="style-panel" class="bubblegum">Bubblegum</button>
+            <button interestfor="style-panel" class="purple-haze">Purple haze</button>
+            <button interestfor="style-panel" class="blaze">Blaze</button>
+            <button interestfor="style-panel" class="mint-brown">Mint brown</button>
+        </div>
+        <article id="style-panel" class="black-white">
+            <h2>Style preview panel</h2>
+            <p>This is fun, right?</p>
+        </article>
+    </article>
+
+
+</body>
+
+</html>
