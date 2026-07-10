@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        css
+
+        /* 1. Definir el nombre del ancla en el botón */
+        .anchor-button {
+            anchor-name: --menu-button;
+        }
+
+        /* 2. Definir las posiciones de respaldo (fallbacks) */
+        @position-try --below-right {
+            inset: unset;
+            top: anchor(bottom);
+            left: anchor(left);
+        }
+
+        @position-try --below-left {
+            inset: unset;
+            top: anchor(bottom);
+            right: anchor(right);
+        }
+
+        /* 3. Estilos del menú y aplicación de los fallbacks */
+        .menu {
+            position: absolute;
+            position-anchor: --menu-button;
+            position-try-fallbacks: --below-right, --below-left;
+
+            margin-top: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        /* Mostrar como grid solo cuando el popover está abierto */
+        .menu:popover-open {
+            display: grid;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section>
+            <h1>anchor positioning</h1>
+        </section>
+        <section>
+            position areas
+        </section>
+        <section>
+            position fallbacks
+        </section>
+
+
+
+        <section>
+            <button popovertarget="menu">
+                Menu Button
+            </button>
+
+            <div id="menu" popover>
+                <a href="#">Item</a>
+                <a href="#">Item</a>
+                <a href="#">Item</a>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

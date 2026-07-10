@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS & Web Performance Secrets Sandbox - Visualizador Interactivo</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #070a13;
+      --bg-panel: #0e1424;
+      --bg-card: #151d33;
+      --border-color: rgba(255, 255, 255, 0.06);
+      --border-color-active: rgba(99, 102, 241, 0.4);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      
+      --accent-correct: #10b981;
+      --accent-correct-glow: rgba(16, 185, 129, 0.15);
+      --accent-incorrect: #f43f5e;
+      --accent-incorrect-glow: rgba(244, 63, 94, 0.15);
+      --accent-primary: #6366f1;
+      --accent-primary-hover: #4f46e5;
+      
+      /* Dynamic Variables for Tabs */
+      --outer-radius: 40px;
+      --padding-val: 20px;
+      --inner-radius-wrong: 40px;
+      --inner-radius-right: 20px;
+
+      /* Button Padding Tab variables */
+      --btn-v-padding: 16px;
+      --btn-h-padding-wrong: 16px;
+      --btn-h-padding-right: 36px;
+
+      /* Gradients Tab variables */
+      --color-a: #0022ff;
+      --color-b: #ffff00;
+      
+      /* Play Button Tab variables */
+      --play-offset: 5px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      overflow-x: hidden;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .glow-bg {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(7, 10, 19, 0) 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      max-width: 800px;
+      z-index: 10;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #fff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: var(--bg-panel);
+      padding: 0.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 2rem;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      padding: 0.6rem 1.2rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-btn.active {
+      color: var(--text-primary);
+      background-color: var(--accent-primary);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Container layout */
+    .container {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2rem;
+      width: 100%;
+      max-width: 1100px;
+      z-index: 10;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Controls Panel */
+    .panel {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      height: fit-content;
+    }
+
+    .panel-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+    }
+
+    /* Active Content Sections */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Control Groups */
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .control-value {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-primary);
+      font-weight: 700;
+    }
+
+    /* Sliders */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 3px;
+      outline: none;
+      margin: 10px 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      cursor: pointer;
+      transition: transform 0.1s ease, background 0.1s ease;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: #818cf8;
+    }
+
+    /* Toggle switches */
+    .option-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      user-select: none;
+      margin-top: 0.5rem;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 22px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #1e293b;
+      transition: .3s;
+      border-radius: 22px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    /* Preset buttons for gradients */
+    .preset-btn {
+      background-color: #1e293b;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: background 0.2s;
+      text-align: center;
+    }
+
+    .preset-btn:hover {
+      background-color: #312e81;
+      border-color: var(--accent-primary);
+    }
+
+    /* Previews layout */
+    .previews-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .previews-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .preview-card {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-wrong {
+      background-color: var(--accent-incorrect-glow);
+      color: var(--accent-incorrect);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    .badge-right {
+      background-color: var(--accent-correct-glow);
+      color: var(--accent-correct);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Viewport Area */
+    .demo-container {
+      background-color: #080c16;
+      border-radius: 14px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px dashed rgba(255, 255, 255, 0.05);
+    }
+
+    .viewport-grid {
+      position: absolute;
+      inset: 0;
+      background-size: 20px 20px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      pointer-events: none;
+    }
+
+    /* TAB 1: Frames */
+    .outer-frame {
+      width: 230px;
+      height: 230px;
+      background-color: #1e293b;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      display: flex;
+      position: relative;
+      transition: border-radius 0.1s ease, padding 0.1s ease;
+    }
+
+    .outer-frame::after {
+      content: 'Caja Exterior';
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.25);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      pointer-events: none;
+    }
+
+    .inner-frame {
+      flex: 1;
+      background: linear-gradient(135deg, #312e81, #1e1b4b);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      transition: border-radius 0.1s ease;
+      position: relative;
+    }
+
+    .inner-frame span {
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    /* Radius applications */
+    #frame-wrong {
+      border-radius: var(--outer-radius);
+      padding: var(--padding-val);
+    }
+    #frame-wrong .inner-frame {
+      border-radius: var(--inner-radius-wrong);
+    }
+
+    #frame-right {
+      border-radius: var(--outer-radius);
+      padding: var(--padding-val);
+    }
+    #frame-right .inner-frame {
+      border-radius: var(--inner-radius-right);
+    }
+
+    /* TAB 2: Shadows Preview */
+    .shadow-object {
+      width: 140px;
+      height: 140px;
+      background-color: #1e293b;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #94a3b8;
+    }
+
+    .shadow-single {
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    /* TAB 3: Buttons Preview */
+    .btn-demo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #fff;
+      cursor: pointer;
+      border-radius: 50px;
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-wrong {
+      padding: var(--btn-v-padding) var(--btn-h-padding-wrong);
+    }
+
+    .btn-right {
+      padding: var(--btn-v-padding) var(--btn-h-padding-right);
+    }
+
+    /* Tab 4 Speculation Rules styling */
+    .mock-nav-links a {
+      transition: color 0.2s ease, opacity 0.2s ease;
+      position: relative;
+    }
+    .mock-nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: var(--accent-primary);
+      transition: width 0.2s ease;
+    }
+    .mock-nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Tab 5: Play Button centering elements */
+    .play-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #312e81, #1e1b4b);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .play-svg {
+      width: 32px;
+      height: 36px;
+      fill: #fff;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    }
+
+    /* Tab 6: Gradients preview */
+    .gradient-bar {
+      width: 100%;
+      height: 120px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+    
+    .gradient-rgb {
+      background: linear-gradient(to right, var(--color-a), var(--color-b));
+    }
+
+    .gradient-oklch {
+      /* Dynamic support via modern CSS inline style gradient interpolating in oklch */
+      background: linear-gradient(to right in oklch, var(--color-a), var(--color-b));
+    }
+
+    .color-picker-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid white;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+
+    /* Math Formula Display */
+    .math-box {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      border-left: 3px solid var(--accent-incorrect);
+    }
+
+    .badge-right ~ .math-box {
+      border-left-color: var(--accent-correct);
+    }
+
+    .math-formula {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .math-calc {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+
+    /* SVG overlays */
+    .overlay-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 20;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .overlay-svg.visible {
+      opacity: 1;
+    }
+
+    /* Explanation Section */
+    .explanation-section {
+      grid-column: 1 / -1;
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-top: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .explanation-section h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .explanation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .explanation-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .explanation-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .explanation-card h3 {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .explanation-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .explanation-card ul {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      padding-left: 1.25rem;
+    }
+
+    .formula-badge {
+      display: inline-block;
+      background-color: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #a5b4fc;
+      font-weight: 600;
+    }
+
+    .center-pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { r: 4px; opacity: 0.8; }
+      50% { r: 8px; opacity: 0.4; }
+      100% { r: 4px; opacity: 0.8; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-bg"></div>
+
+  <header>
+    <h1>Secretos de Diseño y Rendimiento Web</h1>
+    <p>
+      La diferencia entre un diseño básico (generado automáticamente) y una interfaz premium de alto nivel reside en pequeños detalles ópticos y arquitecturas inteligentes de rendimiento. Explora los secretos interactivos.
+    </p>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('radius')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect></svg>
+      Concentric Border Radius
+    </button>
+    <button class="tab-btn" onclick="switchTab('shadows')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+      Sombras Multicapa
+    </button>
+    <button class="tab-btn" onclick="switchTab('buttons')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="6" width="20" height="12" rx="6" ry="6"></rect></svg>
+      Padding en Botones
+    </button>
+    <button class="tab-btn" onclick="switchTab('speculation')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+      Speculation Rules (Prerender)
+    </button>
+    <button class="tab-btn" onclick="switchTab('alignment')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+      Alineación Óptica
+    </button>
+    <button class="tab-btn" onclick="switchTab('gradients')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path><path d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z"></path></svg>
+      Gradientes Sin Gris
+    </button>
+  </nav>
+
+  <!-- TAB 1: BORDER RADIUS -->
+  <div id="tab-radius" class="tab-content active">
+    <div class="container">
+      <section class="panel">
+        <div class="panel-title">Controles</div>
+        <div class="control-group">
+          <div class="control-label">
+            <span>Radio Exterior (R<sub>out</sub>)</span>
+            <span class="control-value" id="val-radius">40px</span>
+          </div>
+          <input type="range" id="input-radius" min="10" max="120" value="40">
+        </div>
+        <div class="control-group">
+          <div class="control-label">
+            <span>Padding (P)</span>
+            <span class="control-value" id="val-padding">20px</span>
+          </div>
+          <input type="range" id="input-padding" min="0" max="80" value="20">
+        </div>
+        <hr style="border: 0; border-top: 1px solid var(--border-color);">
+        <div class="option-row">
+          <span>Mostrar Guías Geométricas</span>
+          <label class="switch">
+            <input type="checkbox" id="toggle-guides" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="option-row">
+          <span>Agrandar Esquinas (Zoom 2.5x)</span>
+          <label class="switch">
+            <input type="checkbox" id="toggle-zoom">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="previews-grid">
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Incorrecto (Mismo Radio)</h3>
+            <span class="badge badge-wrong">No concéntrico</span>
+          </div>
+          <div class="demo-container">
+            <div class="viewport-grid"></div>
+            <div class="outer-frame" id="frame-wrong">
+              <div class="inner-frame"><span>R<sub>in</sub> = R<sub>out</sub></span></div>
+            </div>
+            <svg class="overlay-svg visible" id="svg-wrong"></svg>
+          </div>
+          <div class="math-box">
+            <div class="math-formula">R<sub>out</sub> = R<sub>in</sub></div>
+            <div class="math-calc" id="calc-wrong">40px = 40px (Padding: 20px)</div>
+          </div>
+        </article>
+
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Correcto (Radios Ajustados)</h3>
+            <span class="badge badge-right">Concéntrico</span>
+          </div>
+          <div class="demo-container">
+            <div class="viewport-grid"></div>
+            <div class="outer-frame" id="frame-right">
+              <div class="inner-frame"><span>R<sub>in</sub> = R<sub>out</sub> - P</span></div>
+            </div>
+            <svg class="overlay-svg visible" id="svg-right"></svg>
+          </div>
+          <div class="math-box">
+            <div class="math-formula">R<sub>out</sub> = R<sub>in</sub> + P</div>
+            <div class="math-calc" id="calc-right">40px = 20px + 20px</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="explanation-section">
+        <h2>¿Por qué ocurre esto?</h2>
+        <div class="explanation-grid">
+          <div class="explanation-card">
+            <h3>La física de las curvas concéntricas</h3>
+            <p>
+              Cuando un objeto curvo se anida dentro de otro con un espacio uniforme (padding), los arcos de las esquinas deben compartir el <strong>mismo centro</strong> para mantener líneas paralelas.
+            </p>
+            <p>
+              Si el radio interior no se reduce por la cantidad de padding, las curvas se cruzan geométricamente. Esto causa que el espacio en el borde cambie visualmente a lo largo de la curva, sintiéndose "aplastado".
+            </p>
+          </div>
+          <div class="explanation-card">
+            <h3>Fórmula de Oro</h3>
+            <p><strong class="formula-badge">R<sub>inner</sub> = R<sub>outer</sub> - Padding</strong></p>
+            <p>
+              Si el padding es mayor o igual al radio exterior, entonces el radio interior debe ser <strong>0</strong> (esquina totalmente recta) para evitar deformaciones raras.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- TAB 2: MULTILAYER SHADOWS -->
+  <div id="tab-shadows" class="tab-content">
+    <div class="container">
+      <section class="panel">
+        <div class="panel-title">Controles</div>
+        <div class="control-group">
+          <div class="control-label">
+            <span>Intensidad de Elevación</span>
+            <span class="control-value" id="val-shadow">Nivel 3</span>
+          </div>
+          <input type="range" id="input-shadow" min="1" max="5" value="3">
+        </div>
+        <div class="control-group">
+          <div class="control-label">
+            <span>Opacidad de la Sombra</span>
+            <span class="control-value" id="val-shadow-opacity">15%</span>
+          </div>
+          <input type="range" id="input-shadow-opacity" min="5" max="40" value="15">
+        </div>
+      </section>
+
+      <section class="previews-grid">
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Sombra Común (1 Sola Capa)</h3>
+            <span class="badge badge-wrong">Artificial</span>
+          </div>
+          <div class="demo-container" style="background-color: #0d1222;">
+            <div class="viewport-grid"></div>
+            <div class="shadow-object shadow-single" id="shadow-box-single">
+              Sombra única dura
+            </div>
+          </div>
+          <div class="math-box" style="font-size: 0.8rem;">
+            <div class="math-formula">box-shadow</div>
+            <div class="math-calc" id="code-shadow-single">box-shadow: 0 15px 30px rgba(0,0,0,0.3)</div>
+          </div>
+        </article>
+
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Sombra Multicapa (6 Capas)</h3>
+            <span class="badge badge-right">Natural (Premium)</span>
+          </div>
+          <div class="demo-container" style="background-color: #0d1222;">
+            <div class="viewport-grid"></div>
+            <div class="shadow-object" id="shadow-box-layered">
+              Sombra difusa realista
+            </div>
+          </div>
+          <div class="math-box" style="font-size: 0.75rem; max-height: 100px; overflow-y: auto;">
+            <div class="math-formula">box-shadow (Multicapa)</div>
+            <div class="math-calc" id="code-shadow-layered">Calculando...</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="explanation-section">
+        <h2>El Secreto de las Sombras Realistas</h2>
+        <div class="explanation-grid">
+          <div class="explanation-card">
+            <h3>Física de la Luz y Oclusión Ambiental</h3>
+            <p>
+              En el mundo real, una sombra no se compone de una sola mancha oscura con bordes difusos uniformes. La luz rebota en múltiples direcciones, creando sombras que son **muy oscuras e intensas cerca del objeto** (oclusión ambiental) y que se vuelven **súper suaves, tenues y expandidas** a medida que se alejan.
+            </p>
+            <p>
+              Una sola capa de `box-shadow` en CSS se ve barata y artificial porque dispersa la opacidad de manera uniforme.
+            </p>
+          </div>
+          <div class="explanation-card">
+            <h3>Técnica de Capas (Umbra & Penumbra)</h3>
+            <p>
+              Al apilar **múltiples sombras** con valores de dispersión crecientes y opacidades extremadamente bajas (por ejemplo, del 1% al 3% por capa), puedes imitar el comportamiento de la luz natural.
+            </p>
+            <p>
+              Esto le da a la interfaz una sensación física de profundidad y calidad de diseño premium en la que los elementos parecen flotar suavemente sobre el lienzo.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- TAB 3: BUTTON PADDING -->
+  <div id="tab-buttons" class="tab-content">
+    <div class="container">
+      <section class="panel">
+        <div class="panel-title">Controles</div>
+        <div class="control-group">
+          <div class="control-label">
+            <span>Padding Vertical (V)</span>
+            <span class="control-value" id="val-btn-v">14px</span>
+          </div>
+          <input type="range" id="input-btn-v" min="6" max="30" value="14">
+        </div>
+        <hr style="border: 0; border-top: 1px solid var(--border-color);">
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+          El padding horizontal de la derecha se calcula automáticamente multiplicando el vertical por <strong>2.2</strong> (relación estética óptica).
+        </p>
+      </section>
+
+      <section class="previews-grid">
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Padding Simétrico (Cuadrado)</h3>
+            <span class="badge badge-wrong">Pesado / Incomodo</span>
+          </div>
+          <div class="demo-container">
+            <div class="viewport-grid"></div>
+            <button class="btn-demo btn-wrong" id="btn-wrong">
+              Iniciar Sesión
+            </button>
+          </div>
+          <div class="math-box">
+            <div class="math-formula">padding: V V;</div>
+            <div class="math-calc" id="calc-btn-wrong">padding: 14px 14px;</div>
+          </div>
+        </article>
+
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Padding Óptico (Proporcional)</h3>
+            <span class="badge badge-right">Equilibrado</span>
+          </div>
+          <div class="demo-container">
+            <div class="viewport-grid"></div>
+            <button class="btn-demo btn-right" id="btn-right">
+              Iniciar Sesión
+            </button>
+          </div>
+          <div class="math-box">
+            <div class="math-formula">padding: V (V * 2.2);</div>
+            <div class="math-calc" id="calc-btn-right">padding: 14px 31px;</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="explanation-section">
+        <h2>El Balance del Padding Óptico en Botones</h2>
+        <div class="explanation-grid">
+          <div class="explanation-card">
+            <h3>La Ilusión Óptica Horizontal</h3>
+            <p>
+              El ojo humano lee de izquierda a derecha. Esto hace que percibamos las formas alargadas horizontalmente como más estables y fáciles de escanear. 
+            </p>
+            <p>
+              Si aplicamos el mismo padding en la vertical y en la horizontal (por ejemplo, `16px` arriba/abajo y `16px` izquierda/derecha), el botón se verá ópticamente "alto y comprimido", casi como un bloque incómodo para presionar.
+            </p>
+          </div>
+          <div class="explanation-card">
+            <h3>La Proporción Dorada del Botón</h3>
+            <p>
+              Como regla general de diseño de interfaz de usuario, el padding lateral de un botón debe ser aproximadamente entre **2 y 2.5 veces** su padding superior e inferior.
+            </p>
+            <p>
+              Esto no solo mejora drásticamente la estética, sino que incrementa el área de lectura interna del texto del botón, haciéndolo visualmente más atractivo para hacer clic.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- TAB 4: SPECULATION RULES API -->
+  <div id="tab-speculation" class="tab-content">
+    <div class="container">
+      <section class="panel">
+        <div class="panel-title">Exclusiones del Prerender</div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+          Pasa el cursor sobre los diferentes enlaces de la simulación del navegador para ver si son elegibles para <strong>Prerender</strong> según las reglas.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div class="control-label" style="font-size: 0.85rem;">
+            <span>Eagerness (Sensibilidad)</span>
+            <span class="control-value">Moderate (Hover)</span>
+          </div>
+          <div class="math-box" style="font-size: 0.8rem; border-left-color: var(--accent-primary);">
+            <div class="math-formula">Eager vs Moderate vs Lazy</div>
+            <div class="math-calc" style="font-size: 0.75rem; line-height: 1.4; color: var(--text-secondary);">
+              <strong>eagerness: moderate</strong> inicia el prerender al hacer hover o mantener presionado el puntero, reduciendo la latencia de carga a 0ms justo antes del clic.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="previews-grid" style="grid-template-columns: 1fr;">
+        <article class="preview-card" style="width: 100%;">
+          <div class="card-header">
+            <h3 class="card-title">Simulador del Navegador</h3>
+            <span class="badge" id="browser-status-badge" style="background-color: rgba(148, 163, 184, 0.1); color: var(--text-secondary); border: 1px solid rgba(148, 163, 184, 0.2);">
+              Esperando interacción...
+            </span>
+          </div>
+          
+          <!-- Mock Browser Viewport -->
+          <div class="demo-container" style="height: auto; min-height: 280px; flex-direction: column; justify-content: flex-start; padding: 1.25rem; align-items: stretch; background-color: #0b0f19;">
+            <!-- Browser Address Bar -->
+            <div style="display: flex; align-items: center; background-color: #121826; padding: 0.5rem 0.75rem; border-radius: 8px; margin-bottom: 1.25rem; border: 1px solid var(--border-color); gap: 0.5rem; width: 100%;">
+              <div style="display: flex; gap: 4px;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #ef4444;"></span>
+                <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #f59e0b;"></span>
+                <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #10b981;"></span>
+              </div>
+              <div style="flex: 1; background-color: #070a13; padding: 0.25rem 0.75rem; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem;">
+                <span style="color: #10b981;">https://</span>mi-sitio.com<span id="browser-current-path">/inicio</span>
+              </div>
+            </div>
+
+            <!-- Simulated Webpage Content -->
+            <div id="mock-webpage" style="flex: 1; background-color: #131a2c; border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; position: relative;">
+              
+              <!-- Loader overlay -->
+              <div id="browser-loader" style="position: absolute; inset: 0; background: rgba(7, 10, 19, 0.85); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; border-radius: 10px; z-index: 50;">
+                <div style="width: 30px; height: 30px; border: 3px solid rgba(99, 102, 241, 0.2); border-top-color: var(--accent-primary); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;">Cargando página... (Red Lenta)</div>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.75rem; font-size: 0.85rem; font-weight: 600;">
+                <div style="color: var(--text-primary); font-family: 'Syne', sans-serif;">MiWebPremium</div>
+                <div style="display: flex; gap: 1rem;" class="mock-nav-links">
+                  <a href="/productos" class="mock-link" style="color: #6366f1; text-decoration: none;">Productos</a>
+                  <a href="/acerca-de" class="mock-link" style="color: #6366f1; text-decoration: none;">Acerca de</a>
+                  <a href="/logout" class="mock-link" style="color: #f43f5e; text-decoration: none;">Cerrar Sesión</a>
+                  <a href="/externo" rel="nofollow" class="mock-link" style="color: #64748b; text-decoration: none;">Nofollow</a>
+                  <a href="/heavy" data-no-prerender class="mock-link" style="color: #64748b; text-decoration: none;">Sin Prerender</a>
+                </div>
+              </div>
+
+              <div id="mock-page-content" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; min-height: 70px; display: flex; flex-direction: column; justify-content: center;">
+                <div>Selecciona o haz hover en los enlaces de arriba para probar las reglas de especulación.</div>
+              </div>
+            </div>
+
+            <!-- Developer Speculation Rules Logs -->
+            <div style="margin-top: 1.25rem; background-color: #070a13; padding: 0.75rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.03);">
+              <div style="color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 700; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.5px;">Consola de Prerender (Background)</div>
+              <div id="speculation-console-log" style="color: #a5b4fc; min-height: 40px; max-height: 60px; overflow-y: auto; line-height: 1.4;">
+                Esperando interacción del usuario...
+              </div>
+            </div>
+          </div>
+
+          <!-- Code Rule Section -->
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem; margin-top: 1rem;">
+            <div class="math-box" style="border-left-color: var(--accent-primary); font-size: 0.75rem; overflow-x: auto;">
+              <div class="math-formula">Speculation Rules JSON</div>
+              <pre style="color: #a5b4fc; margin-top: 0.5rem; line-height: 1.35; font-family: 'JetBrains Mono', monospace;">
+{
+  "prerender": [{
+    "where": {
+      "and": [
+        { "href_matches": "/*" },
+        { "not": { "href_matches": "/logout" } },
+        { "not": { "selector_matches": "[rel~=nofollow]" } },
+        { "not": { "selector_matches": "[data-no-prerender]" } }
+      ]
+    },
+    "eagerness": "moderate"
+  }]
+}</pre>
+            </div>
+
+            <div class="math-box" style="border-left-color: #38bdf8; font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.5rem;">
+              <div class="math-formula" style="color: #38bdf8;">¿Por qué las exclusiones?</div>
+              <ul style="padding-left: 1rem; line-height: 1.4; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.4rem;">
+                <li><strong style="color: var(--text-primary);">/logout:</strong> Evita cerrar la sesión del usuario por accidente si pasa el cursor sobre el enlace.</li>
+                <li><strong style="color: var(--text-primary);">[rel~=nofollow]:</strong> Excluye enlaces externos en los que no quieres rastrear en segundo plano.</li>
+                <li><strong style="color: var(--text-primary);">[data-no-prerender]:</strong> Excluye páginas que contienen acciones complejas o muy pesadas.</li>
+              </ul>
+              <div style="margin-top: 0.4rem; padding-top: 0.4rem; border-top: 1px solid rgba(255,255,255,0.05); color: #f59e0b; font-size: 0.72rem; line-height: 1.3;">
+                ⚠️ <strong>Nota:</strong> El código original en la captura tiene el typo <code>"eageress"</code>. La especificación estándar del W3C define la clave como <code>"eagerness"</code> (con 'n').
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="explanation-section">
+        <h2>¿Qué es la API de Speculation Rules?</h2>
+        <div class="explanation-grid">
+          <div class="explanation-card">
+            <h3>Navegación Instantánea (0ms Loading)</h3>
+            <p>
+              La API de **Speculation Rules** permite a los navegadores modernos renderizar páginas completas en segundo plano antes de que el usuario las abra formalmente.
+            </p>
+            <p>
+              Al contrario de las precargas antiguas (`<link rel="prefetch">`), esta API hace un **prerender completo** que carga el DOM, ejecuta Javascript y aplica los estilos en un búfer invisible. Cuando el usuario hace clic, la experiencia de carga es literalmente **instantánea** (0 milisegundos), ya que la pestaña simplemente reemplaza el contenido sin esperar a la red.
+            </p>
+          </div>
+          <div class="explanation-card">
+            <h3>El peligro de prerenderizar sin excluir</h3>
+            <p>
+              Dado que el prerenderizado ejecuta la página como si el usuario la abriera en una pestaña normal, **todas las solicitudes HTTP de la página destino se ejecutan**.
+            </p>
+            <p>
+              Si no excluyes la ruta de **Cerrar Sesión** (`/logout`), y el navegador detecta una intención moderada de clic (por ejemplo, pasar el puntero sobre ella), el navegador llamará a la URL en segundo plano y **cerrará la sesión del usuario instantáneamente** sin que este haya hecho clic.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- TAB 5: OPTICAL ALIGNMENT (PLAY BUTTON) -->
+  <div id="tab-alignment" class="tab-content">
+    <div class="container">
+      <section class="panel">
+        <div class="panel-title">Controles</div>
+        <div class="control-group">
+          <div class="control-label">
+            <span>Desplazamiento Ícono (X)</span>
+            <span class="control-value" id="val-play-offset">5px</span>
+          </div>
+          <input type="range" id="input-play-offset" min="0" max="15" value="5">
+        </div>
+        <hr style="border: 0; border-top: 1px solid var(--border-color);">
+        <div class="option-row">
+          <span>Mostrar Centro Visual y Guías</span>
+          <label class="switch">
+            <input type="checkbox" id="toggle-play-guides" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <button class="preset-btn" onclick="setPlayOffset(5)" style="margin-top: 0.5rem; width: 100%;">
+          Aplicar Ajuste Óptico (+5px)
+        </button>
+      </section>
+
+      <section class="previews-grid">
+        <!-- Card 1: Geometric centering -->
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Centrado Geométrico (1:1)</h3>
+            <span class="badge badge-wrong">Desbalanceado (Izquierda)</span>
+          </div>
+          <div class="demo-container">
+            <div class="viewport-grid"></div>
+            <div class="play-circle">
+              <!-- Play triangle positioned exactly centered inside SVG bounding box -->
+              <svg class="play-svg" viewBox="0 0 32 36" id="svg-play-geometric">
+                <polygon points="0,0 0,36 32,18"></polygon>
+              </svg>
+            </div>
+            <!-- Overlay SVG for alignment guides -->
+            <svg class="overlay-svg visible" id="svg-guides-geom"></svg>
+          </div>
+          <div class="math-box">
+            <div class="math-formula">Geometric Center (X = 50%)</div>
+            <div class="math-calc">El cuadro contenedor está centrado al 100%, pero el triángulo se ve corrido.</div>
+          </div>
+        </article>
+
+        <!-- Card 2: Optical centering -->
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Centrado Óptico (Ajustado)</h3>
+            <span class="badge badge-right">Balanceado</span>
+          </div>
+          <div class="demo-container">
+            <div class="viewport-grid"></div>
+            <div class="play-circle">
+              <!-- Play triangle offset horizontally -->
+              <svg class="play-svg" viewBox="0 0 32 36" id="svg-play-optical" style="transform: translateX(var(--play-offset));">
+                <polygon points="0,0 0,36 32,18"></polygon>
+              </svg>
+            </div>
+            <!-- Overlay SVG for alignment guides -->
+            <svg class="overlay-svg visible" id="svg-guides-opt"></svg>
+          </div>
+          <div class="math-box">
+            <div class="math-formula">Optical Center (X + 15%)</div>
+            <div class="math-calc" id="calc-play-opt">Desplazado +5px a la derecha para compensar la masa visual.</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="explanation-section">
+        <h2>¿Qué es la Alineación Óptica?</h2>
+        <div class="explanation-grid">
+          <div class="explanation-card">
+            <h3>Geometría vs. Percepción Visual</h3>
+            <p>
+              Las computadoras centran los elementos calculando la caja contenedora (Bounding Box) de forma rectangular y dividiendo su ancho entre dos. Sin embargo, el ojo humano no percibe cajas, percibe **masa visual**.
+            </p>
+            <p>
+              En figuras asimétricas como un triángulo de reproducción (Play), la base izquierda concentra la gran mayoría del peso del área, mientras que la punta derecha apenas tiene masa. Si lo centras geométricamente, el botón parecerá empujado a la izquierda.
+            </p>
+          </div>
+          <div class="explanation-card">
+            <h3>La regla del 10% - 15%</h3>
+            <p>
+              Para centrar elementos asimétricos correctamente, debes alinearlos en base a su **centroide o centro de gravedad visual**.
+            </p>
+            <p>
+              *   Para botones de reproducción triangulares, la regla habitual es desplazar la figura aproximadamente un **10% a 15% de su ancho total** hacia la derecha.
+              *   Lo mismo aplica para otros elementos asimétricos como logotipos con formas orgánicas, estrellas o iconos inclinados.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- TAB 6: GRADIENTS WITHOUT GRAY DEAD ZONE -->
+  <div id="tab-gradients" class="tab-content">
+    <div class="container">
+      <section class="panel">
+        <div class="panel-title">Ajustes del Gradiente</div>
+        
+        <!-- Presets -->
+        <div class="control-group">
+          <div class="control-label">
+            <span>Preajustes de Contraste</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.25rem;">
+            <button class="preset-btn" onclick="setGradientPreset('#0022ff', '#ffff00', 'Azul & Amarillo')">Azul & Amarillo</button>
+            <button class="preset-btn" onclick="setGradientPreset('#00f2fe', '#ff4757', 'Cian & Rojo')">Cian & Rojo</button>
+            <button class="preset-btn" onclick="setGradientPreset('#ff007f', '#00ff7f', 'Magenta & Verde')">Magenta & Verde</button>
+            <button class="preset-btn" onclick="setGradientPreset('#4f46e5', '#ff7a00', 'Indigo & Naranja')">Indigo & Naranja</button>
+          </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-color);">
+
+        <!-- Analyzer slider -->
+        <div class="control-group">
+          <div class="control-label">
+            <span>Punto Analizador de Color</span>
+            <span class="control-value" id="val-grad-pos">50%</span>
+          </div>
+          <input type="range" id="input-grad-pos" min="5" max="95" value="50">
+        </div>
+      </section>
+
+      <section class="previews-grid">
+        <!-- RGB muddy gradient -->
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Gradiente RGB (Tradicional)</h3>
+            <span class="badge badge-wrong" id="badge-grad-rgb">Zona Gris Muerta</span>
+          </div>
+          <div class="demo-container" style="padding: 1.5rem; justify-content: flex-start; flex-direction: column; gap: 1rem; align-items: stretch; height: auto;">
+            <div class="gradient-bar gradient-rgb" id="bar-rgb">
+              <div class="color-picker-dot" id="dot-rgb" style="left: 50%;"></div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; background-color: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
+              <span style="color: var(--text-secondary);">Color en cursor:</span>
+              <span id="rgb-picker-hex" style="font-weight: 700;">#808080</span>
+            </div>
+          </div>
+          <div class="math-box">
+            <div class="math-formula">linear-gradient(to right, A, B)</div>
+            <div class="math-calc">Mezcla directa matemática RGB. La saturación cae a la mitad del camino.</div>
+          </div>
+        </article>
+
+        <!-- OKLCH vibrant gradient -->
+        <article class="preview-card">
+          <div class="card-header">
+            <h3 class="card-title">Gradiente OKLCH (Moderno)</h3>
+            <span class="badge badge-right">Transición Limpia</span>
+          </div>
+          <div class="demo-container" style="padding: 1.5rem; justify-content: flex-start; flex-direction: column; gap: 1rem; align-items: stretch; height: auto;">
+            <div class="gradient-bar gradient-oklch" id="bar-oklch">
+              <div class="color-picker-dot" id="dot-oklch" style="left: 50%;"></div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; background-color: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
+              <span style="color: var(--text-secondary);">Color en cursor:</span>
+              <span id="oklch-picker-hex" style="font-weight: 700; color: var(--accent-correct);">#808080</span>
+            </div>
+          </div>
+          <div class="math-box">
+            <div class="math-formula">linear-gradient(in oklch to right, A, B)</div>
+            <div class="math-calc">Interpolación perceptiva. Mantiene brillo y riqueza constantes.</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="explanation-section">
+        <h2>¿Por qué los gradientes RGB se ven sucios?</h2>
+        <div class="explanation-grid">
+          <div class="explanation-card">
+            <h3>La "Zona Gris Muerta" en RGB</h3>
+            <p>
+              El espacio de color RGB funciona sumando valores de luz Roja, Verde y Azul. Cuando interpolas de un color muy saturado a su opuesto (por ejemplo, Azul puro y Amarillo puro), a mitad del camino el azul disminuye y el amarillo también, resultando en una mezcla plana que el ojo percibe como gris desaturado o marrón sucio.
+            </p>
+            <p>
+              Esto destruye la calidad estética en layouts dinámicos, fondos e ilustraciones.
+            </p>
+          </div>
+          <div class="explanation-card">
+            <h3>La Revolución del espacio OKLCH</h3>
+            <p>
+              **OKLCH** es un espacio de color moderno diseñado para coincidir exactamente con el espectro de la percepción del ojo humano:
+            </p>
+            <ul>
+              <li><strong>L (Lightness):</strong> La claridad percibida de forma uniforme.</li>
+              <li><strong>C (Chroma):</strong> El nivel de saturación o pureza cromática.</li>
+              <li><strong>H (Hue):</strong> El tono del color en el círculo cromático.</li>
+            </ul>
+            <p>
+              Al interpolar a través de OKLCH usando el estándar CSS `linear-gradient(in oklch, ...)`, la mezcla viaja bordeando el círculo de tonos en lugar de atravesar el centro gris, manteniendo la vivacidad y luminosidad en todo el recorrido.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      // Find matching button based on suffix
+      const eventBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
+      if (eventBtn) eventBtn.classList.add('active');
+      
+      const contentSection = document.getElementById(`tab-${tabId}`);
+      if (contentSection) contentSection.classList.add('active');
+
+      // Trigger update of the active tab
+      update();
+    }
+
+    // Tab 1 Elements
+    const inputRadius = document.getElementById('input-radius');
+    const inputPadding = document.getElementById('input-padding');
+    const valRadius = document.getElementById('val-radius');
+    const valPadding = document.getElementById('val-padding');
+    const toggleGuides = document.getElementById('toggle-guides');
+    const toggleZoom = document.getElementById('toggle-zoom');
+    const calcWrong = document.getElementById('calc-wrong');
+    const calcRight = document.getElementById('calc-right');
+    const svgWrong = document.getElementById('svg-wrong');
+    const svgRight = document.getElementById('svg-right');
+
+    // Tab 2 Elements
+    const inputShadow = document.getElementById('input-shadow');
+    const inputShadowOpacity = document.getElementById('input-shadow-opacity');
+    const valShadow = document.getElementById('val-shadow');
+    const valShadowOpacity = document.getElementById('val-shadow-opacity');
+    const shadowBoxSingle = document.getElementById('shadow-box-single');
+    const shadowBoxLayered = document.getElementById('shadow-box-layered');
+    const codeShadowSingle = document.getElementById('code-shadow-single');
+    const codeShadowLayered = document.getElementById('code-shadow-layered');
+
+    // Tab 3 Elements
+    const inputBtnV = document.getElementById('input-btn-v');
+    const valBtnV = document.getElementById('val-btn-v');
+    const calcBtnWrong = document.getElementById('calc-btn-wrong');
+    const calcBtnRight = document.getElementById('calc-btn-right');
+
+    // Tab 4 Speculation Rules Simulation logic
+    const mockLinks = document.querySelectorAll('.mock-link');
+    const browserLoader = document.getElementById('browser-loader');
+    const browserCurrentPath = document.getElementById('browser-current-path');
+    const mockPageContent = document.getElementById('mock-page-content');
+    const consoleLog = document.getElementById('speculation-console-log');
+    const browserStatus = document.getElementById('browser-status-badge');
+
+    const mockPages = {
+      '/productos': {
+        title: '🛍️ Catálogo de Productos',
+        text: 'Esta página de productos se prerenderizó en segundo plano gracias a Speculation Rules. Al hacer clic, se cargó al instante (0ms) sin realizar peticiones de red perceptibles.'
+      },
+      '/acerca-de': {
+        title: '👋 Acerca de Nosotros',
+        text: 'Página de presentación de la empresa cargada de forma instantánea. Speculation Rules descargó los activos de JS y renderizó el layout tan pronto como pasaste el puntero.'
+      },
+      '/logout': {
+        title: '🔒 Cerrar Sesión',
+        text: 'Has cerrado la sesión (Simulación lenta). El prerender fue bloqueado por la regla de exclusión <code>"not": {"href_matches": "/logout"}</code> para evitar que la sesión caducara accidentalmente al pasar el ratón.'
+      },
+      '/externo': {
+        title: '🔗 Enlace Externo (nofollow)',
+        text: 'Página cargada con latencia normal. Los buscadores y la API ignoran este enlace debido a la regla <code>"not": {"selector_matches": "[rel~=nofollow]"}</code>.'
+      },
+      '/heavy': {
+        title: '⚡ Página Pesada (sin prerender)',
+        text: 'Cargado con retraso normal de red. El enlace tiene la marca <code>data-no-prerender</code>, por lo que fue omitido intencionalmente del prerender para ahorrar ancho de banda.'
+      }
+    };
+
+    let prerenderedPaths = {};
+
+    mockLinks.forEach(link => {
+      const path = link.getAttribute('href');
+      
+      link.addEventListener('mouseenter', () => {
+        const isLogout = path === '/logout';
+        const isNofollow = link.hasAttribute('rel') && link.getAttribute('rel').includes('nofollow');
+        const isNoPrerender = link.hasAttribute('data-no-prerender');
+
+        if (isLogout || isNofollow || isNoPrerender) {
+          browserStatus.textContent = 'Omitido';
+          browserStatus.className = 'badge badge-wrong';
+          
+          let exclusionReason = '';
+          if (isLogout) exclusionReason = 'Regla: "not": {"href_matches": "/logout"}';
+          else if (isNofollow) exclusionReason = 'Regla: nofollow';
+          else if (isNoPrerender) exclusionReason = 'Regla: data-no-prerender';
+          
+          consoleLog.innerHTML = `<span style="color: var(--accent-incorrect);">[Speculation Rules] Hover en ${path} detectado. Prerender omitido por ${exclusionReason}.</span>`;
+          prerenderedPaths[path] = false;
+        } else {
+          browserStatus.textContent = 'Prerenderizado listo';
+          browserStatus.className = 'badge badge-right';
+          consoleLog.innerHTML = `<span style="color: var(--accent-correct);">[Speculation Rules] Hover en ${path} &rarr; Prerendering en segundo plano en buffer invisible...</span>`;
+          prerenderedPaths[path] = true;
+        }
+      });
+
+      link.addEventListener('mouseleave', () => {
+        browserStatus.textContent = 'Esperando interacción...';
+        browserStatus.className = 'badge';
+        browserStatus.style.backgroundColor = 'rgba(148, 163, 184, 0.1)';
+        browserStatus.style.color = 'var(--text-secondary)';
+        browserStatus.style.border = '1px solid rgba(148, 163, 184, 0.2)';
+      });
+
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if (prerenderedPaths[path]) {
+          browserCurrentPath.textContent = path;
+          mockPageContent.innerHTML = `
+            <h4 style="color: var(--accent-correct); margin-bottom: 0.5rem; font-family: 'Syne', sans-serif;">${mockPages[path].title}</h4>
+            <p>${mockPages[path].text}</p>
+          `;
+          consoleLog.innerHTML = `<span style="color: var(--accent-correct);">[Navegación] Carga de ${path} completada en 8ms (Prerendered Cache).</span>`;
+        } else {
+          browserLoader.style.display = 'flex';
+          consoleLog.innerHTML = `<span style="color: var(--text-muted);">[Navegación] Llamando a red para obtener ${path}...</span>`;
+          
+          setTimeout(() => {
+            browserLoader.style.display = 'none';
+            browserCurrentPath.textContent = path;
+            mockPageContent.innerHTML = `
+              <h4 style="color: var(--accent-incorrect); margin-bottom: 0.5rem; font-family: 'Syne', sans-serif;">${mockPages[path].title}</h4>
+              <p>${mockPages[path].text}</p>
+            `;
+            consoleLog.innerHTML = `<span style="color: var(--text-muted);">[Navegación] Carga de ${path} completada en 1540ms (Sin Prerender).</span>`;
+          }, 1200);
+        }
+      });
+    });
+
+    // Tab 5 Play Button Centering Elements
+    const inputPlayOffset = document.getElementById('input-play-offset');
+    const valPlayOffset = document.getElementById('val-play-offset');
+    const togglePlayGuides = document.getElementById('toggle-play-guides');
+    const svgGuidesGeom = document.getElementById('svg-guides-geom');
+    const svgGuidesOpt = document.getElementById('svg-guides-opt');
+    const calcPlayOpt = document.getElementById('calc-play-opt');
+
+    function setPlayOffset(val) {
+      inputPlayOffset.value = val;
+      update();
+    }
+
+    // Tab 6 Gradients Elements
+    const inputGradPos = document.getElementById('input-grad-pos');
+    const valGradPos = document.getElementById('val-grad-pos');
+    const dotRgb = document.getElementById('dot-rgb');
+    const dotOklch = document.getElementById('dot-oklch');
+    const rgbPickerHex = document.getElementById('rgb-picker-hex');
+    const oklchPickerHex = document.getElementById('oklch-picker-hex');
+    const badgeGradRgb = document.getElementById('badge-grad-rgb');
+
+    function setGradientPreset(c1, c2, name) {
+      document.documentElement.style.setProperty('--color-a', c1);
+      document.documentElement.style.setProperty('--color-b', c2);
+      update();
+    }
+
+    // Hex helper functions for gradient color analyzer
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    function rgbToHex(r, g, b) {
+      return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+
+    function interpolateRGB(c1Hex, c2Hex, pct) {
+      const rgb1 = hexToRgb(c1Hex);
+      const rgb2 = hexToRgb(c2Hex);
+      if (!rgb1 || !rgb2) return '#808080';
+      const r = Math.round(rgb1.r + (rgb2.r - rgb1.r) * pct);
+      const g = Math.round(rgb1.g + (rgb2.g - rgb1.g) * pct);
+      const b = Math.round(rgb1.b + (rgb2.b - rgb1.b) * pct);
+      return rgbToHex(r, g, b);
+    }
+
+    // Perceptual OKLCH approximations for visual analyzer
+    // Converts hex to OKLCH, interpolates, and back to RGB (rough conversion for web presentation)
+    function interpolateOKLCH(c1Hex, c2Hex, pct) {
+      // Direct oklch simulation:
+      // Since native JS oklch parse is not globally accessible as a simple function,
+      // we can do a HSL-based interpolation which is a good representation of oklch's hue-bending path
+      // avoiding the gray dead zone.
+      const rgb1 = hexToRgb(c1Hex);
+      const rgb2 = hexToRgb(c2Hex);
+      if (!rgb1 || !rgb2) return '#808080';
+      
+      const hsl1 = rgbToHsl(rgb1.r, rgb1.g, rgb1.b);
+      const hsl2 = rgbToHsl(rgb2.r, rgb2.g, rgb2.b);
+      
+      let h1 = hsl1.h;
+      let h2 = hsl2.h;
+      // Find shortest path along hue circle
+      if (Math.abs(h1 - h2) > 180) {
+        if (h1 > h2) h2 += 360;
+        else h1 += 360;
+      }
+      
+      const h = (h1 + (h2 - h1) * pct) % 360;
+      const s = hsl1.s + (hsl2.s - hsl1.s) * pct;
+      const l = hsl1.l + (hsl2.l - hsl1.l) * pct;
+      
+      return hslToHex(h, s, l);
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return { h: h * 360, s: s * 100, l: l * 100 };
+    }
+
+    function hslToHex(h, s, l) {
+      h /= 360; s /= 100; l /= 100;
+      let r, g, b;
+      if (s === 0) {
+        r = g = b = l;
+      } else {
+        const hue2rgb = (p, q, t) => {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        };
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+      }
+      return rgbToHex(Math.round(r * 255), Math.round(g * 255), Math.round(b * 255));
+    }
+
+    function drawPlayGuides() {
+      svgGuidesGeom.innerHTML = '';
+      svgGuidesOpt.innerHTML = '';
+      if (!togglePlayGuides.checked) return;
+
+      const createSVGElement = (type, attrs) => {
+        const el = document.createElementNS('http://www.w3.org/2000/svg', type);
+        for (let key in attrs) el.setAttribute(key, attrs[key]);
+        return el;
+      };
+
+      const w = svgGuidesGeom.clientWidth || 320;
+      const h = svgGuidesGeom.clientHeight || 320;
+      
+      const cx = w / 2;
+      const cy = h / 2;
+
+      // Draw crosshairs intersecting exactly at geometric center (cx, cy)
+      const lineAttrs1 = { x1: cx - 80, y1: cy, x2: cx + 80, y2: cy, stroke: 'rgba(255,255,255,0.15)', 'stroke-width': 1, 'stroke-dasharray': '2,2' };
+      const lineAttrs2 = { x1: cx, y1: cy - 80, x2: cx, y2: cy + 80, stroke: 'rgba(255,255,255,0.15)', 'stroke-width': 1, 'stroke-dasharray': '2,2' };
+      
+      svgGuidesGeom.appendChild(createSVGElement('line', lineAttrs1));
+      svgGuidesGeom.appendChild(createSVGElement('line', lineAttrs2));
+      
+      svgGuidesOpt.appendChild(createSVGElement('line', lineAttrs1));
+      svgGuidesOpt.appendChild(createSVGElement('line', lineAttrs2));
+
+      // Bounding box guides (Geometric Center vs Centroid weight center)
+      // Geometric Center of Bounding Box is at (cx, cy)
+      svgGuidesGeom.appendChild(createSVGElement('circle', { cx: cx, cy: cy, r: 4, fill: 'var(--accent-incorrect)' }));
+      
+      // Geometric center text label
+      svgGuidesGeom.appendChild(createSVGElement('text', {
+        x: cx - 35, y: cy - 10, fill: 'var(--accent-incorrect)', 'font-size': '9px', 'font-family': 'Outfit', 'font-weight': '600'
+      })).textContent = 'Centro Caja';
+
+      // For optical card, showing shifted centroid aligning with circle center
+      const offsetVal = parseInt(inputPlayOffset.value);
+      svgGuidesOpt.appendChild(createSVGElement('circle', { cx: cx, cy: cy, r: 4, fill: 'var(--accent-correct)', class: 'center-pulse' }));
+      svgGuidesOpt.appendChild(createSVGElement('text', {
+        x: cx - 40, y: cy - 10, fill: 'var(--accent-correct)', 'font-size': '9px', 'font-family': 'Outfit', 'font-weight': '600'
+      })).textContent = 'Centro Óptico';
+    }
+
+    function update() {
+      // 1. UPDATE BORDER RADIUS TAB
+      const R = parseInt(inputRadius.value);
+      const P = parseInt(inputPadding.value);
+      valRadius.textContent = `${R}px`;
+      valPadding.textContent = `${P}px`;
+      
+      const rWrong = R;
+      const rRight = Math.max(0, R - P);
+
+      document.documentElement.style.setProperty('--outer-radius', `${R}px`);
+      document.documentElement.style.setProperty('--padding-val', `${P}px`);
+      document.documentElement.style.setProperty('--inner-radius-wrong', `${rWrong}px`);
+      document.documentElement.style.setProperty('--inner-radius-right', `${rRight}px`);
+
+      calcWrong.innerHTML = `R<sub>out</sub> (${R}px) = R<sub>in</sub> (${rWrong}px) <br><span style="color: var(--accent-incorrect); font-size: 11px;">Esquinas no comparten centro</span>`;
+      if (rRight === 0) {
+        calcRight.innerHTML = `R<sub>out</sub> (${R}px) &le; P (${P}px) &rarr; R<sub>in</sub> = 0px <br><span style="color: var(--text-muted); font-size: 11px;">Esquina interna cuadrada</span>`;
+      } else {
+        calcRight.innerHTML = `R<sub>out</sub> (${R}px) = R<sub>in</sub> (${rRight}px) + P (${P}px) <br><span style="color: var(--accent-correct); font-size: 11px;">Centros alineados perfectamente</span>`;
+      }
+
+      drawGuides(svgWrong, R, P, rWrong, false);
+      drawGuides(svgRight, R, P, rRight, true);
+
+      // 2. UPDATE SHADOWS TAB
+      const shadowLvl = parseInt(inputShadow.value);
+      const shadowOp = parseInt(inputShadowOpacity.value) / 100;
+      valShadow.textContent = `Nivel ${shadowLvl}`;
+      valShadowOpacity.textContent = `${Math.round(shadowOp * 100)}%`;
+
+      // Single shadow styling
+      const singleY = shadowLvl * 6;
+      const singleBlur = shadowLvl * 12;
+      const singleShadowCSS = `0 ${singleY}px ${singleBlur}px rgba(0, 0, 0, ${shadowOp + 0.15})`;
+      shadowBoxSingle.style.boxShadow = singleShadowCSS;
+      codeShadowSingle.textContent = `box-shadow: ${singleShadowCSS};`;
+
+      // Layered shadow styling (6 layers)
+      const layers = [];
+      for (let i = 1; i <= 6; i++) {
+        const factor = Math.pow(i, 2);
+        const y = shadowLvl * (factor * 0.25);
+        const blur = shadowLvl * (factor * 0.5);
+        const op = shadowOp * (1.1 - (i / 6)) * 0.55;
+        layers.push(`0 ${y.toFixed(1)}px ${blur.toFixed(1)}px rgba(0, 0, 0, ${op.toFixed(3)})`);
+      }
+      const layeredShadowCSS = layers.join(',\n  ');
+      shadowBoxLayered.style.boxShadow = layeredShadowCSS;
+      codeShadowLayered.innerHTML = `box-shadow:\n  ${layers.join(',\n  ')};`;
+
+      // 3. UPDATE BUTTONS TAB
+      const btnV = parseInt(inputBtnV.value);
+      const btnHWrong = btnV;
+      const btnHRight = Math.round(btnV * 2.2);
+
+      valBtnV.textContent = `${btnV}px`;
+      
+      document.documentElement.style.setProperty('--btn-v-padding', `${btnV}px`);
+      document.documentElement.style.setProperty('--btn-h-padding-wrong', `${btnHWrong}px`);
+      document.documentElement.style.setProperty('--btn-h-padding-right', `${btnHRight}px`);
+
+      calcBtnWrong.textContent = `padding: ${btnV}px ${btnHWrong}px;  /* Proporción 1:1 */`;
+      calcBtnRight.textContent = `padding: ${btnV}px ${btnHRight}px;  /* Proporción 1:2.2 */`;
+
+      // 5. UPDATE PLAY BUTTON TAB
+      const playOffsetVal = parseInt(inputPlayOffset.value);
+      valPlayOffset.textContent = `${playOffsetVal}px`;
+      document.documentElement.style.setProperty('--play-offset', `${playOffsetVal}px`);
+      
+      if (playOffsetVal === 0) {
+        calcPlayOpt.innerHTML = `Desplazamiento: 0px. El triángulo se percibe desalineado ópticamente.`;
+      } else {
+        calcPlayOpt.innerHTML = `Desplazamiento: +${playOffsetVal}px. Compensación para colocar el centro de masa en el medio de la circunferencia.`;
+      }
+      drawPlayGuides();
+
+      // 6. UPDATE GRADIENTS TAB
+      const gradPosVal = parseInt(inputGradPos.value);
+      valGradPos.textContent = `${gradPosVal}%`;
+      dotRgb.style.left = `${gradPosVal}%`;
+      dotOklch.style.left = `${gradPosVal}%`;
+
+      const colorA = getComputedStyle(document.documentElement).getPropertyValue('--color-a').trim();
+      const colorB = getComputedStyle(document.documentElement).getPropertyValue('--color-b').trim();
+
+      const rgbColorAtPos = interpolateRGB(colorA, colorB, gradPosVal / 100);
+      const oklchColorAtPos = interpolateOKLCH(colorA, colorB, gradPosVal / 100);
+
+      rgbPickerHex.textContent = rgbColorAtPos.toUpperCase();
+      oklchPickerHex.textContent = oklchColorAtPos.toUpperCase();
+
+      // Update badge text if it is the blue/yellow muddy preset (or similar)
+      const rgbWeight = hexToRgb(rgbColorAtPos);
+      const oklchWeight = hexToRgb(oklchColorAtPos);
+      if (rgbWeight && oklchWeight) {
+        // Calculate saturation differences to show warning
+        const rgbSat = rgbToHsl(rgbWeight.r, rgbWeight.g, rgbWeight.b).s;
+        const oklchSat = rgbToHsl(oklchWeight.r, oklchWeight.g, oklchWeight.b).s;
+        if (oklchSat - rgbSat > 25 && gradPosVal > 40 && gradPosVal < 60) {
+          badgeGradRgb.textContent = 'Zona Gris Muerta';
+          badgeGradRgb.className = 'badge badge-wrong';
+        } else {
+          badgeGradRgb.textContent = 'Interpolación RGB';
+          badgeGradRgb.className = 'badge';
+          badgeGradRgb.style.backgroundColor = 'rgba(148,163,184,0.1)';
+          badgeGradRgb.style.color = 'var(--text-secondary)';
+          badgeGradRgb.style.border = '1px solid rgba(148,163,184,0.2)';
+        }
+      }
+    }
+
+    function drawGuides(svg, R, P, rInner, isCorrect) {
+      svg.innerHTML = '';
+      if (!toggleGuides.checked || toggleZoom.checked) return;
+
+      const width = svg.clientWidth || 320;
+      const height = svg.clientHeight || 320;
+      
+      const frameX = (width - 230) / 2;
+      const frameY = (height - 230) / 2;
+
+      const outerCX = frameX + R;
+      const outerCY = frameY + R;
+      const innerCX = frameX + P + rInner;
+      const innerCY = frameY + P + rInner;
+
+      const createSVGElement = (type, attrs) => {
+        const el = document.createElementNS('http://www.w3.org/2000/svg', type);
+        for (let key in attrs) el.setAttribute(key, attrs[key]);
+        return el;
+      };
+
+      const colorOuter = '#f59e0b'; 
+      const colorInner = isCorrect ? 'var(--accent-correct)' : 'var(--accent-incorrect)';
+
+      if (!isCorrect) {
+        // Outer Center
+        svg.appendChild(createSVGElement('circle', { cx: outerCX, cy: outerCY, r: 4.5, fill: colorOuter }));
+        svg.appendChild(createSVGElement('text', {
+          x: outerCX - 12, y: outerCY - 10, fill: colorOuter, 'font-size': '10px', 'font-weight': '600', 'font-family': 'Outfit'
+        })).textContent = 'C_out';
+
+        const angle = Math.PI * 1.25; 
+        const outerEdgeX = outerCX + R * Math.cos(angle);
+        const outerEdgeY = outerCY + R * Math.sin(angle);
+        svg.appendChild(createSVGElement('line', {
+          x1: outerCX, y1: outerCY, x2: outerEdgeX, y2: outerEdgeY, stroke: colorOuter, 'stroke-width': 1.5, 'stroke-dasharray': '3,3'
+        }));
+
+        // Inner Center
+        svg.appendChild(createSVGElement('circle', { cx: innerCX, cy: innerCY, r: 4.5, fill: colorInner }));
+        svg.appendChild(createSVGElement('text', {
+          x: innerCX + 10, y: innerCY + 15, fill: colorInner, 'font-size': '10px', 'font-weight': '600', 'font-family': 'Outfit'
+        })).textContent = 'C_in';
+
+        const innerEdgeX = innerCX + rInner * Math.cos(angle);
+        const innerEdgeY = innerCY + rInner * Math.sin(angle);
+        svg.appendChild(createSVGElement('line', {
+          x1: innerCX, y1: innerCY, x2: innerEdgeX, y2: innerEdgeY, stroke: colorInner, 'stroke-width': 1.5, 'stroke-dasharray': '3,3'
+        }));
+
+        // Distancia entre centros
+        svg.appendChild(createSVGElement('line', {
+          x1: outerCX, y1: outerCY, x2: innerCX, y2: innerCY, stroke: '#ef4444', 'stroke-width': 1.5, 'stroke-dasharray': '2,2'
+        }));
+      } else {
+        // Centro Único
+        svg.appendChild(createSVGElement('circle', { cx: outerCX, cy: outerCY, r: 5, fill: 'var(--accent-correct)', class: 'center-pulse' }));
+        svg.appendChild(createSVGElement('circle', { cx: outerCX, cy: outerCY, r: 2.5, fill: '#fff' }));
+        svg.appendChild(createSVGElement('text', {
+          x: outerCX + 10, y: outerCY - 10, fill: 'var(--accent-correct)', 'font-size': '10px', 'font-weight': '600', 'font-family': 'Outfit'
+        })).textContent = 'Centro Único';
+
+        const angle = Math.PI * 1.25; 
+        const outerEdgeX = outerCX + R * Math.cos(angle);
+        const outerEdgeY = outerCY + R * Math.sin(angle);
+        
+        svg.appendChild(createSVGElement('line', {
+          x1: outerCX, y1: outerCY, x2: outerEdgeX, y2: outerEdgeY, stroke: colorOuter, 'stroke-width': 2
+        }));
+
+        if (rInner > 0) {
+          const innerEdgeX = outerCX + rInner * Math.cos(angle);
+          const innerEdgeY = outerCY + rInner * Math.sin(angle);
+          svg.appendChild(createSVGElement('line', {
+            x1: outerCX, y1: outerCY, x2: innerEdgeX, y2: innerEdgeY, stroke: colorInner, 'stroke-width': 2
+          }));
+        }
+      }
+    }
+
+    // Toggle Guides
+    toggleGuides.addEventListener('change', () => {
+      if (toggleGuides.checked) {
+        svgWrong.classList.add('visible');
+        svgRight.classList.add('visible');
+      } else {
+        svgWrong.classList.remove('visible');
+        svgRight.classList.remove('visible');
+      }
+      update();
+    });
+
+    // Toggle Zoom (radius tab only)
+    toggleZoom.addEventListener('change', () => {
+      const frames = document.querySelectorAll('.outer-frame');
+      if (toggleZoom.checked) {
+        frames.forEach(f => {
+          f.style.transform = 'scale(2.5)';
+          f.style.transformOrigin = '0% 0%';
+          f.style.position = 'absolute';
+          f.style.top = '15px';
+          f.style.left = '15px';
+        });
+        toggleGuides.checked = false;
+        toggleGuides.disabled = true;
+        svgWrong.classList.remove('visible');
+        svgRight.classList.remove('visible');
+      } else {
+        frames.forEach(f => {
+          f.style.transform = 'none';
+          f.style.position = 'relative';
+          f.style.top = 'auto';
+          f.style.left = 'auto';
+        });
+        toggleGuides.disabled = false;
+        toggleGuides.checked = true;
+        svgWrong.classList.add('visible');
+        svgRight.classList.add('visible');
+      }
+      update();
+    });
+
+    // Play Guides toggle listener
+    togglePlayGuides.addEventListener('change', () => {
+      if (togglePlayGuides.checked) {
+        svgGuidesGeom.classList.add('visible');
+        svgGuidesOpt.classList.add('visible');
+      } else {
+        svgGuidesGeom.classList.remove('visible');
+        svgGuidesOpt.classList.remove('visible');
+      }
+      drawPlayGuides();
+    });
+
+    // Event listeners
+    [inputRadius, inputPadding, inputShadow, inputShadowOpacity, inputBtnV, inputPlayOffset, inputGradPos].forEach(el => {
+      el.addEventListener('input', update);
+    });
+
+    window.addEventListener('resize', update);
+    update();
+  </script>
+</body>
+</html>

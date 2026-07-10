@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Core Concepts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg: #0c0c0f;
+            --surface: #13131a;
+            --border: #1f1f2e;
+            --accent-y: #f0c040;
+            --accent-b: #4ea8f7;
+            --accent-g: #3dffa0;
+            --accent-r: #ff5f72;
+            --accent-p: #bf94ff;
+            --text: #e8e8f0;
+            --muted: #5a5a72;
+            --code-bg: #0a0a10;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            grid-template-rows: auto 1fr;
+        }
+
+        /* HEADER */
+        header {
+            grid-column: 1 / -1;
+            padding: 48px 56px 36px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-end;
+            gap: 24px;
+        }
+
+        .header-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(52px, 7vw, 88px);
+            letter-spacing: 0.04em;
+            line-height: 1;
+            color: var(--accent-y);
+            text-shadow: 0 0 80px rgba(240, 192, 64, .25);
+        }
+
+        .header-sub {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding-bottom: 8px;
+        }
+
+        .header-badge {
+            margin-left: auto;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--accent-g);
+            border: 1px solid var(--accent-g);
+            padding: 4px 10px;
+            border-radius: 2px;
+            letter-spacing: 0.1em;
+            opacity: .7;
+            align-self: flex-end;
+        }
+
+        /* SIDEBAR */
+        aside {
+            border-right: 1px solid var(--border);
+            padding: 32px 20px;
+            position: sticky;
+            top: 0;
+            height: calc(100vh - 130px);
+            overflow-y: auto;
+        }
+
+        aside::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        aside::-webkit-scrollbar-thumb {
+            background: var(--border);
+        }
+
+        .nav-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--muted);
+            transition: all .2s;
+            margin-bottom: 2px;
+            text-decoration: none;
+            font-family: 'DM Mono', monospace;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--text);
+            background: rgba(255, 255, 255, .04);
+        }
+
+        .nav-item.active {
+            border-left-color: var(--accent-y);
+            color: var(--accent-y);
+        }
+
+        .nav-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: currentColor;
+            opacity: .5;
+        }
+
+        .nav-time {
+            margin-left: auto;
+            font-size: 9px;
+            opacity: .4;
+        }
+
+        /* MAIN */
+        main {
+            padding: 48px 56px;
+            max-width: 860px;
+        }
+
+        /* CONCEPT CARD */
+        .concept {
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: border-color .3s;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp .5s forwards;
+        }
+
+        .concept:nth-child(1) {
+            animation-delay: .05s;
+        }
+
+        .concept:nth-child(2) {
+            animation-delay: .12s;
+        }
+
+        .concept:nth-child(3) {
+            animation-delay: .19s;
+        }
+
+        .concept:nth-child(4) {
+            animation-delay: .26s;
+        }
+
+        .concept:nth-child(5) {
+            animation-delay: .33s;
+        }
+
+        .concept:nth-child(6) {
+            animation-delay: .40s;
+        }
+
+        .concept:nth-child(7) {
+            animation-delay: .47s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .concept:hover {
+            border-color: rgba(255, 255, 255, .12);
+        }
+
+        .concept.open {
+            border-color: var(--accent-y);
+        }
+
+        .concept-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 22px;
+            cursor: pointer;
+            user-select: none;
+            background: var(--surface);
+            transition: background .2s;
+        }
+
+        .concept-header:hover {
+            background: #18181f;
+        }
+
+        .concept-number {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            width: 22px;
+            flex-shrink: 0;
+        }
+
+        .concept-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 2px;
+            letter-spacing: .08em;
+            flex-shrink: 0;
+        }
+
+        .concept-name {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 15px;
+            flex: 1;
+        }
+
+        .concept-time {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            margin-left: auto;
+        }
+
+        .concept-arrow {
+            width: 18px;
+            height: 18px;
+            display: grid;
+            place-items: center;
+            color: var(--muted);
+            transition: transform .3s cubic-bezier(.4, 0, .2, 1);
+            flex-shrink: 0;
+        }
+
+        .concept.open .concept-arrow {
+            transform: rotate(90deg);
+        }
+
+        /* BODY EXPAND */
+        .concept-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows .35s cubic-bezier(.4, 0, .2, 1);
+            background: var(--code-bg);
+        }
+
+        .concept.open .concept-body {
+            grid-template-rows: 1fr;
+        }
+
+        .concept-body-inner {
+            overflow: hidden;
+        }
+
+        .concept-content {
+            padding: 24px 22px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .concept-desc {
+            font-size: 14px;
+            line-height: 1.75;
+            color: #b0b0c8;
+            max-width: 640px;
+        }
+
+        /* CODE BLOCK */
+        .code-block {
+            background: #060608;
+            border: 1px solid #1a1a28;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .code-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-bottom: 1px solid #1a1a28;
+        }
+
+        .code-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .code-dot:nth-child(1) {
+            background: #ff5f57;
+        }
+
+        .code-dot:nth-child(2) {
+            background: #febc2e;
+        }
+
+        .code-dot:nth-child(3) {
+            background: #28c840;
+        }
+
+        .code-lang {
+            margin-left: auto;
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: .1em;
+        }
+
+        pre {
+            padding: 16px 18px;
+            font-family: 'DM Mono', monospace;
+            font-size: 12.5px;
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+
+        pre::-webkit-scrollbar {
+            height: 3px;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background: var(--border);
+        }
+
+        .kw {
+            color: #bf94ff;
+        }
+
+        .fn {
+            color: #4ea8f7;
+        }
+
+        .str {
+            color: #3dffa0;
+        }
+
+        .num {
+            color: #f0c040;
+        }
+
+        .cm {
+            color: #444466;
+            font-style: italic;
+        }
+
+        .op {
+            color: #ff9f7a;
+        }
+
+        .cl {
+            color: #ff5f72;
+        }
+
+        /* KEY POINTS */
+        .key-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .key-point {
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px 14px;
+            font-size: 12.5px;
+            color: #9090aa;
+            line-height: 1.6;
+        }
+
+        .key-point strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 4px;
+            font-size: 11px;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            font-family: 'DM Mono', monospace;
+        }
+
+        /* COMPARE */
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .compare-col {
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .compare-head {
+            padding: 8px 14px;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: .06em;
+        }
+
+        .compare-body {
+            padding: 12px 14px;
+            font-size: 12.5px;
+            color: #9090aa;
+            line-height: 1.65;
+        }
+
+        /* FLOW */
+        .flow {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .flow-box {
+            padding: 8px 16px;
+            border-radius: 3px;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .flow-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            color: var(--muted);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .flow-arrow {
+            font-size: 18px;
+            color: var(--muted);
+            padding: 0 8px;
+            margin-bottom: 16px;
+        }
+
+        .spacer {
+            height: 80px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div>
+            <div class="header-sub">// javascript</div>
+            <div class="header-title">Core<br>Concepts</div>
+        </div>
+        <span class="header-badge">7 temas &middot; ~6 min</span>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside>
+        <div class="nav-label">Contenido</div>
+        <a class="nav-item active" href="#scope" id="nav-scope">
+            <span class="nav-dot"></span> Scope &amp; Hoisting
+            <span class="nav-time">0:30</span>
+        </a>
+        <a class="nav-item" href="#closures" id="nav-closures">
+            <span class="nav-dot"></span> Closures
+            <span class="nav-time">1:26</span>
+        </a>
+        <a class="nav-item" href="#this" id="nav-this">
+            <span class="nav-dot"></span> this keyword
+            <span class="nav-time">2:14</span>
+        </a>
+        <a class="nav-item" href="#equality" id="nav-equality">
+            <span class="nav-dot"></span> == vs ===
+            <span class="nav-time">3:00</span>
+        </a>
+        <a class="nav-item" href="#eventloop" id="nav-eventloop">
+            <span class="nav-dot"></span> Event Loop
+            <span class="nav-time">3:56</span>
+        </a>
+        <a class="nav-item" href="#promises" id="nav-promises">
+            <span class="nav-dot"></span> Promises / Async
+            <span class="nav-time">5:02</span>
+        </a>
+        <a class="nav-item" href="#debounce" id="nav-debounce">
+            <span class="nav-dot"></span> Debounce / Throttle
+            <span class="nav-time">5:45</span>
+        </a>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- 1 · Scope & Hoisting -->
+        <div class="concept" id="scope" data-nav="scope">
+            <div class="concept-header">
+                <span class="concept-number">01</span>
+                <span class="concept-tag" style="background:rgba(240,192,64,.12);color:var(--accent-y);">SCOPE</span>
+                <span class="concept-name">Scope &amp; Hoisting &mdash; <code
+                        style="font-size:12px;color:var(--muted)">var</code> vs <code
+                        style="font-size:12px;color:var(--muted)">let</code></span>
+                <span class="concept-time">0:30 &ndash; 1:25</span>
+                <span class="concept-arrow">&#9654;</span>
+            </div>
+            <div class="concept-body">
+                <div class="concept-body-inner">
+                    <div class="concept-content">
+                        <p class="concept-desc">
+                            <strong>Hoisting</strong> es el proceso por el que el motor JS mueve las declaraciones al
+                            inicio de su scope antes de ejecutar el código.
+                            <code style="color:var(--accent-y)">var</code> se eleva <em>y se inicializa como
+                                <code>undefined</code></em>.
+                            <code style="color:var(--accent-b)">let</code> y <code
+                                style="color:var(--accent-b)">const</code> tambi&eacute;n se elevan, pero <strong>quedan
+                                en la Zona Muerta Temporal (TDZ)</strong> &mdash; acceder a ellas antes de su
+                            declaraci&oacute;n lanza un <code>ReferenceError</code>.
+                        </p>
+                        <div class="code-block">
+                            <div class="code-bar">
+                                <span class="code-dot"></span><span class="code-dot"></span><span
+                                    class="code-dot"></span>
+                                <span class="code-lang">JS</span>
+                            </div>
+                            <pre><span class="cm">// ── var ──────────────────────────────────</span>
+console.log(nombre); <span class="cm">// undefined  ← hoisted</span>
+<span class="kw">var</span> nombre <span class="op">=</span> <span class="str">'Benjamín'</span>;
+
+<span class="cm">// ── let / const ──────────────────────────</span>
+console.log(edad);   <span class="cm">// ❌ ReferenceError (TDZ)</span>
+<span class="kw">let</span> edad <span class="op">=</span> <span class="num">25</span>;
+
+<span class="cm">// ── Scope de función vs. bloque ──────────</span>
+<span class="kw">function</span> <span class="fn">ejemplo</span>() {
+  <span class="kw">if</span> (<span class="kw">true</span>) {
+    <span class="kw">var</span>   x <span class="op">=</span> <span class="num">1</span>; <span class="cm">// accesible en toda la función</span>
+    <span class="kw">let</span>   y <span class="op">=</span> <span class="num">2</span>; <span class="cm">// solo dentro del bloque {}</span>
+    <span class="kw">const</span> z <span class="op">=</span> <span class="num">3</span>; <span class="cm">// solo dentro del bloque {}</span>
+  }
+  console.log(x); <span class="cm">// 1   ✅</span>
+  console.log(y); <span class="cm">// ❌  ReferenceError</span>
+}</pre>
+                        </div>
+                        <div class="key-grid">
+                            <div class="key-point"><strong>var</strong>Scope de funci&oacute;n. Hoisted como
+                                <code>undefined</code>. Puede redeclararse.
+                            </div>
+                            <div class="key-point"><strong>let</strong>Scope de bloque. Hoisted pero en TDZ. No puede
+                                redeclararse.</div>
+                            <div class="key-point"><strong>const</strong>Scope de bloque. Igual que let + inmutable (la
+                                referencia, no el contenido).</div>
+                            <div class="key-point"><strong>Regla pr&aacute;ctica</strong>Usa siempre <code
+                                    style="color:var(--accent-b)">const</code> por defecto. <code>let</code> si
+                                necesitas reasignar. Olvida <code>var</code>.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2 · Closures -->
+        <div class="concept" id="closures" data-nav="closures">
+            <div class="concept-header">
+                <span class="concept-number">02</span>
+                <span class="concept-tag" style="background:rgba(78,168,247,.12);color:var(--accent-b);">CLOSURE</span>
+                <span class="concept-name">Closures</span>
+                <span class="concept-time">1:26 &ndash; 2:13</span>
+                <span class="concept-arrow">&#9654;</span>
+            </div>
+            <div class="concept-body">
+                <div class="concept-body-inner">
+                    <div class="concept-content">
+                        <p class="concept-desc">
+                            Una <strong>closure</strong> es una funci&oacute;n que <em>recuerda el entorno
+                                l&eacute;xico</em> en el que fue creada, incluso despu&eacute;s de que la funci&oacute;n
+                            externa haya terminado. Permite crear variables <strong>privadas</strong> y f&aacute;bricas
+                            de funciones.
+                        </p>
+                        <div class="code-block">
+                            <div class="code-bar">
+                                <span class="code-dot"></span><span class="code-dot"></span><span
+                                    class="code-dot"></span>
+                                <span class="code-lang">JS</span>
+                            </div>
+                            <pre><span class="cm">// ── Contador privado ─────────────────────</span>
+<span class="kw">function</span> <span class="fn">crearContador</span>() {
+  <span class="kw">let</span> cuenta <span class="op">=</span> <span class="num">0</span>; <span class="cm">// variable privada</span>
+
+  <span class="kw">return</span> {
+    incrementar: () <span class="op">=></span> <span class="op">++</span>cuenta,
+    obtener:     () <span class="op">=></span> cuenta,
+  };
+}
+
+<span class="kw">const</span> contador <span class="op">=</span> <span class="fn">crearContador</span>();
+contador.<span class="fn">incrementar</span>(); <span class="cm">// 1</span>
+contador.<span class="fn">incrementar</span>(); <span class="cm">// 2</span>
+contador.<span class="fn">obtener</span>();     <span class="cm">// 2</span>
+
+<span class="cm">// ── Fábrica de multiplicadores ───────────</span>
+<span class="kw">const</span> <span class="fn">multiplicarPor</span> <span class="op">=</span> (factor) <span class="op">=></span>
+  (n) <span class="op">=></span> n <span class="op">*</span> factor;
+
+<span class="kw">const</span> doble  <span class="op">=</span> <span class="fn">multiplicarPor</span>(<span class="num">2</span>);
+<span class="kw">const</span> triple <span class="op">=</span> <span class="fn">multiplicarPor</span>(<span class="num">3</span>);
+<span class="fn">doble</span>(<span class="num">5</span>);  <span class="cm">// 10</span>
+<span class="fn">triple</span>(<span class="num">5</span>); <span class="cm">// 15</span></pre>
+                        </div>
+
+                        <!-- Extra: Memoización -->
+                        <div class="code-block">
+                            <div class="code-bar">
+                                <span class="code-dot"></span><span class="code-dot"></span><span
+                                    class="code-dot"></span>
+                                <span class="code-lang">MEMOIZACIÓN</span>
+                            </div>
+                            <pre><span class="cm">// ── Memoización: caché de resultados ─────</span>
+<span class="kw">function</span> <span class="fn">memoize</span>(fn) {
+  <span class="kw">const</span> cache <span class="op">=</span> {}; <span class="cm">// la closure recuerda este objeto</span>
+
+  <span class="kw">return</span> <span class="kw">function</span>(...args) {
+    <span class="kw">const</span> key <span class="op">=</span> <span class="cl">JSON</span>.<span class="fn">stringify</span>(args);
+    <span class="kw">if</span> (key <span class="kw">in</span> cache) {
+      console.<span class="fn">log</span>(<span class="str">'desde caché'</span>);
+      <span class="kw">return</span> cache[key];
+    }
+    cache[key] <span class="op">=</span> <span class="fn">fn</span>(...args);
+    <span class="kw">return</span> cache[key];
+  };
+}
+
+<span class="kw">const</span> <span class="fn">factorial</span> <span class="op">=</span> <span class="fn">memoize</span>((n) <span class="op">=></span>
+  n <span class="op"><=</span> <span class="num">1</span> ? <span class="num">1</span> : n <span class="op">*</span> <span class="fn">factorial</span>(n <span class="op">-</span> <span class="num">1</span>)
+);
+
+<span class="fn">factorial</span>(<span class="num">5</span>); <span class="cm">// calcula → 120</span>
+<span class="fn">factorial</span>(<span class="num">5</span>); <span class="cm">// desde caché → 120 ⚡</span></pre>
+                        </div>
+
+                        <!-- Extra: var vs let en loops -->
+                        <div class="code-block">
+                            <div class="code-bar">
+                                <span class="code-dot"></span><span class="code-dot"></span><span
+                                    class="code-dot"></span>
+                                <span class="code-lang">CLOSURE EN LOOPS</span>
+                            </div>
+                            <pre><span class="cm">// ── El clásico bug de var en bucles ──────</span>
+<span class="kw">for</span> (<span class="kw">var</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> <span class="num">3</span>; i<span class="op">++</span>) {
+  <span class="fn">setTimeout</span>(() <span class="op">=></span> console.<span class="fn">log</span>(i), <span class="num">100</span>);
+}
+<span class="cm">// Output: 3, 3, 3  ⚠️  (var comparte scope)</span>
+
+<span class="cm">// ── Solución con let (scope de bloque) ───</span>
+<span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> <span class="num">3</span>; i<span class="op">++</span>) {
+  <span class="fn">setTimeout</span>(() <span class="op">=></span> console.<span class="fn">log</span>(i), <span class="num">100</span>);
+}
+<span class="cm">// Output: 0, 1, 2  ✅  (cada iter. tiene su propio i)</span>
+
+<span class="cm">// ── Solución clásica con IIFE (pre-ES6) ──</span>
+<span class="kw">for</span> (<span class="kw">var</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> <span class="num">3</span>; i<span class="op">++</span>) {
+  (<span class="kw">function</span>(j) {
+    <span class="fn">setTimeout</span>(() <span class="op">=></span> console.<span class="fn">log</span>(j), <span class="num">100</span>);
+  })(i); <span class="cm">// captura i como j en cada iteración</span>
+}
+<span class="cm">// Output: 0, 1, 2  ✅</span></pre>
+                        </div>
+
+                        <!-- Extra: Módulo IIFE -->
+                        <div class="code-block">
+                            <div class="code-bar">
+                                <span class="code-dot"></span><span class="code-dot"></span><span
+                                    class="code-dot"></span>
+                                <span class="code-lang">MÓDULO IIFE</span>
+                            </div>
+                            <pre><span class="cm">// ── Patrón módulo con IIFE ───────────────</span>
+<span class="cm">// Immediately Invoked Function Expression</span>
+<span class="kw">const</span> CarritoModule <span class="op">=</span> (() <span class="op">=></span> {
+  <span class="kw">let</span> items <span class="op">=</span> []; <span class="cm">// privado, inaccesible desde fuera</span>
+
+  <span class="kw">return</span> {
+    <span class="fn">agregar</span>(item)  { items.<span class="fn">push</span>(item); },
+    <span class="fn">eliminar</span>(item) {
+      items <span class="op">=</span> items.<span class="fn">filter</span>(i <span class="op">=></span> i <span class="op">!==</span> item);
+    },
+    <span class="fn">total</span>()        { <span class="kw">return</span> items.length; },
+    <span class="fn">listar</span>()       { <span class="kw">return</span> [...items]; }, <span class="cm">// copia</span>
+  };
+})(); <span class="cm">// ← se invoca inmediatamente</span>
+
+CarritoModule.<span class="fn">agregar</span>(<span class="str">'zapatillas'</span>);
+CarritoModule.<span class="fn">agregar</span>(<span class="str">'camiseta'</span>);
+CarritoModule.<span class="fn">total</span>();   <span class="cm">// 2</span>
+CarritoModule.<span class="fn">listar</span>();  <span class="cm">// ['zapatillas', 'camiseta']</span>
+<span class="cm">// items  → ❌ undefined (completamente privado)</span></pre>
+                        </div>
+
+                        <div class="key-grid">
+                            <div class="key-point"><strong>&iquest;Qu&eacute; recuerda?</strong>Variables del scope
+                                externo, par&aacute;metros y el scope global al momento de creaci&oacute;n.</div>
+                            <div class="key-point"><strong>Memoizaci&oacute;n</strong>Cache de resultados costosos. La
+                                closure guarda el objeto <code>cache</code> entre llamadas.</div>
+                            <div class="key-point"><strong>var en loops</strong>Comparte la misma variable. Usa
+                                <code>let</code> o una IIFE para capturar cada valor.
+                            </div>
+                            <div class="key-point"><strong>M&oacute;dulo IIFE</strong>Patr&oacute;n cl&aacute;sico para
+                                encapsular estado privado antes de los m&oacute;dulos ES6.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3 · this -->
+        <div class="concept" id="this" data-nav="this">
+            <div class="concept-header">
+                <span class="concept-number">03</span>
+                <span class="concept-tag" style="background:rgba(63,255,160,.12);color:var(--accent-g);">THIS</span>
+                <span class="concept-name">El keyword <code style="font-size:13px">this</code></span>
+                <span class="concept-time">2:14 &ndash; 2:59</span>
+                <span class="concept-arrow">&#9654;</span>
+            </div>
+            <div class="concept-body">
+                <div class="concept-body-inner">
+                    <div class="concept-content">
+                        <p class="concept-desc">
+                            <code style="color:var(--accent-g)">this</code> <strong>no depende de d&oacute;nde se
+                                escribe la funci&oacute;n</strong>, sino de <strong>c&oacute;mo se invoca</strong>. Las
+                            arrow functions no tienen su propio <code>this</code>; heredan el del scope donde fueron
+                            definidas.
+                        </p>
+                        <div class="code-block">
+                            <div class="code-bar">
+                                <span class="code-dot"></span><span class="code-dot"></span><span
+                                    class="code-dot"></span>
+                                <span class="code-lang">JS</span>
+                            </div>
+                            <pre><span class="kw">const</span> obj <span class="op">=</span> {
+  nombre: <span class="str">'Bnjmn'</span>,
+
+  <span class="cm">// 1) Método → this = obj</span>
+  <span class="fn">saludar</span>() {
+    console.log(<span class="kw">this</span>.nombre); <span class="cm">// 'Bnjmn' ✅</span>
+  },
+
+  <span class="cm">// 2) Arrow function → this heredado</span>
+  <span class="fn">saludarArrow</span>: () <span class="op">=></span> {
+    console.log(<span class="kw">this</span>?.nombre); <span class="cm">// undefined ⚠️</span>
+  },
+};
+
+obj.<span class="fn">saludar</span>();       <span class="cm">// 'Bnjmn'</span>
+obj.<span class="fn">saludarArrow</span>(); <span class="cm">// undefined</span>
+
+<span class="cm">// 3) Función suelta → undefined (strict mode)</span>
+<span class="kw">const</span> fn <span class="op">=</span> obj.saludar;
+<span class="fn">fn</span>(); <span class="cm">// undefined en strict mode</span>
+
+<span class="cm">// 4) bind / call / apply → this explícito</span>
+<span class="kw">const</span> fnBound <span class="op">=</span> obj.saludar.<span class="fn">bind</span>({ nombre: <span class="str">'JS'</span> });
+<span class="fn">fnBound</span>(); <span class="cm">// 'JS'</span></pre>
+                        </div>
+                        <div class="key-grid">
+                            <div class="key-point"><strong>M&eacute;todo de objeto</strong><code>this</code> = el objeto
+                                antes del punto.</div>
+                            <div class="key-point"><strong>Arrow function</strong>No tiene <code>this</code> propio.
+                                Hereda del scope externo.</div>
+                            <div class="key-point"><strong>Funci&oacute;n libre</strong><code>undefined</code> en strict
+                                mode, <code>globalThis</code> en modo normal.</div>
+                            <div class="key-point"><strong>bind/call/apply</strong>Permiten asignar <code>this</code> de
+                                forma expl&iacute;cita.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 · Equality -->
+        <div class="concept" id="equality" data-nav="equality">
+            <div class="concept-header">
+                <span class="concept-number">04</span>
+                <span class="concept-tag" style="background:rgba(255,95,114,.12);color:var(--accent-r);">IGUALDAD</span>
+                <span class="concept-name">== vs ===</span>
+                <span class="concept-time">3:00 &ndash; 3:55</span>
+                <span class="concept-arrow">&#9654;</span>
+            </div>
+            <div class="concept-body">
+                <div class="concept-body-inner">
+                    <div class="concept-content">
+                        <p class="concept-desc">
+                            <code style="color:var(--accent-r)">==</code> realiza <strong>coerci&oacute;n de
+                                tipos</strong> antes de comparar, convirtiendo los operandos a un tipo com&uacute;n de
+                            formas a veces sorprendentes.
+                            <code style="color:var(--accent-g)">===</code> (igualdad estricta) compara <strong>tipo y
+                                valor sin conversiones</strong>. Usa siempre <code>===</code>.
+                        </p>
+                        <div class="compare">
+                            <div class="compare-col">
+                                <div class="compare-head" style="background:rgba(255,95,114,.1);color:var(--accent-r);">
+                                    == coerci&oacute;n</div>
+                                <div class="compare-body">
+                                    <div class="code-block" style="border:none;background:transparent;">
+                                        <pre
+                                            style="padding:0;font-size:12px"><span class="num">0</span>    <span class="op">==</span>  <span class="str">''</span>        <span class="cm">// true  ⚠️</span>
+<span class="num">0</span>    <span class="op">==</span>  <span class="str">'0'</span>       <span class="cm">// true  ⚠️</span>
+<span class="num">0</span>    <span class="op">==</span>  <span class="kw">false</span>     <span class="cm">// true  ⚠️</span>
+<span class="str">''</span>   <span class="op">==</span>  <span class="kw">false</span>     <span class="cm">// true  ⚠️</span>
+<span class="kw">null</span> <span class="op">==</span>  <span class="kw">undefined</span> <span class="cm">// true  ⚠️</span>
+[<span class="num">1</span>]  <span class="op">==</span>  <span class="num">1</span>         <span class="cm">// true  ⚠️</span></pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="compare-col">
+                                <div class="compare-head" style="background:rgba(63,255,160,.1);color:var(--accent-g);">
+                                    === estricto</div>
+                                <div class="compare-body">
+                                    <div class="code-block" style="border:none;background:transparent;">
+                                        <pre
+                                            style="padding:0;font-size:12px"><span class="num">0</span>    <span class="op">===</span> <span class="str">''</span>        <span class="cm">// false ✅</span>
+<span class="num">0</span>    <span class="op">===</span> <span class="str">'0'</span>       <span class="cm">// false ✅</span>
+<span class="num">0</span>    <span class="op">===</span> <span class="kw">false</span>     <span class="cm">// false ✅</span>
+<span class="str">''</span>   <span class="op">===</span> <span class="kw">false</span>     <span class="cm">// false ✅</span>
+<span class="kw">null</span> <span class="op">===</span> <span class="kw">undefined</span> <span class="cm">// false ✅</span>
+[<span class="num">1</span>]  <span class="op">===</span> <span class="num">1</span>         <span class="cm">// false ✅</span></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="key-grid">
+                            <div class="key-point"><strong>Excepci&oacute;n v&aacute;lida de
+                                    ==</strong><code>x == null</code> atrapa tanto <code>null</code> como
+                                <code>undefined</code> sin m&aacute;s coerciones.
+                            </div>
+                            <div class="key-point"><strong>Regla de oro</strong>Usa <code
+                                    style="color:var(--accent-g)">===</code> siempre. S&eacute; expl&iacute;cito con las
+                                conversiones cuando las necesites.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5 · Event Loop -->
+        <div class="concept" id="eventloop" data-nav="eventloop">
+            <div class="concept-header">
+                <span class="concept-number">05</span>
+                <span class="concept-tag" style="background:rgba(191,148,255,.12);color:var(--accent-p);">ASYNC</span>
+                <span class="concept-name">El Event Loop</span>
+                <span class="concept-time">3:56 &ndash; 5:01</span>
+                <span class="concept-arrow">&#9654;</span>
+            </div>
+            <div class="concept-body">
+                <div class="concept-body-inner">
+                    <div class="concept-content">
+                        <p class="concept-desc">
+                            JS es <strong>single-threaded</strong>. El Event Loop permite comportamiento
+                            as&iacute;ncrono. El orden de ejecuci&oacute;n es: <strong>Call Stack &rarr; Microtareas
+                                &rarr; Macrotareas</strong>.
+                        </p>
+                        <div style="margin:4px 0 8px;">
+                            <div class="flow">
+                                <div class="flow-step">
+                                    <div class="flow-box"
+                                        style="background:rgba(240,192,64,.15);color:var(--accent-y);border:1px solid rgba(240,192,64,.3);">
+                                        Call Stack</div>
+                                    <div class="flow-label">s&iacute;ncrono</div>
+                                </div>
+                                <div class="flow-arrow">&rarr;</div>
+                                <div class="flow-step">
+                                    <div class="flow-box"
+                                        style="background:rgba(78,168,247,.15);color:var(--accent-b);border:1px solid rgba(78,168,247,.3);">
+                                        Microtask Queue</div>
+                                    <div class="flow-label">Promises &middot; queueMicrotask</div>
+                                </div>
+                                <div class="flow-arrow">&rarr;</div>
+                                <div class="flow-step">
+                                    <div class="flow-box"
+                                        style="background:rgba(191,148,255,.15);color:var(--accent-p);border:1px solid rgba(191,148,255,.3);">
+                                        Macrotask Queue</div>
+                                    <div class="flow-label">setTimeout &middot; setInterval &middot; I/O</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-bar">
+                                <span class="code-dot"></span><span class="code-dot"></span><span
+                                    class="code-dot"></span>
+                                <span class="code-lang">JS</span>
+                            </div>
+                            <pre>console.<span class="fn">log</span>(<span class="str">'1 síncrono'</span>);         <span class="cm">// Call Stack</span>
+
+<span class="fn">setTimeout</span>(() <span class="op">=></span>
+  console.<span class="fn">log</span>(<span class="str">'3 macro'</span>), <span class="num">0</span>        <span class="cm">// Macrotask</span>
+);
+
+<span class="cl">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() <span class="op">=></span>
+  console.<span class="fn">log</span>(<span class="str">'2 micro'</span>)            <span class="cm">// Microtask</span>
+);
+
+console.<span class="fn">log</span>(<span class="str">'1b síncrono'</span>);        <span class="cm">// Call Stack</span>
+
+<span class="cm">// Output: '1 síncrono' → '1b síncrono' → '2 micro' → '3 macro'</span></pre>
+                        </div>
+                        <div class="key-grid">
+                            <div class="key-point"><strong>Microtareas</strong>Promises (.then/.catch/.finally),
+                                async/await, queueMicrotask. Prioridad alta.</div>
+                            <div class="key-point"><strong>Macrotareas</strong>setTimeout, setInterval, eventos DOM,
+                                I/O. Se procesan de a una por ciclo.</div>
+                            <div class="key-point"><strong>Nunca bloquees</strong>Operaciones pesadas s&iacute;ncronas
+                                bloquean el hilo. Usa Web Workers para CPU intensivo.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6 · Promises -->
+        <div class="concept" id="promises" data-nav="promises">
+            <div class="concept-header">
+                <span class="concept-number">06</span>
+                <span class="concept-tag" style="background:rgba(78,168,247,.12);color:var(--accent-b);">ASYNC</span>
+                <span class="concept-name">Promises &amp; Async/Await</span>
+                <span class="concept-time">5:02 &ndash; 5:44</span>
+                <span class="concept-arrow">&#9654;</span>
+            </div>
+            <div class="concept-body">
+                <div class="concept-body-inner">
+                    <div class="concept-content">
+                        <p class="concept-desc">
+                            Una <strong>Promise</strong> representa un valor futuro (pending &rarr; fulfilled |
+                            rejected).
+                            <code style="color:var(--accent-b)">async</code> hace que una funci&oacute;n <em>siempre
+                                devuelva una Promise</em>.
+                            <code style="color:var(--accent-b)">await</code> pausa la ejecuci&oacute;n <em>dentro</em>
+                            de esa funci&oacute;n hasta que la Promise se resuelve.
+                        </p>
+                        <div class="code-block">
+                            <div class="code-bar">
+                                <span class="code-dot"></span><span class="code-dot"></span><span
+                                    class="code-dot"></span>
+                                <span class="code-lang">JS</span>
+                            </div>
+                            <pre><span class="cm">// ── Promise manual ───────────────────────</span>
+<span class="kw">const</span> esperar <span class="op">=</span> (ms) <span class="op">=></span>
+  <span class="kw">new</span> <span class="cl">Promise</span>((resolve) <span class="op">=></span> <span class="fn">setTimeout</span>(resolve, ms));
+
+<span class="cm">// ── .then() chaining ─────────────────────</span>
+<span class="fn">esperar</span>(<span class="num">1000</span>)
+  .<span class="fn">then</span>(() <span class="op">=></span> console.<span class="fn">log</span>(<span class="str">'1s pasado'</span>))
+  .<span class="fn">catch</span>((e) <span class="op">=></span> console.<span class="fn">error</span>(e));
+
+<span class="cm">// ── async / await (más limpio) ───────────</span>
+<span class="kw">async function</span> <span class="fn">main</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">await</span> <span class="fn">esperar</span>(<span class="num">1000</span>);
+    console.<span class="fn">log</span>(<span class="str">'1s pasado'</span>);
+
+    <span class="cm">// paralelo: esperar ambas a la vez</span>
+    <span class="kw">const</span> [a, b] <span class="op">=</span> <span class="kw">await</span> <span class="cl">Promise</span>.<span class="fn">all</span>([
+      <span class="fn">fetch</span>(<span class="str">'/api/a'</span>).<span class="fn">then</span>(r <span class="op">=></span> r.<span class="fn">json</span>()),
+      <span class="fn">fetch</span>(<span class="str">'/api/b'</span>).<span class="fn">then</span>(r <span class="op">=></span> r.<span class="fn">json</span>()),
+    ]);
+  } <span class="kw">catch</span> (e) {
+    console.<span class="fn">error</span>(e);
+  }
+}
+<span class="fn">main</span>();</pre>
+                        </div>
+                        <div class="key-grid">
+                            <div class="key-point"><strong>async devuelve Promise</strong>Aunque escribas
+                                <code>return 42</code>, obtienes <code>Promise&lt;42&gt;</code>.
+                            </div>
+                            <div class="key-point"><strong>await solo en async</strong>No puedes usar await fuera de
+                                async (excepto top-level en m&oacute;dulos ES).</div>
+                            <div class="key-point"><strong>Manejo de errores</strong>Usa <code>try/catch</code> con
+                                await; con .then() usa .catch() al final.</div>
+                            <div class="key-point"><strong>Promise.all vs .allSettled</strong><code>all</code> falla
+                                r&aacute;pido; <code>allSettled</code> espera todas aunque fallen.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7 · Debounce vs Throttle -->
+        <div class="concept" id="debounce" data-nav="debounce">
+            <div class="concept-header">
+                <span class="concept-number">07</span>
+                <span class="concept-tag" style="background:rgba(63,255,160,.12);color:var(--accent-g);">PERF</span>
+                <span class="concept-name">Debounce vs Throttle</span>
+                <span class="concept-time">5:45 &ndash; 6:25</span>
+                <span class="concept-arrow">&#9654;</span>
+            </div>
+            <div class="concept-body">
+                <div class="concept-body-inner">
+                    <div class="concept-content">
+                        <p class="concept-desc">
+                            Ambas t&eacute;cnicas limitan la frecuencia de ejecuci&oacute;n de una funci&oacute;n.
+                            <strong>Debounce</strong> espera a que el usuario <em>deje de disparar</em> el evento
+                            &mdash; ideal para b&uacute;squedas.
+                            <strong>Throttle</strong> garantiza que la funci&oacute;n se ejecute <em>m&aacute;ximo una
+                                vez cada N ms</em> &mdash; ideal para scroll y resize.
+                        </p>
+                        <div class="compare">
+                            <div class="compare-col">
+                                <div class="compare-head" style="background:rgba(240,192,64,.1);color:var(--accent-y);">
+                                    &#9203; Debounce</div>
+                                <div class="compare-body">
+                                    <div class="code-block" style="border:none;background:transparent;">
+                                        <pre style="padding:0;font-size:12px"><span class="kw">function</span> <span class="fn">debounce</span>(fn, ms) {
+  <span class="kw">let</span> timer;
+  <span class="kw">return</span> (...args) <span class="op">=></span> {
+    <span class="fn">clearTimeout</span>(timer);
+    timer <span class="op">=</span> <span class="fn">setTimeout</span>(
+      () <span class="op">=></span> <span class="fn">fn</span>(...args), ms
+    );
+  };
+}
+<span class="cm">// Solo ejecuta al PARAR de escribir</span>
+<span class="kw">const</span> buscar <span class="op">=</span> <span class="fn">debounce</span>(
+  query <span class="op">=></span> <span class="fn">fetchResults</span>(query), <span class="num">300</span>
+);</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="compare-col">
+                                <div class="compare-head" style="background:rgba(63,255,160,.1);color:var(--accent-g);">
+                                    &#9889; Throttle</div>
+                                <div class="compare-body">
+                                    <div class="code-block" style="border:none;background:transparent;">
+                                        <pre style="padding:0;font-size:12px"><span class="kw">function</span> <span class="fn">throttle</span>(fn, ms) {
+  <span class="kw">let</span> last <span class="op">=</span> <span class="num">0</span>;
+  <span class="kw">return</span> (...args) <span class="op">=></span> {
+    <span class="kw">const</span> now <span class="op">=</span> Date.<span class="fn">now</span>();
+    <span class="kw">if</span> (now <span class="op">-</span> last <span class="op">>=</span> ms) {
+      last <span class="op">=</span> now;
+      <span class="fn">fn</span>(...args);
+    }
+  };
+}
+<span class="cm">// Máx. 1 vez cada 100ms</span>
+<span class="kw">const</span> onScroll <span class="op">=</span> <span class="fn">throttle</span>(
+  () <span class="op">=></span> <span class="fn">updateUI</span>(), <span class="num">100</span>
+);</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="key-grid">
+                            <div class="key-point"><strong>Debounce &mdash; cu&aacute;ndo</strong>B&uacute;squeda en
+                                tiempo real, validaci&oacute;n de formulario, resize (solo resultado final).</div>
+                            <div class="key-point"><strong>Throttle &mdash; cu&aacute;ndo</strong>Scroll infinito,
+                                mousemove, juegos, actualizaciones de UI continuas.</div>
+                            <div class="key-point"><strong>En producci&oacute;n</strong>Usa <code>_.debounce</code> /
+                                <code>_.throttle</code> de Lodash para manejar edge cases correctamente.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spacer"></div>
+    </main>
+
+    <script>
+        // Toggle cards
+        document.querySelectorAll('.concept-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.closest('.concept');
+                const isOpen = card.classList.contains('open');
+                document.querySelectorAll('.concept.open').forEach(c => c.classList.remove('open'));
+                if (!isOpen) card.classList.add('open');
+            });
+        });
+
+        // Open first card by default
+        document.querySelector('.concept').classList.add('open');
+
+        // Active sidebar nav on scroll
+        const concepts = document.querySelectorAll('.concept[data-nav]');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.dataset.nav;
+                    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                    const active = document.getElementById('nav-' + id);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { threshold: 0.4 });
+
+        concepts.forEach(c => observer.observe(c));
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .container .box {
+            position: relative;
+            width: 220px;
+            height: 300px;
+        }
+
+        .container .box img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tooltip {
+            position: fixed;
+            display: inline-block;
+            background: #fff;
+            z-index: 1000;
+            padding: 5px 15px;
+            border: 2px solid #111;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .container .box:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip {
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <img src="../../columns/columnsGenshin/assets/10.png" alt="">
+
+            <span class="tooltip">Cool yei-</span>
+        </div>
+    </div>
+
+
+    <script>
+        const $tooltip = document.querySelectorAll('tooltip');
+
+        window.onmousemove = function (e) {
+            const x = e.clientX + 'px';
+            const y = e.clientY + 'px';
+
+
+            for (let i = 0; i < $tooltip.length; i++) {
+                $tooltip[i].style.left = x;
+                $tooltip[i].style.top = y;
+            }
+        }
+    </script>
+</body>
+
+<script>
+    const boxes = document.querySelectorAll('.box');
+
+    boxes.forEach(box => {
+        const tooltip = box.querySelector('.tooltip');
+
+        box.addEventListener('mousemove', (e) => {
+            tooltip.style.left = (e.clientX + 14) + 'px';
+            tooltip.style.top = (e.clientY + 14) + 'px';
+        });
+
+        box.addEventListener('mouseenter', () => {
+            tooltip.style.visibility = 'visible';
+            tooltip.style.opacity = '1';
+        });
+
+        box.addEventListener('mouseleave', () => {
+            tooltip.style.visibility = 'hidden';
+            tooltip.style.opacity = '0';
+        });
+    });
+</script>
+
+</html>
