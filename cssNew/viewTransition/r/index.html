@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViewTransitions — Home</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+
+    <!-- NAV — stays fixed, never animated -->
+    <nav>
+        <span class="nav-logo">ViewTransitions</span>
+        <ul class="nav-links">
+            <li><a href="./index.html" class="active">Home</a></li>
+            <li><a href="./blog.html">Blog</a></li>
+            <li><a href="./docs.html">Docs</a></li>
+            <li><a href="./about.html">About</a></li>
+        </ul>
+        <span class="nav-tag">CSS API</span>
+    </nav>
+
+    <!-- PAGE CONTENT — this part slides -->
+    <main class="page-main">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div>
+                <p class="hero-eyebrow">CSS View Transitions</p>
+                <h1>Animate between<br><span>HTML Pages</span></h1>
+                <p>No JavaScript needed. No React router. Just CSS — and your multi-page site feels like a smooth native
+                    app.</p>
+                <div class="btn-group">
+                    <a href="blog.html" class="btn btn-primary">↗ Explore Articles</a>
+                    <a href="docs.html" class="btn btn-ghost">Read the Docs</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code preview -->
+        <section class="section" style="padding-top:0">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; align-items:start;">
+                <div>
+                    <p class="section-title">Two lines to start</p>
+                    <p class="section-sub">Add the <code
+                            style="color:var(--accent);font-size:0.9em">@view-transition</code> rule to your shared CSS
+                        and every page navigation gets an instant crossfade — no config, no bundler, no build step.</p>
+                    <a href="docs.html" class="btn btn-ghost" style="margin-top:0.5rem">Full guide →</a>
+                </div>
+                <div class="code-block">
+                    <span class="code-comment">/* Enable cross-document transitions */</span><br>
+                    <span class="code-keyword">@view-transition</span> {<br>
+                    &nbsp;&nbsp;<span class="code-prop">navigation</span>: <span class="code-value">auto</span>;<br>
+                    }<br><br>
+                    <span class="code-comment">/* Custom slide animation */</span><br>
+                    <span class="code-selector">::view-transition-old(page-content)</span> {<br>
+                    &nbsp;&nbsp;<span class="code-prop">animation-name</span>: <span
+                        class="code-value">slide-out</span>;<br>
+                    }<br>
+                    <span class="code-selector">::view-transition-new(page-content)</span> {<br>
+                    &nbsp;&nbsp;<span class="code-prop">animation-name</span>: <span
+                        class="code-value">slide-in</span>;<br>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="section" style="border-top:1px solid var(--border)">
+            <p class="section-title">What you can do</p>
+            <p class="section-sub">View Transitions unlock a whole class of animations that used to require heavy
+                JavaScript frameworks.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌊</div>
+                    <p class="feature-title">Crossfade Pages</p>
+                    <p class="feature-desc">The default transition blends the old page into the new page — zero extra
+                        CSS required.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">↔️</div>
+                    <p class="feature-title">Slide Animations</p>
+                    <p class="feature-desc">Slide content left/right with custom keyframes, just like a native mobile
+                        app.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖼️</div>
+                    <p class="feature-title">Shared Elements</p>
+                    <p class="feature-desc">Give the same <code
+                            style="font-size:0.8em;color:var(--accent)">view-transition-name</code> to elements on both
+                        pages — the browser morphs them automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <p class="feature-title">Isolated Sections</p>
+                    <p class="feature-desc">Keep your nav bar fixed while only animating the main content area. Full
+                        control over scope.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            Built with pure CSS &mdash; <span>@view-transition</span> &mdash; No frameworks harmed
+        </footer>
+    </main>
+
+</body>
+
+</html>

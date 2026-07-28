@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViewTransitions — Blog</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+
+    <nav>
+        <span class="nav-logo">ViewTransitions</span>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="docs.html">Docs</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <span class="nav-tag">CSS API</span>
+    </nav>
+
+    <main class="page-main">
+
+        <section class="section" style="padding-top: 3rem">
+            <p class="hero-eyebrow" style="margin-bottom:0.75rem; display:flex; gap:0.5rem; align-items:center;">
+                <span style="width:30px;height:1px;background:var(--accent);opacity:0.5"></span>
+                Latest Posts
+                <span style="width:30px;height:1px;background:var(--accent);opacity:0.5"></span>
+            </p>
+            <p class="section-title">The Blog</p>
+            <p class="section-sub">Deep dives into CSS animations, view transitions, and the future of multi-page apps.
+            </p>
+
+            <div class="cards-grid">
+
+                <!-- Card 1 — shared image transition demo -->
+                <a href="article.html" class="card">
+                    <div class="card-img-wrap">
+                        <img class="card-image"
+                            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+                            alt="CSS Animations" />
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Deep Dive</p>
+                        <p class="card-title">Shared Image Transitions Across Pages</p>
+                        <p class="card-desc">The most impressive feature: morph one image from a card into a full hero
+                            as you navigate.</p>
+                    </div>
+                </a>
+
+                <a href="blog.html" class="card">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&q=80"
+                            alt="JavaScript" style="filter:hue-rotate(200deg) brightness(0.85)" />
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Technique</p>
+                        <p class="card-title">Replacing React Router With Pure CSS</p>
+                        <p class="card-desc">Do you really need a SPA just for smooth page transitions? Spoiler: no.</p>
+                    </div>
+                </a>
+
+                <a href="blog.html" class="card">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80" alt="Code" />
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Accessibility</p>
+                        <p class="card-title">Respecting prefers-reduced-motion</p>
+                        <p class="card-desc">How to make sure your slick transitions don't harm users who need less
+                            motion.</p>
+                    </div>
+                </a>
+
+                <a href="blog.html" class="card">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80" alt="Browser"
+                            style="filter:saturate(0.6) brightness(0.9)" />
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Browser Support</p>
+                        <p class="card-title">Progressive Enhancement Strategy</p>
+                        <p class="card-desc">Chrome, Edge and Safari support it. Firefox doesn't yet. Here's how to
+                            handle that gracefully.</p>
+                    </div>
+                </a>
+
+                <a href="blog.html" class="card">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80"
+                            alt="Animation" style="filter:hue-rotate(90deg) brightness(0.8)" />
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Advanced</p>
+                        <p class="card-title">Multiple Named Transition Groups</p>
+                        <p class="card-desc">Give each section of your page its own transition name and animate them
+                            independently.</p>
+                    </div>
+                </a>
+
+                <a href="blog.html" class="card">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80"
+                            alt="Web Dev" />
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Tutorial</p>
+                        <p class="card-title">Building a Portfolio With View Transitions</p>
+                        <p class="card-desc">Step-by-step guide to making your personal site feel like an award-winning
+                            experience.</p>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <footer>
+            Built with pure CSS &mdash; <span>@view-transition</span> &mdash; No frameworks harmed
+        </footer>
+    </main>
+
+</body>
+
+</html>

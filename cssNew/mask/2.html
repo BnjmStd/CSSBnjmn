@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Masking, Canal Alfa, @property y Compatibilidad | Guía Interactiva</title>
+  <!-- Google Fonts: Plus Jakarta Sans & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1a243d;
+      --accent-cyan: #06b6d4;
+      --accent-violet: #8b5cf6;
+      --accent-pink: #ec4899;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-code: 'Fira Code', monospace;
+    }
+
+    /* CSS Custom Properties registradas con @property para animaciones fluidas */
+    @property --demo-mask-radius {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 20%;
+    }
+
+    @property --demo-mask-x {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 30%;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+      position: relative;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 70%);
+      filter: blur(40px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 0.85rem;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--accent-cyan);
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .header-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Navigation Bar */
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.65rem 1.25rem;
+      border-radius: 12px;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.2));
+      border-color: var(--accent-cyan);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.15);
+    }
+
+    /* Section Containers */
+    .section-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: border-color 0.3s ease;
+    }
+
+    .section-block:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .icon-box {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .icon-box.cyan { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+    .icon-box.violet { background: rgba(139, 92, 246, 0.15); color: var(--accent-violet); }
+    .icon-box.pink { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); }
+    .icon-box.amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+    .icon-box.emerald { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    p {
+      color: #d1d5db;
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+    }
+
+    /* Highlight Boxes */
+    .callout {
+      background: rgba(15, 23, 42, 0.6);
+      border-left: 4px solid var(--accent-cyan);
+      border-radius: 0 12px 12px 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .callout.warning {
+      border-left-color: var(--accent-amber);
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .callout.info {
+      border-left-color: var(--accent-violet);
+      background: rgba(139, 92, 246, 0.05);
+    }
+
+    .callout-title {
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Checkerboard pattern for transparency visualization */
+    .checkerboard-bg {
+      background-color: #1e293b;
+      background-image: 
+        linear-gradient(45deg, #0f172a 25%, transparent 25%), 
+        linear-gradient(-45deg, #0f172a 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #0f172a 75%), 
+        linear-gradient(-45deg, transparent 75%, #0f172a 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    /* Interactive Demos Grids */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .demo-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .demo-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .demo-card-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+
+    .mask-preview-box {
+      width: 100%;
+      height: 220px;
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    /* Target element inside preview box */
+    .masked-target {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f43f5e, #8b5cf6, #06b6d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      transition: mask 0.3s ease, -webkit-mask 0.3s ease;
+    }
+
+    /* Controls Panel */
+    .controls-panel {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .control-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .control-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .color-picker-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .color-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .color-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .color-btn.selected {
+      border-color: #fff;
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    .toggle-switch {
+      display: inline-flex;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 3px;
+      gap: 4px;
+    }
+
+    .toggle-opt {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-opt.active {
+      background: var(--accent-cyan);
+      color: #000;
+    }
+
+    /* Composite Operations Grid */
+    .composite-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .composite-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .composite-card:hover, .composite-card.active {
+      border-color: var(--accent-violet);
+      background: rgba(139, 92, 246, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .composite-card.active::after {
+      content: '✓ Activo';
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-violet);
+    }
+
+    .composite-title {
+      font-family: var(--font-code);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-violet);
+      margin-bottom: 0.35rem;
+    }
+
+    .composite-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    /* Code Blocks */
+    .code-block {
+      background: #080c14;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      font-family: var(--font-code);
+      font-size: 0.9rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      margin-top: 1rem;
+      position: relative;
+    }
+
+    .code-block .keyword { color: #f43f5e; }
+    .code-block .prop { color: #38bdf8; }
+    .code-block .val { color: #a7f3d0; }
+    .code-block .comment { color: #6b7280; font-style: italic; }
+
+    /* @property Animated Demo Box */
+    .animated-property-box {
+      --demo-mask-radius: 20%;
+      --demo-mask-x: 30%;
+      width: 100%;
+      height: 240px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ec4899, #8b5cf6, #06b6d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      
+      /* Animación suave usando las Custom Properties registradas */
+      transition: --demo-mask-radius 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                  --demo-mask-x 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      -webkit-mask-image: radial-gradient(circle at var(--demo-mask-x) 50%, black var(--demo-mask-radius), transparent calc(var(--demo-mask-radius) + 15%));
+      mask-image: radial-gradient(circle at var(--demo-mask-x) 50%, black var(--demo-mask-radius), transparent calc(var(--demo-mask-radius) + 15%));
+    }
+
+    .animated-property-box.expanded {
+      --demo-mask-radius: 75%;
+      --demo-mask-x: 50%;
+    }
+
+    /* Compatibility Table */
+    .compat-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .compat-table th, .compat-table td {
+      padding: 0.85rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .compat-table th {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+
+    .compat-table td {
+      background: rgba(15, 23, 42, 0.4);
+      color: #e2e8f0;
+    }
+
+    .compat-table code {
+      font-family: var(--font-code);
+      padding: 0.2rem 0.4rem;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.4);
+    }
+
+    /* Q&A Cards */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .qa-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.75rem;
+    }
+
+    .qa-question {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Edge gap comparison visual */
+    .edge-comparison {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .edge-box {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .edge-preview {
+      width: 100%;
+      height: 140px;
+      border-radius: 8px;
+      margin-top: 0.75rem;
+    }
+
+    /* Action Buttons */
+    .btn-action {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+      color: #000;
+      font-weight: 700;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .section-block { padding: 1.5rem; }
+      .compat-table { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <span class="badge">CSS Moderno & Visual Specs</span>
+      <h1>Guía Completa: CSS Masking & Canal Alfa</h1>
+      <p class="header-desc">
+        Aprende cómo recortar elementos dinámicamente con <code>mask-image</code> y <code>mask-composite</code>, animar geometrías fluidas con <code>@property</code> y resolver las trampas de compatibilidad con navegadores antiguos.
+      </p>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" aria-label="Secciones de la guía">
+      <button class="nav-btn active" onclick="scrollToSection('sec-alpha')">
+        <span>✨</span> El Canal Alfa vs Mito
+      </button>
+      <button class="nav-btn" onclick="scrollToSection('sec-composite')">
+        <span>🧩</span> mask-composite
+      </button>
+      <button class="nav-btn" onclick="scrollToSection('sec-property')">
+        <span>⚡</span> Animación con @property
+      </button>
+      <button class="nav-btn" onclick="scrollToSection('sec-compat')">
+        <span>⚠️</span> Compatibilidad -webkit-
+      </button>
+      <button class="nav-btn" onclick="scrollToSection('sec-questions')">
+        <span>💡</span> Preguntas Clave
+      </button>
+    </nav>
+
+    <!-- SECTION 1: ALPHA CHANNEL DEEP DIVE & MYTH BUSTING -->
+    <section id="sec-alpha" class="section-block">
+      <div class="section-header">
+        <div class="icon-box cyan">α</div>
+        <div>
+          <h2 class="section-title">1. El Canal Alfa y el Mito del "Blanco Muestra, Negro Oculta"</h2>
+          <p class="section-subtitle">Explicación del minuto 03:22 del video y física del renderizado CSS</p>
+        </div>
+      </div>
+
+      <p>
+        Existe una confusión común provocada por programas como Photoshop, After Effects o las antiguas máscaras SVG/Luminancia: <em>"Se cree que el color blanco en una máscara deja ver el contenido y el color negro lo oculta"</em>.
+      </p>
+      
+      <div class="callout warning">
+        <div class="callout-title">⚠️ La Regla de Oro del CSS Moderno</div>
+        En las máscaras CSS estándar (<code>mask-mode: alpha</code>), <strong>EL COLOR (RGB) ES COMPLETAMENTE IRRELEVANTE</strong>.
+        El navegador lee únicamente la opacidad contenida en el <strong>Canal Alfa (A)</strong> de la imagen o degradado.
+      </div>
+
+      <p>
+        <strong>¿Qué es el Canal Alfa?</strong> Es la componente de opacidad de un color o píxel:
+      </p>
+      <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; color: #d1d5db;">
+        <li><strong style="color: var(--accent-cyan);">Alfa Alto (1.0 / 100% Opaco):</strong> Funciona como una ventana abierta. Permite que el elemento recortado se muestre totalmente.</li>
+        <li><strong style="color: var(--accent-pink);">Alfa Bajo (0.0 / Transparente):</strong> Recorta y oculta completamente el contenido del elemento.</li>
+        <li><strong>Valores Intermedios (ej. 0.5):</strong> Muestran el elemento con un 50% de semitransparencia.</li>
+      </ul>
+
+      <!-- Demo Interactivo de Alfa -->
+      <h3 style="color: #fff; margin-top: 2rem; font-size: 1.25rem;">🧪 Experimento Interactivo en Vivo</h3>
+      <p style="font-size: 0.95rem;">
+        Cambia el color de la máscara a continuación. Verás cómo un degradado de <strong>[Color Elegido] a Transparente</strong> recorta el contenido <em>exactamente igual</em> que un degradado de <strong>Blanco a Transparente</strong> o <strong>Negro a Transparente</strong>.
+      </p>
+
+      <div class="controls-panel">
+        <div class="control-group">
+          <label class="control-label">1. Selecciona el Color Base del Degradado de Máscara:</label>
+          <div class="color-picker-group" id="color-picker-group">
+            <!-- Buttons injected by JS -->
+          </div>
+        </div>
+
+        <div class="control-group" style="margin-top: 1.25rem;">
+          <label class="control-label">2. Modo de Máscara (mask-mode):</label>
+          <div class="toggle-switch">
+            <button class="toggle-opt active" id="btn-mode-alpha" onclick="setMaskMode('alpha')">
+              mask-mode: alpha (Estándar CSS)
+            </button>
+            <button class="toggle-opt" id="btn-mode-lum" onclick="setMaskMode('luminance')">
+              mask-mode: luminance (Photoshop/SVG)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <!-- Card 1: Dynamic Chosen Color Gradient -->
+        <div class="demo-card">
+          <h4 class="demo-card-title" id="card1-title">Máscara: Color dinámico (Alfa)</h4>
+          <p class="demo-card-subtitle" id="card1-sub">Degradado: Color sólido → Transparente</p>
+          <div class="mask-preview-box checkerboard-bg">
+            <div class="masked-target" id="masked-target-1">
+              <span>CONTENIDO RECTÁNGULO</span>
+            </div>
+          </div>
+          <div class="code-block" style="width: 100%;">
+            <span class="prop">mask-image</span>: <span class="val" id="card1-code">linear-gradient(to right, red, transparent)</span>;
+          </div>
+        </div>
+
+        <!-- Card 2: White to Transparent Gradient -->
+        <div class="demo-card">
+          <h4 class="demo-card-title">Máscara: Blanco (Alfa)</h4>
+          <p class="demo-card-subtitle">Degradado: Blanco sólido → Blanco transparente</p>
+          <div class="mask-preview-box checkerboard-bg">
+            <div class="masked-target" id="masked-target-2">
+              <span>CONTENIDO RECTÁNGULO</span>
+            </div>
+          </div>
+          <div class="code-block" style="width: 100%;">
+            <span class="prop">mask-image</span>: <span class="val">linear-gradient(to right, white, transparent)</span>;
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info" style="margin-top: 2rem;">
+        <div class="callout-title">💡 Conclusión de la prueba</div>
+        <p id="alpha-conclusion" style="margin: 0; color: #e2e8f0;">
+          En modo <code>mask-mode: alpha</code>, recortar con Rojo, Verde, Negro o Blanco genera <strong>exactamente el mismo recorte visual</strong>. La única razón por la que en tutoriales se usa Blanco es por costumbre histórica.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 2: MASK-COMPOSITE OPERATIONS -->
+    <section id="sec-composite" class="section-block">
+      <div class="section-header">
+        <div class="icon-box violet">🧩</div>
+        <div>
+          <h2 class="section-title">2. Operaciones Booleanas con <code>mask-composite</code></h2>
+          <p class="section-subtitle">Cómo combinar múltiples capas de máscara separadas por comas (04:36 del video)</p>
+        </div>
+      </div>
+
+      <p>
+        Cuando defines múltiples máscaras en <code>mask-image</code> separadas por comas, <code>mask-composite</code> especifica la operación booleana que determinará cómo se fusionan las formas:
+      </p>
+
+      <div class="composite-grid" id="composite-options">
+        <div class="composite-card active" onclick="selectComposite('add')">
+          <div class="composite-title">add (por defecto)</div>
+          <div class="composite-desc">Combina ambas formas. Muestra la suma del área total de ambas capas de máscara.</div>
+        </div>
+
+        <div class="composite-card" onclick="selectComposite('subtract')">
+          <div class="composite-title">subtract</div>
+          <div class="composite-desc">Restado estilo "cortador de galletas". Recorta la segunda máscara de la primera.</div>
+        </div>
+
+        <div class="composite-card" onclick="selectComposite('intersect')">
+          <div class="composite-title">intersect</div>
+          <div class="composite-desc">Mantiene únicamente el área donde ambas formas de máscara se superponen.</div>
+        </div>
+
+        <div class="composite-card" onclick="selectComposite('exclude')">
+          <div class="composite-title">exclude</div>
+          <div class="composite-desc">Conserva todo excepto el área común donde las dos formas se intersectan (XOR).</div>
+        </div>
+      </div>
+
+      <!-- Live Composite Demo -->
+      <div class="demo-card" style="margin-top: 2rem; width: 100%;">
+        <h4 class="demo-card-title">Playground Live de <code>mask-composite</code></h4>
+        <p class="demo-card-subtitle">Capa 1: Rectángulo degradado | Capa 2: Círculo central recortado</p>
+        <div class="mask-preview-box checkerboard-bg" style="height: 260px;">
+          <div class="masked-target" id="composite-target" style="background: linear-gradient(135deg, #10b981, #06b6d4, #8b5cf6);">
+            <span>COMPOSITE DEMO</span>
+          </div>
+        </div>
+
+        <div class="code-block" style="width: 100%;">
+          <span class="comment">/* Código CSS generado */</span><br>
+          <span class="prop">mask-image</span>: <span class="val">linear-gradient(to right, black, black), radial-gradient(circle at center, black 40%, transparent 40%)</span>;<br>
+          <span class="prop">mask-composite</span>: <span class="val" id="code-composite-val" style="font-weight: 700; color: var(--accent-pink);">add</span>;
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: ANIMATION WITH @PROPERTY -->
+    <section id="sec-property" class="section-block">
+      <div class="section-header">
+        <div class="icon-box amber">⚡</div>
+        <div>
+          <h2 class="section-title">3. Animaciones Fluidas de Máscaras usando <code>@property</code></h2>
+          <p class="section-subtitle">Transformación suave de geometrías sin saltos bruscos (06:35 - 07:46 del video)</p>
+        </div>
+      </div>
+
+      <p>
+        Un problema común al intentar animar máscaras es que cambiar propiedades como <code>mask-composite</code> directamente <strong>no funciona</strong>: son palabras clave (keywords) y los motores de renderizado no pueden calcular pasos intermedios. El resultado sería un salto brusco e instantáneo.
+      </p>
+
+      <div class="callout warning">
+        <div class="callout-title">💡 La Solución del Video: Registrar Variables Numéricas con @property</div>
+        Al utilizar la regla <code>@property</code> en CSS, puedes registrar una Custom Property indicando su tipo (por ejemplo <code>syntax: '&lt;percentage&gt;'</code> o <code>'&lt;length&gt;'</code>). Esto le enseña al navegador que dicha variable es numérica, permitiendo aplicar <code>transition</code> o <code>animation</code> con interpolación suave a 60fps.
+      </div>
+
+      <div class="code-block">
+        <span class="comment">/* 1. Registrar la variable personalizada como valor animable */</span><br>
+        <span class="keyword">@property</span> <span class="prop">--mask-radius</span> {<br>
+        &nbsp;&nbsp;<span class="prop">syntax</span>: <span class="val">'&lt;percentage&gt;'</span>;<br>
+        &nbsp;&nbsp;<span class="prop">inherits</span>: <span class="val">false</span>;<br>
+        &nbsp;&nbsp;<span class="prop">initial-value</span>: <span class="val">20%</span>;<br>
+        }<br><br>
+        <span class="comment">/* 2. Animar la variable registrada en el elemento */</span><br>
+        <span class="prop">.box</span> {<br>
+        &nbsp;&nbsp;<span class="prop">--mask-radius</span>: <span class="val">20%</span>;<br>
+        &nbsp;&nbsp;<span class="prop">mask-image</span>: <span class="val">radial-gradient(circle, black var(--mask-radius), transparent 0)</span>;<br>
+        &nbsp;&nbsp;<span class="prop">transition</span>: <span class="val">--mask-radius 0.8s ease</span>;<br>
+        }<br>
+        <span class="prop">.box:hover</span> {<br>
+        &nbsp;&nbsp;<span class="prop">--mask-radius</span>: <span class="val">75%</span>;<br>
+        }
+      </div>
+
+      <!-- Live @property animation demo -->
+      <h3 style="color: #fff; margin-top: 2rem; font-size: 1.2rem;">✨ Demostración Interactiva en Vivo</h3>
+      <p style="font-size: 0.95rem;">
+        Haz clic en el botón para activar la transición animada de la máscara utilizando <code>@property</code>. Observa la fluidez con la que se expande el radio y la posición X del recorte radial:
+      </p>
+
+      <div style="margin-top: 1.5rem; text-align: center;">
+        <button class="btn-action" onclick="toggleMaskAnimation()">
+          <span>▶</span> <span id="anim-btn-text">Expandir Máscara (@property)</span>
+        </button>
+      </div>
+
+      <div class="mask-preview-box checkerboard-bg" style="margin-top: 1.5rem; height: 250px;">
+        <div class="animated-property-box" id="animated-box">
+          <span>FLUID MASK ANIMATION</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: BROWSER COMPATIBILITY & WEBKIT TRAP -->
+    <section id="sec-compat" class="section-block">
+      <div class="section-header">
+        <div class="icon-box emerald">⚠️</div>
+        <div>
+          <h2 class="section-title">4. Compatibilidad con Navegadores y la "Trampa" de <code>-webkit-</code></h2>
+          <p class="section-subtitle">Evita fallos en motores antiguos usando la sintaxis Porter-Duff correcta (08:45 - 09:47 del video)</p>
+        </div>
+      </div>
+
+      <p>
+        Al buscar compatibilidad con navegadores antiguos (o versiones anteriores de Safari/WebKit), existe una <strong>trampa crítica (08:45)</strong>:
+      </p>
+
+      <div class="callout warning">
+        <div class="callout-title">🚨 ¡No basta con añadir el prefijo -webkit-!</div>
+        Si escribes <code>-webkit-mask-composite: subtract;</code>, <strong>EL NAVEGADOR ANTIGUO LO IGNORARÁ COMPLETAMENTE</strong>. Los motores WebKit antiguos no utilizaban palabras clave como <code>subtract</code> o <code>exclude</code>, sino la nomenclatura de operaciones de composición Porter-Duff (como <code>source-out</code> o <code>xor</code>).
+      </div>
+
+      <h3 style="color: #fff; margin-top: 1.5rem; font-size: 1.15rem;">Tabla de Equivalencias (Moderna vs Sintaxis Antigua WebKit)</h3>
+
+      <table class="compat-table">
+        <thead>
+          <tr>
+            <th>Operación Booleana</th>
+            <th>Sintaxis Moderna Estándar (<code>mask-composite</code>)</th>
+            <th>Sintaxis Antigua WebKit (<code>-webkit-mask-composite</code>)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Unión (Combinar)</td>
+            <td><code>add</code></td>
+            <td><code>source-over</code></td>
+          </tr>
+          <tr>
+            <td>Restado (Cortador)</td>
+            <td><code>subtract</code></td>
+            <td><code>source-out</code></td>
+          </tr>
+          <tr>
+            <td>Intersección</td>
+            <td><code>intersect</code></td>
+            <td><code>source-in</code></td>
+          </tr>
+          <tr>
+            <td>Exclusión (XOR)</td>
+            <td><code>exclude</code></td>
+            <td><code>xor</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Recommended Code Snippet Strategy -->
+      <h3 style="color: #fff; margin-top: 2rem; font-size: 1.15rem;">Estrategia de Respaldo Recomendada (Fallback Pattern)</h3>
+      <p style="font-size: 0.95rem;">
+        La recomendación del video (09:47) es incluir <strong>ambas declaraciones en la hoja de estilos en el orden correcto</strong>. Los navegadores antiguos procesarán la línea prefijada con el término antiguo y descartarán la moderna; mientras que los navegadores modernos utilizarán la sintaxis estándar:
+      </p>
+
+      <div class="code-block">
+        <span class="prop">.elemento-con-mascara</span> {<br>
+        &nbsp;&nbsp;<span class="comment">/* 1. Declaración para navegadores WebKit antiguos (Safari &lt; 15.4, etc.) */</span><br>
+        &nbsp;&nbsp;<span class="prop">-webkit-mask-composite</span>: <span class="val" style="color: var(--accent-amber);">source-out</span>;<br><br>
+        &nbsp;&nbsp;<span class="comment">/* 2. Declaración moderna estándar para todos los navegadores actuales */</span><br>
+        &nbsp;&nbsp;<span class="prop">mask-composite</span>: <span class="val" style="color: var(--accent-emerald);">subtract</span>;<br>
+        }
+      </div>
+    </section>
+
+    <!-- SECTION 5: KEY QUESTIONS & ANSWERS -->
+    <section id="sec-questions" class="section-block">
+      <div class="section-header">
+        <div class="icon-box pink">💡</div>
+        <div>
+          <h2 class="section-title">5. Respuestas a Preguntas Frecuentes</h2>
+          <p class="section-subtitle">Preguntas esenciales para dominar el enmascaramiento moderno en CSS</p>
+        </div>
+      </div>
+
+      <div class="qa-grid">
+        <!-- Q1 -->
+        <div class="qa-card">
+          <h3 class="qa-question">
+            <span>❓</span> ¿Por qué no usar imágenes SVG para formas?
+          </h3>
+          <p>
+            Aunque los SVG son excelentes para vectores complejos, utilizarlos como imágenes de máscara externas plantea varios problemas frente a degradados y formas CSS puras:
+          </p>
+          <ul style="margin-left: 1.5rem; color: #d1d5db;">
+            <li><strong>Peticiones HTTP innecesarias:</strong> Las imágenes o SVGs externos requieren solicitudes de red adicionales, aumentando el tiempo de carga.</li>
+            <li><strong>No son dinámicos/animables directamente:</strong> Un SVG externo no se puede animar fácilmente con variables CSS (como <code>--x</code> o <code>--radius</code>) o transiciones nativas del navegador.</li>
+            <li><strong>Mayor tamaño de archivo:</strong> Un degradado o forma en CSS ocupa apenas unos pocos bytes en el archivo CSS sin necesidad de descargar activos gráficos.</li>
+            <li><strong>Adaptación Responsive Inmediata:</strong> Las formas CSS como <code>radial-gradient()</code> o <code>conic-gradient()</code> se recalculan instantáneamente en función del tamaño del contenedor (porcentajes o unidades <code>cqw</code>/<code>vw</code>).</li>
+          </ul>
+        </div>
+
+        <!-- Q2 -->
+        <div class="qa-card">
+          <h3 class="qa-question">
+            <span>❓</span> ¿Qué mide la transparencia en las máscaras?
+          </h3>
+          <p>
+            En las máscaras CSS, la transparencia mide el <strong>nivel de opacidad (valor Alfa)</strong> de cada píxel de la máscara, mapeándolo directamente a la visibilidad del elemento recortado:
+          </p>
+          <div class="code-block">
+            Píxel Máscara: rgba(R, G, B, <strong>0.0</strong>) ➔ Elemento: <strong>0% Visible (Totalmente Oculto)</strong><br>
+            Píxel Máscara: rgba(R, G, B, <strong>0.5</strong>) ➔ Elemento: <strong>50% Visible (Semitransparente)</strong><br>
+            Píxel Máscara: rgba(R, G, B, <strong>1.0</strong>) ➔ Elemento: <strong>100% Visible (Totalmente Opaco)</strong>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="qa-card">
+          <h3 class="qa-question">
+            <span>❓</span> ¿Cómo evitar huecos/líneas fantasma en los bordes (Aliasing Gaps)?
+          </h3>
+          <p>
+            Cuando defines recortes duros en degradados CSS (por ejemplo, <code>red 50%, transparent 50%</code>), los renderizadores de pantalla intentan suavizar el subpíxel exactamente en el 50%, creando a menudo una molesta línea dentada o hueco transparente no deseado.
+          </p>
+
+          <div class="edge-comparison">
+            <div class="edge-box">
+              <span style="color: var(--accent-pink); font-weight: 700;">❌ Corte Duro (Línea dentada / Aliasing)</span>
+              <div class="edge-preview checkerboard-bg" style="display: flex; align-items: center; justify-content: center;">
+                <div style="width: 100%; height: 100%; background: var(--accent-cyan); -webkit-mask: linear-gradient(135deg, black 50%, transparent 50%); mask: linear-gradient(135deg, black 50%, transparent 50%);"></div>
+              </div>
+              <div class="code-block" style="font-size: 0.8rem; text-align: left;">
+                linear-gradient(135deg, black 50%, transparent 50%)
+              </div>
+            </div>
+
+            <div class="edge-box">
+              <span style="color: var(--accent-emerald); font-weight: 700;">✓ Solución: Suavizado de 0.5px</span>
+              <div class="edge-preview checkerboard-bg" style="display: flex; align-items: center; justify-content: center;">
+                <div style="width: 100%; height: 100%; background: var(--accent-cyan); -webkit-mask: linear-gradient(135deg, black 50%, transparent calc(50% + 0.5px)); mask: linear-gradient(135deg, black 50%, transparent calc(50% + 0.5px));"></div>
+              </div>
+              <div class="code-block" style="font-size: 0.8rem; text-align: left;">
+                linear-gradient(135deg, black 50%, transparent <strong style="color: var(--accent-emerald);">calc(50% + 0.5px)</strong>)
+              </div>
+            </div>
+          </div>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+            💡 <strong>Tip Pro:</strong> Agregar una diferencia de <code>0.5px</code> o <code>1px</code> entre la zona opaca y la transparente fuerza al motor del navegador a aplicar anti-aliasing suave en el borde.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      Guía de Aprendizaje CSS Masking Moderno &bull; Incluye Canal Alfa, @property y Compatibilidad WebKit
+    </footer>
+  </div>
+
+  <script>
+    // Colors configuration for Alpha channel demo
+    const colorOptions = [
+      { name: 'Rojo', hex: '#ef4444', css: 'rgb(239, 68, 68)' },
+      { name: 'Verde', hex: '#10b981', css: 'rgb(16, 185, 129)' },
+      { name: 'Azul', hex: '#3b82f6', css: 'rgb(59, 130, 246)' },
+      { name: 'Negro', hex: '#000000', css: 'rgb(0, 0, 0)' },
+      { name: 'Blanco', hex: '#ffffff', css: 'rgb(255, 255, 255)' },
+      { name: 'Amarillo', hex: '#f59e0b', css: 'rgb(245, 158, 11)' }
+    ];
+
+    let state = {
+      currentColor: colorOptions[0],
+      maskMode: 'alpha',
+      compositeMode: 'add',
+      animationExpanded: false
+    };
+
+    // DOM Elements
+    const pickerGroup = document.getElementById('color-picker-group');
+    const target1 = document.getElementById('masked-target-1');
+    const target2 = document.getElementById('masked-target-2');
+    const card1Title = document.getElementById('card1-title');
+    const card1Sub = document.getElementById('card1-sub');
+    const card1Code = document.getElementById('card1-code');
+    const alphaConclusion = document.getElementById('alpha-conclusion');
+    const compositeTarget = document.getElementById('composite-target');
+    const codeCompositeVal = document.getElementById('code-composite-val');
+    const animatedBox = document.getElementById('animated-box');
+    const animBtnText = document.getElementById('anim-btn-text');
+
+    // Initialize Color Picker Buttons
+    function initColorPicker() {
+      colorOptions.forEach((col, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `color-btn ${idx === 0 ? 'selected' : ''}`;
+        btn.style.backgroundColor = col.hex;
+        btn.title = col.name;
+        btn.setAttribute('aria-label', `Color ${col.name}`);
+        btn.onclick = () => selectColor(col, btn);
+        pickerGroup.appendChild(btn);
+      });
+      updateAlphaDemos();
+    }
+
+    function selectColor(col, btnElement) {
+      document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+      btnElement.classList.add('selected');
+      state.currentColor = col;
+      updateAlphaDemos();
+    }
+
+    function setMaskMode(mode) {
+      state.maskMode = mode;
+      document.getElementById('btn-mode-alpha').classList.toggle('active', mode === 'alpha');
+      document.getElementById('btn-mode-lum').classList.toggle('active', mode === 'luminance');
+      updateAlphaDemos();
+    }
+
+    function updateAlphaDemos() {
+      const col = state.currentColor;
+      const mode = state.maskMode;
+
+      // Card 1 Mask Style
+      const gradColor = `linear-gradient(to right, ${col.css}, transparent)`;
+      const gradWhite = `linear-gradient(to right, rgb(255, 255, 255), transparent)`;
+
+      card1Title.textContent = `Máscara: Color ${col.name}`;
+      card1Sub.textContent = `Degradado: ${col.name} sólido → Transparente`;
+      card1Code.textContent = `linear-gradient(to right, ${col.name.toLowerCase()}, transparent)`;
+
+      // Apply CSS masks with vendor prefixes for cross-browser support
+      applyMask(target1, gradColor, mode);
+      applyMask(target2, gradWhite, mode);
+
+      if (mode === 'alpha') {
+        alphaConclusion.innerHTML = `En modo <code>mask-mode: alpha</code>, usar el color <strong>${col.name}</strong> produce exactamente el mismo recorte visual que usar <strong>Blanco</strong>. El color RGB es ignorado por completo.`;
+      } else {
+        alphaConclusion.innerHTML = `En modo <code>mask-mode: luminance</code> (Photoshop/SVG), el color <strong>${col.name}</strong> altera el resultado según su brillo. ¡Por eso existe el mito de que el blanco muestra y el negro oculta!`;
+      }
+    }
+
+    function applyMask(element, maskImageVal, modeVal) {
+      element.style.webkitMaskImage = maskImageVal;
+      element.style.maskImage = maskImageVal;
+      
+      element.style.webkitMaskMode = modeVal;
+      element.style.maskMode = modeVal;
+    }
+
+    // Composite Mode Selection
+    function selectComposite(comp) {
+      state.compositeMode = comp;
+      
+      // Update UI selection
+      const cards = document.querySelectorAll('.composite-card');
+      cards.forEach(c => {
+        const isMatch = c.querySelector('.composite-title').textContent.startsWith(comp);
+        c.classList.toggle('active', isMatch);
+      });
+
+      codeCompositeVal.textContent = comp;
+
+      // Update Composite Target Mask
+      const mask1 = 'linear-gradient(to right, black, black)';
+      const mask2 = 'radial-gradient(circle at center, black 45%, transparent 45%)';
+      const fullMaskImage = `${mask1}, ${mask2}`;
+
+      compositeTarget.style.webkitMaskImage = fullMaskImage;
+      compositeTarget.style.maskImage = fullMaskImage;
+
+      // Standard and prefixed mask-composite
+      compositeTarget.style.webkitMaskComposite = getWebkitComposite(comp);
+      compositeTarget.style.maskComposite = comp;
+    }
+
+    function getWebkitComposite(comp) {
+      switch(comp) {
+        case 'add': return 'source-over';
+        case 'subtract': return 'source-out';
+        case 'intersect': return 'source-in';
+        case 'exclude': return 'xor';
+        default: return 'source-over';
+      }
+    }
+
+    // Toggle @property animation
+    function toggleMaskAnimation() {
+      state.animationExpanded = !state.animationExpanded;
+      animatedBox.classList.toggle('expanded', state.animationExpanded);
+      animBtnText.textContent = state.animationExpanded 
+        ? 'Contraer Máscara (@property)' 
+        : 'Expandir Máscara (@property)';
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Initial setup
+    document.addEventListener('DOMContentLoaded', () => {
+      initColorPicker();
+      selectComposite('add');
+    });
+  </script>
+</body>
+</html>

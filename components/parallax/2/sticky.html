@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Efecto Unmasking Real al hacer Scroll (Sticky Overlapping)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;900&family=Fira+Code:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* REGLA CLAVE: Sin overflow: hidden en body/html para que el scroll sticky funcione */
+    html, body {
+      background-color: #030712;
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Indicador fijo en pantalla para comprobar la sección activa al scrollear */
+    .scroll-hud {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #38bdf8;
+      z-index: 9999;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* --------------------------------------------------------------------------
+       SECCIONES STICKY SOLAPADAS (UNMASKING PURA EN CSS)
+       Cada sección se fija a top: 0 y tiene z-index creciente + fondo opaco.
+       -------------------------------------------------------------------------- */
+    .unmask-section {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      /* Sombra en el borde superior para marcar la separación cuando la capa sube */
+      box-shadow: 0 -25px 50px rgba(0, 0, 0, 0.7);
+    }
+
+    /* SECCIÓN 1: HERO (Base en la parte inferior de la pila) */
+    #sec1 {
+      z-index: 1;
+      background: linear-gradient(135deg, #0f172a, #1e1b4b);
+    }
+
+    /* SECCIÓN 2: INNOVACIÓN (Z-index 2: Sale por encima de la 1 al scrollear) */
+    #sec2 {
+      z-index: 2;
+      background: linear-gradient(135deg, #042f2e, #0f766e);
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* SECCIÓN 3: SERVICIOS (Z-index 3: Sale por encima de la 2 al scrollear) */
+    #sec3 {
+      z-index: 3;
+      background: linear-gradient(135deg, #31103f, #701a75);
+      border-top: 2px solid #f472b6;
+    }
+
+    /* SECCIÓN 4: PORTAFOLIO (Z-index 4: Sale por encima de la 3 al scrollear) */
+    #sec4 {
+      z-index: 4;
+      background: linear-gradient(135deg, #451a03, #9a3412);
+      border-top: 2px solid #fbbf24;
+    }
+
+    /* SECCIÓN 5: FOOTER (Z-index 5: Sale por encima de la 4 al scrollear) */
+    #sec5 {
+      z-index: 5;
+      background: linear-gradient(135deg, #064e3b, #022c22);
+      border-top: 2px solid #34d399;
+    }
+
+    /* ESTILOS DE TEXTO */
+    .num-tag {
+      font-size: 5rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      opacity: 0.3;
+    }
+
+    h1, h2 {
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 900;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      max-width: 600px;
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
+    }
+
+    .scroll-hint {
+      margin-top: 2.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Indicador en pantalla para ver en qué sección estás al scrollear -->
+  <div class="scroll-hud">
+    Scroll Down ↓ | Sección activa: <span id="hud-text" style="color: #4ade80; font-weight: bold;">1 / 5</span>
+  </div>
+
+  <!-- SECCIÓN 1: HERO -->
+  <section class="unmask-section" id="sec1">
+    <div class="num-tag">01</div>
+    <h1>Sección 1: Hero Principal</h1>
+    <p>Haz scroll hacia abajo. La <strong>Sección 2</strong> subirá desde el fondo de la pantalla y tapará a esta sección como una cortina.</p>
+    <div class="scroll-hint">↓ Haz Scroll para ver la Sección 2 subir por encima</div>
+  </section>
+
+  <!-- SECCIÓN 2: INNOVACIÓN -->
+  <section class="unmask-section" id="sec2">
+    <div class="num-tag">02</div>
+    <h1>Sección 2: Sale por encima de la 1</h1>
+    <p>¡Aquí está la Sección 2! Ha subido sobre la Sección 1. Continúa haciendo scroll para que la <strong>Sección 3</strong> suba sobre esta.</p>
+    <div class="scroll-hint">↓ Continúa haciendo Scroll</div>
+  </section>
+
+  <!-- SECCIÓN 3: SERVICIOS -->
+  <section class="unmask-section" id="sec3">
+    <div class="num-tag">03</div>
+    <h1>Sección 3: Sale por encima de la 2</h1>
+    <p>Esta es la Sección 3. Al tener un <code style="color: #f472b6;">z-index: 3</code> superior, tapa totalmente la Sección 2. Sigue scrolleando.</p>
+    <div class="scroll-hint">↓ Continúa haciendo Scroll</div>
+  </section>
+
+  <!-- SECCIÓN 4: PORTAFOLIO -->
+  <section class="unmask-section" id="sec4">
+    <div class="num-tag">04</div>
+    <h1>Sección 4: Sale por encima de la 3</h1>
+    <p>Sección 4 con <code style="color: #fbbf24;">z-index: 4</code>. Un último scroll revelará la quinta sección (Footer).</p>
+    <div class="scroll-hint">↓ Haz Scroll hasta el Footer</div>
+  </section>
+
+  <!-- SECCIÓN 5: FOOTER -->
+  <section class="unmask-section" id="sec5">
+    <div class="num-tag">05</div>
+    <h1>Sección 5: Footer Final</h1>
+    <p>¡El Footer ha cubierto la Sección 4 finalizando el efecto de unmasking!</p>
+    <a href="#sec1" style="margin-top: 1.5rem; color: #34d399; font-weight: bold; text-decoration: underline;">
+      ↑ Volver arriba para repetir el efecto
+    </a>
+  </section>
+
+  <script>
+    // Actualiza el HUD indicador al hacer scroll
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY;
+      const vh = window.innerHeight;
+      const currentSec = Math.min(5, Math.floor(scrollPos / (vh * 0.8)) + 1);
+      document.getElementById('hud-text').textContent = `${currentSec} / 5`;
+    });
+  </script>
+</body>
+</html>

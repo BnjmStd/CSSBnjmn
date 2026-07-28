@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViewTransitions — Shared Image Transitions</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+
+    <nav>
+        <span class="nav-logo">ViewTransitions</span>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="docs.html">Docs</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <span class="nav-tag">CSS API</span>
+    </nav>
+
+    <main class="page-main">
+
+        <!-- Hero — the image is the same one from the card -->
+        <div class="article-hero">
+            <img class="hero-image" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80"
+                alt="CSS Animations" />
+            <div class="article-hero-overlay">
+                <div class="article-hero-text">
+                    <span class="badge">Deep Dive · 8 min read</span>
+                    <h1>Shared Image Transitions<br>Across Pages</h1>
+                    <p class="meta">by Fabian Müller &mdash; June 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-content">
+
+            <p>The most visually striking feature of CSS View Transitions is the ability to share an element across two
+                separate HTML pages and have the browser automatically animate between its old position and size to its
+                new one. No JavaScript. No canvas tricks. Just CSS.</p>
+
+            <h2>How It Works</h2>
+            <p>You assign the same <code style="color:var(--accent)">view-transition-name</code> to the card image and
+                the article hero image. Since both pages use the same shared CSS file, this is trivial — one CSS rule
+                covers both elements.</p>
+
+            <div class="code-block" style="margin: 1.5rem 0">
+                <span class="code-comment">/* Both pages use this same CSS */</span><br>
+                <span class="code-selector">.card-image,
+                    .hero-image</span> {<br>
+                &nbsp;&nbsp;<span class="code-prop">view-transition-name</span>: <span
+                    class="code-value">article-image</span>;<br>
+                }
+            </div>
+
+            <p>When the user navigates from the blog listing to the article, the browser takes a snapshot of the card
+                image's position and size. On the new page, it finds the element with the same transition name and
+                animates from the old snapshot to the new one.</p>
+
+            <h2>Important Constraints</h2>
+            <p>A <code style="color:var(--accent)">view-transition-name</code> must be <strong>unique</strong> on any
+                given page. If you have a grid of 12 blog cards, each card image needs its own distinct name — typically
+                set via inline style or a JavaScript data attribute. This demo works because there is only one card with
+                the transition set up.</p>
+
+            <h2>Wrapping in prefers-reduced-motion</h2>
+            <p>Always wrap your entire view transition block in a <code
+                    style="color:var(--accent)">@media (prefers-reduced-motion: no-preference)</code> query. This
+                ensures users who have opted out of animations on their OS get a plain, instant navigation instead.</p>
+
+            <div class="code-block" style="margin: 1.5rem 0">
+                <span class="code-keyword">@media</span> (prefers-reduced-motion: no-preference) {<br>
+                &nbsp;&nbsp;<span class="code-keyword">@view-transition</span> {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-prop">navigation</span>: <span
+                    class="code-value">auto</span>;<br>
+                &nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;<span class="code-comment">/* All your keyframes and pseudo-elements go here */</span><br>
+                }
+            </div>
+
+            <p>View Transitions are a progressive enhancement — in browsers that don't support them (Firefox as of
+                mid-2026), navigation just works normally. No broken experience.</p>
+
+            <div style="margin-top:2.5rem; display:flex; gap:1rem;">
+                <a href="blog.html" class="btn btn-ghost">← Back to Blog</a>
+                <a href="docs.html" class="btn btn-primary">Read the Docs</a>
+            </div>
+
+        </div>
+
+        <footer>
+            Built with pure CSS &mdash; <span>@view-transition</span> &mdash; No frameworks harmed
+        </footer>
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #070810;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            font-family: 'Fira Code', monospace;
+            padding: 2rem;
+            /* overflow: hidden; */
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 500px 350px at 30% 50%,
+                    rgba(239, 68, 68, 0.07),
+                    transparent),
+                radial-gradient(ellipse 400px 300px at 72% 50%,
+                    rgba(139, 92, 246, 0.07),
+                    transparent);
+            pointer-events: none;
+        }
+
+        .label {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .demos {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .demo-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .blob-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* ── DEMO 1: Orbital — circle path ── */
+        .orbit-stage {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            /* shows the circular nature */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orbit-center {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            display: grid;
+            place-items: center;
+            font-size: 1rem;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+        }
+
+        /* The orbiting element */
+        .orbiter {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.7);
+
+            offset-path: circle(80px at center);
+            offset-distance: 0%;
+            animation: orbit 4s linear infinite;
+        }
+
+        .orbiter2 {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ec4899, #f59e0b);
+            box-shadow: 0 0 8px rgba(236, 72, 153, 0.7);
+
+            offset-path: circle(80px at center);
+            offset-distance: 0%;
+            animation: orbit 4s linear infinite reverse;
+            animation-delay: -2s;
+            /* start halfway through the orbit */
+        }
+
+        @keyframes orbit {
+            to {
+                offset-distance: 100%;
+            }
+        }
+
+        /* ── DEMO 2: Wave path ── */
+        .wave-stage {
+            width: 260px;
+            height: 120px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Visible path hint */
+        .wave-path-hint {
+            position: absolute;
+            inset: 0;
+        }
+
+        .wave-path-hint svg {
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+        }
+
+        .wd1 {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+            animation: wavemove 3s ease-in-out infinite;
+        }
+
+        .wd2 {
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            box-shadow: 0 0 8px rgba(139, 92, 246, 0.8);
+            animation-delay: -1s;
+            width: 12px;
+            height: 12px;
+            margin-left: -6px;
+            margin-top: -6px;
+            animation: wavemove 3s ease-in-out infinite;
+            animation-delay: -1s;
+        }
+
+        .wave-dot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+
+            offset-path: path('M 0,60 C 40,10 80,110 130,60 C 180,10 220,110 260,60');
+            offset-distance: 0%;
+        }
+
+        @keyframes wavemove {
+            to {
+                offset-distance: 100%;
+            }
+        }
+
+        /* ── DEMO 3: Polygon path — arrow follows corners ── */
+        .poly-stage {
+            width: 180px;
+            height: 180px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .poly-hint {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .poly-hint svg {
+            opacity: 0.12;
+        }
+
+        .arrow-dot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: grid;
+            place-items: center;
+            /* arrow rotates to follow path direction */
+
+            offset-path: polygon(90px 30px, 150px 140px, 30px 140px);
+            offset-distance: 0%;
+            offset-rotate: auto;
+            animation: polytravel 5s linear infinite;
+        }
+
+        @keyframes polytravel {
+            to {
+                offset-distance: -100%;
+            }
+        }
+
+        .channel-tag {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.15em;
+        }
+    </style>
+</head>
+
+<body>
+    <p class="label">CSS Magic · offset-path + offset-distance</p>
+
+    <div class="demos">
+
+        <div class="demo-col">
+            <span class="blob-label">circle() path</span>
+            <div class="orbit-stage">
+                <div class="orbit-center">☀</div>
+                <div class="orbiter"></div>
+                <div class="orbiter2"></div>
+            </div>
+            <span class="blob-label">orbital motion</span>
+        </div>
+
+        <div class="demo-col">
+            <span class="blob-label">path() — SVG curve</span>
+            <div class="wave-stage">
+                <div class="wave-path-hint">
+                    <svg viewBox="0 0 260 120" fill="none">
+                        <path d="M 0,60 C 40,10 80,110 130,60 C 180,10 220,110 260,60" stroke="white" stroke-width="1.5"
+                            stroke-dasharray="4 3" />
+                    </svg>
+                </div>
+                <div class="wave-dot wd1"></div>
+                <div class="wave-dot wd2"></div>
+            </div>
+            <span class="blob-label">wave motion</span>
+        </div>
+
+        <div class="demo-col">
+            <span class="blob-label">polygon() + offset-rotate: auto</span>
+            <div class="poly-stage">
+                <div class="poly-hint">
+                    <svg width="160" height="160" viewBox="0 0 180 180" fill="none">
+                        <polygon points="90,30 150,140 30,140" stroke="white" stroke-width="1.5"
+                            stroke-dasharray="4 3" />
+                    </svg>
+                </div>
+                <div class="arrow-dot">🚗</div>
+            </div>
+            <span class="blob-label">auto-rotation on path</span>
+        </div>
+
+    </div>
+
+
+    <p class="channel-tag">@Barmajli · CSS Magic Series</p>
+</body>
+
+</html>

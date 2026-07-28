@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViewTransitions — Docs</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+
+    <nav>
+        <span class="nav-logo">ViewTransitions</span>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="docs.html" class="active">Docs</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <span class="nav-tag">CSS API</span>
+    </nav>
+
+    <main class="page-main">
+        <section class="section">
+            <div style="display:grid; grid-template-columns: 220px 1fr; gap: 3rem; align-items:start;">
+
+                <!-- Sidebar TOC -->
+                <aside style="position:sticky; top:calc(var(--nav-h) + 2rem);">
+                </aside>
+
+                <!-- Main docs prose -->
+                <div class="prose">
+                    <p class="hero-eyebrow"
+                        style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.75rem; font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent);">
+                        <span style="width:30px;height:1px;background:var(--accent);opacity:0.5"></span>Reference
+                    </p>
+                    <h1
+                        style="font-family:'Bebas Neue',sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing:0.04em; margin-bottom:1rem;">
+                        Documentation</h1>
+                    <p style="color:var(--text-muted); line-height:1.7; margin-bottom:2rem;">Everything you need to
+                        implement smooth cross-document view transitions in your multi-page website.</p>
+
+                    <h2 id="setup">1 · Setup</h2>
+                    <p>Add the following to your shared CSS file. Both pages involved in a transition must include the
+                        same CSS:</p>
+                    <div class="code-block" style="margin: 1rem 0 1.5rem">
+                        <span class="code-keyword">@view-transition</span> {<br>
+                        &nbsp;&nbsp;<span class="code-prop">navigation</span>: <span class="code-value">auto</span>;<br>
+                        }
+                    </div>
+                    <p>This alone gives you a default crossfade between every page on the same origin. The transition
+                        only works within the same domain — cross-origin navigations are intentionally excluded for
+                        security.</p>
+
+                    <h2 id="pseudo">2 · Pseudo-elements</h2>
+                    <p>Three pseudo-elements let you control the animation:</p>
+                    <ul>
+                        <li><code style="color:var(--accent);">::view-transition-group(name)</code> — wrapper for both
+                            old and new snapshots. Set duration and easing here.</li>
+                        <li><code style="color:var(--accent);">::view-transition-old(name)</code> — the snapshot of the
+                            leaving page or element.</li>
+                        <li><code style="color:var(--accent);">::view-transition-new(name)</code> — the snapshot of the
+                            entering page or element.</li>
+                    </ul>
+
+                    <h2 id="named">3 · Named Groups</h2>
+                    <p>Use <code style="color:var(--accent)">root</code> to animate the whole page, or define a custom
+                        name to isolate a section. For example, to keep the nav bar fixed and only slide the main
+                        content:</p>
+                    <div class="code-block" style="margin: 1rem 0 1.5rem">
+                        <span class="code-selector">main</span> {<br>
+                        &nbsp;&nbsp;<span class="code-prop">view-transition-name</span>: <span
+                            class="code-value">page-content</span>;<br>
+                        }<br><br>
+                        <span class="code-selector">::view-transition-old(page-content)</span> {<br>
+                        &nbsp;&nbsp;<span class="code-prop">animation-name</span>: <span
+                            class="code-value">slide-out</span>;<br>
+                        }<br>
+                        <span class="code-selector">::view-transition-new(page-content)</span> {<br>
+                        &nbsp;&nbsp;<span class="code-prop">animation-name</span>: <span
+                            class="code-value">slide-in</span>;<br>
+                        }
+                    </div>
+
+                    <h2 id="shared">4 · Shared Elements</h2>
+                    <p>Assign the same <code style="color:var(--accent)">view-transition-name</code> to an element on
+                        both the old and the new page. The browser captures both states and interpolates position, size,
+                        and other properties automatically.</p>
+                    <p><strong>Rule:</strong> a name must be unique per page at the moment of transition. With multiple
+                        cards, set the name dynamically via inline style or JavaScript.</p>
+
+                    <h2 id="a11y">5 · Accessibility</h2>
+                    <p>Always wrap your transitions in a reduced-motion media query:</p>
+                    <div class="code-block" style="margin: 1rem 0 1.5rem">
+                        <span class="code-keyword">@media</span> (prefers-reduced-motion: no-preference) {<br>
+                        &nbsp;&nbsp;<span class="code-comment">/* All view transition CSS here */</span><br>
+                        }
+                    </div>
+
+                    <h2 id="support">6 · Browser Support</h2>
+                    <ul>
+                        <li>✅ Chrome 126+</li>
+                        <li>✅ Edge 126+</li>
+                        <li>✅ Safari 18+</li>
+                        <li>❌ Firefox (not yet supported)</li>
+                    </ul>
+                    <p style="margin-top:1rem">Treat this as a progressive enhancement. Unsupported browsers navigate
+                        normally.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            Built with pure CSS &mdash; <span>@view-transition</span> &mdash; No frameworks harmed
+        </footer>
+    </main>
+
+</body>
+
+</html>

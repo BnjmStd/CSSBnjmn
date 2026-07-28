@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS @function — El futuro de la lógica en CSS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════════
+       TOKENS & RESET
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:        #0a0c10;
+      --paper:      #f4f0e8;
+      --paper2:     #ece8de;
+      --card:       #ffffff;
+      --border:     rgba(10,12,16,.1);
+      --border2:    rgba(10,12,16,.18);
+
+      --css:        #2b5be0;
+      --css-light:  rgba(43,91,224,.08);
+      --css-mid:    rgba(43,91,224,.18);
+      --amber:      #c97a0a;
+      --amber-light:rgba(201,122,10,.08);
+      --rose:       #c0245a;
+      --rose-light: rgba(192,36,90,.08);
+      --sage:       #226b4f;
+      --sage-light: rgba(34,107,79,.08);
+
+      --mono: 'DM Mono', monospace;
+      --serif: 'Fraunces', serif;
+
+      --r-sm: 6px;
+      --r-md: 12px;
+      --r-lg: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Texture grain overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: .7;
+    }
+
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      padding: 80px 48px 64px;
+      max-width: 860px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--css);
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px; height: 2px;
+      background: var(--css);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -.03em;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+    .hero h1 .at {
+      color: var(--css);
+      font-style: normal;
+    }
+
+    .hero-sub {
+      font-family: var(--mono);
+      font-size: .82rem;
+      color: rgba(10,12,16,.5);
+      line-height: 1.8;
+      max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    .hero-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .hero-nav a {
+      font-family: var(--mono);
+      font-size: .7rem;
+      padding: 8px 18px;
+      border: 1.5px solid var(--border2);
+      border-radius: 100px;
+      color: rgba(10,12,16,.6);
+      text-decoration: none;
+      transition: all .18s;
+      background: var(--card);
+    }
+    .hero-nav a:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* ══════════════════════════════════════════
+       DIVIDER
+    ══════════════════════════════════════════ */
+    .rule {
+      border: none;
+      border-top: 1.5px solid var(--border);
+      margin: 0;
+    }
+
+    /* ══════════════════════════════════════════
+       LAYOUT
+    ══════════════════════════════════════════ */
+    .wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 48px 120px;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 600px) {
+      .hero, .wrapper { padding-left: 20px; padding-right: 20px; }
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION HEADER
+    ══════════════════════════════════════════ */
+    .section-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 24px;
+      align-items: start;
+      padding: 56px 0 32px;
+    }
+    .section-num {
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: rgba(10,12,16,.3);
+      padding-top: 6px;
+      letter-spacing: .06em;
+    }
+    .section-meta {}
+    .section-tag {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 900;
+      letter-spacing: -.025em;
+      line-height: 1.05;
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+    .section-desc {
+      font-family: var(--mono);
+      font-size: .76rem;
+      color: rgba(10,12,16,.55);
+      line-height: 1.8;
+      max-width: 540px;
+    }
+
+    /* ══════════════════════════════════════════
+       CARD
+    ══════════════════════════════════════════ */
+    .card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    @media (max-width: 640px) { .card-row { grid-template-columns: 1fr; } }
+
+    .card-pane {
+      padding: 28px;
+    }
+    .card-pane + .card-pane {
+      border-left: 1.5px solid var(--border);
+    }
+    @media (max-width: 640px) {
+      .card-pane + .card-pane { border-left: none; border-top: 1.5px solid var(--border); }
+    }
+
+    .pane-label {
+      font-family: var(--mono);
+      font-size: .62rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(10,12,16,.35);
+      margin-bottom: 14px;
+    }
+
+    /* ══════════════════════════════════════════
+       CODE BLOCK
+    ══════════════════════════════════════════ */
+    .code {
+      background: var(--ink);
+      border-radius: var(--r-md);
+      padding: 20px 22px;
+      font-family: var(--mono);
+      font-size: .72rem;
+      line-height: 1.9;
+      overflow-x: auto;
+      color: #c8cedd;
+      position: relative;
+    }
+    .code-label {
+      position: absolute;
+      top: 10px; right: 14px;
+      font-size: .58rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(200,206,221,.25);
+    }
+    .c-at     { color: #7bc8f6; }
+    .c-fn     { color: #fbbf24; }
+    .c-prop   { color: #86efac; }
+    .c-val    { color: #f9a8d4; }
+    .c-cmt    { color: rgba(200,206,221,.35); font-style: italic; }
+    .c-kw     { color: #c084fc; }
+    .c-str    { color: #a5f3fc; }
+    .c-num    { color: #fb923c; }
+    .c-dim    { color: #f97316; }
+
+    /* ══════════════════════════════════════════
+       DEMO PREVIEWS
+    ══════════════════════════════════════════ */
+    /* — Spacing tokens — */
+    .space-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .space-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: background .15s;
+    }
+    .space-row:hover { background: var(--css-light); }
+    .space-row.active { background: var(--css-light); }
+    .space-label {
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: var(--css);
+      width: 48px;
+      flex-shrink: 0;
+    }
+    .space-bar-track {
+      flex: 1;
+      height: 10px;
+      background: var(--paper2);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .space-bar {
+      height: 100%;
+      background: var(--css);
+      border-radius: 100px;
+      transition: width .35s cubic-bezier(.4,0,.2,1);
+    }
+    .space-val {
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: rgba(10,12,16,.4);
+      width: 40px;
+      text-align: right;
+    }
+
+    /* — Typography demo — */
+    .type-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .type-toggle {
+      display: flex;
+      background: var(--paper2);
+      border-radius: 100px;
+      padding: 3px;
+      width: fit-content;
+    }
+    .type-toggle button {
+      font-family: var(--mono);
+      font-size: .65rem;
+      padding: 6px 16px;
+      border: none;
+      border-radius: 100px;
+      background: transparent;
+      color: rgba(10,12,16,.5);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .type-toggle button.on {
+      background: var(--card);
+      color: var(--ink);
+      box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    }
+    .type-preview {
+      padding: 20px;
+      background: var(--paper2);
+      border-radius: var(--r-md);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all .3s;
+    }
+    .type-preview .t-h1 { font-weight: 900; font-style: italic; transition: font-size .4s; }
+    .type-preview .t-h2 { font-weight: 700; transition: font-size .4s; }
+    .type-preview .t-body {
+      font-family: var(--mono);
+      color: rgba(10,12,16,.55);
+      transition: font-size .4s;
+      font-size: .72rem;
+      line-height: 1.6;
+    }
+    .type-indicator {
+      font-family: var(--mono);
+      font-size: .62rem;
+      padding: 4px 12px;
+      border-radius: 100px;
+      width: fit-content;
+    }
+    .type-indicator.fluid { background: var(--sage-light); color: var(--sage); }
+    .type-indicator.fixed { background: var(--amber-light); color: var(--amber); }
+
+    /* — Grid / Media query demo — */
+    .mq-demo { display: flex; flex-direction: column; gap: 12px; }
+    .mq-slider-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .mq-slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: rgba(10,12,16,.45);
+    }
+    .mq-slider {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 4px;
+      background: var(--paper2);
+      border-radius: 100px;
+      outline: none;
+      cursor: pointer;
+    }
+    .mq-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--css);
+      cursor: pointer;
+      border: 3px solid white;
+      box-shadow: 0 1px 6px rgba(43,91,224,.4);
+    }
+    .mq-grid-preview {
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      background: var(--paper2);
+    }
+    .mq-grid-inner {
+      display: grid;
+      gap: 6px;
+      padding: 10px;
+      transition: all .3s cubic-bezier(.4,0,.2,1);
+    }
+    .mq-cell {
+      background: var(--css);
+      opacity: .75;
+      border-radius: 4px;
+      height: 28px;
+      transition: all .3s;
+    }
+    .mq-tag {
+      font-family: var(--mono);
+      font-size: .62rem;
+      padding: 3px 10px;
+      border-radius: 4px;
+      width: fit-content;
+      margin-top: 2px;
+    }
+    .mq-tag.sm  { background: var(--rose-light); color: var(--rose); }
+    .mq-tag.md  { background: var(--amber-light); color: var(--amber); }
+    .mq-tag.lg  { background: var(--sage-light); color: var(--sage); }
+    .mq-fn-display {
+      background: var(--ink);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: #c8cedd;
+      transition: all .2s;
+    }
+
+    /* ══════════════════════════════════════════
+       CALLOUT
+    ══════════════════════════════════════════ */
+    .callout {
+      border-left: 3px solid;
+      padding: 16px 20px;
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      font-family: var(--mono);
+      font-size: .75rem;
+      line-height: 1.7;
+      margin-top: 16px;
+    }
+    .callout-css { border-color: var(--css); background: var(--css-light); color: rgba(10,12,16,.7); }
+    .callout-amber { border-color: var(--amber); background: var(--amber-light); color: rgba(10,12,16,.7); }
+    .callout-sage { border-color: var(--sage); background: var(--sage-light); color: rgba(10,12,16,.7); }
+    .callout-rose { border-color: var(--rose); background: var(--rose-light); color: rgba(10,12,16,.7); }
+    .callout strong { color: var(--ink); }
+
+    /* ══════════════════════════════════════════
+       COMPARISON TABLE
+    ══════════════════════════════════════════ */
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--mono);
+      font-size: .72rem;
+    }
+    .compare th {
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1.5px solid var(--border);
+      color: rgba(10,12,16,.45);
+      font-weight: 400;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      font-size: .62rem;
+    }
+    .compare td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    .compare tr:last-child td { border-bottom: none; }
+    .compare .feature { color: rgba(10,12,16,.5); }
+    .compare .old { color: var(--rose); }
+    .compare .new { color: var(--sage); }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    footer {
+      border-top: 1.5px solid var(--border);
+      padding: 36px 48px;
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: rgba(10,12,16,.35);
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      position: relative; z-index: 1;
+    }
+    footer span { color: var(--css); }
+
+    /* ══════════════════════════════════════════
+       STAGGER ANIMATION
+    ══════════════════════════════════════════ */
+    .card {
+      animation: rise .4s ease both;
+    }
+    .card:nth-child(1) { animation-delay: .05s; }
+    .card:nth-child(2) { animation-delay: .1s; }
+    .card:nth-child(3) { animation-delay: .15s; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════
+       INLINE CODE CHIP
+    ══════════════════════════════════════════ */
+    code {
+      font-family: var(--mono);
+      font-size: .82em;
+      background: rgba(43,91,224,.08);
+      color: var(--css);
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid rgba(43,91,224,.15);
+    }
+
+    /* ══════════════════════════════════════════
+       SUPPORT BADGE
+    ══════════════════════════════════════════ */
+    .support-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .support-badge {
+      font-family: var(--mono);
+      font-size: .62rem;
+      padding: 4px 12px;
+      border-radius: 100px;
+      border: 1.5px solid;
+    }
+    .badge-experimental { border-color: var(--amber); color: var(--amber); background: var(--amber-light); }
+    .badge-chrome { border-color: rgba(10,12,16,.2); color: rgba(10,12,16,.5); background: transparent; }
+    .badge-future { border-color: var(--css); color: var(--css); background: var(--css-light); }
+
+    /* ══════════════════════════════════════════
+       SCROLLBAR
+    ══════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     HERO
+═══════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-eyebrow">CSS Houdini & Beyond</div>
+  <h1><span class="at">@</span>function<br>en CSS</h1>
+  <p class="hero-sub">
+    Una nueva regla at-rule que trae lógica real a las hojas de estilo.
+    Argumentos, condicionales, media queries — todo dentro del CSS.
+  </p>
+  <div class="support-row">
+    <span class="support-badge badge-experimental">⚗ Experimental</span>
+    <span class="support-badge badge-chrome">Chrome Canary</span>
+    <span class="support-badge badge-future">Futuro del CSS</span>
+  </div>
+  <nav class="hero-nav">
+    <a href="#basics">01 · Conceptos básicos</a>
+    <a href="#advanced">02 · Args opcionales</a>
+    <a href="#mq">03 · Media Queries</a>
+  </nav>
+</section>
+
+<hr class="rule" />
+
+<main class="wrapper">
+
+  <!-- ═══════════════════════════════════
+       01 — CONCEPTOS BÁSICOS
+  ═══════════════════════════════════ -->
+  <div class="section-header" id="basics">
+    <div class="section-num">01</div>
+    <div class="section-meta">
+      <div class="section-tag" style="color:var(--css)">Conceptos básicos · 0:58 → 2:30</div>
+      <div class="section-title">Tokens de espaciado<br>con lógica condicional</div>
+      <p class="section-desc">
+        <code>@function</code> funciona como una custom property pero acepta argumentos.
+        Usás <code>if()</code> para ramificar valores — como un switch de design tokens.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-row">
+      <div class="card-pane">
+        <div class="pane-label">Definición en CSS</div>
+        <div class="code">
+<span class="code-label">future CSS</span><span class="c-at">@function</span> <span class="c-fn">space</span>(<span class="c-prop">--size</span>) {
+  <span class="c-prop">result</span>: <span class="c-kw">if</span>(
+    <span class="c-prop">style</span>(<span class="c-prop">--size</span>: xs): <span class="c-num">4px</span>;
+    <span class="c-prop">style</span>(<span class="c-prop">--size</span>: sm): <span class="c-num">8px</span>;
+    <span class="c-prop">style</span>(<span class="c-prop">--size</span>: md): <span class="c-num">16px</span>;
+    <span class="c-prop">style</span>(<span class="c-prop">--size</span>: lg): <span class="c-num">32px</span>;
+    <span class="c-prop">style</span>(<span class="c-prop">--size</span>: xl): <span class="c-num">64px</span>;
+    <span class="c-cmt">else</span>: <span class="c-num">16px</span>
+  );
+}
+
+<span class="c-cmt">/* Uso en cualquier propiedad */</span>
+.<span class="c-fn">card</span> {
+  <span class="c-prop">padding</span>: <span class="c-fn">space</span>(md);
+  <span class="c-prop">gap</span>:     <span class="c-fn">space</span>(sm);
+  <span class="c-prop">margin</span>:  <span class="c-fn">space</span>(lg);
+}
+        </div>
+      </div>
+      <div class="card-pane">
+        <div class="pane-label">Demo interactivo — seleccioná un token</div>
+        <div class="space-demo" id="space-demo">
+          <div class="space-row active" data-size="xs" onclick="selectSpace('xs')">
+            <span class="space-label">space(xs)</span>
+            <div class="space-bar-track"><div class="space-bar" style="width:8%"></div></div>
+            <span class="space-val">4px</span>
+          </div>
+          <div class="space-row" data-size="sm" onclick="selectSpace('sm')">
+            <span class="space-label">space(sm)</span>
+            <div class="space-bar-track"><div class="space-bar" style="width:15%"></div></div>
+            <span class="space-val">8px</span>
+          </div>
+          <div class="space-row" data-size="md" onclick="selectSpace('md')">
+            <span class="space-label">space(md)</span>
+            <div class="space-bar-track"><div class="space-bar" style="width:30%"></div></div>
+            <span class="space-val">16px</span>
+          </div>
+          <div class="space-row" data-size="lg" onclick="selectSpace('lg')">
+            <span class="space-label">space(lg)</span>
+            <div class="space-bar-track"><div class="space-bar" style="width:60%"></div></div>
+            <span class="space-val">32px</span>
+          </div>
+          <div class="space-row" data-size="xl" onclick="selectSpace('xl')">
+            <span class="space-label">space(xl)</span>
+            <div class="space-bar-track"><div class="space-bar" style="width:100%"></div></div>
+            <span class="space-val">64px</span>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <div class="pane-label">Previsualización del padding</div>
+          <div id="space-preview" style="
+            background: var(--css-light);
+            border: 1.5px dashed rgba(43,91,224,.3);
+            border-radius: var(--r-md);
+            padding: 16px;
+            transition: padding .35s cubic-bezier(.4,0,.2,1);
+            display: flex; align-items: center; justify-content: center;
+          ">
+            <div style="
+              background: var(--css);
+              opacity: .8;
+              border-radius: 6px;
+              height: 36px;
+              width: 100%;
+            "></div>
+          </div>
+          <div id="space-code-display" style="font-family:var(--mono);font-size:.68rem;color:rgba(10,12,16,.45);margin-top:8px;">
+            padding: <span style="color:var(--css)">space(xs)</span> → 4px
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 0 28px 24px;">
+      <div class="callout callout-css">
+        <strong>¿Por qué es mejor que una variable CSS?</strong><br>
+        Con <code>--spacing-md: 16px</code> tenés que recordar el nombre exacto de cada token.
+        Con <code>space(md)</code>, el IDE autocompleta, el código es auto-descriptivo y la función
+        centraliza toda la lógica de espaciado en un solo lugar.
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparación -->
+  <div class="card">
+    <div class="card-pane" style="padding-bottom: 0;">
+      <div class="pane-label">CSS Custom Property vs @function</div>
+    </div>
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Característica</th>
+          <th>Custom Property</th>
+          <th>@function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="feature">Argumentos dinámicos</td>
+          <td class="old">✗  No</td>
+          <td class="new">✓  Sí</td>
+        </tr>
+        <tr>
+          <td class="feature">Lógica condicional</td>
+          <td class="old">✗  No</td>
+          <td class="new">✓  if() nativo</td>
+        </tr>
+        <tr>
+          <td class="feature">Valores por defecto</td>
+          <td class="old">Parcial (var(--x, fallback))</td>
+          <td class="new">✓  Declarativos</td>
+        </tr>
+        <tr>
+          <td class="feature">Media queries internas</td>
+          <td class="old">✗  No</td>
+          <td class="new">✓  if media()</td>
+        </tr>
+        <tr>
+          <td class="feature">Soporte actual</td>
+          <td class="old">Todos los navegadores</td>
+          <td class="new">Chrome Canary (flag)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       02 — ARGUMENTOS OPCIONALES
+  ═══════════════════════════════════ -->
+  <hr class="rule" />
+
+  <div class="section-header" id="advanced">
+    <div class="section-num">02</div>
+    <div class="section-meta">
+      <div class="section-tag" style="color:var(--amber)">Args opcionales · 2:30 → 5:25</div>
+      <div class="section-title">Tipografía fluida<br>vs. fija con un parámetro</div>
+      <p class="section-desc">
+        Los argumentos opcionales tienen un valor por defecto.
+        Al agregar <code>fluid</code> como segundo parámetro, la función
+        retorna <code>clamp()</code> en vez de un valor estático.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-row">
+      <div class="card-pane">
+        <div class="pane-label">Función con argumentos opcionales</div>
+        <div class="code">
+<span class="code-label">future CSS</span><span class="c-at">@function</span> <span class="c-fn">font-size</span>(
+  <span class="c-prop">--step</span>,
+  <span class="c-prop">--fluid</span>: <span class="c-val">false</span>
+) {
+  <span class="c-prop">result</span>: <span class="c-kw">if</span>(
+    <span class="c-prop">style</span>(<span class="c-prop">--fluid</span>: <span class="c-val">true</span>):
+      <span class="c-kw">if</span>(
+        <span class="c-prop">style</span>(<span class="c-prop">--step</span>: h1):
+          <span class="c-fn">clamp</span>(<span class="c-num">2rem</span>, 5vw, <span class="c-num">5rem</span>);
+        <span class="c-prop">style</span>(<span class="c-prop">--step</span>: h2):
+          <span class="c-fn">clamp</span>(<span class="c-num">1.4rem</span>, 3vw, <span class="c-num">2.4rem</span>);
+        <span class="c-cmt">else</span>: <span class="c-fn">clamp</span>(<span class="c-num">1rem</span>, 2vw, <span class="c-num">1.2rem</span>)
+      );
+    <span class="c-cmt">else</span>: <span class="c-kw">if</span>(
+      <span class="c-prop">style</span>(<span class="c-prop">--step</span>: h1): <span class="c-num">4rem</span>;
+      <span class="c-prop">style</span>(<span class="c-prop">--step</span>: h2): <span class="c-num">2rem</span>;
+      <span class="c-cmt">else</span>: <span class="c-num">1rem</span>
+    )
+  );
+}
+
+<span class="c-cmt">/* Sin fluid → valores fijos */</span>
+<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(h1);
+
+<span class="c-cmt">/* Con fluid → clamp() automático */</span>
+<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(h1, fluid);
+        </div>
+      </div>
+      <div class="card-pane">
+        <div class="pane-label">Demo — alterná el modo</div>
+        <div class="type-demo">
+          <div class="type-toggle" id="type-toggle">
+            <button class="on" onclick="setTypeMode('fixed')">font-size(h1)</button>
+            <button onclick="setTypeMode('fluid')">font-size(h1, fluid)</button>
+          </div>
+          <div id="type-indicator" class="type-indicator fixed">modo: fijo — valor estático</div>
+          <div class="type-preview" id="type-preview">
+            <div class="t-h1" id="tp-h1">Título principal</div>
+            <div class="t-h2" id="tp-h2">Subtítulo de sección</div>
+            <div class="t-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Un párrafo de cuerpo de texto normal.</div>
+          </div>
+          <div class="code" style="font-size:.66rem;padding:14px 16px;">
+            <span id="type-code-output">
+<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(h1); <span class="c-cmt">→ 4rem</span>
+<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(h2); <span class="c-cmt">→ 2rem</span>
+<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(body); <span class="c-cmt">→ 1rem</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="callout callout-amber" style="margin-top:14px;">
+          <strong>Mejora de DX:</strong> el parámetro <code>fluid</code> es un flag semántico.
+          No necesitás copiar el <code>clamp()</code> en cada componente — la función sabe qué hacer.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       03 — MEDIA QUERIES
+  ═══════════════════════════════════ -->
+  <hr class="rule" />
+
+  <div class="section-header" id="mq">
+    <div class="section-num">03</div>
+    <div class="section-meta">
+      <div class="section-tag" style="color:var(--rose)">Media Queries · 5:25 → 9:32</div>
+      <div class="section-title">Funciones que<br>cambian con el viewport</div>
+      <p class="section-desc">
+        La parte más innovadora: podés meter <code>if media()</code> dentro de una función.
+        Una sola llamada como <code>cols(auto)</code> puede devolver 1, 2, o 4 columnas
+        dependiendo del ancho de pantalla.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-row">
+      <div class="card-pane">
+        <div class="pane-label">Función con media queries internas</div>
+        <div class="code">
+<span class="code-label">future CSS</span><span class="c-at">@function</span> <span class="c-fn">cols</span>(<span class="c-prop">--layout</span>) {
+  <span class="c-prop">result</span>: <span class="c-kw">if</span>(
+    <span class="c-prop">style</span>(<span class="c-prop">--layout</span>: auto):
+      <span class="c-kw">if</span>(
+        <span class="c-kw">media</span>(width &gt;= <span class="c-num">1024px</span>): <span class="c-num">4</span>;
+        <span class="c-kw">media</span>(width &gt;= <span class="c-num">640px</span>):  <span class="c-num">2</span>;
+        <span class="c-cmt">else</span>: <span class="c-num">1</span>
+      );
+    <span class="c-prop">style</span>(<span class="c-prop">--layout</span>: sm): <span class="c-num">1</span>;
+    <span class="c-prop">style</span>(<span class="c-prop">--layout</span>: lg): <span class="c-num">4</span>;
+    <span class="c-cmt">else</span>: <span class="c-num">2</span>
+  );
+}
+
+<span class="c-cmt">/* El grid se adapta solo */</span>
+.<span class="c-fn">grid</span> {
+  <span class="c-prop">grid-template-columns</span>:
+    <span class="c-fn">repeat</span>(<span class="c-fn">cols</span>(auto), <span class="c-num">1fr</span>);
+}
+
+<span class="c-cmt">/* O forzás el layout */</span>
+.<span class="c-fn">grid</span> {
+  <span class="c-prop">grid-template-columns</span>:
+    <span class="c-fn">repeat</span>(<span class="c-fn">cols</span>(lg), <span class="c-num">1fr</span>);
+}
+        </div>
+      </div>
+      <div class="card-pane">
+        <div class="pane-label">Simulá el ancho del viewport</div>
+        <div class="mq-demo">
+          <div class="mq-slider-wrap">
+            <div class="mq-slider-label">
+              <span>320px</span>
+              <span id="mq-width-val" style="color:var(--css)">760px</span>
+              <span>1200px</span>
+            </div>
+            <input type="range" class="mq-slider" id="mq-slider"
+              min="320" max="1200" value="760"
+              oninput="updateMQ(this.value)" />
+            <div class="mq-slider-label">
+              <span>mobile</span>
+              <span>tablet</span>
+              <span>desktop</span>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <span style="font-family:var(--mono);font-size:.65rem;color:rgba(10,12,16,.45)">función activa:</span>
+            <span id="mq-fn-label" class="mq-fn-display">cols(auto) → 2 columnas</span>
+            <span id="mq-tag-label" class="mq-tag md">tablet</span>
+          </div>
+
+          <div>
+            <div class="pane-label">grid-template-columns: repeat(<span id="mq-cols-num" style="color:var(--css)">2</span>, 1fr)</div>
+            <div class="mq-grid-preview">
+              <div class="mq-grid-inner" id="mq-grid" style="grid-template-columns:repeat(2, 1fr)">
+                <div class="mq-cell"></div>
+                <div class="mq-cell"></div>
+                <div class="mq-cell"></div>
+                <div class="mq-cell" style="opacity:.4"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+            <button onclick="forceLayout('sm')" style="font-family:var(--mono);font-size:.65rem;padding:6px 14px;border:1.5px solid var(--rose);border-radius:100px;background:var(--rose-light);color:var(--rose);cursor:pointer;">cols(sm) — 1 col</button>
+            <button onclick="forceLayout('auto')" style="font-family:var(--mono);font-size:.65rem;padding:6px 14px;border:1.5px solid var(--css);border-radius:100px;background:var(--css-light);color:var(--css);cursor:pointer;">cols(auto) — responsive</button>
+            <button onclick="forceLayout('lg')" style="font-family:var(--mono);font-size:.65rem;padding:6px 14px;border:1.5px solid var(--sage);border-radius:100px;background:var(--sage-light);color:var(--sage);cursor:pointer;">cols(lg) — 4 col</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 0 28px 24px;">
+      <div class="callout callout-rose">
+        <strong>¿Reemplaza las media queries tradicionales?</strong><br>
+        Kevin Powell lo compara con la llegada de las <em>arrow functions</em> en JS:
+        al principio parece menos legible, pero una vez que el ecosistema se adapta,
+        se vuelve la forma natural de pensar. No reemplaza — agrega <strong>modularidad</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       REFLEXIÓN FINAL
+  ═══════════════════════════════════ -->
+  <hr class="rule" style="margin-top:16px;" />
+
+  <div class="section-header">
+    <div class="section-num">→</div>
+    <div class="section-meta">
+      <div class="section-title" style="font-size:1.8rem;">En resumen</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-pane">
+      <div class="pane-label">Lo que cambia con @function</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px;">
+        <div class="callout callout-sage" style="margin:0">
+          <strong>Lo nuevo que habilita:</strong><br>
+          Tokens con lógica • Tipografía fluida declarativa • Grids que responden al viewport desde la función • Funciones como abstracciones reutilizables de CSS
+        </div>
+        <div class="callout callout-amber" style="margin:0">
+          <strong>Lo que permanece igual:</strong><br>
+          Custom properties siguen siendo válidas • Media queries tradicionales siguen funcionando • No hay breaking changes — es una adición, no un reemplazo
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>@function</span> — CSS Houdini · Basado en Kevin Powell
+  <span style="color:rgba(10,12,16,.35)">Estado: propuesta activa · Chrome Canary flag</span>
+</footer>
+
+<!-- ═══════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════ -->
+<script>
+/* ══════════════════════════════
+   01 — Space tokens
+══════════════════════════════ */
+const spaceMap = {
+  xs: { px: 4,  pct: 8 },
+  sm: { px: 8,  pct: 15 },
+  md: { px: 16, pct: 30 },
+  lg: { px: 32, pct: 60 },
+  xl: { px: 64, pct: 100 },
+};
+
+function selectSpace(size) {
+  document.querySelectorAll('#space-demo .space-row').forEach(r => r.classList.remove('active'));
+  document.querySelector(`[data-size="${size}"]`).classList.add('active');
+
+  const { px, pct } = spaceMap[size];
+  document.getElementById('space-preview').style.padding = px + 'px';
+  document.getElementById('space-code-display').innerHTML =
+    `padding: <span style="color:var(--css)">space(${size})</span> → ${px}px`;
+}
+
+/* ══════════════════════════════
+   02 — Typography fluid/fixed
+══════════════════════════════ */
+let typeMode = 'fixed';
+
+function setTypeMode(mode) {
+  typeMode = mode;
+  const toggle = document.getElementById('type-toggle');
+  toggle.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+  toggle.querySelectorAll('button')[mode === 'fixed' ? 0 : 1].classList.add('on');
+
+  const ind = document.getElementById('type-indicator');
+  const h1  = document.getElementById('tp-h1');
+  const h2  = document.getElementById('tp-h2');
+  const out = document.getElementById('type-code-output');
+
+  if (mode === 'fluid') {
+    ind.className = 'type-indicator fluid';
+    ind.textContent = 'modo: fluido — clamp() automático';
+    h1.style.fontSize = 'clamp(2rem, 5vw, 5rem)';
+    h2.style.fontSize = 'clamp(1.4rem, 3vw, 2.4rem)';
+    out.innerHTML = `<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(h1, <span class="c-str">fluid</span>); <span class="c-cmt">→ clamp(2rem, 5vw, 5rem)</span>\n<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(h2, <span class="c-str">fluid</span>); <span class="c-cmt">→ clamp(1.4rem, 3vw, 2.4rem)</span>\n<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(body, <span class="c-str">fluid</span>); <span class="c-cmt">→ clamp(1rem, 2vw, 1.2rem)</span>`;
+  } else {
+    ind.className = 'type-indicator fixed';
+    ind.textContent = 'modo: fijo — valor estático';
+    h1.style.fontSize = '2.2rem';
+    h2.style.fontSize = '1.4rem';
+    out.innerHTML = `<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(h1); <span class="c-cmt">→ 4rem</span>\n<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(h2); <span class="c-cmt">→ 2rem</span>\n<span class="c-prop">font-size</span>: <span class="c-fn">font-size</span>(body); <span class="c-cmt">→ 1rem</span>`;
+  }
+}
+
+/* ══════════════════════════════
+   03 — Media Query grid sim
+══════════════════════════════ */
+let mqLayout = 'auto';
+
+function getCols(width, layout) {
+  if (layout === 'sm') return 1;
+  if (layout === 'lg') return 4;
+  // auto
+  if (width >= 1024) return 4;
+  if (width >= 640)  return 2;
+  return 1;
+}
+
+function updateMQ(width) {
+  width = parseInt(width);
+  document.getElementById('mq-width-val').textContent = width + 'px';
+  applyGrid(width);
+}
+
+function forceLayout(layout) {
+  mqLayout = layout;
+  const w = parseInt(document.getElementById('mq-slider').value);
+  applyGrid(w);
+}
+
+function applyGrid(width) {
+  const cols = getCols(width, mqLayout);
+  const grid = document.getElementById('mq-grid');
+  grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+  // rebuild cells
+  grid.innerHTML = '';
+  const total = Math.max(cols * 2, 4);
+  for (let i = 0; i < total; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'mq-cell';
+    if (i >= cols * 1.5) cell.style.opacity = '.25';
+    grid.appendChild(cell);
+  }
+
+  document.getElementById('mq-cols-num').textContent = cols;
+
+  const tag = document.getElementById('mq-tag-label');
+  const fn  = document.getElementById('mq-fn-label');
+
+  let tagClass, tagText, fnText;
+  if (mqLayout !== 'auto') {
+    tagClass = mqLayout === 'sm' ? 'sm' : 'lg';
+    tagText  = `forzado: ${mqLayout}`;
+    fnText   = `cols(${mqLayout}) → ${cols} columna${cols > 1 ? 's' : ''}`;
+  } else if (width >= 1024) {
+    tagClass = 'lg'; tagText = 'desktop';
+    fnText = `cols(auto) @ ${width}px → 4 columnas`;
+  } else if (width >= 640) {
+    tagClass = 'md'; tagText = 'tablet';
+    fnText = `cols(auto) @ ${width}px → 2 columnas`;
+  } else {
+    tagClass = 'sm'; tagText = 'mobile';
+    fnText = `cols(auto) @ ${width}px → 1 columna`;
+  }
+
+  tag.className = `mq-tag ${tagClass}`;
+  tag.textContent = tagText;
+  fn.textContent = fnText;
+}
+
+// init
+applyGrid(760);
+</script>
+</body>
+</html>

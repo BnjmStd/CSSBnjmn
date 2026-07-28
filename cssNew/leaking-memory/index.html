@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Listeners & Memory — 6 Patrones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & TOKENS ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07080d;
+      --surface:   #0e1019;
+      --card:      #13161f;
+      --border:    rgba(255,255,255,.07);
+      --border2:   rgba(255,255,255,.14);
+
+      --red:    #ff3a3a;
+      --orange: #ff7a3a;
+      --yellow: #ffd23f;
+      --green:  #3affa0;
+      --cyan:   #3ae3ff;
+      --blue:   #3a7aff;
+      --purple: #a03aff;
+
+      --text:     #e8eaf2;
+      --muted:    #6b718f;
+      --mono:     'Space Mono', monospace;
+      --sans:     'Syne', sans-serif;
+
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID NOISE BG ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg,   transparent, transparent 39px, rgba(255,255,255,.018) 40px),
+        repeating-linear-gradient(90deg,  transparent, transparent 39px, rgba(255,255,255,.018) 40px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding: 100px 40px 80px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(255,58,58,.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,58,58,.1);
+      border: 1px solid rgba(255,58,58,.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: var(--red);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero-badge span { animation: blink 1.4s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -.03em;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--red), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      max-width: 540px;
+      margin: 0 auto 48px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      font-family: var(--mono);
+    }
+
+    /* ── NAV PILLS ── */
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 80px;
+    }
+    .nav-pill {
+      font-family: var(--mono);
+      font-size: .72rem;
+      padding: 8px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--border2);
+      background: var(--card);
+      color: var(--muted);
+      text-decoration: none;
+      transition: all .2s;
+      cursor: pointer;
+    }
+    .nav-pill:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
+
+    /* ── LAYOUT ── */
+    .sections { max-width: 900px; margin: 0 auto; padding: 0 24px 120px; position: relative; z-index: 1; }
+
+    /* ── SECTION CARD ── */
+    .pattern-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      margin-bottom: 48px;
+      overflow: hidden;
+      transition: border-color .3s;
+    }
+    .pattern-card:hover { border-color: var(--border2); }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 32px 36px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-num {
+      font-family: var(--mono);
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1;
+      opacity: .15;
+      flex-shrink: 0;
+    }
+    .card-meta { flex: 1; }
+    .card-tag {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 10px;
+    }
+    .card-desc {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .card-body { padding: 28px 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 640px) { .card-body { grid-template-columns: 1fr; } }
+
+    /* ── CODE BLOCK ── */
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px;
+      font-family: var(--mono);
+      font-size: .72rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      position: relative;
+    }
+    .code-block .kw  { color: var(--purple); }
+    .code-block .fn  { color: var(--cyan); }
+    .code-block .str { color: var(--green); }
+    .code-block .cmt { color: var(--muted); }
+    .code-block .num { color: var(--orange); }
+    .code-block .prop{ color: var(--yellow); }
+    .code-block .bad { color: var(--red); text-decoration: line-through; opacity: .6; }
+    .code-block .good{ color: var(--green); }
+
+    /* ── DEMO PANEL ── */
+    .demo-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 160px;
+    }
+    .demo-label {
+      font-family: var(--mono);
+      font-size: .65rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--r-sm);
+      border: none;
+      font-family: var(--mono);
+      font-size: .75rem;
+      cursor: pointer;
+      transition: all .15s;
+      font-weight: 700;
+    }
+    .btn:active { transform: scale(.96); }
+    .btn-red    { background: rgba(255,58,58,.15);  color: var(--red);    border: 1px solid rgba(255,58,58,.3); }
+    .btn-green  { background: rgba(58,255,160,.12); color: var(--green);  border: 1px solid rgba(58,255,160,.3); }
+    .btn-cyan   { background: rgba(58,227,255,.12); color: var(--cyan);   border: 1px solid rgba(58,227,255,.3); }
+    .btn-orange { background: rgba(255,122,58,.12); color: var(--orange); border: 1px solid rgba(255,122,58,.3); }
+    .btn-yellow { background: rgba(255,210,63,.1);  color: var(--yellow); border: 1px solid rgba(255,210,63,.3); }
+    .btn-purple { background: rgba(160,58,255,.12); color: var(--purple); border: 1px solid rgba(160,58,255,.3); }
+    .btn-blue   { background: rgba(58,122,255,.12); color: var(--blue);   border: 1px solid rgba(58,122,255,.3); }
+    .btn:hover  { filter: brightness(1.2); }
+
+    /* ── LOG OUTPUT ── */
+    .log-output {
+      background: #070a0f;
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 12px 16px;
+      font-family: var(--mono);
+      font-size: .7rem;
+      min-height: 60px;
+      max-height: 120px;
+      overflow-y: auto;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .log-output .log-good  { color: var(--green); }
+    .log-output .log-warn  { color: var(--yellow); }
+    .log-output .log-bad   { color: var(--red); }
+    .log-output .log-info  { color: var(--cyan); }
+
+    /* ── METER ── */
+    .memory-meter {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .meter-track {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .meter-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: var(--red);
+      transition: width .4s cubic-bezier(.4,0,.2,1);
+    }
+    .meter-label {
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: var(--muted);
+      min-width: 48px;
+      text-align: right;
+    }
+
+    /* ── ACCENTS PER SECTION ── */
+    .p1 .card-num, .p1 .card-tag { color: var(--red); }
+    .p1 .card-header { border-bottom-color: rgba(255,58,58,.12); }
+    .p2 .card-num, .p2 .card-tag { color: var(--cyan); }
+    .p2 .card-header { border-bottom-color: rgba(58,227,255,.12); }
+    .p3 .card-num, .p3 .card-tag { color: var(--green); }
+    .p3 .card-header { border-bottom-color: rgba(58,255,160,.12); }
+    .p4 .card-num, .p4 .card-tag { color: var(--orange); }
+    .p4 .card-header { border-bottom-color: rgba(255,122,58,.12); }
+    .p5 .card-num, .p5 .card-tag { color: var(--purple); }
+    .p5 .card-header { border-bottom-color: rgba(160,58,255,.12); }
+    .p6 .card-num, .p6 .card-tag { color: var(--yellow); }
+    .p6 .card-header { border-bottom-color: rgba(255,210,63,.12); }
+
+    /* ── DELEGATION DEMO ── */
+    .delegate-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .delegate-list li {
+      padding: 8px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: .72rem;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .delegate-list li:hover { background: rgba(58,227,255,.08); border-color: rgba(58,227,255,.25); }
+    .delegate-list li.hit { background: rgba(58,227,255,.15); border-color: var(--cyan); }
+
+    /* ── SCROLL DEMO ── */
+    .scroll-box {
+      height: 80px;
+      overflow-y: scroll;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--muted) transparent;
+    }
+    .scroll-box p {
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: var(--muted);
+      line-height: 2;
+    }
+    .fps-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-family: var(--mono);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .fps-badge.slow { background: rgba(255,58,58,.15);  color: var(--red);   border: 1px solid rgba(255,58,58,.3); }
+    .fps-badge.fast { background: rgba(58,255,160,.12); color: var(--green); border: 1px solid rgba(58,255,160,.3); }
+
+    /* ── BUBBLE DEMO ── */
+    .bubble-outer {
+      border: 2px dashed rgba(160,58,255,.4);
+      border-radius: var(--r-md);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .15s;
+      position: relative;
+    }
+    .bubble-outer::before {
+      content: 'document';
+      position: absolute;
+      top: -10px; left: 12px;
+      font-family: var(--mono);
+      font-size: .6rem;
+      color: var(--purple);
+      background: var(--surface);
+      padding: 0 6px;
+    }
+    .bubble-outer:hover { background: rgba(160,58,255,.05); }
+    .bubble-inner {
+      border: 2px dashed rgba(58,122,255,.4);
+      border-radius: var(--r-sm);
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: background .15s;
+      position: relative;
+    }
+    .bubble-inner::before {
+      content: 'div';
+      position: absolute;
+      top: -10px; left: 12px;
+      font-family: var(--mono);
+      font-size: .6rem;
+      color: var(--blue);
+      background: var(--surface);
+      padding: 0 6px;
+    }
+    .bubble-inner:hover { background: rgba(58,122,255,.08); }
+    .bubble-btn {
+      background: rgba(255,210,63,.1);
+      border: 2px solid rgba(255,210,63,.4);
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--yellow);
+      cursor: pointer;
+      transition: background .15s;
+      position: relative;
+    }
+    .bubble-btn::before {
+      content: 'button';
+      position: absolute;
+      top: -10px; left: 12px;
+      font-family: var(--mono);
+      font-size: .6rem;
+      color: var(--yellow);
+      background: var(--surface);
+      padding: 0 6px;
+    }
+    .bubble-btn:hover { background: rgba(255,210,63,.15); }
+    .pulse-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid;
+      animation: ring .6s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes ring {
+      from { opacity: 1; transform: scale(0); }
+      to   { opacity: 0; transform: scale(2.5); }
+    }
+
+    /* ── AUDIT DEMO ── */
+    .snapshot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .snapshot-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: .7rem;
+    }
+    .snapshot-box .snap-title { color: var(--muted); margin-bottom: 6px; font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; }
+    .snapshot-box .snap-val { font-size: 1.3rem; font-weight: 700; }
+    .detached-count { color: var(--red); }
+    .detached-count.zero { color: var(--green); }
+
+    /* ── MEMORY LEAK VIS ── */
+    .leak-dots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      min-height: 40px;
+    }
+    .leak-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: dot-in .2s ease;
+    }
+    .leak-dot.clean { background: var(--green); }
+    @keyframes dot-in {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 48px 24px;
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+    /* ── STAGGER REVEAL ── */
+    .pattern-card {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: card-in .5s ease forwards;
+    }
+    .pattern-card:nth-child(1) { animation-delay: .05s; }
+    .pattern-card:nth-child(2) { animation-delay: .12s; }
+    .pattern-card:nth-child(3) { animation-delay: .19s; }
+    .pattern-card:nth-child(4) { animation-delay: .26s; }
+    .pattern-card:nth-child(5) { animation-delay: .33s; }
+    .pattern-card:nth-child(6) { animation-delay: .40s; }
+    @keyframes card-in {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── DETACHED FLOAT ─── */
+    .detached-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: .65rem;
+      background: rgba(255,58,58,.1);
+      border: 1px solid rgba(255,58,58,.25);
+      color: var(--red);
+      border-radius: 4px;
+      padding: 2px 8px;
+      margin: 2px;
+      animation: float-in .25s ease;
+    }
+    @keyframes float-in {
+      from { opacity: 0; transform: scale(.8) translateY(6px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* overflow fix on hero */
+    .hero { z-index: 1; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge"><span>●</span> memoria & performance</div>
+  <h1>Event Listeners<br>& <em>Memory Leaks</em></h1>
+  <p>6 patrones para dominar addEventListener, eliminar fugas de memoria y escribir código que el garbage collector ama.</p>
+  <nav class="nav-pills">
+    <a class="nav-pill" href="#p1">AbortController</a>
+    <a class="nav-pill" href="#p2">Delegación</a>
+    <a class="nav-pill" href="#p3">passive:true</a>
+    <a class="nav-pill" href="#p4">once:true</a>
+    <a class="nav-pill" href="#p5">Capture&nbsp;&amp;&nbsp;Bubble</a>
+    <a class="nav-pill" href="#p6">Auditoría</a>
+  </nav>
+</section>
+
+<!-- ════════════════════════════════════════════
+     SECTIONS
+════════════════════════════════════════════ -->
+<main class="sections">
+
+  <!-- ── PROBLEMA BASE ── -->
+  <div class="pattern-card" style="border-color:rgba(255,58,58,.2); margin-bottom:56px;">
+    <div class="card-header" style="border-bottom-color:rgba(255,58,58,.12);">
+      <div class="card-num" style="color:var(--red)">!</div>
+      <div class="card-meta">
+        <div class="card-tag" style="color:var(--red)">el problema</div>
+        <div class="card-title">Detached Listeners</div>
+        <p class="card-desc">Cuando eliminás un elemento del DOM pero su listener no se desvincula, la referencia permanece viva en memoria. El Garbage Collector no puede limpiarlo — y el consumo crece indefinidamente.</p>
+      </div>
+    </div>
+    <div class="card-body" style="grid-template-columns:1fr;">
+      <div class="demo-panel">
+        <div class="demo-label">Simulación de fuga</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-red" id="btn-add-leak" onclick="addLeakyElement()">+ Añadir elemento</button>
+          <button class="btn btn-green" id="btn-clean-leak" onclick="cleanElements()">🧹 Limpiar correctamente</button>
+          <button class="btn btn-orange" id="btn-reset-leak" onclick="resetLeak()">↺ Reset</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="demo-label" style="margin:0">Listeners en memoria:</span>
+          <div class="memory-meter" style="flex:1">
+            <div class="meter-track"><div class="meter-fill" id="leak-meter" style="width:0%"></div></div>
+            <span class="meter-label" id="leak-count">0</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;min-height:36px;" id="leak-dots"></div>
+        <div class="log-output" id="leak-log">// presioná "+ Añadir elemento" para simular la fuga...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 1. ABORTCONTROLLER ── -->
+  <div class="pattern-card p1" id="p1">
+    <div class="card-header">
+      <div class="card-num">01</div>
+      <div class="card-meta">
+        <div class="card-tag">AbortController</div>
+        <div class="card-title">Limpiar múltiples listeners de un golpe</div>
+        <p class="card-desc">Pasás una <code>signal</code> a cada <code>addEventListener</code>. Cuando llamás a <code>controller.abort()</code>, todos los listeners vinculados a esa señal se eliminan simultáneamente — sin necesidad de guardar referencias.</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-block">
+<span class="kw">const</span> controller = <span class="kw">new</span> <span class="fn">AbortController</span>();
+<span class="kw">const</span> { signal } = controller;
+
+btn.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, handler, { signal });
+input.<span class="fn">addEventListener</span>(<span class="str">'keydown'</span>, handler, { signal });
+window.<span class="fn">addEventListener</span>(<span class="str">'resize'</span>, handler, { signal });
+
+<span class="cmt">// Un solo llamado limpia TODOS</span>
+controller.<span class="fn">abort</span>();
+      </div>
+      <div class="demo-panel">
+        <div class="demo-label">Demo interactivo</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-red" id="ac-mount" onclick="acMount()">Montar componente</button>
+          <button class="btn btn-green" id="ac-abort" onclick="acAbort()" disabled>abort() → Desmontar</button>
+        </div>
+        <div id="ac-widget" style="display:none;padding:10px;background:var(--card);border:1px solid var(--border);border-radius:8px;">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+            <button class="btn btn-cyan" onclick="acClick()">Click</button>
+            <input id="ac-input" placeholder="escribí algo…" style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:.72rem;color:var(--text);outline:none;min-width:0;">
+          </div>
+          <div style="font-family:var(--mono);font-size:.68rem;color:var(--muted)">Listeners activos: <span id="ac-count" style="color:var(--green)">3</span></div>
+        </div>
+        <div class="log-output" id="ac-log">// presioná "Montar componente"...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2. DELEGACIÓN ── -->
+  <div class="pattern-card p2" id="p2">
+    <div class="card-header">
+      <div class="card-num">02</div>
+      <div class="card-meta">
+        <div class="card-tag">Delegación de eventos</div>
+        <div class="card-title">Un listener para todos los hijos</div>
+        <p class="card-desc">En vez de añadir un listener a cada ítem de una lista, colocás uno solo en el padre. Con <code>event.target</code> y <code>closest()</code> identificás qué elemento fue clickeado. Funciona incluso con nodos añadidos dinámicamente.</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-block">
+<span class="cmt">// ❌ Mal: N listeners</span>
+items.<span class="fn">forEach</span>(item =&gt;
+  item.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, fn)
+<span class="bad">);</span>
+
+<span class="cmt">// ✅ Bien: 1 listener en el padre</span>
+list.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (e) =&gt; {
+  <span class="kw">const</span> item = e.target
+    .<span class="fn">closest</span>(<span class="str">'[data-item]'</span>);
+  <span class="kw">if</span> (item) <span class="fn">handler</span>(item);
+});
+      </div>
+      <div class="demo-panel">
+        <div class="demo-label">Lista con delegación (1 listener total)</div>
+        <ul class="delegate-list" id="delegate-list">
+          <li data-item="Inicio">🏠 Inicio</li>
+          <li data-item="Productos">📦 Productos</li>
+          <li data-item="Contacto">✉️ Contacto</li>
+        </ul>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-cyan" onclick="addDelegateItem()">+ Añadir ítem dinámico</button>
+        </div>
+        <div class="log-output" id="delegate-log">// hacé click en cualquier ítem...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3. PASSIVE ── -->
+  <div class="pattern-card p3" id="p3">
+    <div class="card-header">
+      <div class="card-num">03</div>
+      <div class="card-meta">
+        <div class="card-tag">{ passive: true }</div>
+        <div class="card-title">Scroll suave sin bloquear el hilo principal</div>
+        <p class="card-desc">Al declarar <code>passive: true</code>, le prometés al navegador que nunca llamarás <code>preventDefault()</code>. El browser puede entonces mover el scroll en su hilo de composición sin esperar tu código JavaScript.</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-block">
+<span class="cmt">// ❌ Sin passive: bloquea el hilo</span>
+window.<span class="fn">addEventListener</span>(
+  <span class="str">'touchstart'</span>, handler
+);
+
+<span class="cmt">// ✅ passive: true → scroll fluido</span>
+window.<span class="fn">addEventListener</span>(
+  <span class="str">'touchstart'</span>, handler,
+  { <span class="prop">passive</span>: <span class="num">true</span> }
+);
+
+<span class="cmt">// 30fps → 60fps en móviles 🚀</span>
+      </div>
+      <div class="demo-panel">
+        <div class="demo-label">Comparación de rendimiento</div>
+        <div style="display:flex;gap:10px;margin-bottom:10px;">
+          <div class="fps-badge slow" id="fps-slow">⚡ Bloqueado: ~30fps</div>
+          <div class="fps-badge fast" id="fps-fast">🚀 Passive: ~60fps</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <button class="btn btn-orange" onclick="setPassiveMode(false)">Sin passive</button>
+          <button class="btn btn-green" onclick="setPassiveMode(true)">Con passive:true</button>
+        </div>
+        <div class="scroll-box" id="scroll-box">
+          <p>Línea 1 – scrolleá para sentir la diferencia</p>
+          <p>Línea 2 – con passive:true el navegador no espera</p>
+          <p>Línea 3 – el hilo de composición es libre</p>
+          <p>Línea 4 – mejora de 30fps a 60fps en móviles</p>
+          <p>Línea 5 – especialmente notable en touch devices</p>
+          <p>Línea 6 – preventDefault() nunca se llama aquí</p>
+          <p>Línea 7 – fin del contenido</p>
+        </div>
+        <div class="log-output" id="passive-log">// elegí un modo arriba...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4. ONCE ── -->
+  <div class="pattern-card p4" id="p4">
+    <div class="card-header">
+      <div class="card-num">04</div>
+      <div class="card-meta">
+        <div class="card-tag">{ once: true }</div>
+        <div class="card-title">Auto-eliminación después de un disparo</div>
+        <p class="card-desc">El listener se ejecuta exactamente una vez y luego se elimina solo del DOM, como si hubieras llamado <code>removeEventListener</code> manualmente. Ideal para modales de bienvenida, confirmaciones o tutoriales.</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-block">
+<span class="cmt">// ❌ Necesita limpieza manual</span>
+<span class="kw">function</span> <span class="fn">handler</span>() {
+  <span class="fn">doSomething</span>();
+  btn.<span class="fn">removeEventListener</span>(
+    <span class="str">'click'</span>, handler
+  );
+}
+
+<span class="cmt">// ✅ Se limpia solo</span>
+btn.<span class="fn">addEventListener</span>(
+  <span class="str">'click'</span>, handler,
+  { <span class="prop">once</span>: <span class="num">true</span> }
+);
+      </div>
+      <div class="demo-panel">
+        <div class="demo-label">Demo — listener que se autodestruye</div>
+        <button class="btn btn-orange" id="once-btn" onclick="onceDemo()">🎯 Click me (once:true)</button>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span class="demo-label" style="margin:0;">Estado del listener:</span>
+          <span id="once-status" style="font-family:var(--mono);font-size:.75rem;color:var(--green);">● activo</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="demo-label" style="margin:0;align-self:center;">Clicks registrados:</span>
+          <span id="once-clicks" style="font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--orange);">0</span>
+        </div>
+        <button class="btn btn-purple" onclick="resetOnce()" style="margin-top:4px;">↺ Restablecer listener</button>
+        <div class="log-output" id="once-log">// el listener se elimina solo al primer click...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5. CAPTURE & BUBBLE ── -->
+  <div class="pattern-card p5" id="p5">
+    <div class="card-header">
+      <div class="card-num">05</div>
+      <div class="card-meta">
+        <div class="card-tag">Capture &amp; Bubble</div>
+        <div class="card-title">El viaje de un evento por el DOM</div>
+        <p class="card-desc">Cada evento recorre el DOM en dos fases: primero <strong>desciende</strong> (capture) y luego <strong>sube</strong> (bubble). Entender esto permite interceptar eventos en el momento exacto — clave para cerrar menús al clickear fuera.</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-block">
+<span class="cmt">// Bubble (default) — sube desde el target</span>
+elem.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, fn);
+<span class="cmt">// useCapture — captura bajando</span>
+elem.<span class="fn">addEventListener</span>(
+  <span class="str">'click'</span>, fn,
+  { <span class="prop">capture</span>: <span class="num">true</span> }
+);
+
+<span class="cmt">// Caso de uso: cerrar menú</span>
+document.<span class="fn">addEventListener</span>(
+  <span class="str">'click'</span>, closeMenu,
+  { <span class="prop">capture</span>: <span class="num">true</span> }
+);
+      </div>
+      <div class="demo-panel">
+        <div class="demo-label">Visualización del viaje del evento</div>
+        <div class="bubble-outer" id="bub-outer">
+          <div class="bubble-inner" id="bub-inner">
+            <button class="bubble-btn" id="bub-btn">Click aquí</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button class="btn btn-purple" onclick="setPhase('bubble')">Bubble (↑ sube)</button>
+          <button class="btn btn-blue" onclick="setPhase('capture')">Capture (↓ baja)</button>
+        </div>
+        <div class="log-output" id="bubble-log">// elegí una fase y hacé click en cualquier elemento...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6. AUDIT ── -->
+  <div class="pattern-card p6" id="p6">
+    <div class="card-header">
+      <div class="card-num">06</div>
+      <div class="card-meta">
+        <div class="card-tag">Hábito de auditoría</div>
+        <div class="card-title">Medir antes de optimizar</div>
+        <p class="card-desc">Usá la pestaña <strong>Memory</strong> en DevTools. Tomá snapshots antes y después de desmontar un componente. Si el contador de <em>detached listeners</em> no vuelve a cero, tenés una fuga que limpiar.</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-block">
+<span class="cmt">// DevTools → Memory → Heap Snapshot</span>
+<span class="cmt">// 1. Snapshot ANTES de montar</span>
+<span class="cmt">// 2. Montar + interactuar</span>
+<span class="cmt">// 3. Desmontar componente</span>
+<span class="cmt">// 4. Snapshot DESPUÉS</span>
+<span class="cmt">// 5. Filtrar por "detached"</span>
+
+<span class="cmt">// Si count > 0 → hay fuga 🚨</span>
+<span class="cmt">// Si count === 0 → limpio ✅</span>
+      </div>
+      <div class="demo-panel">
+        <div class="demo-label">Simulador de Memory Profiler</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-yellow" onclick="auditSnapshot('before')">📸 Snapshot antes</button>
+          <button class="btn btn-red" onclick="auditAddListeners()">+ Añadir listeners (sin limpiar)</button>
+          <button class="btn btn-green" onclick="auditClean()">🧹 Limpiar correctamente</button>
+          <button class="btn btn-yellow" onclick="auditSnapshot('after')">📸 Snapshot después</button>
+        </div>
+        <div class="snapshot-grid" id="audit-grid">
+          <div class="snapshot-box">
+            <div class="snap-title">Snapshot 1 (antes)</div>
+            <div class="snap-val detached-count zero" id="snap-before">—</div>
+          </div>
+          <div class="snapshot-box">
+            <div class="snap-title">Snapshot 2 (después)</div>
+            <div class="snap-val detached-count zero" id="snap-after">—</div>
+          </div>
+        </div>
+        <div>
+          <div class="demo-label">Detached listeners acumulados:</div>
+          <div class="leak-dots" id="audit-dots"></div>
+        </div>
+        <div class="log-output" id="audit-log">// tomá un snapshot inicial primero...</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Cada demo está conectada a código real en el mismo archivo — abrí DevTools para explorar.</p>
+</footer>
+
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+/* ══════════════════════════════
+   PROBLEMA BASE — Leak Sim
+══════════════════════════════ */
+let leakCount = 0;
+let leakMode = true; // true = leaky, false = clean
+
+function log(id, msg, cls = '') {
+  const el = document.getElementById(id);
+  const line = document.createElement('div');
+  line.className = cls;
+  line.textContent = msg;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+function addLeakyElement() {
+  leakCount++;
+  updateLeakMeter();
+  const dot = document.createElement('div');
+  dot.className = 'detached-tag';
+  dot.textContent = `listener #${leakCount}`;
+  document.getElementById('leak-dots').appendChild(dot);
+  log('leak-log', `[${ts()}] elemento eliminado, listener #${leakCount} quedó en memoria 🚨`, 'log-bad');
+}
+
+function cleanElements() {
+  leakMode = false;
+  const dots = document.getElementById('leak-dots');
+  [...dots.children].forEach(d => {
+    d.style.background = 'rgba(58,255,160,.1)';
+    d.style.color = 'var(--green)';
+    d.style.borderColor = 'rgba(58,255,160,.3)';
+  });
+  log('leak-log', `[${ts()}] AbortController.abort() → todos los listeners limpiados ✅`, 'log-good');
+}
+
+function resetLeak() {
+  leakCount = 0; leakMode = true;
+  document.getElementById('leak-dots').innerHTML = '';
+  document.getElementById('leak-log').innerHTML = '// presioná "+ Añadir elemento" para simular la fuga...';
+  document.getElementById('leak-meter').style.width = '0%';
+  document.getElementById('leak-count').textContent = '0';
+}
+
+function updateLeakMeter() {
+  const pct = Math.min(leakCount * 8, 100);
+  document.getElementById('leak-meter').style.width = pct + '%';
+  document.getElementById('leak-count').textContent = leakCount;
+}
+
+function ts() {
+  return new Date().toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
+/* ══════════════════════════════
+   1. AbortController
+══════════════════════════════ */
+let acController = null;
+let acMounted = false;
+
+function acMount() {
+  if (acMounted) return;
+  acMounted = true;
+  acController = new AbortController();
+  const { signal } = acController;
+
+  document.getElementById('ac-widget').style.display = 'block';
+  document.getElementById('ac-mount').disabled = true;
+  document.getElementById('ac-abort').disabled = false;
+  document.getElementById('ac-count').textContent = '3';
+
+  // Listener 1 — click en botón dentro del widget
+  document.getElementById('ac-widget').querySelector('button').addEventListener('click', () => {
+    log('ac-log', `[${ts()}] click capturado por listener #1 (signal activa)`, 'log-cyan');
+  }, { signal });
+
+  // Listener 2 — keydown en input
+  document.getElementById('ac-input').addEventListener('keydown', (e) => {
+    log('ac-log', `[${ts()}] tecla "${e.key}" capturada por listener #2 (signal activa)`, 'log-cyan');
+  }, { signal });
+
+  // Listener 3 — resize en window (simulado)
+  window.addEventListener('resize', () => {
+    log('ac-log', `[${ts()}] resize capturado por listener #3 (signal activa)`, 'log-cyan');
+  }, { signal });
+
+  log('ac-log', `[${ts()}] 🟢 Componente montado — 3 listeners activos`, 'log-good');
+}
+
+function acAbort() {
+  if (!acMounted) return;
+  acController.abort();
+  acMounted = false;
+  document.getElementById('ac-widget').style.display = 'none';
+  document.getElementById('ac-mount').disabled = false;
+  document.getElementById('ac-abort').disabled = true;
+  document.getElementById('ac-count').textContent = '0';
+  log('ac-log', `[${ts()}] 🔴 abort() llamado → 3 listeners eliminados de golpe ✅`, 'log-good');
+}
+
+function acClick() {
+  // handled by the listener above
+}
+
+/* ══════════════════════════════
+   2. Delegación de eventos
+══════════════════════════════ */
+let delegateItemCount = 0;
+const delegateList = document.getElementById('delegate-list');
+let delegateListenerCount = 1;
+
+// UN solo listener en el padre
+delegateList.addEventListener('click', (e) => {
+  const item = e.target.closest('[data-item]');
+  if (!item) return;
+
+  [...delegateList.children].forEach(li => li.classList.remove('hit'));
+  item.classList.add('hit');
+  setTimeout(() => item.classList.remove('hit'), 500);
+
+  const name = item.dataset.item;
+  log('delegate-log', `[${ts()}] click en "${name}" — detectado por event.target.closest() ✅`, 'log-info');
+  log('delegate-log', `[${ts()}] listeners totales en el DOM: ${delegateListenerCount} (sin importar cuántos ítems)`, 'log-good');
+});
+
+function addDelegateItem() {
+  delegateItemCount++;
+  const li = document.createElement('li');
+  const emojis = ['⭐','🎯','🔥','💡','🚀','🎨','🌊','⚡'];
+  const emoji = emojis[delegateItemCount % emojis.length];
+  li.dataset.item = `Ítem dinámico ${delegateItemCount}`;
+  li.textContent = `${emoji} Ítem dinámico ${delegateItemCount}`;
+  delegateList.appendChild(li);
+  log('delegate-log', `[${ts()}] ítem añadido dinámicamente — el listener del padre ya lo captura ✅`, 'log-good');
+}
+
+/* ══════════════════════════════
+   3. passive: true
+══════════════════════════════ */
+let passiveMode = null;
+let scrollHandler = null;
+
+function setPassiveMode(isPassive) {
+  const box = document.getElementById('scroll-box');
+  const slowBadge = document.getElementById('fps-slow');
+  const fastBadge = document.getElementById('fps-fast');
+
+  if (scrollHandler) box.removeEventListener('scroll', scrollHandler);
+
+  scrollHandler = () => {
+    const txt = isPassive
+      ? `[${ts()}] scroll event — passive:true, hilo de composición libre 🚀`
+      : `[${ts()}] scroll event — navegador esperó al JS antes de renderizar...`;
+    log('passive-log', txt, isPassive ? 'log-good' : 'log-warn');
+  };
+
+  if (isPassive) {
+    box.addEventListener('scroll', scrollHandler, { passive: true });
+    slowBadge.style.opacity = '.3';
+    fastBadge.style.opacity = '1';
+    log('passive-log', `[${ts()}] passive:true activado — scroll fluido (~60fps) ✅`, 'log-good');
+  } else {
+    box.addEventListener('scroll', scrollHandler); // no passive
+    slowBadge.style.opacity = '1';
+    fastBadge.style.opacity = '.3';
+    log('passive-log', `[${ts()}] sin passive — el browser espera cada frame (~30fps) ⚠️`, 'log-warn');
+  }
+}
+
+/* ══════════════════════════════
+   4. once: true
+══════════════════════════════ */
+let onceActive = false;
+let onceTotalClicks = 0;
+
+function onceDemo() {
+  onceTotalClicks++;
+  document.getElementById('once-clicks').textContent = onceTotalClicks;
+  if (onceActive) {
+    document.getElementById('once-status').textContent = '● removido automáticamente';
+    document.getElementById('once-status').style.color = 'var(--red)';
+    document.getElementById('once-btn').disabled = true;
+    document.getElementById('once-btn').style.opacity = '.4';
+    log('once-log', `[${ts()}] 🎯 primer click — listener ejecutado y eliminado automáticamente ✅`, 'log-good');
+    log('once-log', `[${ts()}] equivale a llamar removeEventListener() manualmente`, 'log-info');
+    onceActive = false;
+  }
+}
+
+function setupOnce() {
+  const btn = document.getElementById('once-btn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  onceActive = true;
+  document.getElementById('once-status').textContent = '● activo';
+  document.getElementById('once-status').style.color = 'var(--green)';
+  // Note: in a real case you'd use { once: true } in addEventListener
+  // Here we simulate it with the onceActive flag to demonstrate the concept visually
+}
+
+function resetOnce() {
+  onceTotalClicks = 0;
+  document.getElementById('once-clicks').textContent = '0';
+  document.getElementById('once-log').innerHTML = '// el listener se elimina solo al primer click...';
+  setupOnce();
+  log('once-log', `[${ts()}] listener restablecido con { once: true } ↺`, 'log-info');
+}
+
+setupOnce();
+
+/* ══════════════════════════════
+   5. Capture & Bubble
+══════════════════════════════ */
+let currentPhase = null;
+let bubbleHandlers = [];
+
+function clearBubbleListeners() {
+  bubbleHandlers.forEach(({ el, fn, opts }) => el.removeEventListener('click', fn, opts));
+  bubbleHandlers = [];
+}
+
+function setPhase(phase) {
+  clearBubbleListeners();
+  currentPhase = phase;
+  const useCapture = phase === 'capture';
+  document.getElementById('bubble-log').innerHTML = '';
+  log('bubble-log', `[${ts()}] modo: ${phase === 'capture' ? 'CAPTURE (↓ desciende primero)' : 'BUBBLE (↑ sube primero)'}`, 'log-info');
+
+  const config = { capture: useCapture };
+
+  const outer = document.getElementById('bub-outer');
+  const inner = document.getElementById('bub-inner');
+  const btn   = document.getElementById('bub-btn');
+
+  const fnOuter = (e) => {
+    e.stopPropagation();
+    log('bubble-log', `  ${phase === 'capture' ? '↓ 1°' : '↑ 3°'} document/outer captura el evento`, 'log-warn');
+  };
+  const fnInner = (e) => {
+    e.stopPropagation();
+    log('bubble-log', `  ${phase === 'capture' ? '↓ 2°' : '↑ 2°'} div/inner captura el evento`, 'log-info');
+  };
+  const fnBtn = (e) => {
+    log('bubble-log', `[${ts()}] click en <button> — el evento empieza aquí`, 'log-good');
+    if (phase === 'bubble') {
+      log('bubble-log', `  ↑ 1° button recibe primero (es el target)`, 'log-good');
+    } else {
+      log('bubble-log', `  (button es el target — ya viajó por capture)`, 'log-good');
+    }
+    // re-fire simulated propagation
+    setTimeout(() => fnInner(e), 80);
+    setTimeout(() => fnOuter(e), 160);
+  };
+
+  btn.addEventListener('click', fnBtn);
+  bubbleHandlers.push({ el: btn, fn: fnBtn, opts: {} });
+}
+
+/* ══════════════════════════════
+   6. Auditoría
+══════════════════════════════ */
+let auditDetached = 0;
+let auditCleaned = false;
+let snapBefore = null;
+
+function auditSnapshot(when) {
+  if (when === 'before') {
+    snapBefore = auditDetached;
+    document.getElementById('snap-before').textContent = auditDetached + ' detached';
+    const el = document.getElementById('snap-before');
+    el.className = 'snap-val detached-count' + (auditDetached === 0 ? ' zero' : '');
+    log('audit-log', `[${ts()}] 📸 Snapshot 1 — ${auditDetached} detached listeners`, auditDetached > 0 ? 'log-bad' : 'log-good');
+  } else {
+    document.getElementById('snap-after').textContent = auditDetached + ' detached';
+    const el = document.getElementById('snap-after');
+    el.className = 'snap-val detached-count' + (auditDetached === 0 ? ' zero' : '');
+    const result = auditDetached > 0 ? '🚨 FUGA detectada' : '✅ Memoria limpia';
+    log('audit-log', `[${ts()}] 📸 Snapshot 2 — ${auditDetached} detached listeners ${result}`, auditDetached > 0 ? 'log-bad' : 'log-good');
+  }
+}
+
+function auditAddListeners() {
+  for (let i = 0; i < 3; i++) {
+    auditDetached++;
+    const dot = document.createElement('div');
+    dot.className = 'leak-dot';
+    dot.title = `listener #${auditDetached}`;
+    document.getElementById('audit-dots').appendChild(dot);
+  }
+  auditCleaned = false;
+  log('audit-log', `[${ts()}] +3 listeners añadidos sin cleanup — total detached: ${auditDetached} 🚨`, 'log-bad');
+}
+
+function auditClean() {
+  auditDetached = 0;
+  auditCleaned = true;
+  const dots = document.getElementById('audit-dots');
+  [...dots.children].forEach(d => d.className = 'leak-dot clean');
+  setTimeout(() => { dots.innerHTML = ''; }, 600);
+  log('audit-log', `[${ts()}] 🧹 AbortController.abort() → todos los listeners limpiados ✅`, 'log-good');
+  log('audit-log', `[${ts()}] detached listeners: 0 — el GC puede liberar la memoria`, 'log-good');
+}
+</script>
+
+</body>
+</html>

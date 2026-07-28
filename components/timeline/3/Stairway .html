@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        *,
+        *::after,
+        *::before {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body,
+        html {
+            height: 100%;
+        }
+
+        body {
+            min-block-size: 100dvh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: #114b64;
+        }
+
+        .window {
+            position: relative;
+            width: 340px;
+            height: 480px;
+            background: #fff;
+            border-radius: 170px;
+            border: 4px solid #114b64;
+
+            box-shadow: 0 0 12px #fff;
+
+            overflow: hidden;
+
+
+            &::before {
+                content: '';
+                position: absolute;
+
+                width: 30px;
+                aspect-ratio: 1/1;
+                height: 30px;
+
+                top: 190px;
+                left: calc(50% + 50px);
+
+                border-radius: 50%;
+
+                background-color: red;
+
+
+                animation: bounce 1s ease-in-out infinite;
+            }
+
+            & .stair {
+                position: absolute;
+                width: 100%;
+
+
+                right: calc(-100%);
+                top: 100px;
+
+
+                animation: stairs 1s linear infinite;
+
+                span {
+                    position: absolute;
+                    width: 100%;
+                    min-block-size: 40px;
+                    background: #114b64;
+
+                    top: calc(var(--i)*40px);
+                    right: calc(var(--i)*40px);
+
+
+                    border-bottom: 4px solid #fff;
+                }
+
+            }
+
+
+
+
+        }
+
+
+        @keyframes stairs {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+
+            100% {
+                transform: translateX(40px) translateY(-40px);
+            }
+
+        }
+
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-40px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="window">
+
+        <div class="stair"><span style="--i:1"></span><span style="--i:2"></span><span style="--i:3"></span><span
+                style="--i:4"></span><span style="--i:5"></span><span style="--i:6"></span><span
+                style="--i:7"></span><span style="--i:8"></span>
+            <span style="--i:9"></span><span style="--i:10"></span>
+        </div>
+    </div>
+</body>
+
+</html>

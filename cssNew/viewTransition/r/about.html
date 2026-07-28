@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViewTransitions — About</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+
+    <nav>
+        <span class="nav-logo">ViewTransitions</span>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="docs.html">Docs</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+        </ul>
+        <span class="nav-tag">CSS API</span>
+    </nav>
+
+    <main class="page-main">
+        <section class="hero" style="padding-bottom:3rem;">
+            <div>
+                <p class="hero-eyebrow">About this demo</p>
+                <h1 style="font-size:clamp(2.5rem,6vw,5rem);">Pure CSS.<br><span>No JS.</span><br>Real Pages.</h1>
+                <p>This entire site is four separate HTML files. Every transition you see — the slide animation, the nav
+                    bar staying fixed, the image morphing — is done exclusively with CSS View Transitions.</p>
+                <a href="index.html" class="btn btn-primary" style="margin-top:0.5rem">← Back to Home</a>
+            </div>
+        </section>
+
+        <section class="section" style="border-top:1px solid var(--border)">
+            <div class="feature-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))">
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <p class="feature-title">4 HTML files</p>
+                    <p class="feature-desc">index.html, blog.html, article.html, docs.html. Each is a completely
+                        separate page with no shared JavaScript runtime.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <p class="feature-title">1 shared CSS file</p>
+                    <p class="feature-desc">All pages include the same <code
+                            style="font-size:0.8em;color:var(--accent)">styles.css</code>. This is what makes
+                        cross-document transitions possible — both endpoints must declare the same transition rules.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <p class="feature-title">0 JavaScript</p>
+                    <p class="feature-desc">No framework. No router. No bundler. Just HTML and CSS doing what the web
+                        platform was designed for.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            Built with pure CSS &mdash; <span>@view-transition</span> &mdash; No frameworks harmed
+        </footer>
+    </main>
+
+</body>
+
+</html>
